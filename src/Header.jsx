@@ -3,140 +3,187 @@ import { faUser } from "@fortawesome/free-solid-svg-icons"
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons"
 import { NavLink } from "react-router-dom"
 import { Fragment, useState } from 'react'
-import { Dialog, Disclosure, Popover, Transition } from '@headlessui/react'
-import {
-  ArrowPathIcon,
-  Bars3Icon,
-  ChartPieIcon,
-  CursorArrowRaysIcon,
-  FingerPrintIcon,
-  SquaresPlusIcon,
-  XMarkIcon,
-} from '@heroicons/react/24/outline'
-import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/react/20/solid'
+import { Dialog, Disclosure, Popover, Transition, Menu } from '@headlessui/react'
 
-const products = [
-  { name: 'Analytics', description: 'Get a better understanding of your traffic', href: '#', icon: ChartPieIcon },
-  { name: 'Engagement', description: 'Speak directly to your customers', href: '#', icon: CursorArrowRaysIcon },
-  { name: 'Security', description: 'Your customers’ data will be safe and secure', href: '#', icon: FingerPrintIcon },
-  { name: 'Integrations', description: 'Connect with third-party tools', href: '#', icon: SquaresPlusIcon },
-  { name: 'Automations', description: 'Build strategic funnels that will convert', href: '#', icon: ArrowPathIcon },
-]
-const callsToAction = [
-  { name: 'Watch demo', href: '#', icon: PlayCircleIcon },
-  { name: 'Contact sales', href: '#', icon: PhoneIcon },
-]
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
-}
 
 
 const Header = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const openMobileMenu = () => {
-    setMobileMenuOpen(true);
-  };
 
-  const closeMobileMenu = () => {
-    setMobileMenuOpen(false);
+  const closeDrawer = () => {
+    const drawerToggle = document.getElementById('my-drawer-3');
+    if (drawerToggle.checked) {
+      drawerToggle.click();
+    }
   };
-
+  const handleScrollToSection = (sectionId) => {
+    const element = document.querySelector(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
-    <div className='fixed  w-full z-30 top-0   flex  border flex-col gap-0 sm:m-0  w-full items-center xl:px-8 sm:px-0 '>
-      <div className="navbar  w-screen text-black bg-white flex gap-20 justify-evenly px-10 w-full ">
-     <div className="flex hidden sm:block">
-          <button
-            type="button"
-            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
-            onClick={openMobileMenu}
-          >
-            <span className="sr-only">Open main menu</span>
-            <Bars3Icon className={classNames('h-6 w-6', mobileMenuOpen ? 'hidden' : '')} aria-hidden="true" />
-          
-          </button>
-        </div>
-        <Dialog as="div" className="hidden sm:block" open={mobileMenuOpen} onClose={closeMobileMenu}>
-         <div className="fixed inset-0 z-10" />
-         <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-          <div className="flex items-center justify-between">
-            <a href="#" className="-m-1.5 p-1.5">
-              <span className="sr-only">Your Company</span>
-              <img
-                className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                alt=""
-              />
-            </a>
-            <button
-                type="button"
-                className="-m-2.5 rounded-md p-2.5 text-gray-700"
-                onClick={closeMobileMenu}
-              >
-                <span className="sr-only">Close menu</span>
-                <XMarkIcon className="h-6 w-6" aria-hidden="true" />
-              </button>
-          </div>
-          <div className="mt-6 flow-root">
-            <div className="-my-6 divide-y divide-gray-500/10">
-              <div className="space-y-2 py-6">
-                <Disclosure as="div" className="-mx-3">
-                  {({ open }) => (
-                    <>
-                      <Disclosure.Button className="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
-                        Product
-                        <ChevronDownIcon
-                          className={classNames(open ? 'rotate-180' : '', 'h-5 w-5 flex-none')}
-                          aria-hidden="true"
-                        />
-                      </Disclosure.Button>
-                      <Disclosure.Panel className="mt-2 space-y-2">
-                        {[...products, ...callsToAction].map((item) => (
-                          <Disclosure.Button
-                            key={item.name}
-                            as="a"
-                            href={item.href}
-                            className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                          >
-                            {item.name}
-                          </Disclosure.Button>
-                        ))}
-                      </Disclosure.Panel>
-                    </>
-                  )}
-                </Disclosure>
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  Features
-                </a>
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  Marketplace
-                </a>
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  Company
-                </a>
-              </div>
-              <div className="py-6">
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  Log in
-                </a>
-              </div>
+    <div className='fixed  w-full z-30 top-0   flex  border flex-col gap-0 sm:m-0  w-full items-center justify-between xl:px-8 sm:px-0 '>
+      <div className="navbar  w-screen text-black bg-white flex gap-20  justify-evenly px-10 sm:px-2 w-full ">
+
+        <div className="drawer  sm:block hidden w-5 flex left-0">
+          <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
+
+          {/* Navbar */}
+          <div className="">
+            <div className="flex-none hidden  sm:block">
+              <label htmlFor="my-drawer-3" aria-label="open sidebar" className="btn btn-square btn-ghost">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-6 h-6 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+              </label>
             </div>
+
+
+
           </div>
-        </Dialog.Panel>
-      </Dialog>
+          <div className="drawer-side">
+            <label htmlFor="my-drawer-3" aria-label="close sidebar" className="drawer-overlay"></label>
+            <ul className="menu p-4 w-80 min-h-full bg-base-200 text-xl">
+              {/* Sidebar content here */}
+              <NavLink to="/" className="text-center py-5"> <div>
+          <a className=" Aceh  normal-case text-xl ">Wholesome</a>
+        </div>
+        <hr></hr>
+        </NavLink>
+              <Menu >
+                <Menu.Button className='text-left p-2 text-white border-b border'>About us</Menu.Button>
+                <Menu.Items  className="flex flex-col gap-4 text-base px-5">
+                  <Menu.Item>
+                    {({ active }) => (
+                      <NavLink
+                      onClick={closeDrawer}
+                        className={`${active && 'bg-blue-500'}`}
+                        to="/aboutus"
+                      >
+                        Our mission & values
+                      </NavLink>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item onClick={closeDrawer}>
+                    {({ active }) => (
+                      <NavLink
+                     onClick={(e) => {
+                      
+              e.preventDefault();
+              handleScrollToSection('#whatwedo');
+              closeDrawer();
+
+              
+            }}
+                        className={`${active && 'bg-blue-500'}`}
+                        to="/aboutus/#whatwedo"
+                        
+                      >
+                        What we do
+                      </NavLink>
+                    )}
+                  </Menu.Item>
+                 
+                </Menu.Items>
+              </Menu>
+              <Menu >
+                <Menu.Button className='text-left p-2 text-white'>Interest</Menu.Button>
+                <Menu.Items  className="flex flex-col gap-4 text-base px-5">
+                  <Menu.Item>
+                    {({ active }) => (
+                      <NavLink
+                      onClick={closeDrawer}
+                        className={`${active && 'bg-blue-500'}`}
+                        to="/aboutus"
+                      >
+                        Health & wellness
+                      </NavLink>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <NavLink
+                      onClick={closeDrawer}
+                        className={`${active && 'bg-blue-500'}`}
+                        to="/whatwedo"
+                      >
+                       Food & nutrition
+                      </NavLink>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <NavLink
+                      onClick={closeDrawer}
+                        className={`${active && 'bg-blue-500'}`}
+                        to="/whatwedo"
+                      >
+                      Travel & events
+                      </NavLink>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <NavLink
+                      onClick={closeDrawer}
+                        className={`${active && 'bg-blue-500'}`}
+                        to="/whatwedo"
+                      >
+                      Lifestyle & fashion
+                      </NavLink>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <NavLink
+                      onClick={closeDrawer}
+                        className={`${active && 'bg-blue-500'}`}
+                        to="/aboutus/#whatwedo"
+                      >
+                     Volunteer & philanthropy
+                      </NavLink>
+                    )}
+                  </Menu.Item>
+                  
+                  
+                </Menu.Items>
+              </Menu>
+
+              <Menu >
+                <Menu.Button className='text-left p-2 text-white border-b border'> Events</Menu.Button>
+                <Menu.Items  className="flex flex-col gap-4 text-base px-5">
+                  <Menu.Item>
+                    {({ active }) => (
+                      <NavLink
+                      onClick={closeDrawer}
+                        className={`${active && 'bg-blue-500'}`}
+                        to="/aboutus"
+                      >
+                        Upcoming Events
+                      </NavLink>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <NavLink
+                      onClick={closeDrawer}
+                        className={`${active && 'bg-blue-500'}`}
+                        to="/whatwedo"
+                      >
+                        Host a Meet-up
+                      </NavLink>
+                    )}
+                  </Menu.Item>
+                 
+                </Menu.Items>
+              </Menu>
+              <Menu >
+                <Menu.Button className='text-left p-2 text-white border-b border'> Podcast</Menu.Button>
+               
+              </Menu>
+              
+            </ul>
+          </div>
+        </div>
         <NavLink to="/"> <div>
           <a className=" Aceh  normal-case text-xl ">Wholesome</a>
         </div>
@@ -153,7 +200,7 @@ const Header = () => {
               <ul tabIndex={0} className="dropdown-content  z-[1] menu p-2 shadow bg-white w-52">
                 <ul className="p-2">
                   <li><NavLink to="/aboutus">Our mission & values</NavLink></li>
-                  <li><NavLink to="/whatwedo">What we do</NavLink></li>
+                  <li><NavLink to="/aboutus/#whatwedo">What we do</NavLink></li>
                   <li><a>Who we are</a></li>
                 </ul>
               </ul>
@@ -205,7 +252,7 @@ const Header = () => {
         </div>
         <div className="justify-end flex gap-10">
           <FontAwesomeIcon icon={faMagnifyingGlass} />
-          <NavLink to="/login"> <FontAwesomeIcon icon={faUser} /> </NavLink>
+          <NavLink to="/account"> <FontAwesomeIcon icon={faUser} /> </NavLink>
 
         </div>
       </div>

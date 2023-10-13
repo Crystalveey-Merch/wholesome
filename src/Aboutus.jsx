@@ -1,6 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPeopleGroup, faHandHoldingHand, faSeedling, faPeoplePulling } from "@fortawesome/free-solid-svg-icons";
+import { faPeopleGroup, faHandHoldingHand, faSeedling, faPeoplePulling, faHandsHoldingChild , faQuestion, faUserGroup} from "@fortawesome/free-solid-svg-icons";
 
 const Aboutus = () => {
   return (
@@ -43,7 +43,7 @@ const Aboutus = () => {
             </div>
             <img src="/Images/friends1.jpg" width={400} className="p-5"/>
           </div>
-          <div className="mt-20 mb-10">
+          <div className="mt-20 mb-10" id="values">
             <h2 className="text-red-500 text-xl Aceh text-center  ">OUR VALUES</h2>
             <hr></hr>
           </div>
@@ -87,6 +87,40 @@ const Aboutus = () => {
               community.
             </li>
           </ul>
+
+          <div className="mt-20 mb-10" id="whatwedo">
+            <h2 className="text-red-500 text-xl Aceh text-center  ">WHAT WE DO</h2>
+            <hr></hr>
+          </div>
+
+          <div className="flex sm:block px-40 mb-20 sm:px-5">
+            <div className="w-1/2 sm:w-full p-auto h-auto">
+              <h1 className="text-red-500 my-20 ">WHOLESOME</h1>
+            </div>
+            <div className="flex flex-col gap-6 w-1/2 sm:w-full">
+              <div className="flex gap-4">
+                <FontAwesomeIcon icon={faHandsHoldingChild} className="text-3xl border rounded-full p-4 text-gray-500"/>
+                <span>
+                <h1 className="text-xl text-gray-800 ">MENTORSHIP</h1>
+                <p className="text-gray-600">Because this is a MAJOR pain point for our community. I know how to find a mentor and I'm giving you the cheat codes so you can get one.</p>
+                </span>
+              </div>
+              <div className="flex gap-4">
+                <FontAwesomeIcon icon={faQuestion} className="text-3xl border rounded-full p-4 text-gray-500"/>
+                <span>
+                <h1 className="text-xl text-gray-800">RESOURCE HUB</h1>
+                <p className="text-gray-600">with challenges, courses and downloadables to help you level up professionally and personally</p>
+                </span>
+              </div>
+              <div className="flex gap-4">
+                <FontAwesomeIcon icon={faUserGroup} className="text-3xl border rounded-full p-4 text-gray-500"/>
+                <span>
+                <h1 className="text-xl text-gray-800">A DOPE COMMUNITY</h1>
+                <p className="text-gray-600">to build a squad with (Are you a Truth Teller or Bridge Builder or Heart Helper or Mind Molder? - Find your people.)</p>
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </>
