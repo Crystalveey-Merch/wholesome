@@ -10,13 +10,10 @@ const Login = () => {
             <div className='text-center text-2xl'>
                 <div className="pt-34  m-auto   ">
                     <div className=" h-full w-full flex rounded rounded-lg    ">
-                        <div className='w-1/2 text-lg h-screen  sm:hidden 'style={{ backgroundImage: "url(/homepage/slider2.jpeg)", backgroundPosition: "center", backgroundRepeat: "none", backdropFilter: "black" }}>
-                            <h1 className='w-98 text-left ml-40 text-3xl'>Wholesome </h1>
-                            <ul className='text-left ml-40 my-10'>
-                               create an Accoubt!!
-                            </ul>
+                        <div className='w-1/2 text-lg h-screen  sm:hidden 'style={{ backgroundImage: "url(/Images/phone.jpeg)", backgroundPosition: "center", backgroundRepeat: "none", backdropFilter: "black" }}>
+                            
                         </div>
-                        <div className='w-1/2 sm:m-auto pt-36 '>
+                        <div className='w-1/2 sm:m-auto pt-36 sm:pt-20 sm:w-full sm:h-full pb-44 '>
 <div className="bg-grey-lighter  flex flex-col text-xl">
             <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
                 <div className=" px-6 py-8  text-black w-full">
