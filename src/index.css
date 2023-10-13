@@ -151,6 +151,20 @@ button:focus-visible {
 .open .harburger-bottom {
   transform: rotate(-45deg) translateY(6px) translate(-6px);
 }
+.swiper-pagination-bullet {
+  --swiper-pagination-bullet-width: 6px !important;
+  --swiper-pagination-bullet-height: 6px !important;
+  --swiper-pagination-bullet-border-radius: 50% !important;
+  --swiper-pagination-bullet-inactive-color: #ec5f5f3e !important;
+  --swiper-pagination-bullet-inactive-opacity: 0.5 !important;
+  --swiper-pagination-color: #ed0b0b !important;
+ margin-top: 30px;
+  /* Add your additional styling */
+  /* ... */
+}
+.swiper-horizontal{
+  margin-top: 20px;
+}
 /* Define the menu animation classes */
 @keyframes menu-open {
   from {

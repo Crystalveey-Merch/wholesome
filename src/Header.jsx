@@ -232,7 +232,7 @@ const Header = () => {
 
               <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-white w-52">
                 <ul className="p-2">
-                  <li><a>Upcoming Events</a></li>
+                  <li><NavLink to="/upcomingevents">Upcoming Events</NavLink></li>
                   <li><a>Host a Meet-up</a></li>
 
                 </ul>

@@ -1,4 +1,3 @@
-import React from 'react'
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
@@ -24,8 +23,7 @@ const Sectiom2 = () => {
     1024: {
       slidesPerView: 4,
       spaceBetween: 40,
-      loop: true,
-      centeredSlides: false,
+      centeredSlides: true,
 
     },
 
@@ -35,7 +33,7 @@ const Sectiom2 = () => {
 
     <div className='  py-20  sm:py-5'>
       <h1 className='text-black text-2xl text-red-500  my-5 text-center Aceh text-md'>MUST READS</h1>
-      <div className='  m-auto justify-center flex'
+      <div className='  m-auto justify-center flex auto'
       >
         <Swiper
             slidesPerView={'auto'}
@@ -53,7 +51,7 @@ const Sectiom2 = () => {
           disableOnInteraction: false,
         }}
         modules={[ Autoplay, Navigation, Pagination]}
-        className="mySwiper w-full  px-4 sm:px-10 lg:px-10"
+        className="mySwiper w-full  px-20 sm:px-10 lg:px-10"
         >
           <SwiperSlide>
             <div className="relative w-72 h-96  bg-base-100 shadow-xl  image-full">

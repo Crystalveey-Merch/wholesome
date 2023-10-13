@@ -9,6 +9,8 @@ import Whatwedo from './Whatwedo'
 import { useEffect } from 'react'
 import Login from './Accunts/Login'
 import Signip from './Accunts/Signip'
+import EventList from './Events/EventList'
+import EventDes from './Events/EventDes'
 
 // import "@fortawesome/fontawesome-free"
 
@@ -38,6 +40,9 @@ function App() {
        <Route path="/login" element={<Login />}/>
        
        <Route path="/signup" element={<Signip />}/>
+       <Route path="/upcomingevents" element={<EventList/>}/>
+       <Route path="/upcomingevents/:eventName" element={<EventDes/>}/>
+
      </Routes>
      <Footer/> 
 </div>
