@@ -15,7 +15,7 @@ const Section4 = () => {
     // const [event, setEvent] = useState("");
 
 
-    const categoryProduct = () => {
+    const EventName = () => {
         return events.filter((event) => event.name === eventName);
     };
 

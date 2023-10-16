@@ -22,7 +22,7 @@ const Header = () => {
   };
 
   return (
-    <div className='fixed  w-full z-30 top-0   flex  border flex-col gap-0 sm:m-0  w-full items-center justify-between xl:px-8 sm:px-0 '>
+    <div className='fixed  w-full z-30 top-0   flex   flex-col gap-0 sm:m-0  w-full items-center justify-between xl:px-8 sm:px-0 '>
       <div className="navbar  w-screen text-black bg-white flex gap-20  justify-evenly px-10 sm:px-2 w-full ">
 
         <div className="drawer  sm:block hidden w-5 flex left-0">

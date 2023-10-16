@@ -23,7 +23,7 @@ const EventList = () => {
   const collectionProduct = () => {
     return events.filter((event) => event.name === eventName);
   };
-  
+
   return (
     <div className="mt-20   sm:mt-18">
       <div className="h-96" style={{ backgroundImage: "url(/Images/Events/headimg.jpeg)", backgroundRepeat: "none" }}>
@@ -53,7 +53,7 @@ const EventList = () => {
                 <img className="rounded-t-lg" src={event.src} alt={event.name} />
              
               <div className="p-5">
-                
+                <div className="badge">{event.category}</div>
                   <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 Aceh">{event.name}</h5>
                 
                 <p className="mb-1 font-normal text-md Aceh text-red-500 dark:text-red-500">{event.date}</p>
@@ -63,12 +63,17 @@ const EventList = () => {
                     {organizer.name}
                   </p>))}
                 
-                  <svg className="w-3.5 h-3.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
-                  </svg>
+                 
               
               </div>
+
               </NavLink>
+              <div className="text-red-500 flex btn bg-red-500 text-white border-none w-40 Aceh">
+              <h2>Attend</h2>
+              <svg className="w-3.5 h-3.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
+                  </svg>
+                  </div>
             </div>
 
           );

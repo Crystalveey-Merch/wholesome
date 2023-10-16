@@ -3,9 +3,17 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, Pagination } from 'swiper';
-
+import { useParams } from "react-router";
+import { articles } from "../data/artucles";
+import { NavLink } from "react-router-dom";
 
 const Sectiom2 = () => {
+  const { articleName } = useParams();
+
+  const ArticleName = () => {
+    return articles.filter((article) => article.topic === articleName);
+};
+
   const breakpoints = {
     300: {
       slidesPerView: 1,
@@ -53,117 +61,36 @@ const Sectiom2 = () => {
         modules={[ Autoplay, Navigation, Pagination]}
         className="mySwiper w-full  px-20 sm:px-10 lg:px-10"
         >
-          <SwiperSlide style={{height:"29rem"}}>
+        {articles.length > 0 ? (
+                        articles.map((article) => {
+                            return(
+          <SwiperSlide style={{height:"35rem"}} key={article.id}>
+          <NavLink to={`/article/${article.topic}`}>
             <div className="relative w-72  bg-base-100 shadow-xl  image-full">
-              <figure><img src="/Images/section2/travel.jpeg" alt="image" /></figure>
+              <figure><img src={article.src} alt="image" /></figure>
               <div className="  flex flex-col  gap-2 bottom-0 bg-gray-100 border p-5 top-40">
-                <button className="badge btn-primary">Travel</button>
+                <button className="badge btn-primary">{article.category}</button>
 
-                <h2 className="Aceh text-black py-2">Pile earthly scene loved light blast.</h2>
-                <p className='text-red-500'>BY FERARI MITSHEL</p>
+                <h2 className="Aceh text-black py-2">{article.topic}</h2>
+                <p className='text-red-500'>{article.author}</p>
 
-                <p className='text-gray-700'>Pleurs frémir couronne» m'enivre majesté a n'est . Quel genoux.Mein nennt sich freundliche lebt geneigt faßt so nach bilder. </p>
+                <p className='text-gray-700'>{article.content}</p>
                 <div className="card-actions justify-end">
                 </div>
               </div>
 
             </div>
+            </NavLink>
+            
           </SwiperSlide>
-          <SwiperSlide style={{height:"35rem"}}>
-            <div className="relative w-72  bg-base-100 shadow-xl image-full">
-              <figure><img src="/Images/section2/food.jpeg" alt="image" /></figure>
-              <div className="  bottom-0 bg-gray-100 border p-5 top-40">
-                <button className="badge btn-primary">Food</button>
-
-                <h2 className=" Aceh text-black py-2">Food Hagyottan élők hallja s és áll kiket gondom ott vakogjatok,.</h2>
-                <p className='text-red-500'>BY FERARI MITSHEL</p>
-
-                <p className='text-gray-700'>If a dog chews shoes whose shoes does he choose?I my lenore of one followed linking raven home, the sat with the the. Least there and core purple pallas. </p>
-                <div className="card-actions justify-end">
-                </div>
-              </div>
-
-            </div>
-          </SwiperSlide>
-          <SwiperSlide style={{height:"29rem"}}>
-            <div className="relative w-72  bg-base-100 shadow-xl image-full">
-              <figure><img src="/Images/section2/health.jpeg" alt="image" /></figure>
-              <div className="  bottom-0 bg-gray-100 p-5 top-40">
-                <div className="card-actions justify-start">
-                  <button className="badge btn-primary">Health & Wellness!</button>
-                </div>
-                <h2 className="Aceh text-black py-2">Farad de o kyul fyom viragnac ezes kyul </h2>
-                <p className='text-red-500'>BY FERARI MITSHEL</p>
-
-                <p className='text-gray-700'>Diana la escaleras que quedo es abrir. Borrando con pasan la sólo el sensitivo el de, transparente por los come.If a dog chews shoes whose shoes does he choose?</p>
-
-              </div>
-
-            </div>
-          </SwiperSlide>
-          <SwiperSlide style={{height:"29rem"}}>
-            <div className="relative w-72   bg-base-100 shadow-xl image-full">
-              <figure><img src="/Images/section2/lifestyle.jpeg" alt="image" /></figure>
-              <div className="  bottom-0 bg-gray-100 p-5 top-40">
-                <div className="card-actions justify-start">
-                  <button className="badge btn-primary">Lifestyle</button>
-                </div>
-                <h2 className="Aceh text-black py-2">Fáj és kelljen fehérül találhat elvonta akit akadt ő, pattanjon.</h2>
-                <p className='text-red-500'>BY FERARI MITSHEL</p>
-
-                <p className='text-gray-700'>Diana la escaleras que quedo es abrir. Borrando con pasan la sólo el sensitivo el de, transparente por los come.If a dog chews shoes whose shoes does he choose?</p>
-
-              </div>
-
-            </div>
-          </SwiperSlide>
-          <SwiperSlide style={{height:"29rem"}}>
-            <div className="relative w-72 bg-base-100 shadow-xl image-full">
-              <figure><img src="/Images/section2/afr.jpeg" alt="image" /></figure>
-              <div className="  bottom-0 bg-gray-100 p-5 top-40">
-                <div className="card-actions justify-start">
-                  <button className="badge btn-primary">Lifestyle</button>
-                </div>
-                <h2 className="Aceh text-black py-2">Farad de o kyul fyom viragnac ezes kyul merth buol bezzeg.</h2>
-                <p className='text-red-500'>BY FERARI MITSHEL</p>
-
-                <p className='text-gray-700'>Diana la escaleras que quedo es abrir. Borrando con pasan la sólo el sensitivo el de, transparente por los come.If a dog chews shoes whose shoes does he choose?</p>
-
-              </div>
-
-            </div>
-          </SwiperSlide>
-          <SwiperSlide style={{height:"29rem"}}>
-            <div className="relative w-72  bg-base-100 shadow-xl image-full">
-              <figure><img src="/Images/section2/lady.jpeg" alt="image" /></figure>
-              <div className="  bottom-0 bg-gray-100 p-5 top-40">
-                <div className="card-actions justify-start">
-                  <button className="badge btn-primary">Lifestyle</button>
-                </div>
-                <h2 className="Aceh text-black py-2">Farad de o kyul fyom viragnac ezes kyul merth buol bezzeg.</h2>
-                <p className='text-red-500'>BY FERARI MITSHEL</p>
-                <p className='text-gray-700'>Diana la escaleras que quedo es abrir. Borrando con pasan la sólo el sensitivo el de, transparente por los come.If a dog chews shoes whose shoes does he choose?</p>
-
-              </div>
-
-            </div>
-          </SwiperSlide>
-          <SwiperSlide style={{height:"29rem"}}>
-            <div className="relative w-72  bg-base-100 shadow-xl image-full">
-              <figure><img src="/Images/section2/kids-playing-outdoors_23-2149218025.jpg" alt="image" /></figure>
-              <div className="  bottom-0 bg-gray-100 p-5 top-40">
-                <div className="card-actions justify-start">
-                  <button className="badge btn-primary">Lifestyle</button>
-                </div>
-                <h2 className="Aceh text-black py-2">Farad de o kyul fyom viragnac ezes kyul merth buol bezzeg.</h2>
-                <p className='text-red-500'>BY FERARI MITSHEL</p>
-
-                <p className='text-gray-700'>Diana la escaleras que quedo es abrir. Borrando con pasan la sólo el sensitivo el de, transparente por los come.If a dog chews shoes whose shoes does he choose?</p>
-
-              </div>
-
-            </div>
-          </SwiperSlide>
+          );
+        })
+        ):(
+            <div className="text-center text-2xl font-bold text-gray-500 mt-4 h-48">
+            No events found matching your search.
+          </div>
+          )}
+          
         </Swiper>
 
       </div>
