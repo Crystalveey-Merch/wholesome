@@ -1,9 +1,8 @@
 import { useParams } from "react-router";
 import { useEffect, useState } from "react";
 import { events } from "../data/events";
-import { faCalendar, faClock, faLocation, faLocationPin } from "@fortawesome/free-solid-svg-icons";
+import { faCalendar, faClock, faLocationPin } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Badge } from "flowbite-react";
 
 const EventDes = () => {
   const { eventName } = useParams();

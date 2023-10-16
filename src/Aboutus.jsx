@@ -94,26 +94,24 @@ const Aboutus = () => {
           </div>
 
           <div className="flex sm:block px-40 mb-20 sm:px-5">
-            <div className="w-1/2 sm:w-full p-auto h-auto">
-              <h1 className="text-red-500 my-20 ">WHOLESOME</h1>
-            </div>
-            <div className="flex flex-col gap-6 w-1/2 sm:w-full">
+            
+            <div className="flex  gap-6  sm:w-full">
               <div className="flex gap-4">
-                <FontAwesomeIcon icon={faHandsHoldingChild} className="text-3xl border rounded-full p-4 text-gray-500"/>
+                <FontAwesomeIcon icon={faHandsHoldingChild} className="text-3xl border rounded-full p-4 w-10 h-10 text-gray-500"/>
                 <span>
                 <h1 className="text-xl text-gray-800 ">MENTORSHIP</h1>
                 <p className="text-gray-600">Because this is a MAJOR pain point for our community. I know how to find a mentor and I'm giving you the cheat codes so you can get one.</p>
                 </span>
               </div>
               <div className="flex gap-4">
-                <FontAwesomeIcon icon={faQuestion} className="text-3xl border rounded-full p-4 text-gray-500"/>
+                <FontAwesomeIcon icon={faQuestion} className="text-3xl border rounded-full p-4 w-10 h-10 text-gray-500"/>
                 <span>
                 <h1 className="text-xl text-gray-800">RESOURCE HUB</h1>
                 <p className="text-gray-600">with challenges, courses and downloadables to help you level up professionally and personally</p>
                 </span>
               </div>
               <div className="flex gap-4">
-                <FontAwesomeIcon icon={faUserGroup} className="text-3xl border rounded-full p-4 text-gray-500"/>
+                <FontAwesomeIcon icon={faUserGroup} className="text-3xl border rounded-full p-4 w-10 h-10 text-gray-500"/>
                 <span>
                 <h1 className="text-xl text-gray-800">A DOPE COMMUNITY</h1>
                 <p className="text-gray-600">to build a squad with (Are you a Truth Teller or Bridge Builder or Heart Helper or Mind Molder? - Find your people.)</p>

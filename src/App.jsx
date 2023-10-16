@@ -11,6 +11,7 @@ import Login from './Accunts/Login'
 import Signip from './Accunts/Signip'
 import EventList from './Events/EventList'
 import EventDes from './Events/EventDes'
+import HoseEvent from './HoseEvent'
 
 // import "@fortawesome/fontawesome-free"
 
@@ -41,6 +42,8 @@ function App() {
        
        <Route path="/signup" element={<Signip />}/>
        <Route path="/upcomingevents" element={<EventList/>}/>
+       <Route path="/hostevent" element={<HoseEvent/>}/>
+
        <Route path="/upcomingevents/:eventName" element={<EventDes/>}/>
 
      </Routes>

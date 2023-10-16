@@ -24,7 +24,7 @@ export const events =
         },
         {
             id: 2,
-            name: "CCIC Camp meeting 2023 ",
+            name: "CCIC Camp meeting 2023",
             theme: "God My Ebenezer",
             src: "/Images/Events/Ccic.jpeg",
             date: "Saturday, January 12, 2023",
@@ -53,7 +53,7 @@ export const events =
             category: 'Business',
 
             time: "8:30 AM WAT",
-            address: "Water Corporation Drive #Plot 2 & 3 Annex, LA 106104",
+            address: "Water Corporation Drive #Plot 2 & 3 Annex, Lagos, LA 106104",
             description:
                 "TIBA Conference is a grooming session for upcoming Creatives, Career Professionals, Thought leaders, etc who want to be seen, recognized and known as authorities in their industries.It is a gathering of intentional brands to glean from the knowledge, expertise and experience of carefully selected top-notch speakers in different branding categories. TIBA Conference is an avenue where upcoming brands are polished and empowered to become eligible for the global stage. Seasoned speakers who have shown examples of top-notch branding in their various industries are invited to inspire other upcoming brands to become highly sought-after and relevant as personal or business brands. TIBA Conference is FREE. And, it is currently the biggest branding Conference in Nigeria and Africa. It is the first and most significant gathering of its kind in Nigeria this year. Come and learn what it takes to reform your brand in the coming year.Would you love to get customized TIBA items? Click the link below to pre-order: https://paystack.com/pay/tibamaxicombo",
             tags: ["conference", "tiba", "tiba2023", "jesus", "business", "event"],

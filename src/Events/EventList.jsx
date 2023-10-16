@@ -1,24 +1,43 @@
 import { NavLink } from "react-router-dom";
 import { events } from "../data/events"
 import { useParams } from "react-router";
+import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleDown, faAnglesDown } from "@fortawesome/free-solid-svg-icons";
+
 
 
 const EventList = () => {
 
   const { eventName } = useParams();
+  const [searchInput, setSearchInput] = useState("");
+  const filteredEvents = events.filter((event) => {
+    const searchText = searchInput.toLowerCase();
+    return (
+      event.name.toLowerCase().includes(searchText) ||
+      event.address.toLowerCase().includes(searchText) ||
+      event.tags.some((tag) => tag.toLowerCase().includes(searchText))
+    );
+  });
 
   const collectionProduct = () => {
     return events.filter((event) => event.name === eventName);
   };
+  
   return (
     <div className="mt-20   sm:mt-18">
       <div className="h-96" style={{ backgroundImage: "url(/Images/Events/headimg.jpeg)", backgroundRepeat: "none" }}>
         <div className="h-full bg-green-700/75">
-          <h1 className="text-white text-center sm:text-4xl pt-40 sm:pt-20">See upcoming Events Around You</h1>
+          <h1 className="text-white text-center sm:text-4xl pt-24 sm:pt-14">See upcoming Events Around You</h1>
           <hr className="w-64 m-auto my-5"></hr>
           <p className="text-base-500 text-center text-xl font-bolder">Discover, Explore, Attend: Your Event Search Starts Here</p>
-          <div className="m-auto flex justify-center p-5">
-            <input type="text" className="bg-transparent border rounded-full p-3 w-64" placeholder="Search an event/location"></input>
+          <div className="m-auto flex flex-col gap-2  justify-center py-5">
+          <p className="m-auto text-gray-300" >Search event by name, tags and location</p>
+          <p className=" m-auto text-gray-300   ">
+            <FontAwesomeIcon icon={faAnglesDown}/>
+          </p>
+            <input type="text" className="bg-transparent border rounded-full p-3 w-64 m-auto" placeholder="Search an event/location" value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}></input>
           </div>
         </div>
       </div>
@@ -26,7 +45,8 @@ const EventList = () => {
 
 
       <div className="flex m-auto justify-center gap-10 m-10 flex-wrap  ">
-        {events.map((event) => {
+        {filteredEvents.length > 0 ? (
+          filteredEvents.map((event) => {
           return (
             <div key={event.id} className="w-80 bg-white    shadow  dark:border-gray-700">
               <NavLink to={`/upcomingevents/${event.name}`}>
@@ -51,8 +71,13 @@ const EventList = () => {
               </NavLink>
             </div>
 
-          )
-        })}
+          );
+        })
+        ):(
+            <div className="text-center text-2xl font-bold text-gray-500 mt-4 h-48">
+            No events found matching your search.
+          </div>
+          )}
       </div>
       <div>
 

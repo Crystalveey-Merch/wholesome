@@ -53,10 +53,10 @@ const Sectiom2 = () => {
         modules={[ Autoplay, Navigation, Pagination]}
         className="mySwiper w-full  px-20 sm:px-10 lg:px-10"
         >
-          <SwiperSlide>
-            <div className="relative w-72 h-96  bg-base-100 shadow-xl  image-full">
+          <SwiperSlide style={{height:"29rem"}}>
+            <div className="relative w-72  bg-base-100 shadow-xl  image-full">
               <figure><img src="/Images/section2/travel.jpeg" alt="image" /></figure>
-              <div className=" absolute flex flex-col gap-2 bottom-0 bg-gray-100 border p-5 top-40">
+              <div className="  flex flex-col  gap-2 bottom-0 bg-gray-100 border p-5 top-40">
                 <button className="badge btn-primary">Travel</button>
 
                 <h2 className="Aceh text-black py-2">Pile earthly scene loved light blast.</h2>
@@ -69,10 +69,10 @@ const Sectiom2 = () => {
 
             </div>
           </SwiperSlide>
-          <SwiperSlide>
-            <div className="relative w-72 h-96 bg-base-100 shadow-xl image-full">
+          <SwiperSlide style={{height:"35rem"}}>
+            <div className="relative w-72  bg-base-100 shadow-xl image-full">
               <figure><img src="/Images/section2/food.jpeg" alt="image" /></figure>
-              <div className=" absolute bottom-0 bg-gray-100 border p-5 top-40">
+              <div className="  bottom-0 bg-gray-100 border p-5 top-40">
                 <button className="badge btn-primary">Food</button>
 
                 <h2 className=" Aceh text-black py-2">Food Hagyottan élők hallja s és áll kiket gondom ott vakogjatok,.</h2>
@@ -85,10 +85,10 @@ const Sectiom2 = () => {
 
             </div>
           </SwiperSlide>
-          <SwiperSlide>
-            <div className="relative w-72 h-96 bg-base-100 shadow-xl image-full">
+          <SwiperSlide style={{height:"29rem"}}>
+            <div className="relative w-72  bg-base-100 shadow-xl image-full">
               <figure><img src="/Images/section2/health.jpeg" alt="image" /></figure>
-              <div className=" absolute bottom-0 bg-gray-100 p-5 top-40">
+              <div className="  bottom-0 bg-gray-100 p-5 top-40">
                 <div className="card-actions justify-start">
                   <button className="badge btn-primary">Health & Wellness!</button>
                 </div>
@@ -101,10 +101,10 @@ const Sectiom2 = () => {
 
             </div>
           </SwiperSlide>
-          <SwiperSlide>
-            <div className="relative w-72 h-96  bg-base-100 shadow-xl image-full">
+          <SwiperSlide style={{height:"29rem"}}>
+            <div className="relative w-72   bg-base-100 shadow-xl image-full">
               <figure><img src="/Images/section2/lifestyle.jpeg" alt="image" /></figure>
-              <div className=" absolute bottom-0 bg-gray-100 p-5 top-40">
+              <div className="  bottom-0 bg-gray-100 p-5 top-40">
                 <div className="card-actions justify-start">
                   <button className="badge btn-primary">Lifestyle</button>
                 </div>
@@ -117,10 +117,10 @@ const Sectiom2 = () => {
 
             </div>
           </SwiperSlide>
-          <SwiperSlide>
-            <div className="relative w-72 h-96 bg-base-100 shadow-xl image-full">
+          <SwiperSlide style={{height:"29rem"}}>
+            <div className="relative w-72 bg-base-100 shadow-xl image-full">
               <figure><img src="/Images/section2/afr.jpeg" alt="image" /></figure>
-              <div className=" absolute bottom-0 bg-gray-100 p-5 top-40">
+              <div className="  bottom-0 bg-gray-100 p-5 top-40">
                 <div className="card-actions justify-start">
                   <button className="badge btn-primary">Lifestyle</button>
                 </div>
@@ -133,10 +133,10 @@ const Sectiom2 = () => {
 
             </div>
           </SwiperSlide>
-          <SwiperSlide>
-            <div className="relative w-72 h-96 bg-base-100 shadow-xl image-full">
+          <SwiperSlide style={{height:"29rem"}}>
+            <div className="relative w-72  bg-base-100 shadow-xl image-full">
               <figure><img src="/Images/section2/lady.jpeg" alt="image" /></figure>
-              <div className=" absolute bottom-0 bg-gray-100 p-5 top-40">
+              <div className="  bottom-0 bg-gray-100 p-5 top-40">
                 <div className="card-actions justify-start">
                   <button className="badge btn-primary">Lifestyle</button>
                 </div>
@@ -148,10 +148,10 @@ const Sectiom2 = () => {
 
             </div>
           </SwiperSlide>
-          <SwiperSlide>
-            <div className="relative w-72 h-96 bg-base-100 shadow-xl image-full">
+          <SwiperSlide style={{height:"29rem"}}>
+            <div className="relative w-72  bg-base-100 shadow-xl image-full">
               <figure><img src="/Images/section2/kids-playing-outdoors_23-2149218025.jpg" alt="image" /></figure>
-              <div className=" absolute bottom-0 bg-gray-100 p-5 top-40">
+              <div className="  bottom-0 bg-gray-100 p-5 top-40">
                 <div className="card-actions justify-start">
                   <button className="badge btn-primary">Lifestyle</button>
                 </div>

@@ -6,7 +6,6 @@ import { Fragment, useState } from 'react'
 import { Dialog, Disclosure, Popover, Transition, Menu } from '@headlessui/react'
 
 
-
 const Header = () => {
 
   const closeDrawer = () => {
@@ -165,9 +164,10 @@ const Header = () => {
                   <Menu.Item>
                     {({ active }) => (
                       <NavLink
+                      
                       onClick={closeDrawer}
                         className={`${active && 'bg-blue-500'}`}
-                        to="/whatwedo"
+                        to="/hostevent"
                       >
                         Host a Meet-up
                       </NavLink>
@@ -233,8 +233,8 @@ const Header = () => {
               <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-white w-52">
                 <ul className="p-2">
                   <li><NavLink to="/upcomingevents">Upcoming Events</NavLink></li>
-                  <li><a>Host a Meet-up</a></li>
-
+                  <li><NavLink  to="/hostevent">Host a Meet-up</NavLink></li>
+               
                 </ul>
               </ul>
 
