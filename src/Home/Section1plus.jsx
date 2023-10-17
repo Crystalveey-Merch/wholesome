@@ -1,73 +1,127 @@
 import { faLightbulb, faMap, faMapLocation, faPen, faPeopleGroup, faUserFriends } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Navigation } from 'swiper';
+
 import React from 'react'
 
 const Section1plus = () => {
+  const breakpoints = {
+    300: {
+      slidesPerView: 1,
+      spaceBetween: 20,
+
+    },
+    639: {
+      slidesPerView: 3,
+      spaceBetween: 10,
+    },
+    768: {
+      slidesPerView: 3,
+      spaceBetween: 10,
+    },
+    1024: {
+      slidesPerView: 1,
+      spaceBetween: 40,
+      loop: true,
+      centeredSlides: false,
+
+    },
+
+  };
   return (
-    <div className='py-24 bg-gray-400/25 '>
-      <h1 className='text-2xl   text-center text-red-500 Aceh py-5 uppercase sm:text-md'>What’s in store for members?</h1>
-      <div className='flex flex-wrap mx-20 sm:mx-5 '>
-        <div className=' flex w-auto sm:flex-col   gap-4  p-4 m-auto justify-center' >
-          <div className="avatar ">
-            <div className="border border-4 border-red-500 border-double   h-fit p-4 rounded-full absolute -top-4 bg-white -left-3">
-              <FontAwesomeIcon icon={faMapLocation} className=' text-red-600' />
+    <div className='py-24   w-screen'>
+      <h1 className='text-2xl   text-center text-black Aceh py-5 uppercase sm:text-md sm:px-10'>What’s in store for members?</h1>
+      <Swiper
+        slidesPerView={'auto'}
+        centeredSlides={true}
+        watchSlidesProgress
+        grabCursor={true}
+        spaceBetween={30}
+        loop={true}
+        breakpoints={breakpoints}
+        pagination={{
+          clickable: true,
+        }}
+        autoplay={{
+          delay: 8000,
+          disableOnInteraction: false,
+        }}
+        modules={[Autoplay, Navigation]}
+        className="mySwiper w-full  px-4 sm:px-0 lg:px-10"
+      >
+        <SwiperSlide>
+          <div className=' flex  sm:flex-col px-60 sm:px-0 gap-20 sm:gap-5 ' >
+            <div className="avatar m-auto ">
+              <div className=" w-96 sm:w-full sm:px-10">
+                <img src="/Images/whats-in -store/9372532.jpg" />
+              </div>
+            </div>
+            <div className='h-full flex flex-col  gap-4 m-auto px-4'>
+              <h1 className='text-green-500 text-4xl sm:text-2xl'>Create a map of your travels</h1>
+              <p className='text-black text-xl  text-red-500'>&quot;i am photography enthusiast. Taking pictures of nature and animals is what i love doing &quot; &quot;i am photography enthusiast. Taking pictures of nature and animals is what i love doing &quot; </p>
             </div>
           </div>
-          <div className='h-full flex flex-col shadow-2xl  shadow gap-4 border text-center border-2xl bg- rounded py-10 rounded-lg bg-red-500  p-2'>
-            <p className=' w-64 text-white Aceh'>Create a map of your travels</p>
-          </div>
-        </div>
-        <div className=' flex w-auto sm:flex-col  gap-4  p-4 m-auto justify-center' >
-          <div className="avatar ">
-            <div className="border border-4 border-green-600 border-double  h-fit p-4 rounded-full absolute -top-4 bg-white -left-3">
-              <FontAwesomeIcon icon={faPeopleGroup} className=' text-green-600' />
+        </SwiperSlide>
+        <SwiperSlide>
+          <div className='flex  sm:flex-col px-60 sm:px-0 gap-20 sm:gap-5  ' >
+            <div className="avatar m-auto">
+              <div className=" w-96 sm:w-full sm:px-10">
+                <img src="/Images/whats-in -store/32594.jpg" />
+              </div>
+            </div>
+            <div className='h-full flex flex-col  gap-4 m-auto px-4'>
+              <h1 className='text-green-500 text-4xl sm:text-2xl'>Get advice from the community</h1>
+              <p className='text-black text-xl  text-red-500'>&quot;i am photography enthusiast. Taking pictures of nature and animals is what i love doing &quot; &quot;i am photography enthusiast. Taking pictures of nature and animals is what i love doing &quot; </p>
             </div>
           </div>
-          <div className='h-full flex flex-col shadow shadow-2xl gap-4 border text-center  bg- rounded py-10 rounded-lg bg-green-600  p-2'>
-            <p className=' w-64 text-white Aceh'>Get advice from the community</p>
-          </div>
-        </div>
-        <div className=' flex w-auto sm:flex-col  gap-4  p-4 m-auto justify-center' >
-          <div className="avatar ">
-            <div className="border border-4 border-amber-600  border-double   h-fit p-4 rounded-full absolute -top-4 bg-white -left-3">
-              <FontAwesomeIcon icon={faPen} className=' text-amber-600 ' />
+        </SwiperSlide>
+        <SwiperSlide>
+          <div className='flex  sm:flex-col px-60 sm:px-0 gap-20 sm:gap-5' >
+            <div className="avatar m-auto">
+              <div className=" w-96 sm:w-96 sm:px-10">
+                <img src="/Images/whats-in -store/19197307.jpg" />
+              </div>
+            </div>
+            <div className='h-full flex flex-col  gap-4 m-auto px-4'>
+              <h1 className='text-green-500 text-4xl sm:text-2xl'>Blog about your adventures</h1>
+              <p className='text-black text-xl  text-red-500'>&quot;i am photography enthusiast. Taking pictures of nature and animals is what i love doing &quot; &quot;i am photography enthusiast. Taking pictures of nature and animals is what i love doing &quot; </p>
             </div>
           </div>
-          <div className='h-full flex flex-col shadow shadow-2xl gap-4 text-center border border-2xl bg- rounded py-10 rounded-lg bg-amber-600  p-2'>
-            <p className=' w-64 text-white Aceh'>Blog about your adventures</p>
-          </div>
-        </div>
-        <div className=' flex w-auto sm:flex-col  gap-4  p-4 m-auto justify-center' >
-          <div className="avatar ">
-            <div className="border border-4 border-double border-violet-600   h-fit p-4 rounded-full absolute -top-4 bg-white -left-3">
-              <FontAwesomeIcon icon={faUserFriends} className=' text-violet-600 ' />
+        </SwiperSlide>
+        <SwiperSlide>
+          <div className=' flex  sm:flex-col px-60 sm:px-0 gap-20 sm:gap-5' >
+            <div className="avatar m-auto">
+              <div className=" w-96 sm:w-96 sm:px-10">
+                <img src="/Images/whats-in -store/2492241.jpg" />
+              </div>
+            </div>
+            <div className='h-full flex flex-col  gap-4 m-auto px-4'>
+              <h1 className='text-green-500 text-4xl sm:text-2xl'>Foster connections with like-minds that transcends borders</h1>
+              <p className='text-black text-xl  text-red-500'>&quot;i am photography enthusiast. Taking pictures of nature and animals is what i love doing &quot; &quot;i am photography enthusiast. Taking pictures of nature and animals is what i love doing &quot; </p>
             </div>
           </div>
-          <div className='h-full flex flex-col shadow shadow-2xl gap-4 border text-center border-2xl bg- rounded py-10 rounded-lg bg-violet-600  p-2'>
-            <p className=' w-64 text-white Aceh'>Foster connections with like-minds that transcends borders</p>
-          </div>
-        </div>
-        <div className=' flex w-auto sm:flex-col  gap-4  p-4 m-auto justify-center' >
-          <div className="avatar ">
-            <div className="border border-4 border-sky-600 border-double  h-fit p-4 rounded-full absolute -top-4 bg-white -left-3">
-              <FontAwesomeIcon icon={faLightbulb} className=' text-sky-600 ' />
+        </SwiperSlide>
+        <SwiperSlide>
+          <div className=' flex  sm:flex-col px-60 sm:px-0 gap-20 sm:gap-5' >
+            <div className="avatar m-auto">
+              <div className=" w-96 sm:w-96 sm:px-10">
+                <img src="/Images/whats-in -store/8056324.jpg" />
+              </div>
+            </div>
+            <div className='h-full flex flex-col  gap-4 m-auto px-4'>
+              <h1 className='text-green-500 text-4xl sm:text-2xl'>Share your experiences, knowledge and creativity</h1>
+              <p className='text-black text-xl  text-red-500'>&quot;i am photography enthusiast. Taking pictures of nature and animals is what i love doing &quot; &quot;i am photography enthusiast. Taking pictures of nature and animals is what i love doing &quot; </p>
             </div>
           </div>
-          <div className='h-full flex flex-col shadow shadow-2xl text-center gap-4 border border-2xl bg- rounded py-10 rounded-lg bg-sky-600  p-2'>
-            <p className=' w-64 text-white Aceh'>Share your experiences, knowledge and creativity</p>
-          </div>
-        </div>
-        <div className=' flex w-auto sm:flex-col  gap-4  p-4 m-auto justify-center' >
-          <div className="avatar ">
-            <div className="border border-4 border-teal-600 border-double  h-fit p-4 rounded-full absolute -top-4 bg-white -left-3">
-              <FontAwesomeIcon icon={faPen} className=' text-teal-600 ' />
-            </div>
-          </div>
-          <div className='h-full flex flex-col shadow  shadow-2xl text-center gap-4 border border-2xl bg- rounded py-10 rounded-lg bg-teal-600  p-2'>
-            <p className=' w-64 text-white Aceh'>Share your experiences, knowledge and creativity</p>
-          </div>
-        </div>
-      </div>
+        </SwiperSlide>
+
+
+
+      </Swiper>
+     
     </div>
   )
 }

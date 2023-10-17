@@ -4,6 +4,7 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons"
 import { NavLink } from "react-router-dom"
 import { Fragment, useState } from 'react'
 import { Dialog, Disclosure, Popover, Transition, Menu } from '@headlessui/react'
+import { NavbarLink } from "flowbite-react/lib/esm/components/Navbar/NavbarLink"
 
 
 const Header = () => {
@@ -155,7 +156,7 @@ const Header = () => {
                       <NavLink
                       onClick={closeDrawer}
                         className={`${active && 'bg-blue-500'}`}
-                        to="/aboutus"
+                        to="/upcomingevents"
                       >
                         Upcoming Events
                       </NavLink>
@@ -179,13 +180,13 @@ const Header = () => {
               <Menu >
               {({ active }) => (
 
-              <NavLink
+              <NavbarLink
+               to="/podcast"
                       onClick={closeDrawer}
                         className={`${active && 'bg-blue-500'}`}
-                        to="/podcast"
                       >
                 <Menu.Button className='text-left p-2 text-white border-b light:text-black  border'> Podcast</Menu.Button>
-               </NavLink>
+               </NavbarLink>
                )}
               </Menu>
               

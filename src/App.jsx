@@ -11,9 +11,10 @@ import Login from './Accunts/Login'
 import Signip from './Accunts/Signip'
 import EventList from './Events/EventList'
 import EventDes from './Events/EventDes'
-import HoseEvent from './HoseEvent'
+import HostEvent from './Events/HoseEvent'
 import Articles from './Articles/Articles'
 import Podcast from './Podcast/Podcast'
+import Activity from './Activity/ActivityDes'
 
 // import "@fortawesome/fontawesome-free"
 
@@ -44,9 +45,10 @@ function App() {
        
        <Route path="/signup" element={<Signip />}/>
        <Route path="/upcomingevents" element={<EventList/>}/>
-       <Route path="/hostevent" element={<HoseEvent/>}/>
+       <Route path="/hostevent" element={<HostEvent/>}/>
 
        <Route path="/article/:articleName" element={<Articles/>}/>
+       <Route path="/activity/:activityName" element={<Activity/>}/>
 
        <Route path="/upcomingevents/:eventName" element={<EventDes/>}/>
        <Route path="/podcast" element={<Podcast/>}/>

@@ -9,7 +9,7 @@ const EventDes = () => {
   const [event, setEvent] = useState(null);
 
   useEffect(() => {
-    // Find the selected event by comparing the name as a string
+    // Find the   by comparing the name as a string
     const selectedEvent = events.find((e) => e.name === eventName);
 
     if (selectedEvent) {

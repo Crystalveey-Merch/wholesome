@@ -30,8 +30,8 @@ const Section3 = () => {
     
       };
     return (
-        <div>
-                    <h1 className=' text-2xl  my-5 text-center text-red-500 Aceh text-md'>COMMUNITY SPOTLIGHT</h1>
+        <div className='bg-green-300'>
+                    <h1 className=' text-2xl  py-5 text-center text-red-500 Aceh text-md'>COMMUNITY SPOTLIGHT</h1>
 
            <Swiper
             slidesPerView={'auto'}
@@ -59,7 +59,7 @@ const Section3 = () => {
                     </div>
                 </div>
                 <div className='h-full flex flex-col  gap-4'>
-                    <h1 className='text-green-500 text-xl'>Serena Williams</h1>
+                    <h1 className='text-black text-xl'>Serena Williams</h1>
                     <p className='text-gray-600'>Professional Photographer</p>
                     <p className='text-black w-64 text-red-500'>&quot;i am photography enthusiast. Taking pictures of nature and animals is what i love doing &quot;</p>
                 </div>
@@ -73,7 +73,7 @@ const Section3 = () => {
                     </div>
                 </div>
                 <div className='h-full flex flex-col  gap-4'>
-                    <h1 className='text-green-500 text-xl'>David Bekcham</h1>
+                    <h1 className='text-black text-xl'>David Bekcham</h1>
                     <p className='text-gray-600'>Lecturer</p>
                     <p className='text-black w-64 text-red-500'>&quot;i am photography enthusiast. Taking pictures of nature and animals is what i love doing &quot;</p>
                 </div>
@@ -87,7 +87,7 @@ const Section3 = () => {
                     </div>
                 </div>
                 <div className='h-full flex flex-col  gap-4'>
-                    <h1 className='text-green-500 text-xl'>Daniel Whales</h1>
+                    <h1 className='text-black text-xl'>Daniel Whales</h1>
                     <p className='text-gray-600'>Fashion Designer</p>
                     <p className='text-black w-64 text-red-500'>&quot;i am photography enthusiast. Taking pictures of nature and animals is what i love doing &quot;</p>
                 </div>
@@ -101,7 +101,7 @@ const Section3 = () => {
                     </div>
                 </div>
                 <div className='h-full flex flex-col  gap-4'>
-                    <h1 className='text-green-500 text-xl'>Daisy Hail</h1>
+                    <h1 className='text-black text-xl'>Daisy Hail</h1>
                     <p className='text-gray-600'>House  wife</p>
                     <p className='text-black w-64 text-red-500'>&quot;i am photography enthusiast. Taking pictures of nature and animals is what i love doing &quot;</p>
                 </div>

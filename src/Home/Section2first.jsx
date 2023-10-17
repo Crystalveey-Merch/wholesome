@@ -3,8 +3,20 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper";
+import { activities } from "../data/activity";
+import { useParams } from "react-router";
+import { NavLink } from "react-router-dom";
+
+
 
 const Section2first = () => {
+
+  const { activityName } = useParams();
+
+  const ArticleName = () => {
+    return activities.filter((activity) => activity.title === activityName);
+  };
+
   const breakpoints = {
     300: {
       slidesPerView: 1,
@@ -25,8 +37,8 @@ const Section2first = () => {
     },
   };
   return (
-    <div className="pt-20  sm:py-5">
-      <h1 className="text-black text-2xl text-red-500  my-5 text-center Aceh text-md">
+    <div className="py-20  sm:py-5 bg-gray-800">
+      <h1 className="text-white text-2xl   text-center Aceh text-md">
         COMMUNITY ACTIVITY
       </h1>
 
@@ -48,43 +60,35 @@ const Section2first = () => {
             disableOnInteraction: false,
           }}
           modules={[Autoplay, Pagination, Navigation]}
-          className="mySwiper w-full h-80 mx-20 sm:mx-0 sm:px-10 lg:px-10"
+          className="mySwiper w-full  mx-10 sm:mx-0 py-10 sm:px-10 lg:px-10"
         >
-          <SwiperSlide>
-            <div className="relative w-72  bg-base-100 shadow-xl  image-full">
+        {activities.length > 0 ? (
+            activities.map((activity) => {
+              return (
+          <SwiperSlide key={activity.id}>
+          <NavLink to={`/activity/${activity.title}`}>
+            <div className="relative w-72  bg-base-100 text-white shadow-xl  image-full">
               <figure>
-                <img src="/Images/Events/host/meeting4.jpeg" alt="image" />
+                <img src={activity.src} />
               </figure>
+              <div>
+              <div className="badge text-green-500">{activity.date}</div>
+                <h1 className="text-2xl py-2"> {activity.title}</h1>
+                <p>{activity.content} </p>
+              </div>
             </div>
+
+           </NavLink>
           </SwiperSlide>
-          <SwiperSlide>
-            <div className="relative w-72  bg-base-100 shadow-xl  image-full">
-              <figure>
-                <img src="/Images/Events/host/meeting5.jpeg" alt="image" />
-              </figure>
+          );
+            })
+          ) : (
+            <div className="text-center text-2xl font-bold text-gray-500 mt-4 h-48">
+              No events found matching your search.
             </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="relative w-72  bg-base-100 shadow-xl  image-full">
-              <figure>
-                <img src="/Images/Events/host/meeting6.jpeg" alt="image" />
-              </figure>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="relative w-72  bg-base-100 shadow-xl  image-full">
-              <figure>
-                <img src="/Images/Events/host/meeting7.jpeg" alt="image" />
-              </figure>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="relative w-72  bg-base-100 shadow-xl  image-full">
-              <figure>
-                <img src="/Images/Events/host/meeting8.jpeg" alt="image" />
-              </figure>
-            </div>
-          </SwiperSlide>
+          )}
+
+         
         </Swiper>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const HoseEvent = () => {
+const HostEvent = () => {
   return (
     <div>
       <div className="">
@@ -115,4 +115,4 @@ const HoseEvent = () => {
   );
 };
 
-export default HoseEvent;
+export default HostEvent;

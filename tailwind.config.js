@@ -21,6 +21,12 @@ export default {
     extend: {},
   },
   plugins: [require("daisyui")],
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "editor.quickSuggestions": {
+    "strings": "on"
+  }
 };
 
 //bg-pink-300
