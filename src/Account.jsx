@@ -3,11 +3,11 @@ import { NavLink } from 'react-router-dom'
 
 const Account = () => {
     return (
-        <div className=' w-screen pt-10 text-white ' style={{ backgroundImage: "url(/homepage/slider2.jpeg)", backgroundPosition: "center", backgroundRepeat: "none", backdropFilter: "black" }}
+        <div className=' w-screen pt-10 text-white bg-white text-black ' 
         >
 
             <div className='text-center text-2xl'>
-                <div className="pt-34  m-auto bg-black/75  pb-20 ">
+                <div className="pt-34  m-auto bg-black/25  pb-20 ">
                     <div className=" h-full w-full flex rounded rounded-lg  pt-36  ">
                         <div className='w-1/2 text-lg  sm:hidden'>
                             <h1 className='w-98 text-left ml-40 text-3xl'>Wholesome helps foster connections with like-minds
