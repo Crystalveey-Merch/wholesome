@@ -29,7 +29,7 @@ const Section4 = () => {
     const breakpoints = {
         300: {
             slidesPerView: 1,
-            spaceBetween: 5,
+            spaceBetween: 10,
 
         },
         639: {
@@ -41,8 +41,8 @@ const Section4 = () => {
             spaceBetween: 10,
         },
         1024: {
-            slidesPerView: 3.8,
-            spaceBetween: 5,
+            slidesPerView: 4,
+            spaceBetween: 40,
             centeredSlides: true,
 
         },
@@ -61,6 +61,7 @@ const Section4 = () => {
                     watchSlidesProgress
                     grabCursor={true}
                     spaceBetween={30}
+                    navigation={true}
                     loop={true}
                     breakpoints={breakpoints}
                     pagination={{
@@ -71,13 +72,13 @@ const Section4 = () => {
                         disableOnInteraction: false,
                     }}
                     modules={[Autoplay, Navigation, Pagination]}
-                    className="mySwiper w-full  px-20 sm:px-10 lg:px-10 bg-red-100"
+                    className="mySwiper w-full  mx-20 sm:mx-0  lg:px-10 "
                 >
                     {events.length > 0 ? (
                         events.map((event) => {
                             return(
                         <SwiperSlide key={event.id} style={{height:"32rem"}}>
-                            <div  className="w-80  bg-white     shadow  dark:border-gray-700">
+                            <div  className="w-72  bg-white     shadow  dark:border-gray-700">
                                 <NavLink to={`/upcomingevents/${event.name}`}>
                                     <img className="rounded-t-lg" src={event.src} alt={event.name} />
 

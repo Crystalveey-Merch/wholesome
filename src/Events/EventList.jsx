@@ -25,14 +25,14 @@ const EventList = () => {
   };
 
   return (
-    <div className="mt-20   sm:mt-18">
+    <div className="mt-20 w-screen  sm:mt-18">
       <div className="h-96" style={{ backgroundImage: "url(/Images/Events/headimg.jpeg)", backgroundRepeat: "none" }}>
         <div className="h-full bg-green-700/75">
           <h1 className="text-white text-center sm:text-4xl pt-24 sm:pt-14">See upcoming Events Around You</h1>
           <hr className="w-64 m-auto my-5"></hr>
-          <p className="text-base-500 text-center text-xl font-bolder">Discover, Explore, Attend: Your Event Search Starts Here</p>
+          <p className="text-base-500  text-center text-xl font-bolder Aceh">Discover, Explore, Attend: Your Event Search Starts Here</p>
           <div className="m-auto flex flex-col gap-2  justify-center py-5">
-          <p className="m-auto text-gray-300" >Search event by name, tags and location</p>
+          <p className="m-auto text-gray-300 Aceh" >Search event by name, tags and location</p>
           <p className=" m-auto text-gray-300   ">
             <FontAwesomeIcon icon={faAnglesDown}/>
           </p>
@@ -44,7 +44,7 @@ const EventList = () => {
 
 
 
-      <div className="flex m-auto justify-center gap-10 m-10 flex-wrap  ">
+      <div className="flex m-auto justify-center gap-10 m-10 flex-wrap p-20  ">
         {filteredEvents.length > 0 ? (
           filteredEvents.map((event) => {
           return (

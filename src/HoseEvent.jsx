@@ -14,7 +14,7 @@ const HoseEvent = () => {
               Host a Meetup
             </h1>
             <hr className="w-64 my-5"></hr>
-            <p className="text-base-500 text-left text-2xl  Aceh font-bolder">
+            <p className="text-white text-left text-2xl  Aceh font-bolder">
               Empower Your Community: Create a Meetup Today
             </p>
           </div>

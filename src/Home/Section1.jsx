@@ -4,7 +4,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Navigation,  } from 'swiper';
+import { Autoplay, Navigation,   } from 'swiper';
 
 const Section1 = () => {
   const breakpoints = {
@@ -20,7 +20,7 @@ const Section1 = () => {
   return (
     <div className='relative w-full 	'>
       <Swiper
-        modules={[Autoplay, Navigation]}
+        modules={[Autoplay, Navigation, ]}
         breakpoints={breakpoints}
         loop={true}
         Navigation
@@ -60,9 +60,9 @@ const Section1 = () => {
       </Swiper>
 
       <div className='absolute z-10 top-0 h-full sm:h-auto p-40 sm:p-5 m-auto w-full bg-black/50 '>
-      <h1 className='text-center my-5 font-bold sm:text-xl'>JOIN THE GLOBAL NETWORK</h1>
+      <h1 className='text-center my-5 font-bold sm:text-2xl text-white text-7xl '>JOIN THE GLOBAL NETWORK</h1>
         <h1 className='text-xl sm:text-sm text-black m-auto btn flex w-60 sm:w-40 bg-red-500 hover:bg-black border-none  text-white text-center '>JOIN WHOLESOME</h1>
-        <p className='text-center py-5'>Be part of our Community</p>
+        <p className='text-center py-5 text-white  text-2xl sm:text-xl'>Be part of our Community</p>
       </div>
 
     </div>

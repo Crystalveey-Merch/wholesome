@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 
 const Account = () => {
     return (
-        <div className='  pt-10 ' style={{ backgroundImage: "url(/homepage/slider2.jpeg)", backgroundPosition: "center", backgroundRepeat: "none", backdropFilter: "black" }}
+        <div className=' w-screen pt-10 text-white ' style={{ backgroundImage: "url(/homepage/slider2.jpeg)", backgroundPosition: "center", backgroundRepeat: "none", backdropFilter: "black" }}
         >
 
             <div className='text-center text-2xl'>

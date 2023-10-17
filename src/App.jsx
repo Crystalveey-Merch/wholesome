@@ -13,6 +13,7 @@ import EventList from './Events/EventList'
 import EventDes from './Events/EventDes'
 import HoseEvent from './HoseEvent'
 import Articles from './Articles/Articles'
+import Podcast from './Podcast/Podcast'
 
 // import "@fortawesome/fontawesome-free"
 
@@ -48,6 +49,7 @@ function App() {
        <Route path="/article/:articleName" element={<Articles/>}/>
 
        <Route path="/upcomingevents/:eventName" element={<EventDes/>}/>
+       <Route path="/podcast" element={<Podcast/>}/>
 
      </Routes>
      <Footer/> 

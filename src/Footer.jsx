@@ -41,7 +41,7 @@ const Footer = () => {
 
             
           </ul>
-          <p>Copyright © 2023 - All right reserved by Wholesome</p>
+          <p className='text-white'>Copyright © 2023 - All right reserved by Wholesome</p>
         </div>
   
   </>

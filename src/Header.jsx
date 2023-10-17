@@ -41,7 +41,7 @@ const Header = () => {
           </div>
           <div className="drawer-side">
             <label htmlFor="my-drawer-3" aria-label="close sidebar" className="drawer-overlay"></label>
-            <ul className="menu p-4 w-80 min-h-full bg-base-200 text-xl">
+            <ul className="menu p-4 w-80 min-h-full bg-black text-xl">
               {/* Sidebar content here */}
               <NavLink to="/" className="text-center py-5"> <div>
           <a className=" Aceh  normal-case text-xl ">Wholesome</a>
@@ -49,7 +49,7 @@ const Header = () => {
         <hr></hr>
         </NavLink>
               <Menu >
-                <Menu.Button className='text-left p-2 text-white border-b border'>About us</Menu.Button>
+                <Menu.Button className='text-left p-2 text-white light:text-black   border-b border'>About us</Menu.Button>
                 <Menu.Items  className="flex flex-col gap-4 text-base px-5">
                   <Menu.Item>
                     {({ active }) => (
@@ -85,7 +85,7 @@ const Header = () => {
                 </Menu.Items>
               </Menu>
               <Menu >
-                <Menu.Button className='text-left p-2 text-white'>Interest</Menu.Button>
+                <Menu.Button className='text-left p-2 text-white light:text-black '>Interest</Menu.Button>
                 <Menu.Items  className="flex flex-col gap-4 text-base px-5">
                   <Menu.Item>
                     {({ active }) => (
@@ -148,7 +148,7 @@ const Header = () => {
               </Menu>
 
               <Menu >
-                <Menu.Button className='text-left p-2 text-white border-b border'> Events</Menu.Button>
+                <Menu.Button className='text-left p-2 text-white border-b border light:text-black  '> Events</Menu.Button>
                 <Menu.Items  className="flex flex-col gap-4 text-base px-5">
                   <Menu.Item>
                     {({ active }) => (
@@ -177,15 +177,23 @@ const Header = () => {
                 </Menu.Items>
               </Menu>
               <Menu >
-                <Menu.Button className='text-left p-2 text-white border-b border'> Podcast</Menu.Button>
-               
+              {({ active }) => (
+
+              <NavLink
+                      onClick={closeDrawer}
+                        className={`${active && 'bg-blue-500'}`}
+                        to="/podcast"
+                      >
+                <Menu.Button className='text-left p-2 text-white border-b light:text-black  border'> Podcast</Menu.Button>
+               </NavLink>
+               )}
               </Menu>
               
             </ul>
           </div>
         </div>
         <NavLink to="/"> <div>
-          <a className=" Aceh  normal-case text-xl ">Wholesome</a>
+          <a className=" Aceh  normal-case text-xl  ">Wholesome</a>
         </div>
         </NavLink>
         <div className=" w-full flex justify-center m-auto  sm:hidden ">
@@ -241,7 +249,7 @@ const Header = () => {
             </div>
 
             <label tabIndex={0} className=" text-black bg-white border-none capitalize btn m-1 hover:bg-gray-100">
-              Podcast
+              <NavLink to="/podcast">Podcast</NavLink> 
             </label>
 
 

@@ -31,7 +31,7 @@ const Section3 = () => {
       };
     return (
         <div>
-                    <h1 className='text-black text-2xl  my-5 text-center text-red-500 Aceh text-md'>COMMUNITY SPOTLIGHT</h1>
+                    <h1 className=' text-2xl  my-5 text-center text-red-500 Aceh text-md'>COMMUNITY SPOTLIGHT</h1>
 
            <Swiper
             slidesPerView={'auto'}

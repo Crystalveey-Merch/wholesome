@@ -14,6 +14,8 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  --swiper-navigation-size: 20px;
+  --swiper-theme-color: white;
 }
 
 @font-face {
@@ -109,6 +111,16 @@ button:focus-visible {
     height: 160px  !important;;
     width: 126px  !important;;
   }
+}
+.swiper-button-next:after, .swiper-button-prev:after{
+  padding: 10px 20px 10px 10px !important;
+  color: rgba(255, 255, 255, 0.905);
+  background-color: #000000b9;
+  margin-right: 30px;
+  /* border: 4px solid rgba(128, 128, 128, 0.617); */
+}
+.swiper-button-prev:after{
+  margin-left: 60px;
 }
 .hamburger {
   cursor: pointer;
