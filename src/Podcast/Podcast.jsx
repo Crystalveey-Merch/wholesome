@@ -7,7 +7,7 @@ const Podcast = () => {
     <div className="mt-20 sm:mt-18 w-screen">
       <div className="relative">
         <img
-          src="src/Podcast/modern-microphone.jpeg"
+          src="/Images/modern-microphone.jpeg"
           className="sm:w-full"
         ></img>
         <div className=" absolute sm:relative sm:top-0 sm:px-5 top-40 px-20 flex flex-col gap-5 sm:gap-2">
