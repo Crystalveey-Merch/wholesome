@@ -10,7 +10,6 @@ import {
   Transition,
   Menu,
 } from "@headlessui/react";
-import { NavbarLink } from "flowbite-react/lib/esm/components/Navbar/NavbarLink";
 import { events } from "./data/events";
 import { useParams } from "react-router";
 import { useEffect } from "react";
