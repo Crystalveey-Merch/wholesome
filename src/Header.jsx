@@ -5,10 +5,20 @@ import { NavLink } from "react-router-dom"
 import { Fragment, useState } from 'react'
 import { Dialog, Disclosure, Popover, Transition, Menu } from '@headlessui/react'
 import { NavbarLink } from "flowbite-react/lib/esm/components/Navbar/NavbarLink"
+import { events } from "./data/events"
+import { useParams } from "react-router";
+import { useEffect,  } from "react";
+
+
 
 
 const Header = () => {
+  const { interestName } = useParams();
 
+  useEffect(() => {
+  const selectedEvent = events.find((e) => e.interest === interestName);
+  }
+  )
   const closeDrawer = () => {
     const drawerToggle = document.getElementById('my-drawer-3');
     if (drawerToggle.checked) {
@@ -223,12 +233,12 @@ const Header = () => {
 
               <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-white w-52">
                 <ul className="p-2">
-                  <li><a>Health & wellness</a></li>
-                  <li><a>Food & nutrition</a></li>
-                  <li><a>Travel & events</a></li>
-                  <li><a>Lifestyle & fashion</a></li>
+                  <li><NavLink to={`/interest/health`}>Health & wellness</NavLink></li>
+                  <li><NavLink to={`/interest/food`}>Food & nutrition</NavLink></li>
+                  <li><NavLink to={`/interest/travel`}>Travel & events</NavLink></li>
+                  <li><NavLink to={`/interest/lifestyle`}>Lifestyle & fashion</NavLink></li>
 
-                  <li><a>Volunteer & philanthropy</a></li>
+                  <li><NavLink to={`/interest/volunteer`}>Volunteer & philanthropy</NavLink></li>
                 </ul>
               </ul>
 

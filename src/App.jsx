@@ -15,6 +15,7 @@ import HostEvent from './Events/HoseEvent'
 import Articles from './Articles/Articles'
 import Podcast from './Podcast/Podcast'
 import Activity from './Activity/ActivityDes'
+import Interest from './Interest/Interest'
 
 // import "@fortawesome/fontawesome-free"
 
@@ -49,6 +50,7 @@ function App() {
 
        <Route path="/article/:articleName" element={<Articles/>}/>
        <Route path="/activity/:activityName" element={<Activity/>}/>
+       <Route path="/interest/:interestName" element={<Interest/>}/>
 
        <Route path="/upcomingevents/:eventName" element={<EventDes/>}/>
        <Route path="/podcast" element={<Podcast/>}/>

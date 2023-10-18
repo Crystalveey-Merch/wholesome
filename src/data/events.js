@@ -7,6 +7,7 @@ export const events =
             src: "/Images/Events/google.png",
             date: "Saturday, January 12, 2023",
             category: 'Tech',
+            interest:'travel',
             time: "8:00 AM - 9:30 AM WAT",
             address: "Water Corporation Drive #Plot 2 & 3 Annex, LA 106104",
             description:
@@ -29,6 +30,8 @@ export const events =
             src: "/Images/Events/Ccic.jpeg",
             date: "Saturday, January 12, 2023",
             category: 'Religion',
+            interest:'lifestyle',
+
             time: "8:00 AM - 9:30 AM WAT",
             address: "Water Corporation Drive #Plot 2 & 3 Annex, LA 106104",
             description:
@@ -51,6 +54,7 @@ export const events =
             src: "/Images/Events/tbia.jpeg",
             date: "Saturday, November 4, 2023",
             category: 'Business',
+            interest:'volunteer',
 
             time: "8:30 AM WAT",
             address: "Water Corporation Drive #Plot 2 & 3 Annex, Lagos, LA 106104",
@@ -75,6 +79,8 @@ export const events =
             date: "Wednesday, 18 October, 2023",
             category: 'Business',
             time: "10:00 WAT",
+            interest:'health',
+
             address: "Lagos Marriott Hotel Ikeja  122 Joel Ogunnaike Street Lagos, LA 100271  ",
             description:
                 "The summit seeks to create national awareness about out-of-school children & develop sustainable solutions from multi-sector perspectives",
@@ -95,6 +101,8 @@ export const events =
             theme: "TIBA Conference",
             src: "/Images/Events/tbia.jpeg",
             date: "Saturday, November 4, 2023",
+            interest:'travel',
+
             category: 'Business',
 
             time: "8:30 AM WAT",
@@ -119,6 +127,7 @@ export const events =
             src: "/Images/Events/tbia.jpeg",
             date: "Saturday, November 4, 2023",
             category: 'Business',
+            interest:'food',
 
             time: "8:30 AM WAT",
             address: "Water Corporation Drive #Plot 2 & 3 Annex, LA 106104",
@@ -142,6 +151,7 @@ export const events =
             src: "/Images/Events/tbia.jpeg",
             date: "Saturday, November 4, 2023",
             category: 'Business',
+            interest:'lifestyle',
 
             time: "8:30 AM WAT",
             address: "Water Corporation Drive #Plot 2 & 3 Annex, LA 106104",
@@ -166,6 +176,7 @@ export const events =
             src: "/Images/Events/tbia.jpeg",
             date: "Saturday, November 4, 2023",
             category: 'Business',
+            interest:'health',
 
             time: "8:30 AM WAT",
             address: "Water Corporation Drive #Plot 2 & 3 Annex, LA 106104",
@@ -190,6 +201,7 @@ export const events =
             src: "/Images/Events/tbia.jpeg",
             date: "Saturday, November 4, 2023",
             category: 'Business',
+            interest:'volunteer',
 
             time: "8:30 AM WAT",
             address: "Water Corporation Drive #Plot 2 & 3 Annex, LA 106104",

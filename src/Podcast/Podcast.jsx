@@ -6,10 +6,7 @@ const Podcast = () => {
   return (
     <div className="mt-20 sm:mt-18 w-screen">
       <div className="relative">
-        <img
-          src="/Images/modern-microphone.jpeg"
-          className="sm:w-full"
-        ></img>
+        <img src="/Images/modern-microphone.jpeg" className="sm:w-full"></img>
         <div className=" absolute sm:relative sm:top-0 sm:px-5 top-40 px-20 flex flex-col gap-5 sm:gap-2">
           <h1 className="text-white sm:text-black sm:w-full text-8xl w-40 sm:text-center sm:text-5xl">
             THE WHOLESOME PODCAST
@@ -37,7 +34,9 @@ const Podcast = () => {
           </div>
         </div>
         <div className="py-10">
-          <h1 className="text-4xl text-center text-black">Why Wholesome Podcast?</h1>
+          <h1 className="text-4xl text-center text-black">
+            Why Wholesome Podcast?
+          </h1>
           <p className="px-60 sm:px-5 py-10 text-xl text-gray-800">
             Wholesome is creating a digital nation where Africans and the
             diaspora can build abundant lives. On the Wholesome Podcast, we
@@ -51,15 +50,17 @@ const Podcast = () => {
             is to inspire and empower Afropolitans to reclaim their abundance
             and build the future they want to see. Join us as we challenge the
             status quo, question the norm, and create a new narrative for the
-            Wholesome. Listen to the Wholesome Podcast and be a part of
-            building the future of a bold and progressive nation.
+            Wholesome. Listen to the Wholesome Podcast and be a part of building
+            the future of a bold and progressive nation.
           </p>
         </div>
         <div className="bg-red-100">
-          <h1 className="text-4xl text-center py-5 text-black ">Our recent Episodes</h1>
+          <h1 className="text-4xl text-center py-5 text-black ">
+            Our recent Episodes
+          </h1>
 
           <div className="py-5  flex flex-wrap mx-20 sm:mx-5">
-            <div className=" flex w-auto sm:flex-col   gap-4  p-2 m-auto justify-center">
+          <div className=" flex w-auto sm:flex-col   gap-4  p-2 m-auto justify-center">
               <div className="avatar">
                 <div className="border border-4 border-red-500 border-double   h-fit p-4 rounded-full absolute -top-4 bg-white -left-3">
                   <FontAwesomeIcon
@@ -68,11 +69,14 @@ const Podcast = () => {
                   />
                 </div>
               </div>
-              <div className="h-full flex flex-col shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-red-500  p-2">
-                <p className=" w-64 text-white Aceh text-2xl">
-                  How to Travel Abroad With Daniel
-                </p>
-                <p className="text-white ">May, 17, 2023 . 20min</p>
+              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-b from-red-500 to-black  p-5">
+                <img src="/Images/man.jpeg" className="w-40 sm:w-20"></img>
+                <div className="m-auto">
+                  <p className="  w-full text-white Aceh text-2xl ">
+                    How to Travel Abroad With Daniel
+                  </p>
+                  <p className="text-white ">May, 17, 2023 . 20min</p>
+                </div>
               </div>
             </div>
             <div className=" flex w-auto sm:flex-col   gap-4  p-2 m-auto justify-center">
@@ -84,11 +88,14 @@ const Podcast = () => {
                   />
                 </div>
               </div>
-              <div className="h-full flex flex-col shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-red-500  p-2">
-                <p className=" w-64 text-white Aceh text-2xl">
-                  How to Travel Abroad With Daniel
-                </p>
-                <p className="text-white ">May, 17, 2023 . 20min</p>
+              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-b from-red-500 to-black  p-5">
+                <img src="/Images/man.jpeg" className="w-40 sm:w-20"></img>
+                <div className="m-auto">
+                  <p className="  w-full text-white Aceh text-2xl ">
+                    How to Travel Abroad With Daniel
+                  </p>
+                  <p className="text-white ">May, 17, 2023 . 20min</p>
+                </div>
               </div>
             </div>
             <div className=" flex w-auto sm:flex-col   gap-4  p-2 m-auto justify-center">
@@ -100,11 +107,14 @@ const Podcast = () => {
                   />
                 </div>
               </div>
-              <div className="h-full flex flex-col shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-red-500  p-2">
-                <p className=" w-64 text-white Aceh text-2xl">
-                  How to Travel Abroad With Daniel
-                </p>
-                <p className="text-white ">May, 17, 2023 . 20min</p>
+              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-b from-red-500 to-black  p-5">
+                <img src="/Images/man.jpeg" className="w-40 sm:w-20"></img>
+                <div className="m-auto">
+                  <p className="  w-full text-white Aceh text-2xl ">
+                    How to Travel Abroad With Daniel
+                  </p>
+                  <p className="text-white ">May, 17, 2023 . 20min</p>
+                </div>
               </div>
             </div>
             <div className=" flex w-auto sm:flex-col   gap-4  p-2 m-auto justify-center">
@@ -116,11 +126,14 @@ const Podcast = () => {
                   />
                 </div>
               </div>
-              <div className="h-full flex flex-col shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-red-500  p-2">
-                <p className=" w-64 text-white Aceh text-2xl">
-                  How to Travel Abroad With Daniel
-                </p>
-                <p className="text-white ">May, 17, 2023 . 20min</p>
+              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-b from-red-500 to-black  p-5">
+                <img src="/Images/man.jpeg" className="w-40 sm:w-20"></img>
+                <div className="m-auto">
+                  <p className="  w-full text-white Aceh text-2xl ">
+                    How to Travel Abroad With Daniel
+                  </p>
+                  <p className="text-white ">May, 17, 2023 . 20min</p>
+                </div>
               </div>
             </div>
             <div className=" flex w-auto sm:flex-col   gap-4  p-2 m-auto justify-center">
@@ -132,11 +145,33 @@ const Podcast = () => {
                   />
                 </div>
               </div>
-              <div className="h-full flex flex-col shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-red-500  p-2">
-                <p className=" w-64 text-white Aceh text-2xl">
-                  How to Travel Abroad With Daniel
-                </p>
-                <p className="text-white ">May, 17, 2023 . 20min</p>
+              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-b from-red-500 to-black  p-5">
+                <img src="/Images/man.jpeg" className="w-40 sm:w-20"></img>
+                <div className="m-auto">
+                  <p className="  w-full text-white Aceh text-2xl ">
+                    How to Travel Abroad With Daniel
+                  </p>
+                  <p className="text-white ">May, 17, 2023 . 20min</p>
+                </div>
+              </div>
+            </div>
+              <div className=" flex w-auto sm:flex-col   gap-4  p-2 m-auto justify-center">
+              <div className="avatar">
+                <div className="border border-4 border-red-500 border-double   h-fit p-4 rounded-full absolute -top-4 bg-white -left-3">
+                  <FontAwesomeIcon
+                    icon={faMicrophone}
+                    className=" text-red-600"
+                  />
+                </div>
+              </div>
+              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-b from-red-500 to-black  p-5">
+                <img src="/Images/man.jpeg" className="w-40 sm:w-20"></img>
+                <div className="m-auto">
+                  <p className="  w-full text-white Aceh text-2xl ">
+                    How to Travel Abroad With Daniel
+                  </p>
+                  <p className="text-white ">May, 17, 2023 . 20min</p>
+                </div>
               </div>
             </div>
             <div className=" flex w-auto sm:flex-col   gap-4  p-2 m-auto justify-center">
@@ -148,11 +183,14 @@ const Podcast = () => {
                   />
                 </div>
               </div>
-              <div className="h-full flex flex-col shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-red-500  p-2">
-                <p className=" w-64 text-white Aceh text-2xl">
-                  How to Travel Abroad With Daniel
-                </p>
-                <p className="text-white ">May, 17, 2023 . 20min</p>
+              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-b from-red-500 to-black  p-5">
+                <img src="/Images/man.jpeg" className="w-40 sm:w-20"></img>
+                <div className="m-auto">
+                  <p className="  w-full text-white Aceh text-2xl ">
+                    How to Travel Abroad With Daniel
+                  </p>
+                  <p className="text-white ">May, 17, 2023 . 20min</p>
+                </div>
               </div>
             </div>
             <div className=" flex w-auto sm:flex-col   gap-4  p-2 m-auto justify-center">
@@ -164,27 +202,14 @@ const Podcast = () => {
                   />
                 </div>
               </div>
-              <div className="h-full flex flex-col shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-red-500  p-2">
-                <p className=" w-64 text-white Aceh text-2xl">
-                  How to Travel Abroad With Daniel
-                </p>
-                <p className="text-white ">May, 17, 2023 . 20min</p>
-              </div>
-            </div>
-            <div className=" flex w-auto sm:flex-col   gap-4  p-2 m-auto justify-center">
-              <div className="avatar">
-                <div className="border border-4 border-red-500 border-double   h-fit p-4 rounded-full absolute -top-4 bg-white -left-3">
-                  <FontAwesomeIcon
-                    icon={faMicrophone}
-                    className=" text-red-600"
-                  />
+              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-b from-red-500 to-black  p-5">
+                <img src="/Images/man.jpeg" className="w-40 sm:w-20"></img>
+                <div className="m-auto">
+                  <p className="  w-full text-white Aceh text-2xl ">
+                    How to Travel Abroad With Daniel
+                  </p>
+                  <p className="text-white ">May, 17, 2023 . 20min</p>
                 </div>
-              </div>
-              <div className="h-full flex flex-col shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-red-500  p-2">
-                <p className=" w-64 text-white Aceh text-2xl">
-                  How to Travel Abroad With Daniel
-                </p>
-                <p className="text-white ">May, 17, 2023 . 20min</p>
               </div>
             </div>
           </div>
