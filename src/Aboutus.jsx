@@ -5,8 +5,8 @@ import { faPeopleGroup, faHandHoldingHand, faSeedling, faPeoplePulling, faHandsH
 const Aboutus = () => {
   return (
     <>
-      <div className="mt-16   sm:mt-18 relative overflow-hidden ">
-      <div className=" mt-5 sm:mt-0 w-screen h-fit ">
+      <div className="mt-16   sm:mt-18 relative overflow-hidden w-screen ">
+      <div className=" mt-5 sm:mt-0 h-fit ">
         <div className="hero-main absolute sm:w-screen sm:ml-0 sm:h-40">
         <div className="py-10 flex justify-center text-white bg-red-500/50 h-full ">
             <h1 className="pt-20 sm:pt-5 sm:text-4xl pl-5 text-md ">
@@ -93,9 +93,9 @@ const Aboutus = () => {
             <hr></hr>
           </div>
 
-          <div className="flex sm:block px-40 mb-20 sm:px-5">
+          <div className="flex  sm:block px-40 mb-20 sm:px-5">
             
-            <div className="flex  gap-6  sm:w-full">
+            <div className="flex sm:flex-col gap-6  sm:w-full">
               <div className="flex gap-4">
                 <FontAwesomeIcon icon={faHandsHoldingChild} className="text-3xl border rounded-full p-4 w-10 h-10 text-gray-500"/>
                 <span>

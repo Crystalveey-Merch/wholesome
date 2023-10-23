@@ -5,7 +5,9 @@ export const articles = [
         category: 'travel',
         topic:'Pile earthly scene loved light blast.',
         author: 'BY FERARI MITSHEL',
-        content: 'Pleurs frémir couronne menivre majesté a n est . Quel genoux.Mein nennt sich freundliche lebt geneigt faßt so nach bilder.'
+        content: 'Pleurs frémir couronne menivre majesté a n est . Quel genoux.Mein nennt sich freundliche lebt geneigt faßt so nach bilder.',
+        tags:[""]
+
     },
     {
         id: '2',

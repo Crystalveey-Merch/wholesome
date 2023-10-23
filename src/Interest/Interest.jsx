@@ -66,16 +66,16 @@ const Interest = () => {
 
 
   return (
-    <div className="mt-20 w-screen  sm:mt-18 px-20 sm:px-5">
-    <div>
-        <h1 className='text-red-500 text-center uppercase Aceh text-4xl sm:text-3xl py-10'>Interest: {interestName}</h1>
+    <div className="mt-20 w-screen  sm:mt-18 ">
+    <div className='bg-sky-800 w-screen'>
+        <h1 className='text-white text-center uppercase Aceh text-3xl sm:text-3xl py-10'>Interest - {interestName}</h1>
     </div>
     <div className='py-5'>
-        <h1 className=' text-green-500 text-2xl  capitalize text-center'> Events</h1>
+        <h1 className=' text-gray-500 text-2xl  capitalize text-center'> Events</h1>
         <hr></hr>
     </div>
   
-        <div className='flex flex-wrap gap-5'>
+        <div className='flex flex-wrap gap-5 px-20 sm:px-5'>
         {event.length > 0 ? (
           event.map((event) => {
             return (
@@ -140,7 +140,7 @@ const Interest = () => {
         )}
         </div>
         <div className='py-5'>
-        <h1 className=' text-green-500 text-2xl  capitalize text-center py-5'>Articles/Publications</h1>
+        <h1 className=' text-gray-500 text-2xl  capitalize text-center py-5'>Articles/Publications</h1>
         <hr></hr>
 
     </div>
@@ -174,7 +174,7 @@ const Interest = () => {
           )}
           </div>
           <div className='py-5'>
-        <h1 className=' text-green-500 text-2xl  capitalize text-center my-5'>Community Activity</h1>
+        <h1 className=' text-gray-500 text-2xl  capitalize text-center my-5'>Community Activity</h1>
         <hr></hr>
 
     </div>

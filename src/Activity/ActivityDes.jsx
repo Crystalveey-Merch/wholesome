@@ -33,7 +33,7 @@ const Activity = () => {
   return (
 
 
-    <div className="mt-20 sm:mt-18 flex flex-col m-auto justify-center">
+    <div className="mt-20 sm:mt-18 flex flex-col m-auto justify-center  w-screen">
     <div>
         <h1 className="bg-red-500 text-center p-2 text-3xl sm:text-2xl">Community Activity</h1>
     </div>

@@ -32,12 +32,12 @@ const Section2first = () => {
     },
     1024: {
       slidesPerView: 4,
-      spaceBetween: 10,
+      spaceBetween:5,
       centeredSlides: true,
     },
   };
   return (
-    <div className="py-20  sm:py-5 bg-gray-800">
+    <div className="py-20  sm:py-5 bg-gray-300">
       <h1 className="text-white text-2xl   text-center Aceh text-md">
         COMMUNITY ACTIVITY
       </h1>
@@ -67,12 +67,12 @@ const Section2first = () => {
               return (
           <SwiperSlide key={activity.id}>
           <NavLink to={`/activity/${activity.title}`}>
-            <div className="relative w-72  bg-base-100 text-white shadow-xl  image-full">
+            <div className="relative w-72  text-white shadow-xl  image-full">
               <figure>
                 <img src={activity.src} />
               </figure>
-              <div>
-              <div className="badge text-green-500">{activity.date}</div>
+              <div className=" p-5 bg-gray-800">
+              <div className="badge text-green-500 ">{activity.date}</div>
                 <h1 className="text-2xl py-2"> {activity.title}</h1>
                 <p>{activity.content} </p>
               </div>

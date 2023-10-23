@@ -7,29 +7,29 @@ const Account = () => {
         >
 
             <div className='text-center text-2xl'>
-                <div className="pt-34  m-auto bg-black/25  pb-20 ">
+                <div className="pt-34  m-auto bg-gray-100  pb-20 ">
                     <div className=" h-full w-full flex rounded rounded-lg  pt-36  ">
                         <div className='w-1/2 text-lg  sm:hidden'>
-                            <h1 className='w-98 text-left ml-40 text-3xl'>Wholesome helps foster connections with like-minds
+                            <h1 className='w-98 text-left ml-40 text-3xl text-black'>Wholesome helps foster connections with like-minds
                                 that transcends borders and also share your
                                 experiences, knowledge and creativity</h1>
-                            <ul className='text-left ml-40 my-10'>
+                            <ul className='text-left ml-40 my-10 text-sky-600'>
                                 <li>Create a map of your travels</li>
                                 <li>Get advice from the community</li>
                                 <li>Blog about your adventures</li>
                             </ul>
                         </div>
                         <div className='w-1/2 sm:m-auto '>
-                            <h2 className="text-2xl text-center Aceh   text-white sm:text-xl mx-aluto">
+                            <h2 className="text-2xl text-center Aceh   text-red-500 sm:text-xl mx-aluto">
                                 Wholesome
                             </h2>
-                            <p>Get on board Today</p>
+                            <p className='text-green-500'>Get on board Today</p>
 
                             <div className="flex flex-col m-auto justify-center gap-5 mx-40 sm:mx-4 my-10">
                               <NavLink to="/signup">  <div className="btn bg-green-500 Aceh rounded-full text-bold border-none w-48 m-auto text-white" >
                                     <i className="fa-brands fa-google text-2xl"></i> Sign up
                                 </div></NavLink>
-                                <NavLink to="/login" > <div className="btn bg-transparent Aceh border-white rounded-full m-auto   hover:bg-gray-200/50 text-white  hover:text-white  w-48" >
+                                <NavLink to="/login" > <div className="btn bg-transparent   Aceh border-red-500 border-sky-500 rounded-full m-auto   hover:bg-sky-500/50 text-sky-500  hover:text-white  w-48" >
                                     <i className="fa-brands fa-facebook text-2xl"></i> Login
                                 </div> </NavLink>
 
@@ -43,9 +43,9 @@ const Account = () => {
   <img className="inline-block h-10 w-10 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80" alt=""/>
   <img className="inline-block h-10 w-10 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt=""/>
 </div>
-                        <p className='text-md py-4'>Join Awesome communities </p>
+                        <p className='text-md py-4 text-red-500'>Join Awesome communities </p>
                         <hr></hr>
-                        <p className='text-sm py-4'>Wholesome helps foster connections with like-minds
+                        <p className='text-sm py-4 text-gray-400'>Wholesome helps foster connections with like-minds
                             that transcends borders and also share your
                             experiences, knowledge and creativity</p>
                     </div>

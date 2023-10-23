@@ -3,10 +3,126 @@ import { useParams } from "react-router";
 import { articles } from "../data/artucles"
 import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import {auth, db} from "../firebase/auth.js";
+import { onAuthStateChanged } from "firebase/auth";
+import { collection, doc,getDoc, getDocs, query,  serverTimestamp,  setDoc, updateDoc, where } from "firebase/firestore";
 
 
 const Articles = () => {
+
+    const [authUser, setAuthUser] = useState(null);
+  useEffect(() => {
+    const listen = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setAuthUser(user);
+      } else {
+        setAuthUser(null);
+      }
+    });
+    return () => {
+      listen();
+    };
+  }, []);
+  const url = window.location.href
+  const userId = authUser?.uid;
+  const { id } = useParams();
+  const [loading, setLoading] = useState(false);
+  const [post, setPost] = useState(null);
+  const [posts, setPosts] = useState([]);
+  const [tags, setTags] = useState([]);
+  const [comments, setComments] = useState([]);
+  const [likes, setLikes] = useState([]);
+  const [userComment, setUserComment] = useState("");
+  const[profileData, setProfileData]=useState(null);
+  const [relatedPosts, setRelatedPosts] = useState([]);
+
+
+  useEffect(() => {
+    const fetchProfileData = async () => {
+      try {
+        const profileDocRef = doc(db, "users", post?.userId); // Assuming you have a "users" collection in Firebase
+        const profileDocSnapshot = await getDoc(profileDocRef);
+        setProfileData ( profileDocSnapshot.data())
+        
+      } catch (error) {
+        console.error("Error fetching profile data: ", error);
+      }
+    };
+  console.log(profileData)
+    if (post?.userId) {
+      fetchProfileData();
+    }
+  }, [post?.userId, profileData]);
+
+
+  useEffect(() => {
+    id && getPostDetail();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
+
+  const getPostDetail = async () => {
+    
+    setLoading(true);
+    const blogRef = collection(db, "posts");
+    const docRef = doc(db, "posts", id);
+    const postDetail = await getDoc(docRef);
+    const posts = await getDocs(blogRef);
+     const tags = [];
+     if (posts && Array.isArray(posts.docs)) {
+      posts.docs.forEach((doc) => {
+          const postData = doc.data();
+          if (postData && Array.isArray(postData.tags)) {
+              tags.push(...postData.tags);
+          }
+      });
+  }
+
+  const uniqueTags = [...new Set(tags)];
+  setTags(uniqueTags)
+  
+    setPost(postDetail.data());
+    const relatedPostQuery = query(
+      blogRef,
+      where("tags", "array-contains-any", postDetail.data().tags)
+    );
+    setComments(postDetail.data().comments ? postDetail.data().comments : []);
+    setLikes(postDetail.data().likes ? postDetail.data().likes : []);
+    const relatedPostsnapshot = await getDocs(relatedPostQuery);
+    const relatedPosts = [];
+    relatedPostsnapshot.forEach((doc) => {
+      relatedPosts.push({ id: doc.id, ...doc.data() });
+    });
+    setRelatedPosts(relatedPosts);
+    // setActive(null);
+    setLoading(false);
+
+    console.log(post.userId)
+  };
+
+
+  const handleLike = async () => {
+    if (userId) {
+      if (post?.likes) {
+        const index = likes.findIndex((id) => id === userId);
+        const updatedLikes = [...likes]; // Create a new array to modify
+  
+        if (index === -1) {
+          updatedLikes.push(userId);
+          setLikes([...new Set(updatedLikes)]);
+        } else {
+          updatedLikes.splice(index, 1);
+          setLikes(updatedLikes);
+        }
+  
+        await updateDoc(doc(db, "posts", id), {
+          ...post,
+          likes: updatedLikes,
+          timestamp: serverTimestamp(),
+        });
+      }
+    }
+  };
+
     const { articleName } = useParams();
 
 

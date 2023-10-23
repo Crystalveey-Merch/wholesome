@@ -75,15 +75,12 @@ const EventList = () => {
     setFilteredEvents(events);
   }
   return (
-    <div className="mt-20 w-screen  sm:mt-18">
+    <div className="my-20 w-screen  sm:mt-18">
       <div
         className="h-96"
-        style={{
-          backgroundImage: "url(/Images/Events/headimg.jpeg)",
-          backgroundRepeat: "none",
-        }}
+        
       >
-        <div className="h-full bg-green-700/75">
+        <div className="h-full bg-gray-800">
           <h1 className="text-white text-center sm:text-4xl pt-24 sm:pt-14">
             See upcoming Events Around You
           </h1>

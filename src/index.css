@@ -25,6 +25,18 @@
   font-weight: bold;
  }
 
+ .rti--input{
+width: 100% !important;
+padding: 2px !important;
+background-color: white !important;
+color: black;
+ }
+ .rti--tag{
+color: black !important;
+ }
+ .rti--tag button{
+color: red !important;
+ }
 .Aceh{
   font-family: "Aceh";
 }

@@ -16,11 +16,19 @@ import Articles from './Articles/Articles'
 import Podcast from './Podcast/Podcast'
 import Activity from './Activity/ActivityDes'
 import Interest from './Interest/Interest'
+import CreatePost from './CreatePost/CreatePost'
+import { ToastContainer } from 'react-toastify'
+import "react-toastify/dist/ReactToastify.css";
+import ProtectedRoute from './firebase/ProtectedRouteProps'
+import ArticleList from './Articles/ArticleList'
+import ReadMore from './Articles/ReadMore'
+import MyInterest from './MyInterest/MyInterest'
 
 // import "@fortawesome/fontawesome-free"
 
 function App() {
-  useEffect(() => {
+  useEffect(() =>
+   {
     // Scroll to the section based on the hash in the URL
     const hash = window.location.hash;
     if (hash) {
@@ -54,9 +62,20 @@ function App() {
 
        <Route path="/upcomingevents/:eventName" element={<EventDes/>}/>
        <Route path="/podcast" element={<Podcast/>}/>
+       <Route path="/createpost" element={
+  <ProtectedRoute>
+       <CreatePost/>
+        </ProtectedRoute>
+       }/>
+       
+       <Route path="/articlelist" element={<ArticleList/>}/>
+       <Route path="/readmore/:id" element={<ReadMore/>}/>
+       <Route path="/myinterest" element={<MyInterest/>}/>
 
      </Routes>
      <Footer/> 
+     <ToastContainer />
+
 </div>
   )
 }

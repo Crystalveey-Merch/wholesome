@@ -33,7 +33,7 @@ const Podcast = () => {
             </div>
           </div>
         </div>
-        <div className="py-10">
+        <div className="py-20">
           <h1 className="text-4xl text-center text-black">
             Why Wholesome Podcast?
           </h1>
@@ -54,7 +54,7 @@ const Podcast = () => {
             the future of a bold and progressive nation.
           </p>
         </div>
-        <div className="bg-red-100">
+        <div className="bg-gray-100">
           <h1 className="text-4xl text-center py-5 text-black ">
             Our recent Episodes
           </h1>
@@ -69,7 +69,7 @@ const Podcast = () => {
                   />
                 </div>
               </div>
-              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-b from-red-500 to-black  p-5">
+              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-b from-red-800 to-black  p-5">
                 <img src="/Images/man.jpeg" className="w-40 sm:w-20"></img>
                 <div className="m-auto">
                   <p className="  w-full text-white Aceh text-2xl ">
@@ -88,7 +88,7 @@ const Podcast = () => {
                   />
                 </div>
               </div>
-              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-b from-red-500 to-black  p-5">
+              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-b from-red-800 to-black  p-5">
                 <img src="/Images/man.jpeg" className="w-40 sm:w-20"></img>
                 <div className="m-auto">
                   <p className="  w-full text-white Aceh text-2xl ">
@@ -107,7 +107,7 @@ const Podcast = () => {
                   />
                 </div>
               </div>
-              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-b from-red-500 to-black  p-5">
+              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-b from-red-800 to-black  p-5">
                 <img src="/Images/man.jpeg" className="w-40 sm:w-20"></img>
                 <div className="m-auto">
                   <p className="  w-full text-white Aceh text-2xl ">
@@ -126,7 +126,7 @@ const Podcast = () => {
                   />
                 </div>
               </div>
-              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-b from-red-500 to-black  p-5">
+              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-b from-red-800 to-black  p-5">
                 <img src="/Images/man.jpeg" className="w-40 sm:w-20"></img>
                 <div className="m-auto">
                   <p className="  w-full text-white Aceh text-2xl ">
@@ -145,7 +145,7 @@ const Podcast = () => {
                   />
                 </div>
               </div>
-              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-b from-red-500 to-black  p-5">
+              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-b from-red-800 to-black  p-5">
                 <img src="/Images/man.jpeg" className="w-40 sm:w-20"></img>
                 <div className="m-auto">
                   <p className="  w-full text-white Aceh text-2xl ">
@@ -157,14 +157,14 @@ const Podcast = () => {
             </div>
               <div className=" flex w-auto sm:flex-col   gap-4  p-2 m-auto justify-center">
               <div className="avatar">
-                <div className="border border-4 border-red-500 border-double   h-fit p-4 rounded-full absolute -top-4 bg-white -left-3">
+                <div className="border border-4 border-red-800 border-double   h-fit p-4 rounded-full absolute -top-4 bg-white -left-3">
                   <FontAwesomeIcon
                     icon={faMicrophone}
                     className=" text-red-600"
                   />
                 </div>
               </div>
-              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-b from-red-500 to-black  p-5">
+              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-b from-red-800 to-black  p-5">
                 <img src="/Images/man.jpeg" className="w-40 sm:w-20"></img>
                 <div className="m-auto">
                   <p className="  w-full text-white Aceh text-2xl ">
@@ -183,7 +183,7 @@ const Podcast = () => {
                   />
                 </div>
               </div>
-              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-b from-red-500 to-black  p-5">
+              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-b from-red-800 to-black  p-5">
                 <img src="/Images/man.jpeg" className="w-40 sm:w-20"></img>
                 <div className="m-auto">
                   <p className="  w-full text-white Aceh text-2xl ">
@@ -202,7 +202,7 @@ const Podcast = () => {
                   />
                 </div>
               </div>
-              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-b from-red-500 to-black  p-5">
+              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-b from-red-800 to-black  p-5">
                 <img src="/Images/man.jpeg" className="w-40 sm:w-20"></img>
                 <div className="m-auto">
                   <p className="  w-full text-white Aceh text-2xl ">

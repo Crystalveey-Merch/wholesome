@@ -3,6 +3,11 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom";
 import { Fragment, useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth, db } from './firebase/auth.js';
+import { signOut } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import { useNavigate } from "react-router";
 import {
   Dialog,
   Disclosure,
@@ -13,9 +18,63 @@ import {
 import { events } from "./data/events";
 import { useParams } from "react-router";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
+
+
 
 const Header = () => {
   const { interestName } = useParams();
+
+  const [authUser, setAuthUser] = useState(null);
+  const [profileData, setProfileData] = useState(null);
+  const navigate = useNavigate();
+
+
+  useEffect(() => {
+    const listen = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setAuthUser(user);
+      } else {
+        setAuthUser(null);
+      }
+    });
+
+    return () => {
+      listen();
+    };
+  }, []);
+  const userId = authUser?.uid;
+
+  useEffect(() => {
+    const fetchProfileData = async () => {
+      try {
+        const profileDocRef = doc(db, "users", userId); // Assuming you have a "users" collection in Firestore
+        const profileDocSnapshot = await getDoc(profileDocRef);
+
+        if (profileDocSnapshot.exists()) {
+          const profileData = profileDocSnapshot.data();
+          setProfileData(profileData);
+          console.log(profileData.uid);
+        } else {
+          // Handle case where the profile document doesn't exist
+        }
+      } catch (error) {
+        // Handle any errors that occur during fetching
+        console.error("Error fetching profile data:", error);
+      }
+    };
+
+    fetchProfileData();
+  }, [userId]);
+
+  const userSignout = () => {
+    signOut(auth)
+      .then(() => {
+        navigate("/login");
+        toast.error("Signout Successful");
+      })
+      .catch((error) => toast.error(error));
+  };
 
   useEffect(() => {
     const selectedEvent = events.find((e) => e.interest === interestName);
@@ -34,8 +93,8 @@ const Header = () => {
   };
 
   return (
-    <div className="fixed  w-full z-30 top-0   flex   flex-col gap-0 sm:m-0  w-full items-center justify-between xl:px-8 sm:px-0 ">
-      <div className="navbar  w-screen text-black bg-white flex gap-20  justify-evenly px-10 sm:px-2 w-full ">
+    <div className="fixed  w-screen z-30 top-0   flex   flex-col gap-0 sm:m-0  w-full items-center justify-between xl:px-8 sm:px-0 ">
+      <div className="navbar   text-black bg-white flex gap-20  justify-evenly px-10 sm:px-5 w-full ">
         <div className="drawer  sm:block hidden w-5 flex left-0">
           <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
 
@@ -117,6 +176,19 @@ const Header = () => {
                   Interest
                 </Menu.Button>
                 <Menu.Items className="flex flex-col gap-4 text-base px-5">
+                  {authUser ? (
+                    <Menu.Item>
+                      {({ active }) => (
+                        <NavLink
+                          onClick={closeDrawer}
+                          className={`${active && "bg-blue-500"}`}
+                          to="/myinterest"
+                        >
+                          My Interest
+                        </NavLink>
+                      )}
+                    </Menu.Item>
+                  ) : (<div></div>)}
                   <Menu.Item>
                     {({ active }) => (
                       <NavLink
@@ -205,15 +277,26 @@ const Header = () => {
                   </Menu.Item>
                 </Menu.Items>
               </Menu>
-          
+
               <li>
                 <NavLink
                   to="/podcast"
                   onClick={closeDrawer}
-                  className="flex  text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                  className="flex  text-gray-200 rounded-lg dark:text-white hover:bg-gray-100  group"
                 >
                   <span className=" whitespace-nowrap">Podcast</span>
                 </NavLink>
+
+              </li>
+              <li>
+                <NavLink
+                  to="/createpost"
+                  onClick={closeDrawer}
+                  className="flex  text-gray-200 rounded-lg dark:text-white hover:bg-gray-100  group"
+                >
+                  <span className=" whitespace-nowrap">Create Post</span>
+                </NavLink>
+
               </li>
             </ul>
           </div>
@@ -264,6 +347,15 @@ const Header = () => {
                 className="dropdown-content z-[1] menu p-2 shadow bg-white w-52"
               >
                 <ul className="p-2">
+                  {authUser ? (
+                    <li>
+                      <NavLink
+                        to="/myinterest"
+                      >
+                        My Interest
+                      </NavLink>
+                    </li>
+                  ) : ("")}
                   <li>
                     <NavLink to={`/interest/health`}>Health & wellness</NavLink>
                   </li>
@@ -309,21 +401,82 @@ const Header = () => {
                 </ul>
               </ul>
             </div>
+            <NavLink to="/podcast">
+              <label
+                tabIndex={0}
+                className=" text-black bg-white border-none capitalize btn m-1 hover:bg-gray-100"
+              >
+                Podcast
+              </label></NavLink>
+            <NavLink to="/createpost">
+              <label
+                tabIndex={0}
+                className=" text-black bg-white border-none capitalize btn m-1 hover:bg-gray-100"
+              >
+                Create Post
+              </label></NavLink>
 
-            <label
-              tabIndex={0}
-              className=" text-black bg-white border-none capitalize btn m-1 hover:bg-gray-100"
-            >
-              <NavLink to="/podcast">Podcast</NavLink>
-            </label>
+            <NavLink to="/articlelist">
+              <label
+                tabIndex={0}
+                className=" text-black bg-white border-none capitalize btn m-1 hover:bg-gray-100"
+              >
+                Article List
+              </label></NavLink>
           </ul>
         </div>
         <div className="justify-end flex gap-10">
           <FontAwesomeIcon icon={faMagnifyingGlass} />
-          <NavLink to="/account">
-            {" "}
-            <FontAwesomeIcon icon={faUser} />{" "}
-          </NavLink>
+          {authUser ? (
+            <div className="flex">
+
+              {profileData ? (
+                <div className="dropdown dropdown-end ">
+                  <label tabIndex={0} className="btn-primary   flex-row ">
+                    <div className="w-10 h-10  m-1 bg-white border rounded-full overflow-hidden">
+                      <img
+                        src={profileData.photoURL}
+                        alt="Photo"
+                        className="rounded-full m-auto"
+                      />
+                    </div>
+                  </label>
+
+                  <ul
+                    tabIndex={0}
+                    className="menu menu-compact dropdown-content mt-3 p-4 shadow bg-white rounded-box w-60"
+                  >
+                    <li>
+                      <p className="lowercase  left text-m ">
+                        {profileData.email}
+                      </p>
+                    </li>
+
+                    <li className="">
+                      <NavLink
+                        to=""
+                        className="justify-between"
+                      >
+                        Dashboard
+                      </NavLink>
+                    </li>
+                    <li>
+                      <a>Settings</a>
+                    </li>
+                    <div onClick={userSignout} className="cursor-pointer bg-red-500 p-2 rounded-xl">
+                      <a className="text-white ">Logout</a>
+                    </div>
+                  </ul>
+                </div>
+              ) : (
+                <></>
+              )}
+            </div>
+          ) : (
+            <NavLink to="/account">
+              {" "}
+              <FontAwesomeIcon icon={faUser} />{" "}
+            </NavLink>)}
         </div>
       </div>
     </div>
