@@ -24,7 +24,6 @@ import {
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "../firebase/auth.js";
-import { Card } from 'flowbite-react';
 import { NavLink } from 'react-router-dom';
 
 
