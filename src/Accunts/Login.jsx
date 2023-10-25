@@ -42,7 +42,7 @@ const Login = () => {
                 
                 toast.success(<div className="text-black text-sm ">Login Successful</div>);
 
-                navigate("/");
+                navigate("/dashboard/profile");
 
             })
             .catch((err) => {

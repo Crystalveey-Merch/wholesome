@@ -298,6 +298,16 @@ const Header = () => {
                 </NavLink>
 
               </li>
+              <li>
+                <NavLink
+                  to="/articlelist"
+                  onClick={closeDrawer}
+                  className="flex  text-gray-200 rounded-lg dark:text-white hover:bg-gray-100  group"
+                >
+                  <span className=" whitespace-nowrap">Article List</span>
+                </NavLink>
+
+              </li>
             </ul>
           </div>
         </div>
@@ -454,7 +464,7 @@ const Header = () => {
 
                     <li className="">
                       <NavLink
-                        to=""
+                        to="dashboard/profile"
                         className="justify-between"
                       >
                         Dashboard

@@ -25,6 +25,8 @@ import {
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "../firebase/auth.js";
 import { NavLink } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faComment, faEye, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 
 
 const MyInterest = () => {
@@ -80,6 +82,8 @@ const MyInterest = () => {
                     querySnapshots.forEach((querySnapshot) => {
                         querySnapshot.forEach((doc) => {
                             const post = doc.data();
+                            post.id = doc.id;
+                            setPostId(post.id);
                             postData.push(post);
                         });
                     });
@@ -113,6 +117,23 @@ const MyInterest = () => {
         }
         return str;
       };
+      const handleReadMoreClick = async () => {
+        if (userId) {
+          try {
+            // Fetch the specific post based on postId
+            const postDocRef = doc(db, "posts", postId);
+            const postDoc = await getDoc(postDocRef);
+    
+            if (postDoc.exists()) {
+              // Update the Firestore document with the user's ID
+              const updatedViewers = [...postDoc.data().views, userId];
+              await updateDoc(postDocRef, { views: updatedViewers });
+            }
+          } catch (error) {
+            console.error("Error updating post document:", error);
+          }
+        }
+      };
     //   const handleReadMoreClick = async () => {
     //     if (userId) {
     //       try {
@@ -133,18 +154,23 @@ const MyInterest = () => {
     return (
         <div className='mt-40 sm:mt-16 mx-40 sm:mx-5 '>
             <div>
-                <h1 className='text-red-500 text-3xl my-5  sm:text-xl'>Posts Based on your Interests </h1>
+                <h1 className='text-red-500 text-3xl my-5 AcehLight sm:text-xl'>Filtered Based on your Interests </h1>
                 <hr></hr>
                 <div>
+
                     {userInterests.map((interest) => (
+
                         <div key={interest.key} className='my-5 p-5 sm:p-0'>
                             <h2 className='text-md  text-gray-100 my-5 bg-black uppercase w-fit p-2'>{interest.key}</h2>
+                            <div className='flex flex-col gap-5'>
                             {interestPosts
                                 .filter((post) => post.category === interest.key)
                                 .map((post) => (
+                                    <NavLink to={`/readmore/${post.id}`} onClick={handleReadMoreClick} key={post.id} className="hover:border">
+
                                     <div key={post.id}>
                                     <div className='flex   gap-5 px-20  sm:px-0' > 
-                                    <div className='h-full overflow-hidden w-96 h-40 sm:w-full'>
+                                    <div className=' overflow-hidden w-96 h-40 sm:w-full'>
                                     <img src={post.imgUrl}  />
                                     </div>
                                         
@@ -160,16 +186,37 @@ const MyInterest = () => {
                                                 </p>
                                                 </p>
                                                 {/* <NavLink to= {`/readmore/${post.id}`} onClick={handleReadMoreClick} > <button className='btn bg-red-500 text-white Aceh px-10 my-5'>Read</button></NavLink> */}
-
+                                                <span className="text-xl flex gap-5 py-2">
+              <FontAwesomeIcon
+                icon={faComment}
+                className="text-gray-300 my-auto "
+              />{" "}
+              {post.comments.length}
+              <FontAwesomeIcon
+                icon={faThumbsUp}
+                className="text-gray-300 my-auto "
+              />{" "}
+              {post.likes.length}
+              <FontAwesomeIcon
+                icon={faEye}
+                className="text-gray-300 my-auto "
+              />{" "}
+              {post.views ? post.views.length : 0}
+            </span>
                                         </div>
 
                                     </div>
 
 
                                     </div>
+                                    </NavLink>
+
                                 ))}
+                                </div>
                         </div>
                     ))}
+                  
+
                 </div>
 
             </div>

@@ -4,7 +4,7 @@ import React from "react"
 
 const Spinner : React.FC = () => {
   return (
-    <div className="w-screen  h-screen p-40 m-auto dark:bg-slate-950"> 
+    <div className="w-full  h-screen p-40 m-auto dark:bg-slate-950"> 
 
      <div className=' center  flex mt-40 '>
       <ClipLoader

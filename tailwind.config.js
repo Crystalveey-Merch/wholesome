@@ -1,6 +1,9 @@
 /** @type {import('tailwindcss').Config} */
+import flowbitePlugin from 'flowbite/plugin';
+
 export default {
-  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  content: ["./src/**/*.{js,jsx,ts,tsx}" , 'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}'
+],
   theme: {
     screens: {
       "2xl": { max: "1535px" },
@@ -20,7 +23,7 @@ export default {
     },
     extend: {},
   },
-  plugins: [require("daisyui")],
+  plugins: [require("daisyui"), flowbitePlugin],
   "files.associations": {
     "*.css": "tailwindcss"
   },

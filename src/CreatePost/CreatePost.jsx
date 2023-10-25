@@ -2,9 +2,9 @@ import { useState } from "react";
 import { TagsInput } from "react-tag-input-component";
 // import { Component } from "react";
 import MDEditor, { selectWord } from "@uiw/react-md-editor";
-import MarkdownIt from 'markdown-it';
+import MarkdownIt from "markdown-it";
 import { db, storage } from "../firebase/auth";
-import { auth } from '../firebase/auth.js';
+import { auth } from "../firebase/auth.js";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { useParams } from "react-router";
 import { useNavigate } from "react-router";
@@ -22,8 +22,6 @@ import {
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 
-
-
 const initialState = {
   postTitle: "",
   tags: [],
@@ -39,19 +37,15 @@ const categoryOption = [
   "Lifestyle and Fashion",
   "Health and wellness",
   "Food and Nutrition",
-  "Travel and Events'",
+  "Travel and Events",
   "Sports",
   "Business",
   "Volunteer and Philanthropy",
 ];
 
-
-
 // import "./tagsInput.css"
 
 const CreatePost = () => {
-
-
   const [selected, setSelected] = useState([]);
   const mdParser = new MarkdownIt();
   const [form, setForm] = useState(initialState);
@@ -59,19 +53,15 @@ const CreatePost = () => {
   const navigate = useNavigate();
   const [selectedFile, setSelectedFile] = useState();
   const [previewUrl, setPreviewUrl] = useState();
-
-
+const [userName, setUsername] = useState();
   const { postTitle, category, tags, postDescription, content } = form;
   const [progress, setProgress] = useState(null);
-
-
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
     console.log(postTitle, form.postDescription);
   };
   const handleTags = (tags = []) => {
-    
     setForm({ ...form, tags });
     console.log(form.tags);
   };
@@ -90,37 +80,57 @@ const CreatePost = () => {
     };
 
     fileReader.readAsDataURL(e.target.files[0]);
-
-  }
+  };
   const onCategoryChange = (e) => {
     setForm({ ...form, category: e.target.value });
     console.log(category);
   };
   const handleEditorChange = (text) => {
-
     console.log(text);
-    const content = (text)
+    const content = text;
     setForm({ ...form, content });
   };
 
-  const [authUser, setAuthUser] = useState(null)
-  useEffect(()=>{
-    const listen =onAuthStateChanged(auth, (user)=>{
-     if (user){
-       setAuthUser(user);
- 
-     }else{
-       setAuthUser(null);
-     }
-   
- 
-   })
- 
-   return()=>{
-     listen();
-   }
- }, [])
+  const [authUser, setAuthUser] = useState(null);
+  useEffect(() => {
+    const listen = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setAuthUser(user);
+      } else {
+        setAuthUser(null);
+      }
+    });
 
+    return () => {
+      listen();
+    };
+  }, []);
+  const userId = authUser?.uid;
+
+  useEffect(() => {
+    // Replace "userId" with the currently logged-in user's ID // You should get the actual user ID
+  
+    const fetchData = async () => {
+      try {
+        // 1. Retrieve the user's selected interests from Firestore
+        const userRef = doc(db, "users", userId); // Use doc to get the user document
+        const userDoc = await getDoc(userRef);
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          setUsername(userData.name);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+  
+    fetchData();
+  }, [userId]);
+  
+  // Use another useEffect to log the username
+  useEffect(() => {
+    console.log(userName);
+  }, [userName]);
 
   useEffect(() => {
     const uploadFile = () => {
@@ -159,138 +169,145 @@ const CreatePost = () => {
     selectedFile && uploadFile();
   }, [selectedFile]);
 
+  
+  const getPostDetail = async () => {
+
+    const docRef = doc(db, "posts", id);
+    const snapshot = await getDoc(docRef);
+    //  const blogId = id
+    if (snapshot.exists()) {
+      const data = snapshot.data() 
+        
+      setForm({ ...data });
+     console.log(data);
+      
+    } 
+  
+     
+  };
+  useEffect(() => {
+    id && getPostDetail  ();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
+
   const handleAddPost = async (e) => {
-   
     e.preventDefault();
 
-    if (category && tags && postTitle && postDescription && content ) {
-
-      
+    if (category && tags && postTitle && postDescription && content) {
       if (!id) {
         try {
           await addDoc(collection(db, "posts"), {
             ...form,
             timestamp: serverTimestamp(),
-            author: authUser.displayName,
+            author: userName,
             userId: authUser.uid,
           });
           toast.success("Post created successfully");
-          navigate("/posts")
+          navigate("/posts");
         } catch (err) {
           console.log(err);
         }
       } else {
+        if (id) {
+          try {
+            await updateDoc(doc(db, "posts", id), {
+              ...form,
+              timestamp: serverTimestamp(),
+              author: userName,
+              userId: authUser.uid,
+            });
+            toast.success("Post updated successfully");
+            navigate("/posts");
 
-        
-
-      if (id){
-        try {
-          await updateDoc(doc(db, "posts" , id), {
-            ...form,
-            timestamp: serverTimestamp(),
-            author: authUser.displayName,
-            userId: authUser.uid,
-          });
-          toast.success("Post updated successfully");
-          navigate("/posts")
-
-          // try {
-          //   await updateDoc(doc(db, "draft", id), {
-          //     ...form,
-          //     timestamp: serverTimestamp(),
-          //     author: authUser.displayName,
-          //     userId: authUser.uid,
-          //   });
-          //   toast.success("post updated successfully");
-          //   navigate("/posts")
-          // } catch (err) {
-          //   console.log(err);
+            // try {
+            //   await updateDoc(doc(db, "draft", id), {
+            //     ...form,
+            //     timestamp: serverTimestamp(),
+            //     author: authUser.displayName,
+            //     userId: authUser.uid,
+            //   });
+            //   toast.success("post updated successfully");
+            //   navigate("/posts")
+            // } catch (err) {
+            //   console.log(err);
+          } catch (err) {
+            console.log(err);
+            toast.error("Click on Publish Draft Instead");
           }
-      
-        
-        
-        catch (err) {
-          console.log(err);
-          toast.error("Click on Publish Draft Instead")
         }
-      }
-        
       }
     } else {
       return toast.error("All fields are mandatory to fill");
-    }}
+    }
+  };
 
   const handlepublishDraft = async (e) => {
-   
     e.preventDefault();
 
-    if (category && tags && postTitle && postDescription && content ) {
-      
+    if (category && tags && postTitle && postDescription && content) {
+      try {
+        await addDoc(collection(db, "posts"), {
+          ...form,
+          timestamp: serverTimestamp(),
+          author: authUser.displayName,
+          userId: authUser.uid,
+        });
+        toast.success("Draft Published");
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+  const handleAddDraft = async (e) => {
+    e.preventDefault();
+
+    if (category && tags && postTitle && postDescription && content) {
+      if (!id) {
         try {
-          await addDoc(collection(db, "posts"), {
+          await addDoc(collection(db, "draft"), {
             ...form,
             timestamp: serverTimestamp(),
             author: authUser.displayName,
             userId: authUser.uid,
           });
-          toast.success("Draft Published");
-          
+          toast.success("Added to Draft");
         } catch (err) {
           console.log(err);
         }
-      }}
-      const handleAddDraft = async (e) => {
-   
-        e.preventDefault();
-    
-        if (category && tags && postTitle && postDescription && content ) {
-          if (!id) {
-            try {
-              await addDoc(collection(db, "draft"), {
-                ...form,
-                timestamp: serverTimestamp(),
-                author: authUser.displayName,
-                userId: authUser.uid,
-              });
-              toast.success("Added to Draft");
-              
-            } catch (err) {
-              console.log(err);
-            }
-          }else {
-            if (id){
-              try {
-                await updateDoc(doc(db, "draft" , id), {
-                  ...form,
-                  timestamp: serverTimestamp(),
-                  author: authUser.displayName,
-                  userId: authUser.uid,
-                });
-                toast.success("Draft updated ");
-                
-              }
-              catch (err) {
-                console.log(err);
-                // toast.error("Click on Publish Draft Instead")
-              }
+      } else {
+        if (id) {
+          try {
+            await updateDoc(doc(db, "draft", id), {
+              ...form,
+              timestamp: serverTimestamp(),
+              author: authUser.displayName,
+              userId: authUser.uid,
+            });
+            toast.success("Draft updated ");
+          } catch (err) {
+            console.log(err);
+            // toast.error("Click on Publish Draft Instead")
           }
         }
       }
-         
-    };
+    }
+  };
 
   return (
     <div className="pt-24  flex m-auto  justify-center w-screen ">
-      <div style={{}} className="bg-white mx-40 sm:mx-0 px-40 sm:px-5 dark:text-white  w-full  ">
+      <div
+        style={{}}
+        className="bg-white mx-40 sm:mx-0 px-40 sm:px-5 dark:text-white  w-full  "
+      >
         <div className="   bg-white ">
-          <h3 className=" font-bold text-center my-10 text-4xl">Create Post on Wholesome</h3>
+          <h3 className=" font-bold text-center my-10 text-4xl">
+          {id ? "Edit Post" : "Create Post on Wholesome"}
+            
+          </h3>
           <form className="form-control" onSubmit={handleAddPost}>
-          <div
-                className=" text-red-500"
-              onClick={handleAddDraft}
-              >
-                <FontAwesomeIcon icon={faSave}/> Save to draft
-              </div>
+            <div className=" text-red-500" onClick={handleAddDraft}>
+              <FontAwesomeIcon icon={faSave} /> Save to draft
+            </div>
             <label className="text-gray-600 mt-5 text-md Aceh"> Title</label>
             <input
               required
@@ -368,12 +385,13 @@ const CreatePost = () => {
                   style={{ height: "500px", display: "" }}
                   value={content}
                   renderHTML={(text) => mdParser.render(text)}
-
                   onChange={handleEditorChange}
                   preview="edit"
-
                 />
-                <MDEditor.Markdown source={content} style={{ whiteSpace: 'pre-wrap' }} />
+                <MDEditor.Markdown
+                  source={content}
+                  style={{ whiteSpace: "pre-wrap" }}
+                />
               </div>
             </div>
             <div className="m-auto py-5">
@@ -395,8 +413,6 @@ const CreatePost = () => {
               ) : (
                 ""
               )}
-
-              
             </div>
           </form>
         </div>

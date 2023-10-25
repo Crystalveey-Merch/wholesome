@@ -1,6 +1,161 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useState, useEffect } from "react";
+import { TagsInput } from "react-tag-input-component";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  serverTimestamp,
+  updateDoc,
+} from "firebase/firestore";
+import { db, storage } from "../firebase/auth";
+
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../firebase/auth.js";
+import { toast } from "react-toastify";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+
+
 
 const HostEvent = () => {
+
+  const [authUser, setAuthUser] = useState(null);
+  useEffect(() => {
+    const listen = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setAuthUser(user);
+      } else {
+        setAuthUser(null);
+      }
+    });
+
+    return () => {
+      listen();
+    };
+  }, []);
+  const userId = authUser?.uid;
+  
+  const [selectedFile, setSelectedFile] = useState();
+  const [previewUrl, setPreviewUrl] = useState();
+  const [progress, setProgress] = useState(null);
+
+  const [form, setForm] = useState({
+    eventName: "",
+    theme: "",
+    dateTime: "",
+    category: "",
+    address: "",
+    eventDescription: "",
+    tags: [],
+    organizerName: "",
+    twitter: "",
+    website: "",
+    phoneNumber: "",
+    aboutOrganizer: "",
+  });
+  const categoryOption = [
+    "Lifestyle and Fashion",
+    "Health and wellness",
+    "Food and Nutrition",
+    "Travel and Events",
+    "Sports",
+    "Business",
+    "Volunteer and Philanthropy",
+  ];
+  const handleTags = (tags = []) => {
+    setForm({ ...form, tags });
+    console.log(form.tags);
+  };
+
+
+  const onCategoryChange = (e) => {
+    setForm({ ...form, category: e.target.value });
+  };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm({
+      ...form,
+      [name]: value,
+    });
+  };
+  const handleImageChange = (e) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      console.log(e.target.files);
+      setSelectedFile();
+      setPreviewUrl();
+      return;
+    }
+    setSelectedFile(e.target.files[0]);
+
+    const fileReader = new FileReader();
+    fileReader.onload = () => {
+      setPreviewUrl(fileReader.result);
+    };
+
+    fileReader.readAsDataURL(e.target.files[0]);
+  };
+  useEffect(() => {
+    const uploadFile = () => {
+      const storageRef = ref(storage, selectedFile.name);
+      const uploadTask = uploadBytesResumable(storageRef, selectedFile);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
+          setProgress(progress);
+          switch (snapshot.state) {
+            case "paused":
+              console.log("Upload is paused");
+              break;
+            case "running":
+              console.log("Upload is done");
+              break;
+            default:
+              break;
+          }
+        },
+        (error) => {
+          console.log(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => {
+            toast.info("Image upload ");
+            setForm((prev) => ({ ...prev, imgUrl: downloadUrl }));
+          });
+        }
+      );
+    };
+
+    selectedFile && uploadFile();
+  }, [selectedFile]);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    // Iterate through the keys in the 'form' object
+    for (const key in form) {
+      if (!form[key]=== undefined) {
+        // If any field is empty, display an error and exit
+        return toast.error("All fields are mandatory to fill");
+      }
+    }
+  
+    try {
+      // If all fields are filled, proceed to submit the form
+      await addDoc(collection(db, "events"), {
+        ...form,
+        timestamp: serverTimestamp(),
+        userId: userId,
+      });
+      toast.success("Event created successfully");
+    } catch (err) {
+      console.error(err);
+      // Handle the error appropriately
+    }
+  };
+
   return (
     <div className="w-screen">
       <div className=" ">
@@ -19,97 +174,227 @@ const HostEvent = () => {
             </p>
           </div>
         </div>
-<div className="bg-gray-800 py-20 ">
-<h1 className="text-red-500  text-center text-2xl">Reach the right people
-</h1>
-        <div className="m-auto flex sm:flex-col  gap-5 sm:gap-10 px-5   sm:px-0 sm:py-5  py-10 justify-center ">
-       
-          <div className="flex gap-5  flex-col w-72 sm:w-full p-5">
-            <img src="/Images/Events/host/meeting.jpeg"  className="m-auto" />
-            <div className="text-center">
-              <h1 className="text-xl text-green-500">Attendee Discovery</h1>
-              <p className="text-gray-200 ">
-                Personalised recommendations are tailored to attendees 
-                interests and location, matching them with events they’d be most
-                interested in attending
-              </p>
+        <div className="bg-gray-800 py-20 ">
+          <h1 className="text-red-500  text-center text-2xl">
+            Reach the right people
+          </h1>
+          <div className="m-auto flex sm:flex-col  gap-5 sm:gap-10 px-5   sm:px-0 sm:py-5  py-10 justify-center ">
+            <div className="flex gap-5  flex-col w-72 sm:w-full p-5">
+              <img src="/Images/Events/host/meeting.jpeg" className="m-auto" />
+              <div className="text-center">
+                <h1 className="text-xl text-green-500">Attendee Discovery</h1>
+                <p className="text-gray-200 ">
+                  Personalised recommendations are tailored to attendees
+                  interests and location, matching them with events they’d be
+                  most interested in attending
+                </p>
+              </div>
             </div>
-          </div>
-          <div className="flex gap-5 flex-col  w-72 sm:w-full  p-5">
-            <img src="/Images/Events/host/meeting3.jpeg"  className="m-auto" />
-            <div className="text-center">
-              <h1 className="text-xl text-green-500">Promotion</h1>
-              <p className="text-gray-200 ">
-              Promote your event across wholesome and get 14x more visibility on our homepage, related events, search results, and more
-              </p>
+            <div className="flex gap-5 flex-col  w-72 sm:w-full  p-5">
+              <img src="/Images/Events/host/meeting3.jpeg" className="m-auto" />
+              <div className="text-center">
+                <h1 className="text-xl text-green-500">Promotion</h1>
+                <p className="text-gray-200 ">
+                  Promote your event across wholesome and get 14x more
+                  visibility on our homepage, related events, search results,
+                  and more
+                </p>
+              </div>
             </div>
-          </div>
-          <div className="flex  gap-5 flex-col w-72 sm:w-full  p-5">
-            <img src="/Images/Events/host/meeting4.jpeg" className="m-auto" />
-            <div className="text-center">
-              <h1 className="text-xl text-green-500 text-center">Attendee Discovery</h1>
-              <p className="text-gray-200 ">
-                Personalised recommendations are tailored to attendees'
-                interests and location, matching them with events they’d be most
-                interested in attending
-              </p>
+            <div className="flex  gap-5 flex-col w-72 sm:w-full  p-5">
+              <img src="/Images/Events/host/meeting4.jpeg" className="m-auto" />
+              <div className="text-center">
+                <h1 className="text-xl text-green-500 text-center">
+                  Attendee Discovery
+                </h1>
+                <p className="text-gray-200 ">
+                  Personalised recommendations are tailored to attendees'
+                  interests and location, matching them with events they’d be
+                  most interested in attending
+                </p>
+              </div>
             </div>
           </div>
         </div>
-    </div>
         <div className="mx-40 px-40 sm:mx-5 sm:px-5">
-<h1 className="text-center text-black py-10 text-2xl ">Fill Event/Meetup Details</h1>
-<div className="flex flex-col gap-2 py-5">
-<label className="text-gray-500 Aceh text-sm"> Event Name</label>
-<input className="p-3 bg-transparent border rounded-xl text-black"></input>
-</div>
-<div className="flex flex-col gap-2">
-<label className="text-gray-500 Aceh text-sm"> Theme</label>
-<input className="p-3 bg-transparent border rounded-xl text-black"></input>
-</div>
-<div className="flex flex-col gap-2 py-2">
-<label className="text-gray-500 Aceh text-sm"> Date/Time</label>
-<input type="datetime-local" className="p-3 bg-transparent border rounded-xl text-black"></input>
-</div>
-<div className="flex flex-col gap-2 py-2">
-<label className="text-gray-500 Aceh text-sm"> Category</label>
-<input type="text" className="p-3 bg-transparent border rounded-xl text-black"></input>
-</div>
-<div className="flex flex-col gap-2 py-2">
-<label className="text-gray-500 Aceh text-sm"> Address</label>
-<input type="text" className="p-3  bg-transparent border rounded-xl  text-black"></input>
-</div>
-<div className="flex flex-col gap-2 py-2">
-<label className="text-gray-500 Aceh text-sm"> Description of Event</label>
-<input type="text" className="p-3 bg-transparent border rounded-xl text-black"></input>
-</div>
-<div className="flex flex-col gap-2 py-2">
-<label className="text-gray-500 Aceh text-sm">Tags</label>
-<input type="text" className="p-3 bg-transparent border rounded-xl  text-black"></input>
-</div>
-<p className="text-center text-xl text-red-300 py-2 my-5 border-b">Organizers Details</p>
-<div className="flex flex-col gap-2 py-2">
-<label className="text-gray-500 Aceh text-sm"> Organizers Name</label>
-<input type="text" className="p-3 bg-transparent border rounded-xl text-black"></input>
-</div>
-<div className="flex flex-col gap-2 py-2">
-<label className="text-gray-500 Aceh text-sm"> Twitter</label>
-<input type="text" className="p-3 bg-transparent border rounded-xl  text-black"></input>
-</div>
-<div className="flex flex-col gap-2 py-2">
-<label className="text-gray-500 Aceh text-sm"> Website</label>
-<input type="text" className="p-3 bg-transparent border rounded-xl text-black"></input>
-</div>
-<div className="flex flex-col gap-2 py-2">
-<label className="text-gray-500 Aceh text-sm"> Phone Number</label>
-<input type="text" className="p-3 bg-transparent border rounded-xl text-black"></input>
-</div>
-<div className="flex flex-col gap-2 py-2">
-<label className="text-gray-500 Aceh text-sm"> About Organiser</label>
-<input type="text" className="p-3 bg-transparent border rounded-xl text-black"></input>
-</div>
+          <h1 className="text-center text-black py-10 text-2xl ">
+            Fill Event/Meetup Details
+          </h1>
+          <form onSubmit={handleSubmit}>
+          <div className="flex flex-col gap-2 py-5">
+            <label className="text-gray-500 Aceh text-sm"> Event Name</label>
+            <input
+              name="eventName"
+              value={form.eventName}
+              onChange={handleChange}
+              className="p-3 bg-transparent border rounded-xl text-black"
+            ></input>
+          </div>
+          <div className="flex flex-col gap-2">
+            <label className="text-gray-500 Aceh text-sm"> Theme</label>
+            <input
+              name="theme"
+              value={form.theme}
+              onChange={handleChange}
+              className="p-3 bg-transparent border rounded-xl text-black"
+            ></input>
+          </div>
+          <div className="flex flex-col gap-2 py-2">
+            <label className="text-gray-500 Aceh text-sm"> Date/Time</label>
+            <input
+              name="dateTime"
+              value={form.dateTime}
+              onChange={handleChange}
+              type="datetime-local"
+              className="p-3 bg-transparent border rounded-xl text-black"
+            ></input>
+          </div>
+          <div className="flex flex-col gap-2 py-2">
+            <label className="text-gray-500 Aceh text-sm"> Category</label>
+            <select
+              value={form.category}
+              onChange={onCategoryChange}
+              className="bg-white text-black border p-4 rounded-xl w-full"
+            >
+              <option>Please select category</option>
+              {categoryOption.map((option, index) => (
+                <option value={option || ""} key={index}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="flex flex-col gap-2 py-2">
+          <label className="text-gray-600 mt-5 text-md Aceh">Add Image</label>
+            <input
+              type="file"
+              id="myFile"
+              onChange={handleImageChange}
+              accept="image/*, video/*"
+              name="filename"
+              className="file-input file-input-bordered w-full bg-white text-gray-500"
+            />
+             {progress > 0 && (
+                    <div className="w-40 bg-gray-200 flex m-auto rounded-full h-2.5 dark:bg-gray-700 overflow-hidden transition-all duration-300 ease-in-out">
+                      <div
+                        className="bg-red-600 h-2.5 rounded-full"
+                        style={{ width: `${progress}%` }}
+                      ></div>
+                    </div>
+                  )}
+            <div className="card p-4 m-auto">
+              {previewUrl && (
+                <img
+                  className="w-full h-30"
+                  src={previewUrl}
+                  alt="File Preview"
+                />
+              )}
+            </div>
+          </div>
 
-<button className=" btn m-auto flex my-5 p-3 w-40 bg-green-500 text-white border-none ">Submit</button>
+          <div className="flex flex-col gap-2 py-2">
+            <label className="text-gray-500 Aceh text-sm"> Address</label>
+            <input
+              name="address"
+              value={form.address}
+              onChange={handleChange}
+              type="text"
+              className="p-3  bg-transparent border rounded-xl  text-black"
+            ></input>
+          </div>
+          <div className="flex flex-col gap-2 py-2">
+            <label className="text-gray-500 Aceh text-sm">
+              {" "}
+              Description of Event
+            </label>
+            <input
+              name="eventDescription"
+              value={form.eventDescription}
+              onChange={handleChange}
+              type="text"
+              className="p-3 bg-transparent border rounded-xl text-black"
+            ></input>
+          </div>
+          <div className="flex flex-col gap-2 py-2">
+            <label className="text-gray-500 Aceh text-sm">Tags</label>
+            <TagsInput
+              value={form.tags}
+              name="Tags"
+              onChange={handleTags}
+              required
+              editable
+              placeHolder="Enter Post Tags"
+              classNames="text-black  w-full text-xl rti--container "
+            />{" "}
+          </div>
+          <p className="text-center text-xl text-red-300 py-2 my-5 border-b">
+            Organizers Details
+          </p>
+          <div className="flex flex-col gap-2 py-2">
+            <label className="text-gray-500 Aceh text-sm">
+              {" "}
+              Organizers Name
+            </label>
+            <input
+              name="organizerName"
+              value={form.organizerName}
+              onChange={handleChange}
+              type="text"
+              className="p-3 bg-transparent border rounded-xl text-black"
+            ></input>
+          </div>
+          <div className="flex flex-col gap-2 py-2">
+            <label className="text-gray-500 Aceh text-sm"> Twitter</label>
+            <input
+              name="twitter"
+              value={form.twitter}
+              onChange={handleChange}
+              type="text"
+              className="p-3 bg-transparent border rounded-xl  text-black"
+            ></input>
+          </div>
+          <div className="flex flex-col gap-2 py-2">
+            <label className="text-gray-500 Aceh text-sm"> Website</label>
+            <input
+              name="website"
+              value={form.website}
+              onChange={handleChange}
+              type="text"
+              className="p-3 bg-transparent border rounded-xl text-black"
+            ></input>
+          </div>
+          <div className="flex flex-col gap-2 py-2">
+            <label className="text-gray-500 Aceh text-sm"> Phone Number</label>
+            <input
+              name="phoneNumber"
+              value={form.phoneNumber}
+              onChange={handleChange}
+              type="text"
+              className="p-3 bg-transparent border rounded-xl text-black"
+            ></input>
+          </div>
+          <div className="flex flex-col gap-2 py-2">
+            <label className="text-gray-500 Aceh text-sm">
+              {" "}
+              About Organiser
+            </label>
+            <input
+              name="aboutOrganizer"
+              value={form.aboutOrganizer}
+              onChange={handleChange}
+              type="text"
+              className="p-3 bg-transparent border rounded-xl text-black"
+            ></input>
+          </div>
+
+          <button
+            className=" btn m-auto flex my-5 p-3 w-40 bg-green-500 text-white border-none "
+            type="submit"
+          >
+            Submit
+          </button>
+          </form>
         </div>
       </div>
     </div>
