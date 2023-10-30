@@ -33,7 +33,7 @@ const Section1plus = () => {
   };
   return (
     <div className='py-24   w-screen bg-white'>
-      <h1 className='text-2xl   text-center text-black Aceh py-5 uppercase sm:text-md sm:px-10'>What’s in store for members?</h1>
+      <h1 className='text-2xl   text-center text-black Aceh py-5 uppercase sm:text-md sm:px-5'>What’s in store for members?</h1>
       <Swiper
         slidesPerView={'auto'}
         centeredSlides={true}
@@ -55,65 +55,70 @@ const Section1plus = () => {
         <SwiperSlide>
           <div className=' flex  sm:flex-col px-60 sm:px-0 gap-20 sm:gap-5 ' >
             <div className="avatar m-auto ">
-              <div className=" w-60 sm:w-full sm:px-10 rounded-full">
-                <img src="/Images/whats-in -store/9372532.jpg" />
+              <div className=" w-60  rounded-full">
+                <img src="/Images/whats-in -store/9372532.jpg" width={50} />
               </div>
             </div>
-            <div className='h-full flex flex-col  gap-4 m-auto px-20'>
-              <h1 className='text-green-500 text-4xl sm:text-2xl'>Create a map of your travels</h1>
-              <p className='text-black text-xl  text-red-500'>&quot;i am photography enthusiast. Taking pictures of nature and animals is what i love doing &quot; &quot;i am photography enthusiast. Taking pictures of nature and animals is what i love doing &quot; </p>
+            <div className='h-full flex flex-col  gap-4 m-auto px-20 sm:px-5'>
+              <h1 className='text-purple-500 text-4xl sm:text-2xl sm:text-center '>Create a map of your travels</h1>
+              <hr></hr>
+              <p className='text-gray-400 text-xl sm:text-center  '>&quot;i am photography enthusiast. Taking pictures of nature and animals is what i love doing &quot; &quot;i am photography enthusiast. Taking pictures of nature and animals is what i love doing &quot; </p>
             </div>
           </div>
         </SwiperSlide>
         <SwiperSlide>
           <div className='flex  sm:flex-col px-60 sm:px-0 gap-20 sm:gap-5  ' >
             <div className="avatar m-auto">
-              <div className=" w-60 sm:w-full sm:px-10 rounded-full">
-                <img src="/Images/whats-in -store/32594.jpg" />
+              <div className=" w-60  rounded-full">
+                <img src="/Images/whats-in -store/32594.jpg"  width={50}/>
               </div>
             </div>
-            <div className='h-full flex flex-col  gap-4 m-auto px-20'>
-              <h1 className='text-green-500 text-4xl sm:text-2xl'>Get advice from the community</h1>
-              <p className='text-black text-xl  text-red-500'>&quot;i am photography enthusiast. Taking pictures of nature and animals is what i love doing &quot; &quot;i am photography enthusiast. Taking pictures of nature and animals is what i love doing &quot; </p>
+            <div className='h-full flex flex-col  gap-4 m-auto px-20 sm:px-5'>
+              <h1 className='text-yellow-500 text-4xl sm:text-center  sm:text-2xl'>Get advice from the community</h1>
+              <hr></hr>
+              <p className='text-gray-400 text-xl sm:text-center  '>&quot;i am photography enthusiast. Taking pictures of nature and animals is what i love doing &quot; &quot;i am photography enthusiast. Taking pictures of nature and animals is what i love doing &quot; </p>
             </div>
           </div>
         </SwiperSlide>
         <SwiperSlide>
           <div className='flex  sm:flex-col px-60 sm:px-0 gap-20 sm:gap-5' >
             <div className="avatar m-auto">
-              <div className=" w-60 sm:w-60 sm:px-10 rounded-full">
-                <img src="/Images/whats-in -store/19197307.jpg" />
+              <div className=" w-60 rounded-full">
+                <img src="/Images/whats-in -store/19197307.jpg"width={50} />
               </div>
             </div>
-            <div className='h-full flex flex-col  gap-4 m-auto px-20'>
-              <h1 className='text-green-500 text-4xl sm:text-2xl'>Blog about your adventures</h1>
-              <p className='text-black text-xl  text-red-500'>&quot;i am photography enthusiast. Taking pictures of nature and animals is what i love doing &quot; &quot;i am photography enthusiast. Taking pictures of nature and animals is what i love doing &quot; </p>
+            <div className='h-full flex flex-col  gap-4 m-auto px-20 sm:px-5'>
+              <h1 className='text-cyan-500 text-4xl sm:text-2xl sm:text-center '>Blog about your adventures</h1>
+              <hr></hr>
+              <p className='text-gray-400 text-xl sm:text-center  '>&quot;i am photography enthusiast. Taking pictures of nature and animals is what i love doing &quot; &quot;i am photography enthusiast. Taking pictures of nature and animals is what i love doing &quot; </p>
             </div>
           </div>
         </SwiperSlide>
         <SwiperSlide>
           <div className=' flex  sm:flex-col px-60 sm:px-0 gap-20 sm:gap-5' >
             <div className="avatar m-auto">
-              <div className=" w-60 sm:w-60 sm:px-10   rounded-full">
-                <img src="/Images/whats-in -store/2492241.jpg" />
+              <div className=" w-60   rounded-full">
+                <img src="/Images/whats-in -store/2492241.jpg" width={50}/>
               </div>
             </div>
-            <div className='h-full flex flex-col  gap-4 m-auto px-20'>
-              <h1 className='text-green-500 text-4xl sm:text-2xl'>Foster connections with like-minds that transcends borders</h1>
-              <p className='text-black text-xl  text-red-500'>&quot;i am photography enthusiast. Taking pictures of nature and animals is what i love doing &quot; &quot;i am photography enthusiast. Taking pictures of nature and animals is what i love doing &quot; </p>
+            <div className='h-full flex flex-col  gap-4 m-auto px-20 sm:px-5'>
+              <h1 className='text-red-500 text-4xl sm:text-2xl sm:text-center '>Foster connections with like-minds that transcends borders</h1>
+              <hr></hr>
+              <p className='text-gray-400 text-xl sm:text-center  '>&quot;i am photography enthusiast. Taking pictures of nature and animals is what i love doing &quot; &quot;i am photography enthusiast. Taking pictures of nature and animals is what i love doing &quot; </p>
             </div>
           </div>
         </SwiperSlide>
         <SwiperSlide>
           <div className=' flex  sm:flex-col px-60 sm:px-0 gap-20 sm:gap-5' >
             <div className="avatar m-auto">
-              <div className=" w-60 sm:w-60 sm:px-10  rounded-full">
-                <img src="/Images/whats-in -store/8056324.jpg" />
+              <div className=" w-60   rounded-full">
+                <img src="/Images/whats-in -store/8056324.jpg" width={50}/>
               </div>
             </div>
-            <div className='h-full flex flex-col  gap-4 m-auto px-20'>
-              <h1 className='text-green-500 text-4xl sm:text-2xl'>Share your experiences, knowledge and creativity</h1>
-              <p className='text-black text-xl  text-red-500'>&quot;i am photography enthusiast. Taking pictures of nature and animals is what i love doing &quot; &quot;i am photography enthusiast. Taking pictures of nature and animals is what i love doing &quot; </p>
+            <div className='h-full flex flex-col  gap-4 m-auto px-20 sm:px-5'>
+              <h1 className='text-sky-500 text-4xl sm:text-2xl sm:text-center '>Share your experiences, knowledge and creativity</h1>
+              <hr></hr>
+              <p className='text-gray-400 text-xl  sm:text-center '>&quot;i am photography enthusiast. Taking pictures of nature and animals is what i love doing &quot; &quot;i am photography enthusiast. Taking pictures of nature and animals is what i love doing &quot; </p>
             </div>
           </div>
         </SwiperSlide>

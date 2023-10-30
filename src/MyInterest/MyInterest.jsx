@@ -207,7 +207,7 @@ const MyInterest = () => {
                                     {interestPosts
                                         .filter((post) => post.category === interest.key)
                                         .map((post) => (
-                                            <NavLink to={`/readmore/${post.id}`} onClick={handleReadMoreClick} key={post.id} className="hover:border">
+                                            <NavLink to={`/readmore/${post.id}`} onClick={handleReadMoreClick} key={post.id} className="hover:border hvr-float">
 
                                                 <div key={post.id}>
                                                     <div className='flex   gap-5 px-20  sm:px-0' >

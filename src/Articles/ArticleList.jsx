@@ -276,7 +276,7 @@ const ArticleList = () => {
               to={`/readmore/${post.id}`}
               onClick={handleReadMoreClick}
               key={post.id}
-              className="hover:border"
+              className="hover:border hvr-float"
             >
               <div key={post.id} className="w-80 bg-white">
                 <div className="relative" style={{ height: "250px" }}>
@@ -357,7 +357,7 @@ const ArticleList = () => {
               key={category.id}
             >
               <NavLink
-                to={`/category/${category}`}
+                to={`/articlecategory/${category}`}
                 style={{ textDecoration: "none", color: "white" }}
               >
                 {category}

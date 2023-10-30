@@ -29,6 +29,7 @@ import MyPosts from "./Dashboard/MyPosts";
 import Statistics from "./Dashboard/Statistics";
 import "hover.css"
 import TagPosts from "./Articles/TagPosts";
+import CategoryPosts from "./Articles/CollectionPosts.";
 
 // import "@fortawesome/fontawesome-free"
 
@@ -90,6 +91,7 @@ function App() {
 
         <Route path="/articlelist" element={<ArticleList />} />
         <Route path="/articletag/:tag" element={<TagPosts />} />
+        <Route path="/articlecategory/:category" element={<CategoryPosts />} />
 
         <Route path="/readmore/:id" element={<ReadMore />} />
         <Route path="/myinterest" element={<MyInterest />} />

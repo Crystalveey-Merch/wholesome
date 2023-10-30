@@ -21,31 +21,31 @@ import {
   deleteField,
   increment,
 } from "firebase/firestore";
-const TagPosts = () => {
-  const [tagBlogs, setTagBlogs] = useState([]);
+const CategoryPosts = () => {
+  const [categoryBlogs, setCategoryBlogs] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { tag } = useParams();
+  const { category } = useParams();
 
 
-  const getTagBlogs = async () => {
+  const getCategoryBlogs = async () => {
     setLoading(true);
     const blogRef = collection(db, "posts");
-    const tagBlogQuery = query(blogRef, where("tags", "array-contains", tag));
-    const docSnapshot = await getDocs(tagBlogQuery);
+    const categoryBlogQuery = query(blogRef, where("category", "==", category));
+    const docSnapshot = await getDocs(categoryBlogQuery);
     const blogs = await getDocs(blogRef);
-    const tagBlogs = [];
+    const categoryBlogs = [];
     docSnapshot.forEach((doc) => {
-      tagBlogs.push({ id: doc.id, ...doc.data() });
+      categoryBlogs.push({ id: doc.id, ...doc.data() });
     });
-    setTagBlogs(tagBlogs);
+    setCategoryBlogs(categoryBlogs);
     setLoading(false);
-    const tags = [];
-  blogs.docs.map((doc) => tags.push(...doc.get("tags")));
- 
+    const categories = [];
+  blogs.docs.map((doc) => categories.push(...doc.get("category")));
+  console.log(categories)
+
   };
-  console.log(tagBlogs)
   useEffect(() => {
-    getTagBlogs();
+    getCategoryBlogs();
     // setActive(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -70,7 +70,7 @@ const TagPosts = () => {
   const handleReadMoreClick = async () => {
     try {
       // Fetch the specific post based on postId
-      const postDocRef = doc(db, "posts", postId);
+      const postDocRef = doc(db, "posts", category.id);
       const postDoc = await getDoc(postDocRef);
 
       if (postDoc.exists()) {
@@ -97,20 +97,20 @@ const TagPosts = () => {
         mt-5  pt-10 h-100 w-screen bg-stone-300 overflow-hidden">
         <div className="m-10 m-10 m_5 h-full ">
           <div className="blog-heading text-white shadow z-10  border-b-base-300 bg-green-600 text-left p-2 mb-4 fixed  hvr-bob ">
-            Tag: <strong>{tag.toLocaleUpperCase()}</strong>
+            category: <strong>{category.toLocaleUpperCase()}</strong>
           </div>
          
         <ul
-        key={tagBlogs.id}
+        key={categoryBlogs.id}
         style={{
           justifyContent: "center",
           alignItems: "center",
           width: "100%",
         }}
         role="list"
-        className=" flex flex-wrap  justify-content-center align-items-center  w-full p-10 mob_width my-20 pointer w_scr ">
-          {tagBlogs?.map((item) => (
-            <li className="mt-10 " key={tag.id}>
+        className=" flex flex-wrap  justify-content-center align-items-center  w-full p-10 mob_width my-20 pointer gap-10">
+          {categoryBlogs?.map((item) => (
+            <li className="mt-10 " key={category.id}>
             <NavLink
               to={`/readmore/${item.id}`}
               onClick={handleReadMoreClick}
@@ -134,7 +134,7 @@ const TagPosts = () => {
                   </p>
 
                   <p className="h-20 text-gray-600">
-                    {excerpt(item.postDescription, 150)}
+                    {excerpt(item.postDescription, 100)}
                   </p>
                   <span className="text-xl flex gap-5 py-2">
                     <FontAwesomeIcon
@@ -171,4 +171,4 @@ const TagPosts = () => {
   );
 };
 
-export default TagPosts;
+export default CategoryPosts;
