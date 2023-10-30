@@ -3,9 +3,76 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from 'swiper';
-
+import { useEffect, useState } from "react";
+import {
+    addDoc,
+    collection,
+    DocumentSnapshot,
+    endAt,
+    endBefore,
+    getDocs,
+    setDoc,
+    doc,
+    getDoc,
+    updateDoc,
+    limit,
+    limitToLast,
+    orderBy,
+    query,
+    startAfter,
+    deleteField,
+    where,
+    increment,
+  } from "firebase/firestore";
+  import { auth, db } from "../firebase/auth.js";
+  import Spinner from "../components/Spinner.tsx";
+import { onAuthStateChanged } from "firebase/auth";
 
 const Section3 = () => {
+    const [loading, setLoading] = useState(false);
+    const [users, setUsers] = useState([]);
+    const [randomUser, setRandomUser] = useState([]);
+
+    useEffect(() => {
+        const fetchUser = async () => {
+          setLoading(true);
+    
+          try {
+            const querySnapshot = await getDocs(collection(db, "users"));
+            const userData = [];
+            querySnapshot.forEach((doc) => {
+              // Extract the data from each document
+              const post = doc.data();
+              post.id = doc.id;
+    
+              userData.push(post);
+            });
+    
+            setUsers(userData);
+    console.log(userData);
+
+    const randomIndex = Math.floor(Math.random() * userData.length);
+
+
+    if (userData[randomIndex]) {
+        setRandomUser([userData[randomIndex]]);
+      }
+    // setUsers(randomUsers);
+    setLoading(false);
+          } catch (error) {
+            console.error("Error fetching posts:", error);
+            setRandomUser([]);
+          }
+        };
+    
+        fetchUser();
+      }, []);
+    
+      if (loading) {
+        return <Spinner />;
+      }
+      
+
     const breakpoints = {
         300: {
           slidesPerView: 1,
@@ -30,9 +97,9 @@ const Section3 = () => {
     
       };
     return (
-        <div className='bg-green-300'>
+        <div className='bg-white'>
                     <h1 className=' text-2xl  py-5 text-center text-red-500 Aceh text-md'>COMMUNITY SPOTLIGHT</h1>
-
+<hr></hr>
            <Swiper
             slidesPerView={'auto'}
             centeredSlides={true}
@@ -51,62 +118,26 @@ const Section3 = () => {
         modules={[ Autoplay, Navigation]}
         className="mySwiper w-full  px-4 sm:px-10 lg:px-10"
         >
-<SwiperSlide>
+        {
+            Array.isArray(randomUser) &&
+            randomUser.map((user) => (
+<SwiperSlide key={user.id}>
 <div className=' flex w-auto sm:flex-col gap-4  p-10 m-auto justify-center' >
                 <div className="avatar sm:m-auto">
                     <div className="w-40 sm:w-36 rounded-full">
-                        <img src="/Images/section2/lifestyle.jpeg" />
+                        <img src={user.photoURL}/>
                     </div>
                 </div>
-                <div className='h-full flex flex-col  gap-4'>
-                    <h1 className='text-black text-xl'>Serena Williams</h1>
-                    <p className='text-gray-600'>Professional Photographer</p>
-                    <p className='text-black w-64 text-red-500'>&quot;i am photography enthusiast. Taking pictures of nature and animals is what i love doing &quot;</p>
+                <div className='h-full flex flex-col  gap-2'>
+                    <h1 className='text-black text-xl sm:text-center'>{user.displayName}</h1>
+                    <p className='text-black w-64 text-red-500 sm:text-center'>{user.occupation}</p>
+
+                    <p className='text-black w-64 text-red-500 sm:text-center'>{user.shortBio}</p>
+
                 </div>
             </div>
 </SwiperSlide>
-<SwiperSlide>
-<div className=' flex w-auto sm:flex-col  gap-4  p-10 m-auto justify-center' >
-                <div className="avatar sm:m-auto">
-                    <div className="w-40 sm:w-36  rounded-full">
-                        <img src="/Images/man.jpeg" />
-                    </div>
-                </div>
-                <div className='h-full flex flex-col  gap-4'>
-                    <h1 className='text-black text-xl'>David Bekcham</h1>
-                    <p className='text-gray-600'>Lecturer</p>
-                    <p className='text-black w-64 text-red-500'>&quot;i am photography enthusiast. Taking pictures of nature and animals is what i love doing &quot;</p>
-                </div>
-            </div>
-</SwiperSlide>
-<SwiperSlide>
-<div className=' flex w-auto sm:flex-col  gap-4  p-10 m-auto justify-center' >
-                <div className="avatar sm:m-auto">
-                    <div className="w-40 sm:w-36 rounded-full">
-                        <img src="/Images/man2.jpeg" />
-                    </div>
-                </div>
-                <div className='h-full flex flex-col  gap-4'>
-                    <h1 className='text-black text-xl'>Daniel Whales</h1>
-                    <p className='text-gray-600'>Fashion Designer</p>
-                    <p className='text-black w-64 text-red-500'>&quot;i am photography enthusiast. Taking pictures of nature and animals is what i love doing &quot;</p>
-                </div>
-            </div>
-</SwiperSlide>
-<SwiperSlide>
-<div className=' flex w-auto sm:flex-col  gap-4  p-10 m-auto justify-center' >
-                <div className="avatar sm:m-auto">
-                    <div className="w-40 sm:w-36 rounded-full">
-                        <img src="/Images/woman.jpeg" />
-                    </div>
-                </div>
-                <div className='h-full flex flex-col  gap-4'>
-                    <h1 className='text-black text-xl'>Daisy Hail</h1>
-                    <p className='text-gray-600'>House  wife</p>
-                    <p className='text-black w-64 text-red-500'>&quot;i am photography enthusiast. Taking pictures of nature and animals is what i love doing &quot;</p>
-                </div>
-            </div>
-</SwiperSlide>
+))}
 
 
 

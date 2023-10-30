@@ -91,6 +91,7 @@ const Profile = () => {
     }, [authUser, userId]);
     console.log(selectedOptions.map((option) => option.key));
 
+    console.log(selectedImage)
     const handleImageUpload = async (event) => {
         const file = event.target.files[0];
         setSelectedImage(URL.createObjectURL(file));

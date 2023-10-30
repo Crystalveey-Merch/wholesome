@@ -18,7 +18,7 @@ const Section1 = () => {
     },
   };
   return (
-    <div className='relative w-full flex sm:flex-col bg-gray-100	'>
+    <div className='relative w-full flex sm:flex-col 	'>
        <div className=' h-full sm:h-auto  m-auto w-full p-20 sm:p-5 '>
       <h1 className=' my-2 drop-shadow-lg sm:text-5xl bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-black font-black text-7xl '>JOIN THE GLOBAL NETWORK</h1>
       <p className=' py-2 Aceh  text-2xl sm:text-2xl text-black' >Be part of our Community</p>

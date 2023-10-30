@@ -1,8 +1,28 @@
 import { NavLink } from "react-router-dom";
-import { events } from "../data/events";
 import { useParams } from "react-router";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useEffect } from "react";
+import {
+  addDoc,
+  collection,
+  DocumentSnapshot,
+  endAt,
+  endBefore,
+  getDocs,
+  setDoc,
+  doc,
+  getDoc,
+  updateDoc,
+  limit,
+  limitToLast,
+  orderBy,
+  query,
+  startAfter,
+  deleteField,
+  where,
+  increment,
+} from "firebase/firestore";
 import {
   faAngleDown,
   faAnglesDown,
@@ -15,27 +35,67 @@ import {
   faHorse,
   faMicrophone,
   faMicrophoneAlt,
+
   faMoneyBillTrendUp,
   faMusic,
   faPlusCircle,
 } from "@fortawesome/free-solid-svg-icons";
+import { auth, db } from "../firebase/auth.js";
+import Spinner from "../components/Spinner";
 
 const EventList = () => {
   const { eventName } = useParams();
   const [searchInput, setSearchInput] = useState("");
+  
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [eventId, setEventId] = useState([]);
+  const [filteredEvents, setFilteredEvents] = useState([]);
+  useEffect(() => {
+    const fetchPosts = async () => {
+      setLoading(true);
+
+      try {
+        const querySnapshot = await getDocs(collection(db, "events"));
+        const postData = [];
+        querySnapshot.forEach((doc) => {
+          // Extract the data from each document
+          const event = doc.data();
+          event.id = doc.id;
+          setEventId(event.id);
+
+          postData.push(event);
+        });
+
+        setEvents(postData);
+        setFilteredEvents(postData);
+
+       
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+        setEvents([]);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+  console.log(events)
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   const collectionProduct = () => {
     return events.filter((event) => event.name === eventName);
   };
-
-  const [filteredEvents, setFilteredEvents] = useState(events);
 
   const handleSearchInputChange = (e) => {
     setSearchInput(e.target.value);
     const searchText = e.target.value.toLowerCase();
     const filtered = events.filter((event) => {
       return (
-        event.name.toLowerCase().includes(searchText) ||
+        event.eventName.toLowerCase().includes(searchText) ||
         event.address.toLowerCase().includes(searchText) ||
         event.tags.some((tag) => tag.toLowerCase().includes(searchText))
       );
@@ -85,7 +145,7 @@ const EventList = () => {
             See upcoming Events Around You
           </h1>
           <hr className="w-64 m-auto my-5"></hr>
-          <p className="text-base-500  text-center text-xl font-bolder Aceh">
+          <p className="text-base-100 bg-red-600 py-2  text-center text-xl font-bolder Aceh">
             Discover, Explore, Attend: Your Event Search Starts Here
           </p>
           <div className="m-auto flex flex-col gap-2  justify-center py-5">
@@ -97,7 +157,7 @@ const EventList = () => {
             </p>
             <input
               type="text"
-              className="bg-transparent border rounded-full p-3 w-96 m-auto"
+              className="bg-transparent border border-2 rounded-full p-3 w-96 m-auto text-white"
               placeholder="Search an event/location"
               value={searchInput}
               onChange={handleSearchInputChange}
@@ -172,53 +232,33 @@ const EventList = () => {
                 key={event.id}
                 className="w-80 bg-white    shadow  dark:border-gray-700"
               >
-                <NavLink to={`/upcomingevents/${event.name}`}>
+                <NavLink to={`/upcomingevents/${event.id}`}>
                   <img
                     className="rounded-t-lg"
-                    src={event.src}
-                    alt={event.name}
+                    src={event.imgUrl}
+                    alt={event.eventName}
                   />
 
                   <div className="p-5">
                     <div className="badge">{event.category}</div>
                     <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 Aceh">
-                      {event.name}
+                      {event.eventName}
                     </h5>
 
                     <p className="mb-1 font-normal text-md Aceh text-red-500 dark:text-red-500">
-                      {event.date}
+                      {event.dateTime}
                     </p>
                     <p className="mb-3 font-normal text-md  text-gray-500 ">
                       {event.address}
                     </p>
-                    {event.organizer.map((organizer, index) => (
                       <p
-                        key={index}
-                        className="mb-3 font-normal Aceh text-md text-black"
+                        className=" font-normal Aceh text-md text-black"
                       >
-                        {organizer.name}
+                        {event.organizerName}
                       </p>
-                    ))}
                   </div>
                 </NavLink>
-                <div className="text-red-500 flex btn bg-red-500 text-white border-none w-40 Aceh">
-                  <h2>Attend</h2>
-                  <svg
-                    className="w-3.5 h-3.5 ml-2"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 14 10"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M1 5h12m0 0L9 1m4 4L9 9"
-                    />
-                  </svg>
-                </div>
+                
               </div>
             );
           })

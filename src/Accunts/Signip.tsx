@@ -121,9 +121,7 @@ const Signip = () => {
                       <h1 className="mb-8 text-xl text-center text-red-500">
                         Sign up
                       </h1>
-                      {selectedOptions.map((option) => (
-                        <div key={option.key}>{option.key}</div>
-                      ))}
+                
 
                       <form onSubmit={signup} className="form-control">
                         <input

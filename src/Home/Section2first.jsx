@@ -37,7 +37,7 @@ const Section2first = () => {
     },
   };
   return (
-    <div className="py-20  sm:py-5 bg-gray-300">
+    <div className="py-20  sm:py-5 bg-stone-700">
       <h1 className="text-white text-2xl   text-center Aceh text-md">
         COMMUNITY ACTIVITY
       </h1>

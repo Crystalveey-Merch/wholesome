@@ -150,6 +150,21 @@ const HostEvent = () => {
         userId: userId,
       });
       toast.success("Event created successfully");
+
+      setForm({
+        eventName: "",
+        theme: "",
+        dateTime: "",
+        category: "",
+        address: "",
+        eventDescription: "",
+        tags: [],
+        organizerName: "",
+        twitter: "",
+        website: "",
+        phoneNumber: "",
+        aboutOrganizer: "",}
+      )
     } catch (err) {
       console.error(err);
       // Handle the error appropriately
@@ -308,13 +323,13 @@ const HostEvent = () => {
               {" "}
               Description of Event
             </label>
-            <input
+            <textarea
               name="eventDescription"
               value={form.eventDescription}
               onChange={handleChange}
               type="text"
               className="p-3 bg-transparent border rounded-xl text-black"
-            ></input>
+            ></textarea>
           </div>
           <div className="flex flex-col gap-2 py-2">
             <label className="text-gray-500 Aceh text-sm">Tags</label>
