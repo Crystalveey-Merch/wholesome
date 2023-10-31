@@ -62,9 +62,10 @@ const MyInterest = () => {
         // Replace "userId" with the currently logged-in user's ID // You should get the actual user ID
 
         const fetchData = async () => {
-            setLoading(true);
+            
 
             try {
+                setLoading(true);
                 // 1. Retrieve the user's selected interests from Firestore
 
                 const userRef = doc(db, 'users', userId); // Use doc to get the user document

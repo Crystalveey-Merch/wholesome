@@ -49,13 +49,15 @@ const ReadMore = () => {
   const [authUser, setAuthUser] = useState(null);
   const [post, setPost] = useState(null);
   const [likes, setLikes] = useState([]);
-  const [commentLikes, setCommentLikes] = useState(0);
+  const [commentLikes, setCommentLikes] = useState("");
 
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(false);
   const [profileData, setProfileData] = useState(null);
+  const [userData, setUserData] = useState(null);
 
-  const [userComment, setUserComment] = useState(0);
+
+  const [userComment, setUserComment] = useState("");
 
   useEffect(() => {
     const listen = onAuthStateChanged(auth, (user) => {
@@ -92,6 +94,23 @@ const ReadMore = () => {
     // Check if the comment's userId matches the authenticated user's ID
     return comment.userId === authUserId;
   };
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const profileDocRef = doc(db, "users", userId); // Assuming you have a "users" collection in Firebase
+        const profileDocSnapshot = await getDoc(profileDocRef);
+        setUserData(profileDocSnapshot.data());
+      } catch (error) {
+        console.error("Error fetching user data: ", error);
+      }
+    };
+    // console.log(!profileData.photoURL);
+    if (userId) {
+      fetchUserData();
+    }
+  }, [userId, userData,]);
+
 
   useEffect(() => {
     const fetchSelectedPost = async () => {
@@ -162,7 +181,7 @@ const ReadMore = () => {
       }
     }
   };
-  handleCommentLikesUpdate  = async (e) => {
+ const handleCommentLikesUpdate  = async (e) => {
 
   }
   const handleComment = async (e) => {
@@ -173,10 +192,9 @@ const ReadMore = () => {
     const newComment = {
       createdAt: timestamp,
       userId,
-      name: profileData?.displayName,
+      name: userData?.displayName,
       body: userComment,
-      imgUrl: profileData?.photoURL,
-      commentLikes: commentLikes,  
+      imgUrl: userData?.photoURL,
     };
 
     // Create a copy of the existing comments array and add the new comment
@@ -278,6 +296,13 @@ const ReadMore = () => {
           </ul>
         </div>
         <div>
+        <div className="flex flex-col m-auto">
+        <img src={ profileData?.photoURL} className="rounded-full h-20 w-20 m-auto"/>
+        <h1 className="text-xl m-auto" > Author:  {profileData?.displayName}</h1>
+        <h1 className="text-xl m-auto" > Author:  {profileData?.bio}</h1>
+
+        
+        </div>
           <div className=" bg-white border rounded-xl text-base-200 p-5 mob_width">
             <div className="scroll">
               <h4 className="small-title Aceh text-red-500">
@@ -321,7 +346,7 @@ const ReadMore = () => {
               userComment={userComment}
               setUserComment={setUserComment}
               handleComment={handleComment}
-              imgUrl={profileData?.photoURL}
+              imgUrl={userData?.photoURL}
             />
           </div>
         </div>
