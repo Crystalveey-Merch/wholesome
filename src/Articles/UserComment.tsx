@@ -22,14 +22,9 @@ const UserComment = ({ name, body, createdAt, msg, isAuthUserComment, imgUrl }) 
               ) : (
                 <>
                   <div className={isAuthUserComment ? "right  m-2 " : "left  m-2 "}>
-                    <div className=" flex  gap-5 rounded-full overflow-hidden w-10 h-10">                    <img
-                      src={imgUrl}
-                      alt="user"
-                      className=" m-auto"
-                      // width={30}
-                      // height={30}
-                    />
-                     <div className="chat-header text-sky-500 flex gap-2  my-auto">
+                    <div className=" flex  gap-5 ml-14 ">   
+                   
+                     <div className="chat-header text-sky-500 flex gap-2 Aceh  my-auto">
                         {name}{" "}
                         <time className="text-sm opacity-50 text-red-500 flex gap-4">{createdAt.toDate().toDateString()}
                          
@@ -37,11 +32,19 @@ const UserComment = ({ name, body, createdAt, msg, isAuthUserComment, imgUrl }) 
                       </div>
                     </div>
 
-                    <div className="ml-10">
-                     
+                    <div className=" flex">
+                    <div className="rounded-full overflow-hidden w-10 h-10">               
+                      <img
+                      src={imgUrl}
+                      alt="user"
+                      className=" m-auto"
+                      // width={30}
+                      // height={30}
+                    />
+                    </div>
                       <div className= {isAuthUserComment? "chat chat-start  ":"chat chat-start w-full "}>
-                      <div className={isAuthUserComment ? "chat-bubble flex text-white    Aceh bg-red-500  " : "chat-bubble text-white chat-start Aceh bg-sky-800 flex gap-10  sm:gap-4"}>
-                      <span className="text-green-400 Aceh">
+                      <div className={isAuthUserComment ? "chat-bubble flex text-white    Aceh bg-red-500  " : "chat-bubble text-white chat-start Aceh bg-sky-800 flex gap-4  sm:gap-4"}>
+                      <span className="text-green-400 text-sm ">
                             {formatTime(createdAt.toDate())}</span>
                                {body}  
                       </div>
