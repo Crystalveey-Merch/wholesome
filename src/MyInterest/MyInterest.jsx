@@ -105,7 +105,6 @@ const MyInterest = () => {
                             post.id = doc.id;
                             setPostId(post.id);
                             postData.push(post);
-                            setLoading(false);
 
                             
                         });
