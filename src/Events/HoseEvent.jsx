@@ -43,7 +43,8 @@ const HostEvent = () => {
   const [form, setForm] = useState({
     eventName: "",
     theme: "",
-    dateTime: "",
+    StartDateTime: "",
+    EndDateTime:"",
     category: "",
     address: "",
     eventDescription: "",
@@ -255,10 +256,20 @@ const HostEvent = () => {
             ></input>
           </div>
           <div className="flex flex-col gap-2 py-2">
-            <label className="text-gray-500 Aceh text-sm"> Date/Time</label>
+            <label className="text-gray-500 Aceh text-sm"> Start Date/Time</label>
             <input
-              name="dateTime"
-              value={form.dateTime}
+              name="StartDateTime"
+              value={form.StartDateTime}
+              onChange={handleChange}
+              type="datetime-local"
+              className="p-3 bg-transparent border rounded-xl text-black"
+            ></input>
+          </div>
+          <div className="flex flex-col gap-2 py-2">
+            <label className="text-gray-500 Aceh text-sm"> End Date/Time</label>
+            <input
+              name="EndDateTime"
+              value={form.EndDateTime}
               onChange={handleChange}
               type="datetime-local"
               className="p-3 bg-transparent border rounded-xl text-black"

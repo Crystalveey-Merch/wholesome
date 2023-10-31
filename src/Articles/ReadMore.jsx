@@ -49,11 +49,13 @@ const ReadMore = () => {
   const [authUser, setAuthUser] = useState(null);
   const [post, setPost] = useState(null);
   const [likes, setLikes] = useState([]);
+  const [commentLikes, setCommentLikes] = useState(0);
+
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(false);
   const [profileData, setProfileData] = useState(null);
 
-  const [userComment, setUserComment] = useState("");
+  const [userComment, setUserComment] = useState(0);
 
   useEffect(() => {
     const listen = onAuthStateChanged(auth, (user) => {
@@ -99,6 +101,7 @@ const ReadMore = () => {
 
         setComments(docSnapshot.data().comments ? docSnapshot.data().comments : []);
         setLikes(docSnapshot.data().likes ? docSnapshot.data().likes : []);
+        setCommentLikes(docSnapshot.data().comments ? docSnapshot.data().comments.commentLikes : [])
 
         if (docSnapshot.exists()) {
           setPost(docSnapshot.data());
@@ -159,6 +162,9 @@ const ReadMore = () => {
       }
     }
   };
+  handleCommentLikesUpdate  = async (e) => {
+
+  }
   const handleComment = async (e) => {
     e.preventDefault();
 
@@ -170,6 +176,7 @@ const ReadMore = () => {
       name: profileData?.displayName,
       body: userComment,
       imgUrl: profileData?.photoURL,
+      commentLikes: commentLikes,  
     };
 
     // Create a copy of the existing comments array and add the new comment
@@ -287,6 +294,7 @@ const ReadMore = () => {
                     createdAt="any"
                     className="text-red-500"
                     imgUrl="any"
+                    commentLikes="any"
                   />
                 ) : (
                   <>
@@ -300,8 +308,11 @@ const ReadMore = () => {
                         key={id}
                       />
                     ))}
+                
+
+                    
                   </>
-                )}
+                )}              
               </div>
             </div>
 
@@ -310,6 +321,7 @@ const ReadMore = () => {
               userComment={userComment}
               setUserComment={setUserComment}
               handleComment={handleComment}
+              imgUrl={profileData?.photoURL}
             />
           </div>
         </div>
