@@ -70,7 +70,6 @@ const ReadMore = () => {
   }, []);
   const userId = authUser?.uid;
 
-  console.log(authUser);
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
@@ -81,7 +80,7 @@ const ReadMore = () => {
         console.error("Error fetching profile data: ", error);
       }
     };
-    console.log(profileData);
+    // console.log(!profileData.photoURL);
     if (post?.userId) {
       fetchProfileData();
     }
@@ -91,7 +90,6 @@ const ReadMore = () => {
     // Check if the comment's userId matches the authenticated user's ID
     return comment.userId === authUserId;
   };
-  console.log(userComment);
 
   useEffect(() => {
     const fetchSelectedPost = async () => {
@@ -171,6 +169,7 @@ const ReadMore = () => {
       userId,
       name: profileData?.displayName,
       body: userComment,
+      imgUrl: profileData?.photoURL,
     };
 
     // Create a copy of the existing comments array and add the new comment
@@ -182,7 +181,7 @@ const ReadMore = () => {
       });
 
       // Update the local state if needed
-      setComments(updatedComments);
+      setComments(updatedComments); 
       setUserComment(""); // Clear the input field
       toast.success("Comment posted successfully");
     } catch (error) {
@@ -287,6 +286,7 @@ const ReadMore = () => {
                     body="any"
                     createdAt="any"
                     className="text-red-500"
+                    imgUrl="any"
                   />
                 ) : (
                   <>

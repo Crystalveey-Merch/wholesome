@@ -1,6 +1,6 @@
 
 import React from "react";
-const UserComment = ({ name, body, createdAt, msg, isAuthUserComment }) => {
+const UserComment = ({ name, body, createdAt, msg, isAuthUserComment, imgUrl }) => {
   const formatTime = (date) => {
     return date.toLocaleTimeString('en-US', {
       hour: 'numeric',
@@ -21,13 +21,13 @@ const UserComment = ({ name, body, createdAt, msg, isAuthUserComment }) => {
                 <h4 className="mt-5 text-red-300 text-xl  text-center">{msg}</h4>
               ) : (
                 <>
-                  <div className={isAuthUserComment ? "right  m-2 " : "left  m-2  "}>
-                    <div className=" flex m-auto gap-5">                    <img
-                      src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                  <div className={isAuthUserComment ? "right  m-2 " : "left  m-2 "}>
+                    <div className=" flex  gap-5 rounded-full overflow-hidden w-10 h-10">                    <img
+                      src={imgUrl}
                       alt="user"
-                      className="rounded-circle my-auto "
-                      width={30}
-                      height={32}
+                      className=" m-auto"
+                      // width={30}
+                      // height={30}
                     />
                      <div className="chat-header text-sky-500 flex gap-2  my-auto">
                         {name}{" "}

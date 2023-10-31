@@ -43,6 +43,9 @@ const Login = () => {
         navigate("/dashboard/profile");
       })
       .catch((err) => {
+        toast.error(
+            err.message
+          );
         setError(err.message);
       });
   };
