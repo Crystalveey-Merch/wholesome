@@ -296,10 +296,11 @@ const ReadMore = () => {
           </ul>
         </div>
         <div>
-        <div className="flex flex-col m-auto">
+        <div className="flex flex-col m-auto my-5 bg-stone-400 p-5">
         <img src={ profileData?.photoURL} className="rounded-full h-20 w-20 m-auto"/>
-        <h1 className="text-xl m-auto" > Author:  {profileData?.displayName}</h1>
-        <h1 className="text-xl m-auto" > Author:  {profileData?.bio}</h1>
+        <h1 className="text-xl m-auto text-black" > Author:  {profileData?.displayName}</h1>
+        <h1 className="text-sm text-gray-200 m-auto" >Bio: {profileData?.shortBio}</h1>
+        <h1 className="text-sm text-gray-100 m-auto" >Email: {profileData?.email}</h1>
 
         
         </div>
