@@ -65,7 +65,7 @@ const MyInterest = () => {
             
 
             try {
-                setLoading(true);
+                // setLoading(true);
                 // 1. Retrieve the user's selected interests from Firestore
 
                 const userRef = doc(db, 'users', userId); // Use doc to get the user document
@@ -130,7 +130,7 @@ const MyInterest = () => {
                 console.error('Error fetching data:', error);
             }
             finally {
-                setLoading(false); // Move setLoading(false) to the finally block
+                // setLoading(false); // Move setLoading(false) to the finally block
               }
         };
 
