@@ -41,6 +41,7 @@ import {
   WhatsappShareButton,
 } from "react-share";
 import { faFacebook, faLinkedin, faTwitter, faWhatsapp } from "@fortawesome/free-brands-svg-icons";
+import { NavLink } from "react-router-dom";
 
 const ReadMore = () => {
   const url = window.location.href;
@@ -72,7 +73,8 @@ const ReadMore = () => {
       listen();
     };
   }, []);
-  const userId = authUser?.uid;
+
+ const userId = authUser?.uid;
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -223,6 +225,7 @@ const ReadMore = () => {
     );
     toast.success("Link copied successfully");
   }
+  const profileId=(post.userId)
   return (
     <div>
       <div className="mt-40 mx-40 sm:mx-5 sm:mt-30 flex flex-col m-auto justify-center">
@@ -296,13 +299,14 @@ const ReadMore = () => {
           </ul>
         </div>
         <div>
-        <div className="flex flex-col m-auto my-5 bg-stone-400 p-5">
+        <div className="flex flex-col m-auto my-5 bg-stone-200 p-5">
         <img src={ profileData?.photoURL} className="rounded-full h-20 w-20 m-auto"/>
-        <h1 className="text-xl m-auto text-black" > Author:  {profileData?.displayName}</h1>
-        <h1 className="text-sm text-gray-200 m-auto" >Bio: {profileData?.shortBio}</h1>
-        <h1 className="text-sm text-gray-100 m-auto" >Email: {profileData?.email}</h1>
-
-        
+        <h1 className="text-xl m-auto text-black py-5" > Author:  {profileData?.displayName}</h1>
+        <h1 className="text-sm text-gray-600 py-1 m-auto" >Bio: {profileData?.shortBio}</h1>
+        <h1 className="text-sm text-gray-600 py-1 m-auto" >Email: {profileData?.email}</h1>
+        <NavLink to={`/profile/${profileId}`}>
+<button className="btn w-40 flex hover:bg-black m-auto my-2 bg-gray-500  text-white ">View Profile</button>
+</NavLink>
         </div>
           <div className=" bg-white border rounded-xl text-base-200 p-5 mob_width">
             <div className="scroll">

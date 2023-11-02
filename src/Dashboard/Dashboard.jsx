@@ -118,7 +118,7 @@ const Dashboard = () => {
                 </NavLink>
               </li>
               <li>
-                <NavLink to="Draft" className="tooltip" data-tip="Draft">
+                <NavLink to="drafts" className="tooltip" data-tip="Draft">
                 <FontAwesomeIcon icon={faSave}/>
                 </NavLink>
               </li>
@@ -147,7 +147,7 @@ const Dashboard = () => {
           </div>
           <div className="drawer drawer-open">
               <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-              <div className="drawer-content flex flex-col items-center justify-center "> 
+              <div className="drawer-content flex   justify-center "> 
 
                   <Outlet />
                   {/* Hide the button on small screens (mobile) */}
@@ -161,7 +161,7 @@ const Dashboard = () => {
                       {/* Sidebar content here */}
                       <li><NavLink to='profile'>Profile</NavLink></li>
                       <li><NavLink to='myposts'>My Articles</NavLink></li>
-                      <li><NavLink to=''>My Draft</NavLink></li>
+                      <li><NavLink to='drafts'>My Draft</NavLink></li>
                       <li><NavLink to='statistics'>Statistics</NavLink></li>
                       <li><NavLink to='bookmarks'>Bookmarks</NavLink></li>
 

@@ -417,6 +417,8 @@ const HostEvent = () => {
           <button
             className=" btn m-auto flex my-5 p-3 w-40 bg-green-500 text-white border-none "
             type="submit"
+            disabled={progress < 100} 
+
           >
             Submit
           </button>

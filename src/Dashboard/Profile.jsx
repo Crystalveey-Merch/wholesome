@@ -16,6 +16,7 @@ const Profile = () => {
     const [twitterLink, setTwitterLink] = useState("");
     const [githubLink, setGithubLink] = useState("");
     const [linkedinLink, setLinkedinLink] = useState("");
+    const [instagramLink, setInstagramLink] = useState("");
     const [country, setCountry] = useState("");
     const [websiteUrl, setWebsiteUrl] = useState("");
     const [occupation, setOccupation] = useState("");
@@ -71,6 +72,7 @@ const Profile = () => {
                     setGithubLink(profileData.githubLink || "");
                     setLinkedinLink(profileData.linkedinLink || "");
                     setCountry(profileData.country || "");
+                    setInstagramLink(profileData.instagramLink || "");
                     setWebsiteUrl(profileData.websiteUrl || "");
                     setOccupation(profileData.occupation || "");
                     setName(profileData.displayName || "");
@@ -140,6 +142,7 @@ const Profile = () => {
                     shortBio,
                     facebookLink,
                     twitterLink,
+                    instagramLink,
                     linkedinLink,
                     selectedOptions: selectedKeysObject,
                     country,
@@ -247,7 +250,7 @@ const Profile = () => {
                                                 disabled
                                                 className="p-2 border rounded-full o  text-slate-600 enabled:hover:border-gray-400 "
                                                 placeholder={authUser.email}
-                                                // style={{ width: "40rem" }}
+                                            // style={{ width: "40rem" }}
                                             />
                                         </label>
                                         <label className="flex flex-col gap-4 justify-center">
@@ -335,6 +338,24 @@ const Profile = () => {
                                             className="p-2 border rounded-full  text-slate-600 enabled:hover:border-gray-400 "
                                             // style={{ width: "40rem" }}
                                             value={twitterLink}
+                                            // pattern="https://.*"
+                                            onChange={(e) => {
+                                                let url = e.target.value;
+                                                if (!url.match(/^(https?|ftp):\/\//)) {
+                                                    url = 'http://' + url;
+                                                }
+                                                setTwitterLink(url);
+                                            }}
+                                        />
+                                    </label>
+                                    <label className="flex flex-col  gap-4 justify-center">
+                                        <div className="Aceh text-black">Instagram:</div>
+
+                                        <input
+                                            type="url"
+                                            className="p-2 border rounded-full  text-slate-600 enabled:hover:border-gray-400 "
+                                            // style={{ width: "40rem" }}
+                                            value={instagramLink}
                                             pattern="https://.*"
                                             onChange={(e) => setTwitterLink(e.target.value)}
                                         />

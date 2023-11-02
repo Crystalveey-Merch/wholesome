@@ -53,7 +53,7 @@ const CreatePost = () => {
   const navigate = useNavigate();
   const [selectedFile, setSelectedFile] = useState();
   const [previewUrl, setPreviewUrl] = useState();
-const [userName, setUsername] = useState();
+  const [userName, setUsername] = useState();
   const { postTitle, category, tags, postDescription, content } = form;
   const [progress, setProgress] = useState(null);
 
@@ -109,7 +109,7 @@ const [userName, setUsername] = useState();
 
   useEffect(() => {
     // Replace "userId" with the currently logged-in user's ID // You should get the actual user ID
-  
+
     const fetchData = async () => {
       try {
         // 1. Retrieve the user's selected interests from Firestore
@@ -123,10 +123,33 @@ const [userName, setUsername] = useState();
         console.error("Error fetching data:", error);
       }
     };
-  
+
     fetchData();
   }, [userId]);
-  
+
+  useEffect(() => {
+    const getDraft = async () => {
+      const draftCollection = doc(db, "drafts", id);
+      const snapshot = await getDoc(draftCollection);
+      if (snapshot.exists()) {
+        const data = snapshot.data();
+        setForm({ ...data });
+      }
+    };
+    getDraft();
+  });
+  useEffect(() => {
+    const handleImageEdit = async () => {
+      const docRef = doc(db, "blogs", id);
+      const snapshot = await getDoc(docRef);
+      const data = snapshot.data();
+      if (data) {
+        const imgUrl = data.imgUrl;
+        setPreviewUrl(imgUrl);
+      }
+    };
+    handleImageEdit();
+  });
   // Use another useEffect to log the username
   useEffect(() => {
     console.log(userName);
@@ -169,24 +192,19 @@ const [userName, setUsername] = useState();
     selectedFile && uploadFile();
   }, [selectedFile]);
 
-  
   const getPostDetail = async () => {
-
     const docRef = doc(db, "posts", id);
     const snapshot = await getDoc(docRef);
     //  const blogId = id
     if (snapshot.exists()) {
-      const data = snapshot.data() 
-        
+      const data = snapshot.data();
+
       setForm({ ...data });
-     console.log(data);
-      
-    } 
-  
-     
+      console.log(data);
+    }
   };
   useEffect(() => {
-    id && getPostDetail  ();
+    id && getPostDetail();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
@@ -249,7 +267,7 @@ const [userName, setUsername] = useState();
         await addDoc(collection(db, "posts"), {
           ...form,
           timestamp: serverTimestamp(),
-          author: authUser.displayName,
+          author: userName,
           userId: authUser.uid,
         });
         toast.success("Draft Published");
@@ -264,10 +282,10 @@ const [userName, setUsername] = useState();
     if (category && tags && postTitle && postDescription && content) {
       if (!id) {
         try {
-          await addDoc(collection(db, "draft"), {
+          await addDoc(collection(db, "drafts"), {
             ...form,
             timestamp: serverTimestamp(),
-            author: authUser.displayName,
+            author: userName,
             userId: authUser.uid,
           });
           toast.success("Added to Draft");
@@ -277,7 +295,7 @@ const [userName, setUsername] = useState();
       } else {
         if (id) {
           try {
-            await updateDoc(doc(db, "draft", id), {
+            await updateDoc(doc(db, "drafts", id), {
               ...form,
               timestamp: serverTimestamp(),
               author: authUser.displayName,
@@ -301,13 +319,19 @@ const [userName, setUsername] = useState();
       >
         <div className="   bg-white ">
           <h3 className=" font-bold text-center my-10 text-4xl">
-          {id ? "Edit Post" : "Create Post on Wholesome"}
-            
+            {id ? "Edit Post" : "Create Post on Wholesome"}
           </h3>
           <form className="form-control" onSubmit={handleAddPost}>
-            <div className=" text-red-500" onClick={handleAddDraft}>
-              <FontAwesomeIcon icon={faSave} /> Save to draft
-            </div>
+            {id ? (
+              ""
+            ) : (
+              <div
+                className=" text-red-500 cursor-pointer"
+                onClick={handleAddDraft}
+              >
+                <FontAwesomeIcon icon={faSave} /> Save to draft
+              </div>
+            )}
             <label className="text-gray-600 mt-5 text-md Aceh"> Title</label>
             <input
               required
@@ -395,18 +419,29 @@ const [userName, setUsername] = useState();
               </div>
             </div>
             <div className="m-auto py-5">
-              <button
-                type="submit"
-                className="btn mr-10"
-                disabled={progress !== null && progress < 100}
-              >
-                {id ? "Update" : "Submit"}
-              </button>
+              {id ? (
+                <button
+                  type="submit"
+                  className="btn mr-10"
+                  disabled={progress < 100}
+                >
+                  Update
+                </button>
+              ) : (
+                <button
+                  type="submit"
+                  className="btn mr-10"
+                  disabled={progress < 100}
+                >
+                  Submit
+                </button>
+              )}
+
               {id ? (
                 <button
                   onClick={handlepublishDraft}
                   className="btn mr-10"
-                  disabled={progress !== null && progress < 100}
+                  disabled={progress < 100}
                 >
                   Publish Draft
                 </button>

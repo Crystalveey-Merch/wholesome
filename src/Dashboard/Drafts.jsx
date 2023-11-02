@@ -32,8 +32,8 @@ import {
   faThumbsUp,
   faTrashAlt,
 } from "@fortawesome/free-solid-svg-icons";
-const Bookmarks = () => {
-  const [bookmarks, setBookmarks] = useState([]);
+const Drafts = () => {
+  const [userPosts, setUserPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [authUser, setAuthUser] = useState(null);
   const [postId, setPostId] = useState([]);
@@ -54,76 +54,51 @@ const Bookmarks = () => {
   console.log(user);
 
   useEffect(() => {
-    const getBookmarks = async () => {
+    const getUserPosts = async () => {
       setLoading(true);
       try {
-    
-          const bookmarkDocRef = doc(db, "bookmarks", user);
-          const bookmarkDocSnapshot = await getDoc(bookmarkDocRef);
-          const bookmarksData = bookmarkDocSnapshot.data();
-          if (bookmarksData) {
-            const bookmarkList = Object.keys(bookmarksData).map((bookmarkId) => {
-                setPostId(bookmarkId)
-
-              return {
-                id: bookmarkId,
-                ...bookmarksData[bookmarkId]
-              };
-
-            });
-            setBookmarks(bookmarkList);
-          } else {
-            setBookmarks([]);
-          }
-        
-          setLoading(false)
+        const blogRef = collection(db, "drafts");
+        const userBlogQuery = query(blogRef, where("userId", "==", user));
+        const docSnapshot = await getDocs(userBlogQuery);
+        const userPosts = [];
+        docSnapshot.forEach((doc) => {
+          userPosts.push({ id: doc.id, ...doc.data() });
+        });
+        console.log(docSnapshot);
+        setUserPosts(userPosts);
+        if (userPosts.length > 0) {
+          setPostId(userPosts[0].id); // Set the ID of the first post
         }
-       
-        catch (error) {
-          console.error("Error fetching bookmarks: ", error);
-        }
-        
-        // setLoading(false);
-      };
-      if (user) {
-        getBookmarks();
+      } catch (error) {
+        console.error("Error fetching user posts:", error);
       }
+      setLoading(false);
+    };
+    if (user) {
+      getUserPosts();
+    }
   }, [user]);
-  console.log(bookmarks.id);
+  console.log(userPosts.id);
   console.log(postId);
 
   if (loading) {
     return <Spinner />;
   }
-  const handleReadMoreClick = async () => {
-    if (user) {
-      try {
-        // Fetch the specific post based on postId
-        const postDocRef = doc(db, "posts", postId);
-        const postDoc = await getDoc(postDocRef);
-
-        if (postDoc.exists()) {
-          // Update the Firestore document with the user's ID
-          const updatedViewers = [...postDoc.data().views, user];
-          await updateDoc(postDocRef, { views: updatedViewers });
-        }
-      } catch (error) {
-        console.error("Error updating post document:", error);
-      }
-    }
-  };
+ 
   const handleDelete = async () => {
-    
+    if (window.confirm("Are you sure wanted to delete that Draft ?")) {
       try {
         // setLoading(true);
-        await deleteDoc(doc(db, "bookmarks", postId));
-        toast.success("Post deleted successfully");
+        await deleteDoc(doc(db, "drafts", postId));
+        toast.success("Draft deleted successfully");
+        setUserPosts(userPosts.filter(item => item.id !== postId));
+
         // setLoading(false);
       } catch (err) {
         console.log(err);
       }
     }
- 
+  };
   const formatTime = (date) => {
     return date.toLocaleTimeString("en-US", {
       hour: "numeric",
@@ -137,16 +112,19 @@ const Bookmarks = () => {
       {authUser ? (
         <div>
           <div
-            className="    shadow-xl font-bold   border "
+            className="  align-center  shadow-xl font-bold m-auto  border "
             style={{
-              height: "h-full",
+              height: "auto",
             }}
           >
             <div className=" text-left  p-5 mb-4 text-2xl text-base-800 font-bold ">
-              My Bookmarks
+              My Drafts
             </div>
+            {userPosts && userPosts.length > 0 ? (
             <ul className=" flex flex-col gap-4 m-5  ">
-              {bookmarks?.map((item) => (
+       
+            
+              {userPosts?.map((item) => (
                 <li
                   className=" my-2   rounded-lg  p-4 hover:bg-gray-100 "
                   key={item.id}
@@ -154,7 +132,6 @@ const Bookmarks = () => {
                   <NavLink
                     to={`/readmore/${item.id}`}
                     className="   m-auto "
-                    onClick={handleReadMoreClick}
                   >
                     <div className=" " key={item.id}>
                       {/* </div> */}
@@ -169,20 +146,6 @@ const Bookmarks = () => {
                             at {formatTime(item.timestamp?.toDate())}
                           </p>
                           {/* <p className="text-gray-300">{excerpt(postDescription, 120)}</p> */}
-                          <div className="flex gap-4">
-                            <span className="text-gray-500 flex gap-2">
-                              <FontAwesomeIcon icon={faComment} />
-                              {item.comments?.length}
-                            </span>
-                            <span className="text-gray-500  flex gap-2">
-                              <FontAwesomeIcon icon={faThumbsUp} />
-                              {item.likes?.length}
-                            </span>
-                            <span className="text-gray-500 flex gap-2">
-                              <FontAwesomeIcon icon={faEye} />
-                              {item.views.length}
-                            </span>
-                          </div>
                          
                         </div>
                       </div>
@@ -199,10 +162,15 @@ const Bookmarks = () => {
                                     onClick={() => handleDelete()}
                                     className="  cursor-pointer text-red-500"
                                   >
-                                    <p>Remove</p>
+                                    <p>Delete</p>
                                   </span>
                                   <span className="">
-                                   
+                                    <NavLink
+                                      to={`/editpost/${item.id}`}
+                                      className="text-cyan-400"
+                                    >
+                                      <p>Edit</p>
+                                    </NavLink>
                                   </span>
                                 </span>
                               </>
@@ -210,14 +178,18 @@ const Bookmarks = () => {
                           </div>
                 </li>
               ))}
+              
             </ul>
+            ) : (
+          <p className="text-center  text-2xl h-96">No drafts available.</p>
+        )}
           </div>
         </div>
       ) : (
-        ""
+        " "
       )}
     </div>
   );
 };
 
-export default Bookmarks;
+export default Drafts;

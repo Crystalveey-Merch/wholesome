@@ -21,11 +21,30 @@ import {
   deleteField,
   increment,
 } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../firebase/auth.js";
+
 const TagPosts = () => {
   const [tagBlogs, setTagBlogs] = useState([]);
   const [loading, setLoading] = useState(false);
   const { tag } = useParams();
+  const [authUser, setAuthUser] = useState(null);
 
+
+  useEffect(() => {
+    const listen = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setAuthUser(user);
+      } else {
+        setAuthUser(null);
+      }
+    });
+
+    return () => {
+      listen();
+    };
+  }, []);
+  const userId = authUser?.uid;
 
   const getTagBlogs = async () => {
     setLoading(true);
@@ -37,6 +56,7 @@ const TagPosts = () => {
     docSnapshot.forEach((doc) => {
       tagBlogs.push({ id: doc.id, ...doc.data() });
     });
+
     setTagBlogs(tagBlogs);
     setLoading(false);
     const tags = [];

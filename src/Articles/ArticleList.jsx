@@ -70,15 +70,20 @@ const ArticleList = () => {
       try {
         const querySnapshot = await getDocs(collection(db, "posts"));
         const postData = [];
+        const postIds = [];
+        // const postIds = []; // Create an array to store post IDs
+
         querySnapshot.forEach((doc) => {
-          // Extract the data from each document
           const post = doc.data();
           post.id = doc.id;
-          setPostId(post.id);
-
           postData.push(post);
+          postIds.push(doc.id); // Collect post IDs in the array
         });
-
+        
+        // Set the postId state with the collected post IDs
+        
+        setPostId(postIds);
+    
         setPosts(postData);
 
         const tags = [];
@@ -120,9 +125,58 @@ const ArticleList = () => {
       }
     };
 
-    fetchPosts();
-  }, []);
 
+    fetchPosts();
+  },[] );
+
+  useEffect(() => {
+    // Retrieve the view count from Firestore
+    const fetchBookmarkCount = async () => {
+      try {
+        const docRef = doc(db, 'posts', postId);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          setBookmarkCount(docSnap.data().count);
+        } else {
+          console.log('Post document does not exist.');
+        }
+      } catch (error) {
+        console.log('Error fetching view count:', error);
+      }
+    };
+    fetchBookmarkCount();
+
+
+  }, [postId]);
+
+  console.log(bookmarkCount)
+
+  useEffect(() => {
+    const checkBookmarkStatus = async () => {
+      try {
+        if (authUser && postId) {
+          const bookmarkDocRef = doc(db, "bookmarks", authUser.uid);
+          const bookmarkDocSnapshot = await getDoc(bookmarkDocRef);
+
+          if (bookmarkDocSnapshot.exists()) {
+            const bookmarks = bookmarkDocSnapshot.data();
+            const isBookmarked = postId in bookmarks;
+            setIsBookmarked(isBookmarked);
+            console.log(bookmarks.length);
+          } else {
+            setIsBookmarked(false); // Document doesn't exist, so it's not bookmarked
+          }
+        }
+      } catch (error) {
+        console.error("Error checking bookmark status: ", error);
+      }
+    };
+
+    checkBookmarkStatus();
+  }, [authUser, postId]);
+
+
+  console.log(postId)
   if (loading) {
     return <Spinner />;
   }
@@ -133,6 +187,8 @@ const ArticleList = () => {
     }
     return str;
   };
+
+
   const handleReadMoreClick = async () => {
     try {
       // Fetch the specific post based on postId
@@ -166,31 +222,35 @@ const ArticleList = () => {
   };
   const buttonStyle = {
     color: isBookmarked ? "gold" : "gray",
-    opacity: isBookmarked ? "100%" : "50%",
+    opacity: isBookmarked ? "100%" : "75%",
     // Add any other button styles as needed
   };
 
-  const handleAddBookmark = async () => {
-    const bookmarkRef = doc(db, "bookmarks", userId); // Assuming you have the authenticated user's ID available
+  const handleAddBookmark = async (postId) => {
+    if (!userId) {
+      console.error("userId is undefined or null");
+      return;
+     }
+  
+    const bookmarkRef = doc(db, "bookmarks", userId);
     const blogRef = doc(db, "posts", postId);
-
+  
     try {
       if (isBookmarked) {
-        // If the post is already bookmarked, remove the bookmark
+
         await updateDoc(bookmarkRef, {
           [postId]: deleteField(),
         });
         setIsBookmarked(false);
         toast.success("Removed from Bookmarks");
+  
+        setBookmarkCount((prevCount) => prevCount - 1);
       } else {
-        // If the post is not bookmarked, add the bookmark
-
-        // Get the blog data from the "posts" collection
+  
         const blogSnapshot = await getDoc(blogRef);
         if (blogSnapshot.exists()) {
           const blogData = blogSnapshot.data();
-
-          // Add the entire blog data to the "bookmarks" collection
+  
           await setDoc(
             bookmarkRef,
             {
@@ -201,15 +261,16 @@ const ArticleList = () => {
             },
             { merge: true }
           );
-
+  
           // Update the "posts" collection's count
           await updateDoc(blogRef, {
             count: increment(1),
           });
-
+  
           setIsBookmarked(true);
           toast.success("Added to Bookmarks");
-          setBookmarkCount(bookmarkCount + 1);
+  
+          setBookmarkCount((prevCount) => prevCount + 1);
         }
       }
     } catch (error) {
@@ -230,8 +291,8 @@ const ArticleList = () => {
                 key={post.id}
                 className=""
               >
-                <div className="card card-side  bg-base-100 ">
-                  <figure className="w-60">
+                <div className="card card-side  w-1/2 bg-base-100 ">
+                  <figure className="w-1/2">
                     <img src={post.imgUrl} alt="Album" />
                   </figure>
                   <div className="card-body">
@@ -270,68 +331,73 @@ const ArticleList = () => {
               </NavLink>
             ))}
         </div>
-        <div className="flex  flex-wrap m-auto justify-center gap-10">
+        <div className="flex   flex-wrap m-auto justify-center gap-10">
           {posts.map((post) => (
-            <NavLink
-              to={`/readmore/${post.id}`}
-              onClick={handleReadMoreClick}
-              key={post.id}
-              className="hover:border hvr-float"
-            >
-              <div key={post.id} className="w-80 bg-white">
-                <div className="relative" style={{ height: "250px" }}>
-                  <img src={post.imgUrl} className="h-full m-auto" />
-                  <p className="badge bg-red-500 p-4 absolute top-5 text-white uppercase border-none ml-2">
-                    {post.category}
-                  </p>
-                </div>
-                <div className="px-5">
-                  <h2 className="Aceh text-xl py-2 text-black ">
-                    {post.postTitle}
-                  </h2>
-                  <p className="mt-1 text-sm leading-5 text-red-500 border-b Aceh">
-                    Posted on {post.timestamp.toDate().toDateString()} at{" "}
-                    {formatTime(post.timestamp.toDate())}
-                  </p>
+            <div className="relative" key={post.id}>
+              <NavLink
+                to={`/readmore/${post.id}`}
+                onClick={handleReadMoreClick}
 
-                  <p className="h-20 text-gray-600">
-                    {excerpt(post.postDescription, 150)}
-                  </p>
-                  <span className="text-xl flex gap-5 py-2">
-                    <FontAwesomeIcon
-                      icon={faComment}
-                      className="text-gray-300 my-auto "
-                    />{" "}
-                    {post.comments.length}
-                    <FontAwesomeIcon
-                      icon={faThumbsUp}
-                      className="text-gray-300 my-auto "
-                    />{" "}
-                    {post.likes.length}
-                    <FontAwesomeIcon
-                      icon={faEye}
-                      className="text-gray-300 my-auto "
-                    />{" "}
-                    {post.views ? post.views.length : 0}
-                    <FontAwesomeIcon
-                      onClick={handleAddBookmark}
-                      icon={faBookmark}
-                      style={buttonStyle}
-                      className="my-auto "
-                    />{" "}
-                    {bookmarkCount}
-                  </span>
+                className="hover:border hvr-float"
+              >
+                <div key={post.id} className="w-80 bg-white " style={{ height: "500px" }}>
+                  <div className="relative" style={{ height: "250px" }}>
+                    <img src={post.imgUrl} className="h-full m-auto" />
+                    <p className="badge bg-red-500 p-4 absolute top-5 text-white uppercase border-none ml-2">
+                      {post.category}
+                    </p>
+                  </div>
+                  <div className="px-5">
+                    <h2 className="Aceh text-xl py-2 text-black ">
+                      {post.postTitle}
+                    </h2>
+                    <p className="mt-1 text-sm leading-5 text-red-500 border-b Aceh">
+                      Posted on {post.timestamp.toDate().toDateString()} at{" "}
+                      {formatTime(post.timestamp.toDate())}
+                    </p>
+
+                    <p className="h-20 text-gray-600">
+                      {excerpt(post.postDescription, 150)}
+                    </p>
+
+                  </div>
                 </div>
-              </div>
-            </NavLink>
+              </NavLink>
+              <span className="text-xl absolute flex gap-5 py-2 top-52 bg-red-800/75 text-white w-full m-auto justify-center" key={post.id}>
+
+                <span>
+                  <FontAwesomeIcon
+                    icon={faComment}
+                    className="text-gray-300 my-auto " />{" "}
+                  {post.comments.length}
+                </span>
+                <span>  <FontAwesomeIcon
+                  icon={faThumbsUp}
+                  className="text-gray-300 my-auto " />{" "}
+                  {post.likes.length}
+                </span>
+                <span>  <FontAwesomeIcon
+                  icon={faEye}
+                  className="text-gray-300 my-auto " />{" "}
+                  {post.views ? post.views.length : 0}
+                </span>
+                <span>  <FontAwesomeIcon
+                  onClick={handleAddBookmark}
+                  icon={faBookmark}
+                  style={buttonStyle}
+                  className="my-auto " />{" "}
+                  {bookmarkCount}
+                </span>
+              </span>
+            </div>
           ))}
         </div>
       </div>
       <div
         className="tags p-5  m-5 bg-white w-2/3  sm:w-full sm:m-0 sm:my-10 "
-       
+
       >
-        <div>
+        <div >
           <h2 className="text-xl">Tags</h2>
           <hr></hr>
           {tags?.map((tag) => (

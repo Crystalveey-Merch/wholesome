@@ -30,6 +30,10 @@ import Statistics from "./Dashboard/Statistics";
 import "hover.css"
 import TagPosts from "./Articles/TagPosts";
 import CategoryPosts from "./Articles/CollectionPosts.";
+import Bookmarks from "./Dashboard/Bookmarks";
+import ActivityForm from "./Activity/ActivityForm";
+import Drafts from "./Dashboard/Drafts";
+import Profilepage from "./Dashboard/Profilepage";
 
 // import "@fortawesome/fontawesome-free"
 
@@ -68,6 +72,8 @@ function App() {
 
         <Route path="/article/:articleName" element={<Articles />} />
         <Route path="/activity/:activityName" element={<Activity />} />
+        <Route path="/activity/adminform" element={<ActivityForm />} />
+
         <Route path="/interest/:interestName" element={<Interest />} />
 
         <Route path="/upcomingevents/:id" element={<EventDes />} />
@@ -107,9 +113,13 @@ function App() {
           <Route path="/dashboard/profile" element={<Profile />} />
           <Route path="/dashboard/myposts" element={<MyPosts />} />
           <Route path="/dashboard/statistics" element={<Statistics />} />
+          <Route path="/dashboard/drafts" element={<Drafts />} />
+
+          <Route path="/dashboard/bookmarks" element={<Bookmarks />} />
 
         </Route>
-
+        <Route path="/profile/:profileId" element={<Profilepage />} />
+        
       </Routes>
       <Footer />
       <ToastContainer />
