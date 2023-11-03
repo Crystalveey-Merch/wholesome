@@ -151,23 +151,34 @@ const Signip = () => {
                               key: "Health and wellness",
                             },
                             {
-                              key: "Food and Nutrition",
-                            },
-                            {
-                              key: "Travel and Events",
+                              key: "Travel and Adventure",
                             },
                             {
                               key: "Volunteer and Philanthropy",
                             },
                             {
-                              key: "Business",
+                              key: "Business and Finance",
                             },
                             {
-                              key: "Sports",
+                              key: "Games & Sports",
+                            },
+                            {
+                              key: "Art & crafts",
+                            },
+                            {
+                              key: "Environmental & Sustainability",
+                            },
+                            {
+                              key: "Book club",
                             },
                           ]}
+
                           showCheckbox
                         />
+                       
+
+
+
                         <span className="flex  gap-2 mb-4 border-grey-light bg-gray-100 w-full  rounded">
                           <input
                             value={password}

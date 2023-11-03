@@ -143,8 +143,8 @@ const Section2new = () => {
   const limitedPosts = posts.slice(0, 6);
 
   return (
-    <div className="p-10 sm:p-2   w-full" >
-      <h1 className='text-black text-2xl text-red-500 sm:my-2 my-5 text-center Aceh text-md'>MUST READS</h1>
+    <div className="p-10 sm:p-2  bg-red-500   w-full" >
+      <h1 className='text-white text-4xl text-red-500 sm:my-2 my-5 text-center Aceh text-md'>MUST READS</h1>
       <hr></hr>
 <div className="flex  flex-wrap px-10 sm:px-0 my-20 sm:my-5 m-auto justify-center gap-10 sm:gap-2">
         {limitedPosts.map((post) => (
@@ -152,43 +152,43 @@ const Section2new = () => {
             to={`/readmore/${post.id}`}
             onClick={handleReadMoreClick}
             key={post.id}
-            className="hover:border p-5"
+            className="hover:border p-5 hover:bg-red-100/50 hover:rounded-xl transition duration-300 ease-in-out"
           >
-            <div key={post.id} className="w-96 bg-white flex  rounded-xl p-2 shadow ">
-              <div className="relative overflow-clip  h-16 sm:w-40" style={{width:"150px"}}>
-                <img src={post.imgUrl} width={100} height={100} className="p-2 absolute overflow-hidden  " />
+            <div key={post.id} className="w-96 bg-white   rounded-xl p-2 shadow ">
+              <div className="relative overflow-clip  h-40 sm:w-40" >
+                <img src={post.imgUrl}  height={200} className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out " />
               
               </div>
               <div className="px-5 sm:p-0">
-             
-                <h2 className="Aceh text-md py-2 text-black ">
-                  {post.postTitle}   
-                </h2>
-                <p className="badge bg-gray-100 p-4  top-5 text-gray-600  sm:hidden border-none ">
+              <p className="badge bg-gray-100 p-4  top-5 text-gray-600  sm:hidden border-none ">
                   {post.category}
                 </p>
                 <p className="mt-1 text-sm leading-5 text-red-300 border-b Aceh">
                   {post.timestamp.toDate().toDateString()} at{" "}
                   {formatTime(post.timestamp.toDate())}
                 </p>
+                <h2 className="Aceh text-xl py-2 text-black ">
+                  {post.postTitle}   
+                </h2>
+               
 
-                <p className="h-14 text-gray-600 sm:hidden">
+                <p className="h-14 text-gray-800 sm:hidden">
                   {excerpt(post.postDescription, 50)}
                 </p>
                 <span className="text-xl flex gap-5 ">
                   <FontAwesomeIcon
                     icon={faComment}
-                    className="text-gray-300 my-auto "
+                    className="text-gray-500 my-auto "
                   />{" "}
                   {post.comments.length}
                   <FontAwesomeIcon
                     icon={faThumbsUp}
-                    className="text-gray-300 my-auto "
+                    className="text-gray-500 my-auto "
                   />{" "}
                   {post.likes.length}
                   <FontAwesomeIcon
                     icon={faEye}
-                    className="text-gray-300 my-auto "
+                    className="text-gray-500 my-auto "
                   />{" "}
                   {post.views ? post.views.length : 0}
                   {/* <FontAwesomeIcon
