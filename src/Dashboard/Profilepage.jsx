@@ -16,14 +16,17 @@ import {
     updateDoc,
     setDoc,
     arrayUnion,
+    collection, query, where, getDocs, 
     arrayRemove,
   } from "firebase/firestore";
 import { toast } from "react-toastify";
 const Profilepage = () => {
   const { profileId } = useParams();
   const [isFollowing, setIsFollowing] = useState(false); // Track whether the current user is following the profile.
-
+  const [userPosts, setUserPosts] = useState([])
   const [profileData, setProfileData] = useState(null);
+
+
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
@@ -38,9 +41,28 @@ const Profilepage = () => {
     if (auth.currentUser && profileData && profileData.followers) {
         setIsFollowing(profileData.followers.includes(auth.currentUser.uid));
       }
+
+      const fetchUserPosts = async () => {
+        const postsCollectionRef = collection(db, "posts");
+  const q = query(postsCollectionRef, where("post.id", "==", profileId));
+  const querySnapshot = await getDocs(q);
+  const posts = [];
+  querySnapshot.forEach((doc) => {
+    console.log(doc.id, " => ", doc.data()); // Log post data
+    posts.push(doc.data());
+  });
+  setUserPosts(posts);
+  console.log(doc.data);
+
+
+      };
+      fetchUserPosts();
+  
+      if (auth.currentUser && profileData && profileData.followers) {
+        setIsFollowing(profileData.followers.includes(auth.currentUser.uid));
+      }
   }, [profileData, profileId]);
 
-  console.log(profileData);
 
   const handleFollowToggle = async () => {
     if (auth.currentUser) {
@@ -72,8 +94,11 @@ const Profilepage = () => {
       setIsFollowing(!isFollowing);
     }
   };
+  
   return (
-    <div className="py-40 sm:py-10 h-full w-screen mx-auto flex ">
+    <div className="py-40 sm:py-10 h-full w-screen mx-auto flex flex-col ">
+    <div className="flex">
+
       <div className="flex sm:flex-col m-auto gap-20 sm:gap-10">
         <img src={profileData?.photoURL} className="w-96 h-96  my-auto"></img>
         <div className="px-5 bg-sky-100  w-96 p-10 sm:w-full">
@@ -85,8 +110,9 @@ const Profilepage = () => {
        <FontAwesomeIcon icon={faPlus}className="m-auto px-2  text-gray-500"/> {isFollowing ? "Unfollow" : "Follow"}
       </button>
 
-      <p className="m-auto bg-green-600 text-gray-100 p-5 flex badge text-center">{profileData?.followers.length} follower(s)
-     </p>
+      <p className="m-auto bg-green-600 text-gray-100 p-5 flex badge text-center">
+  {profileData?.followers ? `${profileData.followers.length} follower(s)` : 'No followers'}
+</p>
           <br></br>
           <label className="text-xl Aceh my-2">
           <FontAwesomeIcon icon={faEnvelope} className="mx-2"/>Email</label>
@@ -134,7 +160,17 @@ const Profilepage = () => {
           <h1 className=" text-gray-500 text-xl AcehLight"></h1>
         </div>
       </div>
-      <div></div>
+</div>
+      <div className="h-97 bg-green-100">
+<p className="text-center">User Posts</p>
+<ul>
+          {userPosts.map((post) => (
+            <li key={post.id}>
+            {post.postTitle}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
