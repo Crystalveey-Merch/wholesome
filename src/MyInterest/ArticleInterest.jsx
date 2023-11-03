@@ -34,7 +34,6 @@ import {
   faThumbsUp,
 } from "@fortawesome/free-solid-svg-icons";
 import Spinner from "../components/Spinner.tsx";
-import "flowbite";
 
 
 const ArticleInterest = () => {

@@ -23,7 +23,7 @@ export default {
     extend: {},
   },
   // eslint-disable-next-line no-undef
-  plugins: [require("daisyui",'flowbite/plugin')],
+  plugins: [require("daisyui")],
   "files.associations": {
     "*.css": "tailwindcss"
   },
