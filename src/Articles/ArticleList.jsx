@@ -394,20 +394,22 @@ const ArticleList = () => {
         </div>
       </div>
       <div
-        className="tags p-5  m-5 bg-white w-2/3  sm:w-full sm:m-0 sm:my-10 "
+        className="tags p-5  m-5 bg-red-500 w-2/3  sm:w-full sm:m-0 sm:my-10 "
 
       >
         <div >
-          <h2 className="text-xl">Tags</h2>
+          <h2 className="text-xl Aceh text-white">Tags</h2>
           <hr></hr>
+          <br></br>
           {tags?.map((tag) => (
             <div
-              className="badge bg-green-600  m-1 p-4 hvr-bounce-in"
+              className="badge bg-white   m-1 p-4 hvr-bounce-in"
               key={tag.id}
             >
               <NavLink
                 to={`/articletag/${tag}`}
-                style={{ textDecoration: "none", color: "white" }}
+                className="text-green-500 Aceh"
+                style={{ textDecoration: "none" }}
               >
                 {tag}
               </NavLink>
@@ -415,16 +417,20 @@ const ArticleList = () => {
           ))}
         </div>
         <div>
-          <h2 className="text-xl">Categories</h2>
+          <h2 className="text-xl Aceh text-white my-4">Categories</h2>
           <hr></hr>
+          <br></br>
+
           {category?.map((category) => (
             <div
-              className="badge bg-sky-600  m-1 p-4 hvr-bounce-in"
+              className="badge bg-white   m-1 p-4 hvr-bounce-in"
               key={category.id}
             >
               <NavLink
                 to={`/articlecategory/${category}`}
-                style={{ textDecoration: "none", color: "white" }}
+                className="text-sky-500 Aceh"
+
+                style={{ textDecoration: "none", }}
               >
                 {category}
               </NavLink>

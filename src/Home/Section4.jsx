@@ -3,24 +3,72 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, Pagination } from 'swiper';
-import { events } from "../data/events"
 import { useParams } from "react-router";
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
-
+import {
+    addDoc,
+    collection,
+    DocumentSnapshot,
+    endAt,
+    endBefore,
+    getDocs,
+    setDoc,
+    doc,
+    getDoc,
+    updateDoc,
+    limit,
+    limitToLast,
+    orderBy,
+    query,
+    startAfter,
+    deleteField,
+    where,
+    increment,
+  } from "firebase/firestore";
+  import { auth, db } from "../firebase/auth.js";
+import Spinner from "../components/Spinner.tsx";
 
 
 const Section4 = () => {
     const { eventName } = useParams();
+    const [loading, setLoading] = useState(false);
+    const [events, setEvents] = useState([]);
+    const [eventId, setEventId] = useState([]);
+
     // const [event, setEvent] = useState("");
+    useEffect(() => {
+        const fetchEvents = async () => {
+          setLoading(true);
+    
+          try {
+            const q = query(collection(db, "events"), limit(10)); // Limit to 10 events
+            const querySnapshot = await getDocs(q);
+            const postData = [];
+    
+            querySnapshot.forEach((doc) => {
+              const event = doc.data();
+              event.id = doc.id;
+              postData.push(event);
+              setEventId(event.id);
 
+            });
 
-    const EventName = () => {
-        return events.filter((event) => event.name === eventName);
-    };
+            setEvents(postData);
+            setLoading(false);
+          } catch (error) {
+            console.error("Error fetching events:", error);
+            setEvents([]);
+          }
+        };
+    
+        fetchEvents();
+      }, []);
 
-
-
+console.log(events)
+      if (loading) {
+        return <Spinner />;
+      }
 
     if (!event) {
         return <div>Event not found.</div>;
@@ -77,25 +125,27 @@ const Section4 = () => {
                     {events.length > 0 ? (
                         events.map((event) => {
                             return(
-                        <SwiperSlide key={event.id} style={{height:"32rem"}}>
-                            <div  className="w-72  bg-white     shadow  dark:border-gray-700">
-                                <NavLink to={`/upcomingevents/${event.name}`}>
-                                    <img className="rounded-t-lg" src={event.src} alt={event.name} />
+                        <SwiperSlide key={event.id} style={{height:"32rem"}} className="">
+                            <div  className="w-94  bg-white     shadow  dark:border-gray-700">
+                                <NavLink to={`/upcomingevents/${event.id}`}>
+                                    <img className="rounded-t-lg" src={event.imgUrl} alt={event.eventName} />
 
                                     <div className="p-5">
-
-                                        <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 Aceh">{event.name}</h5>
+                                    <p  className="mb-3 font-bold  Aceh text-xl text-black Aceh">
+                                                {event.eventName}
+                                            </p>
+                                        <h5 className="mb-2 text-xl tracking-tight text-gray-900 ">{event.StartDateTime}</h5>
 
                                         <p className="mb-1 font-normal text-md Aceh text-red-500 dark:text-red-500">{event.date}</p>
                                         <p className="mb-3 font-normal text-md  text-gray-500 ">{event.address}</p>
-                                        {event.organizer.map((organizer, index) => (
-                                            <p key={index} className="mb-3 font-normal Aceh text-md text-black">
-                                                {organizer.name}
-                                            </p>))}
+                                          
 
                                         <svg className="w-3.5 h-3.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
                                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
                                         </svg>
+                                        <p  className="mb-3 font-normal Aceh text-md text-black">
+                                              BY  {event.organizerName}
+                                          </p>
 
                                     </div>
                                 </NavLink>

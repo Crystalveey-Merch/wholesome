@@ -34,6 +34,8 @@ import Bookmarks from "./Dashboard/Bookmarks";
 import ActivityForm from "./Activity/ActivityForm";
 import Drafts from "./Dashboard/Drafts";
 import Profilepage from "./Dashboard/Profilepage";
+import ArticleInterest from "./MyInterest/ArticleInterest";
+import EventsInterest from "./MyInterest/EventsInterest";
 
 // import "@fortawesome/fontawesome-free"
 
@@ -100,7 +102,13 @@ function App() {
         <Route path="/articlecategory/:category" element={<CategoryPosts />} />
 
         <Route path="/readmore/:id" element={<ReadMore />} />
-        <Route path="/myinterest" element={<MyInterest />} />
+        <Route path="/myinterest" element={<MyInterest />}>
+        <Route path="/myinterest/articles" element={<ArticleInterest/>} />
+        <Route path="/myinterest/events" element={<EventsInterest/>} />
+
+
+
+        </Route>
         <Route path="/dashboard" element={<Dashboard />} />
         <Route
           path="/dashboard"
@@ -119,7 +127,7 @@ function App() {
 
         </Route>
         <Route path="/profile/:profileId" element={<Profilepage />} />
-        
+
       </Routes>
       <Footer />
       <ToastContainer />
