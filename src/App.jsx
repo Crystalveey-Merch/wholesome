@@ -36,6 +36,8 @@ import Drafts from "./Dashboard/Drafts";
 import Profilepage from "./Dashboard/Profilepage";
 import ArticleInterest from "./MyInterest/ArticleInterest";
 import EventsInterest from "./MyInterest/EventsInterest";
+import PodcastAdmin from "./Podcast/PodcastAdmin";
+import { FollowersFeed } from "./MyInterest/FollowersFeed";
 
 // import "@fortawesome/fontawesome-free"
 
@@ -76,6 +78,8 @@ function App() {
         <Route path="/activity/:activityName" element={<Activity />} />
         <Route path="/activity/adminform" element={<ActivityForm />} />
 
+        <Route path="/podcast/adminform" element={<PodcastAdmin />} />
+
         <Route path="/interest/:interestName" element={<Interest />} />
 
         <Route path="/upcomingevents/:id" element={<EventDes />} />
@@ -105,6 +109,8 @@ function App() {
         <Route path="/myinterest" element={<MyInterest />}>
         <Route path="/myinterest/articles" element={<ArticleInterest/>} />
         <Route path="/myinterest/events" element={<EventsInterest/>} />
+        <Route path="/myinterest/feeds" element={<FollowersFeed/>} />
+
 
 
 

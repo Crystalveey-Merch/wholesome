@@ -160,13 +160,13 @@ const Signip = () => {
                               key: "Business and Finance",
                             },
                             {
-                              key: "Games & Sports",
+                              key: "Games and Sports",
                             },
                             {
-                              key: "Art & crafts",
+                              key: "Art and crafts",
                             },
                             {
-                              key: "Environmental & Sustainability",
+                              key: "Environmental and Sustainability",
                             },
                             {
                               key: "Book club",

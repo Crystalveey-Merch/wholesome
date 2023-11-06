@@ -1,4 +1,3 @@
-import React from 'react'
 import { useParams } from "react-router";
 import { useEffect, useState } from "react";
 import { events } from "../data/events";
@@ -10,7 +9,16 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper";
-
+import { collection, query, where, getDocs, doc, getDoc, updateDoc } from 'firebase/firestore';
+import { db, auth } from '../firebase/auth'; 
+import { onAuthStateChanged } from "firebase/auth";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faBookmark,
+  faComment,
+  faEye,
+  faThumbsUp,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Interest = () => {
 
@@ -18,6 +26,67 @@ const Interest = () => {
     const [event, setEvent] = useState(null);
     const [article, setArticle] = useState(null);
     const [activity, setActivity] = useState(null);
+
+    const [eventsData, setEventsData] = useState([]);
+    const [activitiesData, setActivitiesData] = useState([]);
+    const [postsData, setPostsData] = useState([]);
+
+    const [authUser, setAuthUser] = useState(null);
+
+    useEffect(() => {
+      const listen = onAuthStateChanged(auth, (user) => {
+        if (user) {
+          setAuthUser(user);
+        } else {
+          setAuthUser(null);
+        }
+      });
+  
+      return () => {
+        listen();
+      };
+    }, []);
+    const userId = authUser?.uid;
+
+    useEffect(() => {
+      // if (interestName) {
+        // Query the 'events' collection based on the selected category
+        const eventsRef = collection(db, 'events');
+        const eventsQuery = query(eventsRef, where('category', '==', interestName));
+        getAndSetData(eventsQuery, setEventsData);
+  
+
+        // Query the 'activities' collection in a similar way
+        const activitiesRef = collection(db, 'activities');
+        const activitiesQuery = query(activitiesRef, where('category', '==', interestName));
+        getAndSetData(activitiesQuery, setActivitiesData);
+  
+        // Query the 'posts' collection in a similar way
+        const postsRef = collection(db, 'posts');
+        const postsQuery = query(postsRef, where('category', '==', interestName));
+        getAndSetData(postsQuery, setPostsData);
+      }
+    , [interestName]);
+  
+    const getAndSetData = (query, setDataFunction) => {
+      getDocs(query)
+        .then((querySnapshot) => {
+          const data = [];
+          querySnapshot.forEach((doc) => {
+            const postData = doc.data();
+            postData.id = doc.id; // Include doc.id in the data
+            data.push(postData);
+          });
+          setDataFunction(data);
+        })
+        .catch((error) => {
+          console.error('Error fetching data:', error);
+        });
+    };
+    
+
+    console.log(postsData)
+    console.log(interestName)
 
     const breakpoints = {
         300: {
@@ -38,55 +107,151 @@ const Interest = () => {
           centeredSlides: true,
         },
       };
-
-    useEffect(() => {
-        // Find the   by comparing the name as a string
-        const selectedEvent = events.filter((e) => e.interest === interestName);
-        const selectedArticle = articles.filter((article)=> article.category === interestName);
-        const selectedActivity = activities.filter((activity)=> activity.category === interestName);
-
-        if (selectedEvent) {
-            // Set the selected event in the state
-            setActivity(selectedActivity);
+      const handleReadMoreClick = async () => {
+        try {
+          // Fetch the specific post based on postId
+          const postDocRef = doc(db, "posts", eventsData.postId);
+          const postDoc = await getDoc(postDocRef);
+      
+          if (postDoc.exists()) {
+            let updatedViewers;
+      
+            if (userId) {
+              // If userId exists, add it to the viewers array
+              updatedViewers = [...postDoc.data().views, userId];
+            } else {
+              // If userId doesn't exist, pass an empty array
+              updatedViewers = [];
+            }
+      
+            await updateDoc(postDocRef, { views: updatedViewers });
           }
-        if (selectedEvent) {
-          // Set the selected event in the state
-          setEvent(selectedEvent);
+        } catch (error) {
+          console.error("Error updating post document:", error);
         }
-        if (selectedArticle) {
-            // Set the selected event in the state
-            setArticle(selectedArticle);
-          }
-      }, [interestName]);
+      };
+      const excerpt = (str, count) => {
+        if (str && str.length > count) {
+          str = str.substring(0, count) + " ... ";
+        }
+        return str;
+      };
     
-      if (!event) {
-        return <div>Event not found.</div>;
-      }
-
-
+      const formatTime = (date) => {
+        return date.toLocaleTimeString("en-US", {
+          hour: "numeric",
+          minute: "2-digit",
+          hour12: true,
+        });
+      };
+   
+    
 
   return (
     <div className="mt-20 w-screen  sm:mt-18 ">
-    <div className='bg-sky-800 w-screen'>
-        <h1 className='text-white text-center uppercase Aceh text-3xl sm:text-3xl py-10'>Interest - {interestName}</h1>
+    <div className='bg-gradient-to-r from-indigo-300 to-purple-400 w-screen'>
+        <h1 className='text-white text-center uppercase Aceh text-3xl sm:text-2xl py-10'>{interestName}</h1>
     </div>
-    <div className='py-5'>
-        <h1 className=' text-gray-500 text-2xl  capitalize text-center'> Events</h1>
+   
+  
+       
+
+
+
+
+<div  className="flex justify-center  sm:flex-col">
+       <div>
+        <div className='py-5'>
+        <h1 className=' text-gray-500 text-xl  capitalize text-center py-5'>Articles/Publications</h1>
+        <hr></hr>
+
+    </div>
+    <div className='flex flex-wrap gap-5 justify-center'>
+    {postsData.length > 0 ? (
+            postsData.map((post) => {
+              return (
+                <NavLink
+            to={`/readmore/${post.id}`}
+            onClick={handleReadMoreClick}
+            key={post.id}
+            className="hover:border p-5 hover:bg-red-100/50 hover:rounded-xl transition duration-300 ease-in-out"
+          >
+            <div key={post.id} className="w-80 bg-white   rounded-xl p-2 shadow ">
+              <div className="relative overflow-clip  h-40 sm:w-40" >
+                <img src={post.imgUrl}  height={200} className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out " />
+              
+              </div>
+              <div className="px-5 sm:p-0">
+              <p className="badge bg-gray-100 p-4  top-5 text-gray-600  sm:hidden border-none ">
+                  {post.category}
+                </p>
+                <p className="mt-1 text-sm leading-5 text-red-300 border-b Aceh">
+                  {post.timestamp.toDate().toDateString()} at{" "}
+                  {formatTime(post.timestamp.toDate())}
+                </p>
+                <h2 className="Aceh text-xl py-2 text-black ">
+                  {post.postTitle}   
+                </h2>
+               
+
+                <p className="h-14 text-gray-800 sm:hidden">
+                  {excerpt(post.postDescription, 50)}
+                </p>
+                <span className="text-xl flex gap-5 ">
+                  <FontAwesomeIcon
+                    icon={faComment}
+                    className="text-gray-500 my-auto "
+                  />{" "}
+                  {post.comments.length}
+                  <FontAwesomeIcon
+                    icon={faThumbsUp}
+                    className="text-gray-500 my-auto "
+                  />{" "}
+                  {post.likes.length}
+                  <FontAwesomeIcon
+                    icon={faEye}
+                    className="text-gray-500 my-auto "
+                  />{" "}
+                  {post.views ? post.views.length : 0}
+                  {/* <FontAwesomeIcon
+                    onClick={handleAddBookmark}
+                    icon={faBookmark}
+                    style={buttonStyle}
+                    className="my-auto "
+                  />{" "}
+                  {bookmarkCount} */}
+                </span>
+              </div>
+            </div>
+          </NavLink>
+
+              );
+            })
+          ) : (
+            <div className="text-center text-2xl font-bold text-gray-500 mt-4 h-48">
+              No Posts found matching your search.
+            </div>
+          )}
+          </div>
+          </div>
+          <div className="bg-gradient-to-r from-red-300 via-red-200 to-yellow-100  mx-5">
+          <div className='py-5'>
+        <h1 className=' text-gray-500 text-xl  capitalize text-center py-5'> Events</h1>
         <hr></hr>
     </div>
-  
-        <div className='flex flex-wrap gap-5 px-20 sm:px-5'>
-        {event.length > 0 ? (
-          event.map((event) => {
+   
+          <div className='flex flex-wrap gap-5  sm:px-5'>
+        {eventsData.length > 0 ? (
+          eventsData.map((event) => {
             return (
               <div
                 key={event.id}
                 className="w-80 bg-white    shadow  dark:border-gray-700"
               >
-                <NavLink to={`/upcomingevents/${event.name}`}>
+                <NavLink to={`/upcomingevents/${event.id}`}>
                   <img
                     className="rounded-t-lg"
-                    src={event.src}
+                    src={event.imgUrl}
                     alt={event.name}
                   />
 
@@ -102,14 +267,11 @@ const Interest = () => {
                     <p className="mb-3 font-normal text-md  text-gray-500 ">
                       {event.address}
                     </p>
-                    {event.organizer.map((organizer, index) => (
                       <p
-                        key={index}
                         className="mb-3 font-normal Aceh text-md text-black"
                       >
-                        {organizer.name}
+                        {event.organizerName}
                       </p>
-                    ))}
                   </div>
                 </NavLink>
                 <div className="text-red-500 flex btn bg-red-500 text-white border-none w-40 Aceh">
@@ -138,43 +300,10 @@ const Interest = () => {
             No events found matching your search.
           </div>
         )}
+        </div></div>
         </div>
-        <div className='py-5'>
-        <h1 className=' text-gray-500 text-2xl  capitalize text-center py-5'>Articles/Publications</h1>
-        <hr></hr>
-
-    </div>
-    <div className='flex flex-wrap gap-5 justify-center'>
-    {article.length > 0 ? (
-            article.map((article) => {
-              return (
-                  <NavLink to={`/article/${article.topic}`} key={article.id}>
-                    <div className="relative w-72  bg-base-100 shadow-xl  image-full">
-                      <figure><img src={article.src} alt="image" /></figure>
-                      <div className="  flex flex-col  gap-2 bottom-0 bg-gray-100 border p-5 top-40">
-                        <button className="badge btn-primary">{article.category}</button>
-
-                        <h2 className="Aceh text-black py-2">{article.topic}</h2>
-                        <p className='text-red-500'>{article.author}</p>
-
-                        <p className='text-gray-700'>{article.content}</p>
-                        <div className="card-actions justify-end">
-                        </div>
-                      </div>
-
-                    </div>
-                  </NavLink>
-
-              );
-            })
-          ) : (
-            <div className="text-center text-2xl font-bold text-gray-500 mt-4 h-48">
-              No events found matching your search.
-            </div>
-          )}
-          </div>
           <div className='py-5'>
-        <h1 className=' text-gray-500 text-2xl  capitalize text-center my-5'>Community Activity</h1>
+        <h1 className=' text-gray-500 text-xl  capitalize text-center my-5'>Community Activity</h1>
         <hr></hr>
 
     </div>
@@ -198,8 +327,8 @@ const Interest = () => {
           modules={[Autoplay, Pagination, Navigation]}
           className="mySwiper w-full  mx-10 sm:mx-0 py-10 sm:px-10 lg:px-10"
         >
-        {activity.length > 0 ? (
-            activity.map((activity) => {
+        {activitiesData.length > 0 ? (
+            activitiesData.map((activity) => {
               return (
           <SwiperSlide key={activity.id}>
           <NavLink to={`/activity/${activity.title}`}>
@@ -220,7 +349,7 @@ const Interest = () => {
           );
             })
           ) : (
-            <div className="text-center text-2xl font-bold text-gray-500  h-48">
+            <div className="text-center text-2xl font-bold text-gray-500  ">
               No Activity found 
             </div>
           )}

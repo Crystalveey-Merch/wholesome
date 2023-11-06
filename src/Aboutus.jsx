@@ -6,9 +6,9 @@ const Aboutus = () => {
   return (
     <>
       <div className="mt-16   sm:mt-18 relative overflow-hidden w-screen ">
-      <div className=" mt-5 sm:mt-0 h-fit ">
-        <div className="hero-main absolute sm:w-screen sm:ml-0 sm:h-40">
-        <div className="py-10 flex justify-center text-white bg-red-500/50 h-full ">
+      <div className=" mt-5 sm:mt-0 h-fit w-screen ">
+        <div className="hero-main absolute sm:w-screen sm:ml-0 sm:h-40 ">
+        <div className="py-10 flex justify-center text-white bg-red-500/50 h-full  ">
             <h1 className="pt-20 sm:pt-5 sm:text-4xl pl-5 text-md ">
               Our Mission and Values
             </h1>
@@ -31,7 +31,7 @@ const Aboutus = () => {
             </h2>
             <hr className="mb-5"></hr>
 
-            <p className="text-black text-sm sm:text-center ">
+            <p className="text-black text-xl sm:text-center ">
               Community Corporation of Santa Monica fosters a more inclusive,
               caring, and environmentally sustainable city where each person has
               a home in which to live and thrive with dignity. We improve lives
@@ -96,21 +96,21 @@ const Aboutus = () => {
           <div className="flex  sm:block px-40 mb-20 sm:px-5">
             
             <div className="flex sm:flex-col gap-6  sm:w-full">
-              <div className="flex gap-4">
+              <div className="flex gap-4 text-xl">
                 <FontAwesomeIcon icon={faHandsHoldingChild} className="text-3xl border rounded-full p-4 w-10 h-10 text-gray-500"/>
                 <span>
                 <h1 className="text-xl text-gray-800 ">MENTORSHIP</h1>
                 <p className="text-gray-600">Because this is a MAJOR pain point for our community. I know how to find a mentor and I'm giving you the cheat codes so you can get one.</p>
                 </span>
               </div>
-              <div className="flex gap-4">
+              <div className="flex gap-4  text-xl">
                 <FontAwesomeIcon icon={faQuestion} className="text-3xl border rounded-full p-4 w-10 h-10 text-gray-500"/>
                 <span>
                 <h1 className="text-xl text-gray-800">RESOURCE HUB</h1>
                 <p className="text-gray-600">with challenges, courses and downloadables to help you level up professionally and personally</p>
                 </span>
               </div>
-              <div className="flex gap-4">
+              <div className="flex gap-4  text-xlsec">
                 <FontAwesomeIcon icon={faUserGroup} className="text-3xl border rounded-full p-4 w-10 h-10 text-gray-500"/>
                 <span>
                 <h1 className="text-xl text-gray-800">A DOPE COMMUNITY</h1>

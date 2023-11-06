@@ -101,12 +101,12 @@ const Profilepage = () => {
 
       <div className="flex sm:flex-col m-auto gap-20 sm:gap-10">
         <img src={profileData?.photoURL} className="w-96 h-96  my-auto"></img>
-        <div className="px-5 bg-sky-100  w-96 p-10 sm:w-full">
+        <div className="px-5 bg-gradient-to-r from-rose-700 to-pink-600 text-white  w-96 p-10 sm:w-full">
           <h1 className="sm:text-center">{profileData?.displayName}</h1>
-          <h2 className="sm:text-center text-red-500 text-xl">
+          <h2 className="sm:text-center text-gray-200 text-xl">
             {profileData?.shortBio}
           </h2>
-          <button className="flex m-auto  my-5" onClick={handleFollowToggle} >
+          <button className="flex m-auto  my-5 text-gray-500" onClick={handleFollowToggle} >
        <FontAwesomeIcon icon={faPlus}className="m-auto px-2  text-gray-500"/> {isFollowing ? "Unfollow" : "Follow"}
       </button>
 
@@ -143,17 +143,17 @@ const Profilepage = () => {
           <FontAwesomeIcon icon={faGlobe} className="mx-2"/>Socials</label>
           <hr></hr>
 
-          <div className="flex gap-5  text-2xl py-5">
-            <a href={profileData?.twitterLink}>
+          <div className="flex gap-5  text-2xl py-5 text-gray-500">
+            <a href={profileData?.twitterLink} className="text-gray-200">
               <FontAwesomeIcon icon={faTwitter} />
             </a>
-            <a href={profileData?.facebookLink}>
+            <a href={profileData?.facebookLink}  className="text-gray-200">
               <FontAwesomeIcon icon={faFacebook} />
             </a>
-            <a href={profileData?.instagramLink}>
+            <a href={profileData?.instagramLink} className="text-gray-200">
               <FontAwesomeIcon icon={faInstagram} />
             </a>
-            <a href={profileData?.linkedinLink}>
+            <a href={profileData?.linkedinLink} className="text-gray-200">
               <FontAwesomeIcon icon={faLinkedinIn} />
             </a>
           </div>

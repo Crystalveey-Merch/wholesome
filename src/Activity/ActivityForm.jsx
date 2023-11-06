@@ -49,11 +49,13 @@ const ActivityForm = () => {
   const categoryOption = [
     "Lifestyle and Fashion",
     "Health and wellness",
-    "Food and Nutrition",
-    "Travel and Events",
-    "Sports",
-    "Business",
+    "Travel and Adventure",
     "Volunteer and Philanthropy",
+    "Business and Finance",
+    "Games & Sports",
+    "Art & crafts",
+    "Environmental & Sustainability",
+    "Book club",
   ];
   const handleTags = (tags = []) => {
     setForm({ ...form, tags });

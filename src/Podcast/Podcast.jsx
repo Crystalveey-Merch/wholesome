@@ -69,13 +69,14 @@ const Podcast = () => {
                   />
                 </div>
               </div>
-              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-b from-red-800 to-black  p-5">
+              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 p-5">
                 <img src="/Images/man.jpeg" className="w-40 sm:w-20"></img>
                 <div className="m-auto">
                   <p className="  w-full text-white Aceh text-2xl ">
                     How to Travel Abroad With Daniel
                   </p>
                   <p className="text-white ">May, 17, 2023 . 20min</p>
+                  <img src="/Images/waves'.png" className="m-auto"  width={200} height={200}></img>
                 </div>
               </div>
             </div>
@@ -88,13 +89,15 @@ const Podcast = () => {
                   />
                 </div>
               </div>
-              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-b from-red-800 to-black  p-5">
+              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 p-5">
                 <img src="/Images/man.jpeg" className="w-40 sm:w-20"></img>
                 <div className="m-auto">
                   <p className="  w-full text-white Aceh text-2xl ">
                     How to Travel Abroad With Daniel
                   </p>
                   <p className="text-white ">May, 17, 2023 . 20min</p>
+                  <img src="/Images/waves'.png" className="m-auto"  width={200} height={200}></img>
+
                 </div>
               </div>
             </div>
@@ -105,15 +108,18 @@ const Podcast = () => {
                     icon={faMicrophone}
                     className=" text-red-600"
                   />
+
                 </div>
               </div>
-              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-b from-red-800 to-black  p-5">
+              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 p-5">
                 <img src="/Images/man.jpeg" className="w-40 sm:w-20"></img>
                 <div className="m-auto">
                   <p className="  w-full text-white Aceh text-2xl ">
                     How to Travel Abroad With Daniel
                   </p>
                   <p className="text-white ">May, 17, 2023 . 20min</p>
+                  <img src="/Images/waves'.png" className="m-auto"  width={200} height={200}></img>
+
                 </div>
               </div>
             </div>
@@ -124,15 +130,18 @@ const Podcast = () => {
                     icon={faMicrophone}
                     className=" text-red-600"
                   />
+
                 </div>
               </div>
-              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-b from-red-800 to-black  p-5">
+              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 p-5">
                 <img src="/Images/man.jpeg" className="w-40 sm:w-20"></img>
                 <div className="m-auto">
                   <p className="  w-full text-white Aceh text-2xl ">
                     How to Travel Abroad With Daniel
                   </p>
                   <p className="text-white ">May, 17, 2023 . 20min</p>
+                  <img src="/Images/waves'.png" className="m-auto"  width={200} height={200}></img>
+
                 </div>
               </div>
             </div>
@@ -143,15 +152,18 @@ const Podcast = () => {
                     icon={faMicrophone}
                     className=" text-red-600"
                   />
+
                 </div>
               </div>
-              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-b from-red-800 to-black  p-5">
+              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 p-5">
                 <img src="/Images/man.jpeg" className="w-40 sm:w-20"></img>
                 <div className="m-auto">
                   <p className="  w-full text-white Aceh text-2xl ">
                     How to Travel Abroad With Daniel
                   </p>
                   <p className="text-white ">May, 17, 2023 . 20min</p>
+                  <img src="/Images/waves'.png" className="m-auto"  width={200} height={200}></img>
+
                 </div>
               </div>
             </div>
@@ -162,15 +174,18 @@ const Podcast = () => {
                     icon={faMicrophone}
                     className=" text-red-600"
                   />
+
                 </div>
               </div>
-              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-b from-red-800 to-black  p-5">
+              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 p-5">
                 <img src="/Images/man.jpeg" className="w-40 sm:w-20"></img>
                 <div className="m-auto">
                   <p className="  w-full text-white Aceh text-2xl ">
                     How to Travel Abroad With Daniel
                   </p>
                   <p className="text-white ">May, 17, 2023 . 20min</p>
+                  <img src="/Images/waves'.png" className="m-auto"  width={200} height={200}></img>
+
                 </div>
               </div>
             </div>
@@ -181,15 +196,18 @@ const Podcast = () => {
                     icon={faMicrophone}
                     className=" text-red-600"
                   />
+
                 </div>
               </div>
-              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-b from-red-800 to-black  p-5">
+              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 p-5">
                 <img src="/Images/man.jpeg" className="w-40 sm:w-20"></img>
                 <div className="m-auto">
                   <p className="  w-full text-white Aceh text-2xl ">
                     How to Travel Abroad With Daniel
                   </p>
                   <p className="text-white ">May, 17, 2023 . 20min</p>
+                  <img src="/Images/waves'.png" className="m-auto"  width={200} height={200}></img>
+
                 </div>
               </div>
             </div>
@@ -200,15 +218,18 @@ const Podcast = () => {
                     icon={faMicrophone}
                     className=" text-red-600"
                   />
+
                 </div>
               </div>
-              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-b from-red-800 to-black  p-5">
+              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-xl bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 p-5">
                 <img src="/Images/man.jpeg" className="w-40 sm:w-20"></img>
                 <div className="m-auto">
                   <p className="  w-full text-white Aceh text-2xl ">
                     How to Travel Abroad With Daniel
                   </p>
                   <p className="text-white ">May, 17, 2023 . 20min</p>
+                  <img src="/Images/waves'.png" className="m-auto"  width={200} height={200}></img>
+
                 </div>
               </div>
             </div>

@@ -226,8 +226,8 @@ button:focus-visible {
   background-size:cover;
   background-repeat: no-repeat;
   height: 400px;
-  width: 1600px;
-  margin-left: -60px;
+  width:100vw;
+  /* margin-left: -60px; */
   display: inline-block;
   border-bottom-right-radius: 100% 100%;
   border-bottom-left-radius: 100% 100%;

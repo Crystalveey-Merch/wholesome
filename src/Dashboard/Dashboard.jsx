@@ -54,7 +54,7 @@ const Dashboard = () => {
   return (
     <><div className="mt-20 py-20 sm:mt-18 sm:py-0 sm:px-0 px-20 w-screen ">
      <div className=" relative top-1 left-0 hidden sm:block w-full  mt-5 ">
-            <ul className="menu menu-horizontal bg-base-200 dark:text-slate-200 m-auto justify-between  rounded-box  w-full">
+            <ul className="menu menu-horizontal bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 dark:text-slate-200 m-auto justify-between  rounded-box  w-full">
               <li>
                 <NavLink to="profile" className="tooltip" data-tip="Home">
                   <svg
@@ -156,7 +156,7 @@ const Dashboard = () => {
               <div className="drawer-side">
                   <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
                   {/* Apply responsive classes to the menu */}
-                  <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content sm:hidden">
+                  <ul className="menu p-4 w-80 min-h-full bg-gradient-to-r from-rose-100 to-teal-100 text-base-content sm:hidden">
                       <p className="text-black text-xl Aceh font-bold text-center"> {greeting}<br />{authUser?.displayName}</p>
                       {/* Sidebar content here */}
                       <li><NavLink to='profile'>Profile</NavLink></li>

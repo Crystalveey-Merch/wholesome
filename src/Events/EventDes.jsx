@@ -181,7 +181,7 @@ const EventDes = () => {
           <h3 className="text-red-500 text-2xl text-center p-10 Aceh">Related Events</h3>
           <ul className="p-5">
             {relatedEvents.map((related) => (
-              <li key={related.id} className="border bg-sky-600 rounded-2xl">
+              <li key={related.id} className="border bg-sky-600 rounded-2xl w-72 m-auto  ">
               <img src={related.imgUrl} alt={related.eventName} className="" />
               <h3 className="text-xl text-white Aceh p-5">{related.eventName}</h3>
               <p className="text-gray-100 text-xl">

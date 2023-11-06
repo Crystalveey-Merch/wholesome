@@ -18,12 +18,12 @@ const Section1 = () => {
     },
   };
   return (
-    <div className='relative w-full flex sm:flex-col p-40 	'>
-       <div className=' h-full sm:h-auto  m-auto w-full px-20 sm:p-5 '>
-      <h1 className=' my-2 drop-shadow-lg sm:text-5xl bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-black font-black text-7xl AcehLight '>JOIN THE GLOBAL NETWORK</h1>
-      <p className=' py-4   text-2xl sm:text-2xl text-black' >Be part of our Community</p>
-
-        <h1 className='text-xl  sm:text-sm text-black  btn flex w-60 sm:w-40 bg-red-500 hover:bg-black border-none  text-white text-center '>JOIN WHOLESOME</h1>
+    <div className='relative w-full sm:flex-col flex py-30 px-40 sm:px-2  bg-gradient-to-r from-orange-400 to-rose-400	'>
+       <div className=' h-1/2 sm:h-auto  m-auto w-full py-20 sm:px-5 flex  flex-col gap-5'>
+      <h1 className=' my-2 text-left Aceh drop-shadow-lg sm:text-5xl bg-clip-text text-white  bg-gradient-to-r from-red-500 to-black font-black text-6xl  '>JOIN THE GLOBAL NETWORK</h1>
+      <p className=' py-4   text-3xl sm:text-2xl text-black ' >Be part of our Community</p>
+<hr></hr>
+        <button className='text-xl btn   p-auto sm:text-sm hover:text-white  hover:bg-red-500  flex w-60 sm:w-40  bg-white  text-red-500 text-center '>JOIN WHOLESOME</button>
       </div>
       <Swiper
         modules={[Autoplay, Navigation, ]}
@@ -41,28 +41,27 @@ const Section1 = () => {
         }}
         // style={{height:"35rem"}}
         // navigation={true}
-        className="mySwiper z-0 swiper-v   w-full sliderhgt  m-10 border-2  border border-red-500    m-auto flex justify-center "
+        className="mySwiper z-0 swiper-h   w-full  h-1/2 sm:hidden      justify-center "
       >
 
         <SwiperSlide className=' relative'>
+        <div className=' relative  '>
           <img
             src="/homepage/slider1.jpeg"
             alt="imgSeven"
 
-            style={{position:"center"}}
+            // style={{position:"center"}}
             
-            width={600}
-
-            className="  w-full  shadow-lg  " />
-
+            className="       m-auto  " />
+            </div>
         </SwiperSlide>
         <SwiperSlide>
+        <div   className='relative   '>
           <img
             src="/homepage/slider2.jpeg"
             alt="imgSeven"
-            width={600}
-            className="    w-full   shadow-lg " />
-
+            className="    m-auto   " />
+            </div>
         </SwiperSlide>
       </Swiper>
 

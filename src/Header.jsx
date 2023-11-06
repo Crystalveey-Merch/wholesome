@@ -182,7 +182,7 @@ const Header = () => {
                         <NavLink
                           onClick={closeDrawer}
                           className={`${active && "bg-blue-500"}`}
-                          to="/myinterest"
+                          to="/myinterest/articles"
                         >
                           My Interest
                         </NavLink>
@@ -194,7 +194,7 @@ const Header = () => {
                       <NavLink
                         onClick={closeDrawer}
                         className={`${active && "bg-blue-500"}`}
-                        to="/interest/health"
+                        to="/interest/Health and wellness"
                       >
                         Health & wellness
                       </NavLink>
@@ -205,18 +205,7 @@ const Header = () => {
                       <NavLink
                         onClick={closeDrawer}
                         className={`${active && "bg-blue-500"}`}
-                        to="/interest/food"
-                      >
-                        Food & nutrition
-                      </NavLink>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <NavLink
-                        onClick={closeDrawer}
-                        className={`${active && "bg-blue-500"}`}
-                        to="/interest/travel"
+                        to="/interest/Travel and events"
                       >
                         Travel & events
                       </NavLink>
@@ -227,9 +216,9 @@ const Header = () => {
                       <NavLink
                         onClick={closeDrawer}
                         className={`${active && "bg-blue-500"}`}
-                        to="/interest/lifestyle"
+                        to="/interest/Lifestyle and Fashion"
                       >
-                        Lifestyle & fashion
+                        Lifestyle & Fashion
                       </NavLink>
                     )}
                   </Menu.Item>
@@ -238,9 +227,65 @@ const Header = () => {
                       <NavLink
                         onClick={closeDrawer}
                         className={`${active && "bg-blue-500"}`}
-                        to="/interest/volunteer"
+                        to="/interest/Volunteer and philanthropy"
                       >
                         Volunteer & philanthropy
+                      </NavLink>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <NavLink
+                        onClick={closeDrawer}
+                        className={`${active && "bg-blue-500"}`}
+                        to="/interest/Business and Finance
+"
+                      >
+                        Business and Finance
+                      </NavLink>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <NavLink
+                        onClick={closeDrawer}
+                        className={`${active && "bg-blue-500"}`}
+                        to="/interest/Games and Sports"
+                      >
+                        Games & Sports
+                      </NavLink>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <NavLink
+                        onClick={closeDrawer}
+                        className={`${active && "bg-blue-500"}`}
+                        to="/interest/Art and crafts"
+                      >
+                        Art & crafts
+                      </NavLink>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <NavLink
+                        onClick={closeDrawer}
+                        className={`${active && "bg-blue-500"}`}
+                        to="/interest/Environmental and Sustainability"
+                      >
+                       Environmental & Sustainability
+                      </NavLink>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <NavLink
+                        onClick={closeDrawer}
+                        className={`${active && "bg-blue-500"}`}
+                        to="/interest/Book club"
+                      >
+                       Book club
                       </NavLink>
                     )}
                   </Menu.Item>
@@ -360,30 +405,50 @@ const Header = () => {
                   {authUser ? (
                     <li>
                       <NavLink
-                        to="/myinterest"
+                        to="/myinterest/articles"
                       >
                         My Interest
                       </NavLink>
                     </li>
                   ) : ("")}
                   <li>
-                    <NavLink to={`/interest/health`}>Health & wellness</NavLink>
+                    <NavLink to={`/interest/Health and Wellness`}>Health & Wellness</NavLink>
                   </li>
                   <li>
-                    <NavLink to={`/interest/food`}>Food & nutrition</NavLink>
+                    <NavLink to={`/interest/Business and Finance`}>Business and Finance</NavLink>
                   </li>
                   <li>
-                    <NavLink to={`/interest/travel`}>Travel & events</NavLink>
+                    <NavLink to={`/interest/Travel and Adventure`}>Travel & Adventure</NavLink>
                   </li>
                   <li>
-                    <NavLink to={`/interest/lifestyle`}>
-                      Lifestyle & fashion
+                    <NavLink to={`/interest/Lifestyle and Fashion`}>
+                      Lifestyle & Fashion
                     </NavLink>
                   </li>
 
                   <li>
-                    <NavLink to={`/interest/volunteer`}>
-                      Volunteer & philanthropy
+                    <NavLink to={`/interest/Volunteer and Philanthropy`}>
+                      Volunteer & Philanthropy
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to={`/interest/Games and Sports`}>
+                    Games & Sports
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to={`/interest/Art and crafts`}>
+                    Art & crafts
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to={`/interest/Environmental and Sustainability`}>
+                    Environmental & Sustainability
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to={`/interest/Book club`}>
+                    Book club
                     </NavLink>
                   </li>
                 </ul>

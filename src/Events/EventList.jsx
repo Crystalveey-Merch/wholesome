@@ -140,12 +140,12 @@ const EventList = () => {
         className="h-96"
         
       >
-        <div className="h-full bg-gray-800">
+        <div className="h-full bg-gradient-to-r from-fuchsia-600 to-pink-600">
           <h1 className="text-white text-center sm:text-4xl pt-24 sm:pt-14">
             See upcoming Events Around You
           </h1>
           <hr className="w-64 m-auto my-5"></hr>
-          <p className="text-base-100 bg-red-600 py-2  text-center text-xl font-bolder Aceh">
+          <p className="text-base-100 bg-black/50 py-2  text-center text-xl font-bolder Aceh">
             Discover, Explore, Attend: Your Event Search Starts Here
           </p>
           <div className="m-auto flex flex-col gap-2  justify-center py-5">
@@ -157,7 +157,7 @@ const EventList = () => {
             </p>
             <input
               type="text"
-              className="bg-transparent border border-2 rounded-full p-3 w-96 m-auto text-white"
+              className="bg-transparent border border-1 border-gray-100/50 rounded-full p-3 w-96 m-auto text-white"
               placeholder="Search an event/location"
               value={searchInput}
               onChange={handleSearchInputChange}

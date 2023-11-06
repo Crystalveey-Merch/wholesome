@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+/* eslint-disable no-unused-vars */
+import { useState, useEffect, memo } from "react";
 import {
   addDoc,
   collection,
@@ -36,12 +37,12 @@ import {
 import Spinner from "../components/Spinner.tsx";
 
 
+// eslint-disable-next-line react/display-name
 const ArticleInterest = () => {
 
     const [userInterests, setUserInterests] = useState([]);
   const [interestPosts, setInterestPosts] = useState([]);
-
-  const [interestEvents, setInterestEvents] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [authUser, setAuthUser] = useState(null);
 
   useEffect(() => {
@@ -59,67 +60,133 @@ const ArticleInterest = () => {
   }, []);
   const userId = authUser?.uid;
   const [postId, setPostId] = useState([]);
-  const [loading, setLoading] = useState(false);
 
-  const [eventId, setEventId] = useState([]);
+ 
+
+  // const fetchData = async () => {
+  //   try {
+  //     setLoading(true); // Set loading to true before fetching data
+  
+  //     // 1. Retrieve the user's selected interests from Firestore
+  //     const userRef = doc(db, "users", userId);
+  //     const userDoc = await getDoc(userRef);
+  
+  //     if (userDoc.exists()) {
+  //       const userData = userDoc.data();
+  //       setUserInterests(userData.selectedOptions);
+        
+  //       // 2. Query the posts collection based on user interests
+  //       const postsRef = collection(db, "posts");
+  
+  //       // Create an array of query objects
+  //       const queries = userInterests.map((interest) =>
+  //         query(postsRef, where("category", "==", interest.key))
+  //       );
+  
+  //       // Create a Promise for each query
+  //       const queryPromises = queries.map((query) => getDocs(query));
+  
+  //       // Wait for all queries to complete
+  //       const querySnapshots = await Promise.all(queryPromises);
+  
+  //       const postData = [];
+  
+  //       // Process each query result
+  //       querySnapshots.forEach((querySnapshot) => {
+  //         querySnapshot.forEach((doc) => {
+  //           const post = doc.data();
+  //           post.id = doc.id;
+  //           setPostId(post.id);
+  //           postData.push(post);
+  //         });
+  //       });
+  //       console.log("Query Snapshots:", querySnapshots);
+
+  //       setInterestPosts(postData);
+  //       console.log(postData)
+  //     } else {
+  //       console.log("User document not found.");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //   } finally {
+  //     setLoading(false); // Set loading to false in the finally block
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   if (userId) {
+  //     fetchData();
+  //   }
+  // }, [ userId]);
 
   useEffect(() => {
-    // Replace "userId" with the currently logged-in user's ID // You should get the actual user ID
-
-    const fetchData = async () => {
+    // Fetch user interests when the component mounts
+    const fetchUserInterests = async () => {
       try {
-        setLoading(true);
-        // 1. Retrieve the user's selected interests from Firestore
-
-        const userRef = doc(db, "users", userId); // Use doc to get the user document
+        const userRef = doc(db, "users", userId);
         const userDoc = await getDoc(userRef);
-        //   console.log(userDoc)
+
         if (userDoc.exists()) {
           const userData = userDoc.data();
           setUserInterests(userData.selectedOptions);
-          // 2. Query the posts collection based on user interests
-          const postsRef = collection(db, "posts");
-
-          const queries = userInterests.map((interest) =>
-            query(postsRef, where("category", "==", interest.key))
-          );
-       
-       
-          //
-          // Create a Promise for each query
-          const queryPromises = queries.map((query) => getDocs(query));
-
-          // Wait for all queries to complete
-          const querySnapshots = await Promise.all(queryPromises);
-
-          const postData = [];
-
-          // Process each query result
-          querySnapshots.forEach((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-              const post = doc.data();
-              post.id = doc.id;
-              setPostId(post.id);
-              postData.push(post);
-            });
-          });
-         
-
-          setInterestPosts(postData);
-          setLoading(false);
-
         } else {
           console.log("User document not found.");
         }
       } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        // setLoading(false); // Move setLoading(false) to the finally block
+        console.error("Error fetching user interests:", error);
       }
     };
 
-    fetchData();
-  }, [userId, userInterests]);
+    fetchUserInterests();
+  }, [userId]);
+
+  useEffect(() => {
+    // Fetch interestPosts when userInterests change
+    const fetchInterestPosts = async () => {
+      if (userInterests.length === 0) {
+        // No interests to fetch, exit early
+        setLoading(true);
+        return;
+      }
+
+      try {
+        const postsRef = collection(db, "posts");
+        const queries = userInterests.map((interest) =>
+          query(postsRef, where("category", "==", interest.key))
+        );
+
+        const queryPromises = queries.map((query) => getDocs(query));
+        const querySnapshots = await Promise.all(queryPromises);
+
+        const postData = [];
+
+        querySnapshots.forEach((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            const post = doc.data();
+            post.id = doc.id;
+            postData.push(post);
+          });
+        });
+
+        setInterestPosts(postData);
+        setLoading(false); // Set loading to false when data is fetched
+      } catch (error) {
+        console.error("Error fetching interest posts:", error);
+        setLoading(false); // Set loading to false in case of error
+      }
+    };
+
+    fetchInterestPosts();
+  }, [userInterests]);
+
+  // ... (the rest of your component)
+
+  if (loading) {
+    return <Spinner />; // Show loading indicator while data is being fetched
+  }
+
+
   const excerpt = (str, count) => {
     if (str && str.length > count) {
       str = str.substring(0, count) + " ... ";
@@ -129,6 +196,7 @@ const ArticleInterest = () => {
   if (loading) {
     return <Spinner />;
   }
+  console.log(interestPosts)
 
   const handleReadMoreClick = async () => {
     if (userId) {
@@ -148,13 +216,6 @@ const ArticleInterest = () => {
     }
   };
 
-  const formatTime = (date) => {
-    return date.toLocaleTimeString("en-US", {
-      hour: "numeric",
-      minute: "2-digit",
-      hour12: true,
-    });
-  };
   return (
     <div>
          <div className="flex sm:flex-col  mx-20 sm:mx-5">
@@ -172,7 +233,7 @@ const ArticleInterest = () => {
                         to={`/readmore/${post.id}`}
                         onClick={handleReadMoreClick}
                         key={post.id}
-                        className="hover:border hvr-float"
+                        className="hover:bg-gradient-to-r from-orange-400 to-rose-400 p-5 hover:rounded-xl  hvr-float "
                       >
                         <div key={post.id}>
                           <div className="flex   gap-5 px-20  sm:px-0">
@@ -181,7 +242,7 @@ const ArticleInterest = () => {
                             </div>
 
                             <div className="flex flex-col gap-5 sm:gap-2">
-                              <h5 className="text-2xl sm:text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+                              <h5 className="text-2xl sm:text-xl font-bold  hover:text-white    tracking-tight text-gray-900 dark:text-white">
                                 <p>{post.postTitle}</p>
                               </h5>
                               <p className="font-normal text-gray-700 dark:text-gray-400">
