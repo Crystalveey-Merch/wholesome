@@ -237,7 +237,7 @@ const CreatePost = () => {
               userId: authUser.uid,
             });
             toast.success("Post updated successfully");
-            navigate("/posts");
+            navigate("/articlelist");
 
             // try {
             //   await updateDoc(doc(db, "draft", id), {

@@ -338,9 +338,9 @@ const ArticleList = () => {
             to={`/readmore/${post.id}`}
             onClick={handleReadMoreClick}
             key={post.id}
-            className="hover:border p-5  hover:rounded-xl transition duration-300 ease-in-out "
+            className="hover:border p-5  hover:rounded-xl transition duration-300  sm:m-10 ease-in-out "
           >
-            <div key={post.id} className="w-96 bg-white hover:bg-gradient-to-r hover:scale-125 hover:from-orange-400 hover:to-rose-400 transition duration-300 ease-in-out  rounded-xl p-2 shadow ">
+            <div key={post.id} className="w-96 bg-white hover:bg-gradient-to-r hover:scale-105  hover:from-orange-400 hover:to-rose-400 transition duration-300 ease-in-out  rounded-xl p-2 shadow ">
               <div className="relative overflow-clip  h-40 sm:w-40" >
                 <img src={post.imgUrl}  height={200} className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out " />
               
