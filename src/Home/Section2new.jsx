@@ -152,11 +152,11 @@ const Section2new = () => {
             to={`/readmore/${post.id}`}
             onClick={handleReadMoreClick}
             key={post.id}
-            className="hover:border p-5 hover:bg-red-100/50 hover:rounded-xl transition duration-300 ease-in-out"
+            className="hover:border p-5 sm:px-10 hover:bg-red-100/50 hover:rounded-xl transition duration-300 ease-in-out"
           >
             <div key={post.id} className="w-96 bg-white   rounded-xl p-2 shadow ">
               <div className="relative overflow-clip  h-40 sm:w-40" >
-                <img src={post.imgUrl}  height={200} className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out " />
+                <img src={post.imgUrl}  height={200} className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out m-auto " />
               
               </div>
               <div className="px-5 sm:p-0">
