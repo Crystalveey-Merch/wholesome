@@ -189,10 +189,10 @@ const ArticleList = () => {
   };
 
 
-  const handleReadMoreClick = async () => {
+  const handleReadMoreClick = async (randomPost) => {
     try {
       // Fetch the specific post based on postId
-      const postDocRef = doc(db, "posts", postId);
+      const postDocRef = doc(db, "posts", randomPost.id);
       const postDoc = await getDoc(postDocRef);
 
       if (postDoc.exists()) {
@@ -287,7 +287,7 @@ const ArticleList = () => {
             randomPost.map((post) => (
               <NavLink
                 to={`/readmore/${post.id}`}
-                onClick={handleReadMoreClick}
+                onClick={() => handleReadMoreClick(post)}
                 key={post.id}
                 className=""
               >
@@ -336,7 +336,7 @@ const ArticleList = () => {
             <div className=" " key={post.id}>
             <NavLink
             to={`/readmore/${post.id}`}
-            onClick={handleReadMoreClick}
+            onClick={() => handleReadMoreClick(post)}
             key={post.id}
             className="hover:border p-5  hover:rounded-xl transition duration-300  sm:m-10 ease-in-out "
           >

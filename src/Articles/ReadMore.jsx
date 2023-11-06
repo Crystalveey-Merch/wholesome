@@ -42,6 +42,10 @@ import {
 } from "react-share";
 import { faFacebook, faLinkedin, faTwitter, faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { NavLink } from "react-router-dom";
+import {
+  faBookmark,
+  faEye,
+} from "@fortawesome/free-solid-svg-icons";
 
 const ReadMore = () => {
   const url = window.location.href;
@@ -56,7 +60,7 @@ const ReadMore = () => {
   const [loading, setLoading] = useState(false);
   const [profileData, setProfileData] = useState(null);
   const [userData, setUserData] = useState(null);
-
+  const [relatedPost, setRelatedPosts] = useState([])
 
   const [userComment, setUserComment] = useState("");
 
@@ -74,7 +78,7 @@ const ReadMore = () => {
     };
   }, []);
 
- const userId = authUser?.uid;
+  const userId = authUser?.uid;
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -139,16 +143,58 @@ const ReadMore = () => {
     fetchSelectedPost();
   }, [id]);
 
+  useEffect(() => {
+    const fetchRelatedPosts = async () => {
+      try {
+        // Fetch the selected post's category
+        const selectedPostRef = doc(db, "posts", id);
+        const selectedPostSnapshot = await getDoc(selectedPostRef);
+
+        if (selectedPostSnapshot.exists()) {
+          const selectedPostData = selectedPostSnapshot.data();
+          const selectedCategory = selectedPostData.category;
+
+          // Query posts with the same category as the selected post
+          const postsRef = collection(db, "posts");
+          const relatedPostsQuery = query(postsRef, where("category", "==", selectedCategory));
+          const relatedPostsSnapshot = await getDocs(relatedPostsQuery);
+
+          const relatedPosts = [];
+
+          relatedPostsSnapshot.forEach((doc) => {
+            if (doc.id !== id) {
+              relatedPosts.push({ id: doc.id, data: doc.data() });
+            }
+          });
+
+          setRelatedPosts(relatedPosts);
+        } else {
+          console.error(`Post with id '${id}' not found.`);
+          // Handle the case where the selected post is not found, e.g., display a 404 page.
+        }
+      } catch (error) {
+        console.error("Error fetching related posts:", error);
+        // Handle the error, e.g., display an error message to the user.
+      }
+    };
+
+    fetchRelatedPosts();
+  }, [id]);
+
   if (!post) {
     return <Spinner />;
   }
 
   const formatTime = (date) => {
-    return date.toLocaleTimeString("en-US", {
-      hour: "numeric",
-      minute: "2-digit",
-      hour12: true,
-    });
+    if (date instanceof Date) {
+      return date.toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+      });
+    } else {
+      return "Invalid Date";
+    }
   };
 
   const handleLike = async () => {
@@ -183,7 +229,7 @@ const ReadMore = () => {
       }
     }
   };
- const handleCommentLikesUpdate  = async (e) => {
+  const handleCommentLikesUpdate = async (e) => {
 
   }
   const handleComment = async (e) => {
@@ -208,7 +254,7 @@ const ReadMore = () => {
       });
 
       // Update the local state if needed
-      setComments(updatedComments); 
+      setComments(updatedComments);
       setUserComment(""); // Clear the input field
       toast.success("Comment posted successfully");
     } catch (error) {
@@ -225,10 +271,47 @@ const ReadMore = () => {
     );
     toast.success("Link copied successfully");
   }
-  const profileId=(post.userId)
+  const profileId = (post.userId)
+
+  const excerpt = (str, count) => {
+    if (str && str.length > count) {
+      str = str.substring(0, count) + " ... ";
+    }
+    return str;
+  };
+  const handleReadMoreClick = async (relatedPost) => {
+    try {
+      // Fetch the specific post based on postId
+      const postDocRef = doc(db, "posts", relatedPost.id);
+    
+      const postDoc = await getDoc(postDocRef);
+  
+      if (postDoc.exists()) {
+        let updatedViewers;
+  
+        if (userId) {
+          // If userId exists, add it to the viewers array
+          updatedViewers = [...postDoc.data().views, userId];
+        } else {
+          // If userId doesn't exist, pass an empty array
+          updatedViewers = [];
+        }
+  
+        await updateDoc(postDocRef, { views: updatedViewers });
+
+      }
+    } catch (error) {
+
+      console.error("Error updating post document:", error);
+    }
+  };
+
+  console.log(relatedPost.id)
+
+
   return (
-    <div>
-      <div className="mt-40 mx-40 sm:mx-5 sm:mt-30 flex flex-col m-auto justify-center">
+    <div className="flex mt-40 w-screen px-20 sm:flex-col sm:px-5 " >
+      <div className="  px-40 sm:px-0  sm:mt-30 flex flex-col m-auto justify-center" key={post.id}>
         <div className="badge bg-red-500 text-white text-xl Aceh p-4">
           {post.category}
         </div>
@@ -243,10 +326,11 @@ const ReadMore = () => {
         </div>
         <div className=" my-20 sm:mx-5 sm:my-10">
           <h1 className="text-red-500 text-xl">{post.date}</h1>
-          <p className="mt-1 text-xl leading-5 text-red-500 Aceh pb-5">
+          <p className="mt-1 text-xl sm:text-sm leading-5 text-red-400 Aceh pb-5">
             Posted on {post.timestamp?.toDate()?.toDateString()} at{" "}
             {formatTime(post.timestamp?.toDate())}
           </p>
+          <p className="py-5 Aceh">By {profileData?.displayName}</p>
           <span className="text-xl flex gap-5 pb-5">
             <Like handleLike={handleLike} likes={likes} userId={userId} />
             <FontAwesomeIcon
@@ -256,23 +340,23 @@ const ReadMore = () => {
             {post.comments.length}
 
             <div className="flex gap-3 m-auto">
-                  <span>Share:</span>
-                  <LinkedinShareButton url={url} title={post?.postTitle}>
-                    <FontAwesomeIcon icon={faLinkedin} className="fab fa-linkedin text-sky-500 text-xl" />
-                  </LinkedinShareButton>
-                  <FacebookShareButton url={url} title={post?.postTitle}>
-                    <FontAwesomeIcon icon={faFacebook} className="fab fa-facebook text-sky-500 text-xl" />
-                  </FacebookShareButton>
-                  <TwitterShareButton url={url} title={post?.postTitle}>
-                    <FontAwesomeIcon icon={faTwitter} className="fab fa-twitter text-sky-500 text-xl" />
-                  </TwitterShareButton>
-                  <WhatsappShareButton url={url} title={post?.postTitle}>
-                    <FontAwesomeIcon icon={faWhatsapp} className="fab fa-whatsapp text-green-500 text-xl" />
-                  </WhatsappShareButton>
-                  <span onClick={copyText}>
-                    <FontAwesomeIcon icon={faCopy} className="fas fa-link text-xl" />
-                  </span>
-                </div>
+              <span>Share:</span>
+              <LinkedinShareButton url={url} title={post?.postTitle}>
+                <FontAwesomeIcon icon={faLinkedin} className="fab fa-linkedin text-sky-500 text-xl" />
+              </LinkedinShareButton>
+              <FacebookShareButton url={url} title={post?.postTitle}>
+                <FontAwesomeIcon icon={faFacebook} className="fab fa-facebook text-sky-500 text-xl" />
+              </FacebookShareButton>
+              <TwitterShareButton url={url} title={post?.postTitle}>
+                <FontAwesomeIcon icon={faTwitter} className="fab fa-twitter text-sky-500 text-xl" />
+              </TwitterShareButton>
+              <WhatsappShareButton url={url} title={post?.postTitle}>
+                <FontAwesomeIcon icon={faWhatsapp} className="fab fa-whatsapp text-green-500 text-xl" />
+              </WhatsappShareButton>
+              <span onClick={copyText}>
+                <FontAwesomeIcon icon={faCopy} className="fas fa-link text-xl" />
+              </span>
+            </div>
           </span>
           <hr></hr>
           <p className="text-green-500 text-xl ">{post.theme}</p>
@@ -299,15 +383,15 @@ const ReadMore = () => {
           </ul>
         </div>
         <div>
-        <div className="flex flex-col m-auto my-5 bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400   rounded-xl p-5">
-        <img src={ profileData?.photoURL} className="rounded-full h-20 w-20 m-auto"/>
-        <h1 className="text-xl m-auto text-black py-5" > Author:  {profileData?.displayName}</h1>
-        <h1 className="text-sm text-gray-600 py-1 m-auto" >Bio: {profileData?.shortBio}</h1>
-        <h1 className="text-sm text-gray-600 py-1 m-auto" >Email: {profileData?.email}</h1>
-        <NavLink to={`/profile/${profileId}`}>
-<button className="btn w-40 flex hover:bg-black m-auto my-2  bg-gradient-to-r from-orange-400 to-rose-400 text-white ">View Profile</button>
-</NavLink>
-        </div>
+          <div className="flex flex-col m-auto my-5 bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400   rounded-xl p-5">
+            <img src={profileData?.photoURL} className="rounded-full h-20 w-20 m-auto" />
+            <h1 className="text-xl m-auto text-black py-5" > Author:  {profileData?.displayName}</h1>
+            <h1 className="text-sm text-gray-600 py-1 m-auto" >Bio: {profileData?.shortBio}</h1>
+            <h1 className="text-sm text-gray-600 py-1 m-auto" >Email: {profileData?.email}</h1>
+            <NavLink to={`/profile/${profileId}`}>
+              <button className="btn w-40 flex hover:bg-black m-auto my-2  bg-gradient-to-r from-orange-400 to-rose-400 text-white ">View Profile</button>
+            </NavLink>
+          </div>
           <div className=" bg-white border rounded-xl text-base-200 p-5 mob_width">
             <div className="scroll">
               <h4 className="small-title Aceh text-red-500">
@@ -338,11 +422,11 @@ const ReadMore = () => {
                         key={id}
                       />
                     ))}
-                
 
-                    
+
+
                   </>
-                )}              
+                )}
               </div>
             </div>
 
@@ -355,6 +439,68 @@ const ReadMore = () => {
             />
           </div>
         </div>
+      </div>
+
+      <div className=" bg-gradient-to-l from-orange-400 to-rose-400 p-5 flex flex-col gap-5 sm:p-0 sm:w-full sm:m-auto">
+      <p className="text-white text-center text-xl">Related Publications</p>
+      {relatedPost?.map((post, index) => {
+          return (
+            <NavLink
+            to={`/readmore/${post.id}`}
+            onClick={() => handleReadMoreClick(post)}
+            key={index}
+            className=" p-5 sm:p-0 sm:px-5   transition duration-300 ease-in-out"
+          >
+            <div className="w-72 bg-white hover:bg-gray-100/50   rounded-xl p-2 shadow ">
+              <div className="relative overflow-clip  h-40 sm:w-40" >
+                <img src={post.data.imgUrl}  height={200} className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out m-auto " />
+              
+              </div>
+              <div className="px-5 sm:p-0">
+              <p className="badge bg-gray-100 p-4  top-5 text-gray-600  sm:hidden border-none ">
+                  {post.data.category}
+                </p>
+                <p className="mt-1 text-sm leading-5 text-red-300 border-b Aceh">
+                  {post.data.timestamp?.toDate().toDateString()} at{" "}
+                  {formatTime(post.data.timestamp?.toDate())}
+                </p>
+                <h2 className="Aceh text-xl py-2 text-black ">
+                  {post.data.postTitle}   
+                </h2>
+               
+
+                <p className="h-14 text-gray-800 sm:hidden">
+                  {excerpt(post.data.postDescription, 50)}
+                </p>
+                <span className="text-xl flex gap-5 ">
+                  <FontAwesomeIcon
+                    icon={faComment}
+                    className="text-gray-500 my-auto "
+                  />{" "}
+                  {post.data.comments?.length}
+                  <FontAwesomeIcon
+                    icon={faThumbsUp}
+                    className="text-gray-500 my-auto "
+                  />{" "}
+                  {post.data.likes?.length}
+                  <FontAwesomeIcon
+                    icon={faEye}
+                    className="text-gray-500 my-auto "
+                  />{" "}
+                  {post.data.views ? post.data.views.length : 0}
+                  {/* <FontAwesomeIcon
+                    onClick={handleAddBookmark}
+                    icon={faBookmark}
+                    style={buttonStyle}
+                    className="my-auto "
+                  />{" "}
+                  {bookmarkCount} */}
+                </span>
+              </div>
+            </div>
+          </NavLink>
+          )
+        })}
       </div>
     </div>
   );

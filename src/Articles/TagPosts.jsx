@@ -87,10 +87,10 @@ const TagPosts = () => {
     });
   };
 
-  const handleReadMoreClick = async () => {
+  const handleReadMoreClick = async (item) => {
     try {
       // Fetch the specific post based on postId
-      const postDocRef = doc(db, "posts", postId);
+      const postDocRef = doc(db, "posts", item.id);
       const postDoc = await getDoc(postDocRef);
 
       if (postDoc.exists()) {
@@ -114,7 +114,7 @@ const TagPosts = () => {
   return (
     <div>
       <div className="
-        mt-5  pt-10 h-100 w-screen bg-stone-300 overflow-hidden">
+        mt-5  pt-10 h-100 w-screen bg-gradient-to-r from-rose-100 to-teal-100 overflow-hidden">
         <div className="m-10 m-10 m_5 h-full ">
           <div className="blog-heading text-white shadow z-10  border-b-base-300 bg-green-600 text-left p-2 mb-4 fixed  hvr-bob ">
             Tag: <strong>{tag.toLocaleUpperCase()}</strong>
@@ -133,7 +133,7 @@ const TagPosts = () => {
             <li className="mt-10 " key={tag.id}>
             <NavLink
               to={`/readmore/${item.id}`}
-              onClick={handleReadMoreClick}
+              onClick={() => handleReadMoreClick(item)}
               key={item.id}
               className="hover:border hvr-float"
             >
