@@ -197,7 +197,13 @@ const ArticleInterest = () => {
     return <Spinner />;
   }
   console.log(interestPosts)
-
+  const formatTime = (date) => {
+    return date.toLocaleTimeString("en-US", {
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    });
+  };
   const handleReadMoreClick = async () => {
     if (userId) {
       try {
@@ -225,51 +231,64 @@ const ArticleInterest = () => {
                 <h2 className="text-md  text-gray-100 my-5 bg-black uppercase w-fit p-2">
                   {interest.key}
                 </h2>
-                <div className="flex flex-col gap-5">
+                <div className="flex flex-wrap gap-5">
                   {interestPosts
                     .filter((post) => post.category === interest.key)
                     .map((post) => (
                       <NavLink
-                        to={`/readmore/${post.id}`}
-                        onClick={handleReadMoreClick}
-                        key={post.id}
-                        className="hover:bg-gradient-to-r from-orange-400 to-rose-400 p-5 hover:rounded-xl  hvr-float "
-                      >
-                        <div key={post.id}>
-                          <div className="flex   gap-5 px-20  sm:px-0">
-                            <div className=" overflow-hidden w-96 h-40 sm:w-full">
-                              <img src={post.imgUrl} />
-                            </div>
+            to={`/readmore/${post.id}`}
+            onClick={() => handleReadMoreClick(post)}
+            key={post.id}
+            className="hover:border p-5  hover:rounded-xl transition duration-300  sm:m-10 ease-in-out "
+          >
+            <div key={post.id} className="w-96 bg-white hover:bg-gradient-to-r hover:scale-105  hover:from-orange-400 hover:to-rose-400 transition duration-300 ease-in-out  rounded-xl p-2 shadow ">
+              <div className="relative overflow-clip  h-40 sm:w-40" >
+                <img src={post.imgUrl}  height={200} className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out " />
+              
+              </div>
+              <div className="px-5 sm:p-0 ">
+              <p className="badge  bg-gradient-to-r from-orange-400 to-rose-400 p-4 my-5  top-5 text-gray-100   border-none ">
+                  {post.category}
+                </p>
+                <p className="mt-1 text-sm leading-5 text-red-300 border-b Aceh">
+                  {post.timestamp.toDate().toDateString()} at{" "}
+                  {formatTime(post.timestamp.toDate())}
+                </p>
+                <h2 className="Aceh text-xl py-2 text-black ">
+                  {post.postTitle}   
+                </h2>
+               
 
-                            <div className="flex flex-col gap-5 sm:gap-2">
-                              <h5 className="text-2xl sm:text-xl font-bold  hover:text-white    tracking-tight text-gray-900 dark:text-white">
-                                <p>{post.postTitle}</p>
-                              </h5>
-                              <p className="font-normal text-gray-700 dark:text-gray-400">
-                                <p>{excerpt(post.postDescription, 100)}</p>
-                              </p>
-                              {/* <NavLink to= {`/readmore/${post.id}`} onClick={handleReadMoreClick} > <button className='btn bg-red-500 text-white Aceh px-10 my-5'>Read</button></NavLink> */}
-                              <span className="text-xl flex gap-5 py-2">
-                                <FontAwesomeIcon
-                                  icon={faComment}
-                                  className="text-gray-300 my-auto "
-                                />{" "}
-                                {post.comments.length}
-                                <FontAwesomeIcon
-                                  icon={faThumbsUp}
-                                  className="text-gray-300 my-auto "
-                                />{" "}
-                                {post.likes.length}
-                                <FontAwesomeIcon
-                                  icon={faEye}
-                                  className="text-gray-300 my-auto "
-                                />{" "}
-                                {post.views ? post.views.length : 0}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      </NavLink>
+                <p className=" text-gray-800 ">
+                  {excerpt(post.postDescription, 100)}
+                </p>
+                <span className="text-xl flex gap-5 ">
+                  <FontAwesomeIcon
+                    icon={faComment}
+                    className="text-gray-500 my-auto "
+                  />{" "}
+                  {post.comments.length}
+                  <FontAwesomeIcon
+                    icon={faThumbsUp}
+                    className="text-gray-500 my-auto "
+                  />{" "}
+                  {post.likes.length}
+                  <FontAwesomeIcon
+                    icon={faEye}
+                    className="text-gray-500 my-auto "
+                  />{" "}
+                  {post.views ? post.views.length : 0}
+                  {/* <FontAwesomeIcon
+                    onClick={handleAddBookmark}
+                    icon={faBookmark}
+                    style={buttonStyle}
+                    className="my-auto "
+                  />{" "}
+                  {bookmarkCount} */}
+                </span>
+              </div>
+            </div>
+          </NavLink>
                     ))}
                 </div>
               </div>

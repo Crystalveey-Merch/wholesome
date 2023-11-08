@@ -57,14 +57,14 @@ const MyInterest = () => {
 
 
   return (
-    <div className="mt-40 sm:mt-16 w-screen px-10 sm:px-0">
+    <div className="pt-40 sm:pt-16 w-screen px-10 sm:px-0 relative  bg-gray-100">
       <div>
         <h1 className="text-red-500 text-3xl my-5 text-center AcehLight sm:text-xl">
           Filtered Based on your Interests{" "}
         </h1>
         <hr></hr>
 
-        <ul className="flex flex-wrap text-sm m-auto justify-center Aceh font-medium text-center text-white  bg-gradient-to-r from-red-500 to-orange-500 border-b border-gray-200 ">
+        <ul className="flex flex-wrap text-sm m-auto justify-center Aceh sticky top-40 z-10 sm:top-16 font-medium text-center text-white  bg-gradient-to-r from-red-500 to-orange-500 border-b border-gray-200 ">
           <li className="">
             <NavLink
               to="articles"

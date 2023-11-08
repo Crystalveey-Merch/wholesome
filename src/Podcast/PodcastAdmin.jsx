@@ -15,6 +15,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase/auth.js";
 import { toast } from "react-toastify";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { useNavigate } from "react-router";
 
 
 const PodcastAdmin = () => {
@@ -38,7 +39,8 @@ const PodcastAdmin = () => {
     const [selectedFile, setSelectedFile] = useState();
     const [previewUrl, setPreviewUrl] = useState();
     const [progress, setProgress] = useState(null);
-  
+    const navigate = useNavigate();
+
     const [form, setForm] = useState({
       podcastName: "",
       DateTime: "",
@@ -145,8 +147,9 @@ const PodcastAdmin = () => {
           timestamp: serverTimestamp(),
           userId: userId,
         });
-        toast.success("Activity created successfully");
-  
+        toast.success("Podcast submitted successfully");
+        navigate("/podcast")
+
         setForm({
             podcastName: "",
             DateTime: "",
@@ -170,7 +173,7 @@ const PodcastAdmin = () => {
       </h1> 
       <form onSubmit={handleSubmit}>
         <div className="flex flex-col gap-2 py-5">
-          <label className="text-gray-500 Aceh text-sm"> Activity Name</label>
+          <label className="text-gray-500 Aceh text-sm"> Podcast Title</label>
           <input
             name="podcastName"
             value={form.activityName}
@@ -179,16 +182,6 @@ const PodcastAdmin = () => {
           ></input>
         </div>
 
-        <div className="flex flex-col gap-2 py-2">
-          <label className="text-gray-500 Aceh text-sm"> Date</label>
-          <input
-            name="DateTime"
-            value={form.DateTime}
-            onChange={handleChange}
-            type="datetime-local"
-            className="p-3 bg-transparent border rounded-xl text-black"
-          ></input>
-        </div>
         <div className="flex flex-col gap-2 py-2">
           <label className="text-gray-500 Aceh text-sm"> Category</label>
           <select
@@ -204,37 +197,10 @@ const PodcastAdmin = () => {
             ))}
           </select>
         </div>
-        <div className="flex flex-col gap-2 py-2">
-          <label className="text-gray-600 mt-5 text-md Aceh">Add Podcast Image</label>
-          <input
-            type="file"
-            id="myFile"
-            onChange={handleImageChange}
-            accept="image/*, video/*"
-            name="filename"
-            className="file-input file-input-bordered w-full bg-white text-gray-500"
-          />
-          {progress > 0 && (
-            <div className="w-40 bg-gray-200 flex m-auto rounded-full h-2.5 dark:bg-gray-700 overflow-hidden transition-all duration-300 ease-in-out">
-              <div
-                className="bg-red-600 h-2.5 rounded-full"
-                style={{ width: `${progress}%` }}
-              ></div>
-            </div>
-          )}
-          <div className="card p-4 m-auto">
-            {previewUrl && (
-              <img
-                className="w-full h-30"
-                src={previewUrl}
-                alt="File Preview"
-              />
-            )}
-          </div>
-        </div>
+    
 
         <div className="flex flex-col gap-2 py-2">
-          <label className="text-gray-500 Aceh text-sm"> Spotify Link</label>
+          <label className="text-gray-500 Aceh text-sm"> Spotify Embed Link</label>
           <input
             name="spotify"
             value={form.location}
@@ -243,16 +209,7 @@ const PodcastAdmin = () => {
             className="p-3  bg-transparent border rounded-xl  text-black"
           ></input>
         </div>
-        <div className="flex flex-col gap-2 py-2">
-          <label className="text-gray-500 Aceh text-sm"> Podcast Link</label>
-          <input
-            name="podcast"
-            value={form.location}
-            onChange={handleChange}
-            type="text"
-            className="p-3  bg-transparent border rounded-xl  text-black"
-          ></input>
-        </div>
+        
         <div className="flex flex-col gap-2 py-2">
           <label className="text-gray-500 Aceh text-sm"> Youtube Link</label>
           <input
@@ -292,7 +249,6 @@ const PodcastAdmin = () => {
         <button
           className=" btn m-auto flex my-5 p-3 w-40 bg-green-500 text-white border-none "
           type="submit"
-          disabled={progress < 100} 
         >
           Submit
         </button>

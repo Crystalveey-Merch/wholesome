@@ -34,6 +34,8 @@ import {
   faEye,
   faThumbsUp,
 } from "@fortawesome/free-solid-svg-icons";
+// import ReactPaginate from 'react-paginate';
+
 
 const ArticleList = () => {
   const [authUser, setAuthUser] = useState(null);
@@ -62,72 +64,65 @@ const ArticleList = () => {
   const [randomPost, setRandomPost] = useState([]);
   const [tags, setTags] = useState([]);
   const [category, setCategory] = useState([]);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     const fetchPosts = async () => {
-      setLoading(true);
-
       try {
         const querySnapshot = await getDocs(collection(db, "posts"));
         const postData = [];
         const postIds = [];
-        // const postIds = []; // Create an array to store post IDs
-
-        querySnapshot.forEach((doc) => {
-          const post = doc.data();
-          post.id = doc.id;
-          postData.push(post);
-          postIds.push(doc.id); // Collect post IDs in the array
-        });
-        
-        // Set the postId state with the collected post IDs
-        
-        setPostId(postIds);
-    
-        setPosts(postData);
-
         const tags = [];
-        if (querySnapshot && Array.isArray(querySnapshot.docs)) {
-          querySnapshot.docs.forEach((doc) => {
-            const postData = doc.data();
-            if (postData && Array.isArray(postData.tags)) {
-              tags.push(...postData.tags);
-            }
-          });
-        }
-        const uniqueTags = [...new Set(tags)];
-        console.log(uniqueTags);
-        setTags(uniqueTags);
-
         const categories = [];
-        if (querySnapshot && Array.isArray(querySnapshot.docs)) {
-          querySnapshot.docs.forEach((doc) => {
-            const postData = doc.data();
-            const category = postData.category; // Get the category value from postData
-            if (category) {
-              categories.push(category); // Push the category to the array
+  
+        // Parallelize fetching data
+        await Promise.all(
+          querySnapshot.docs.map(async (doc) => {
+            const postDoc = doc.data();
+            postDoc.id = doc.id;
+            postData.push(postDoc);
+            postIds.push(doc.id);
+  
+            if (Array.isArray(postDoc.tags)) {
+              tags.push(...postDoc.tags);
             }
-          });
-        }
-
+  
+            const category = postDoc.category;
+            if (category) {
+              categories.push(category);
+            }
+          })
+        );
+  
+        // Set the postId state with the collected post IDs
+        setPostId(postIds);
+        setPosts(postData);
+        setTags([...new Set(tags)]);
         setCategory(categories);
-        console.log(categories);
-
+  
         const randomIndex = Math.floor(Math.random() * postData.length);
-
         if (postData[randomIndex]) {
           setRandomPost([postData[randomIndex]]);
         }
-        setLoading(false);
       } catch (error) {
         console.error("Error fetching posts:", error);
         setPosts([]);
       }
     };
-
-
+  
     fetchPosts();
-  },[] );
+  }, []);
+  
+console.log(posts)
+
+const handleSearch = () => {
+    return posts.filter(
+      (blogs) =>
+        blogs.postTitle.toLowerCase().includes(search) ||
+        blogs.postDescription.toLowerCase().includes(search) ||
+        blogs.content.toLowerCase().includes(search)
+    );
+  };
 
   useEffect(() => {
     // Retrieve the view count from Firestore
@@ -149,7 +144,6 @@ const ArticleList = () => {
 
   }, [postId]);
 
-  console.log(posts)
 
   useEffect(() => {
     const checkBookmarkStatus = async () => {
@@ -176,7 +170,6 @@ const ArticleList = () => {
   }, [authUser, postId]);
 
 
-  console.log(postId)
   if (loading) {
     return <Spinner />;
   }
@@ -291,7 +284,7 @@ const ArticleList = () => {
                 key={post.id}
                 className=""
               >
-                <div className="card card-side  w-full bg-gradient-to-r from-teal-200 to-lime-200 ">
+                <div className="card card-side  w-full bg-gradient-to-r from-teal-200 to-lime-200  ">
                   <figure className="w-96">
                     <img src={post.imgUrl} alt="Album" />
                   </figure>
@@ -331,17 +324,28 @@ const ArticleList = () => {
               </NavLink>
             ))}
         </div>
-        <div className="flex   flex-wrap m-auto justify-center gap-10">
-          {posts.map((post) => (
+        <div className=" m-auto p-5  bg-gradient-to-l from-orange-400 to-rose-400 ">
+        
+        <p className="text-center text-2xl py-5 text-white">Search Post</p>
+        <input
+              className="search  w-96 flex m-auto bg-white/50  input input-bordered border-white text-white "
+              id="floatingInputCustom"
+              type="text"
+              placeholder="Search Article"
+              onChange={(e) => setSearch(e.target.value)}
+            />
+        </div>
+        <div className="flex   flex-wrap m-auto justify-center gap-10 ">
+          {handleSearch().map((post) => (
             <div className=" " key={post.id}>
             <NavLink
             to={`/readmore/${post.id}`}
             onClick={() => handleReadMoreClick(post)}
             key={post.id}
-            className="hover:border p-5  hover:rounded-xl transition duration-300  sm:m-10 ease-in-out "
+            className="hover:border p-10   hover:rounded-xl transition duration-300  sm:m-5 ease-in-out "
           >
-            <div key={post.id} className="w-96 bg-white hover:bg-gradient-to-r hover:scale-105  hover:from-orange-400 hover:to-rose-400 transition duration-300 ease-in-out  rounded-xl p-2 shadow ">
-              <div className="relative overflow-clip  h-40 sm:w-40" >
+            <div key={post.id} className="w-96 sm:w-full bg-white hover:bg-gradient-to-r sm:p-10 hover:scale-105  hover:from-orange-400 hover:to-rose-400 transition duration-300 ease-in-out  rounded-xl p-2 shadow ">
+              <div className="relative overflow-clip  h-40 " >
                 <img src={post.imgUrl}  height={200} className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out " />
               
               </div>
@@ -349,16 +353,16 @@ const ArticleList = () => {
               <p className="badge  bg-gradient-to-r from-orange-400 to-rose-400 p-4 my-5  top-5 text-gray-100   border-none ">
                   {post.category}
                 </p>
-                <p className="mt-1 text-sm leading-5 text-red-300 border-b Aceh">
-                  {post.timestamp.toDate().toDateString()} at{" "}
-                  {formatTime(post.timestamp.toDate())}
-                </p>
+                {/* <p className="mt-1 text-sm leading-5 text-red-300 border-b Aceh">
+                  {post?.timestamp.toDate().toDateString()} at{" "}
+                  {formatTime(post?.timestamp.toDate())}
+                </p> */}
                 <h2 className="Aceh text-xl py-2 text-black ">
                   {post.postTitle}   
                 </h2>
                
 
-                <p className=" text-gray-800 ">
+                <p className=" text-gray-800 sm:hidden ">
                   {excerpt(post.postDescription, 100)}
                 </p>
                 <span className="text-xl flex gap-5 ">
@@ -390,6 +394,15 @@ const ArticleList = () => {
           </NavLink>
             </div>
           ))}
+          {/* <ReactPaginate
+        breakLabel="..."
+        nextLabel="next >"
+        // onPageChange={}
+        pageRangeDisplayed={5}
+        pageCount={20}
+        previousLabel="< previous"
+        renderOnZeroPageCount={null}
+      /> */}
         </div>
       </div>
       <div

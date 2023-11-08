@@ -1,8 +1,77 @@
 import { faSpotify, faYoutube } from "@fortawesome/free-brands-svg-icons";
 import { faMicrophone, faPodcast } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useEffect, useState } from "react";
+import {
+  addDoc,
+  collection,
+  DocumentSnapshot,
+  endAt,
+  endBefore,
+  getDocs,
+  setDoc,
+  doc,
+  getDoc,
+  updateDoc,
+  limit,
+  limitToLast,
+  orderBy,
+  query,
+  startAfter,
+  deleteField,
+  where,
+  increment,
+} from "firebase/firestore";
+import Spinner from "../components/Spinner.tsx";
+import { auth, db } from "../firebase/auth.js";
 
 const Podcast = () => {
+  const [loading, setLoading] = useState(false);
+  const [podcast, setPodcast] = useState([]);
+
+ 
+  useEffect(() => {
+    const fetchPodcast = async () => {
+      setLoading(true);
+
+      try {
+        const querySnapshot = await getDocs(collection(db, "podcast"));
+        const podcastData = [];
+        const postIds = [];
+        // const postIds = []; // Create an array to store post IDs
+
+        querySnapshot.forEach((doc) => {
+          const post = doc.data();
+          post.id = doc.id;
+          podcastData.push(post);
+          postIds.push(doc.id); // Collect post IDs in the array
+        });
+        
+        // Set the postId state with the collected post IDs
+        
+        // setPostId(postIds);
+    
+        setPodcast(podcastData);
+
+
+       
+
+       
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+        setPodcast([]);
+      }
+    };
+
+
+    fetchPodcast();
+  },[] );
+  console.log(podcast)
+
+  if (loading) {
+    return <Spinner />;
+  }
   return (
     <div className="mt-20 sm:mt-18 w-screen">
       <div className="relative">
@@ -33,11 +102,11 @@ const Podcast = () => {
             </div>
           </div>
         </div>
-        <div className="py-20">
-          <h1 className="text-4xl text-center text-black">
+        <div className="py-20 bg-gradient-to-b from-gray-900 to-gray-600 bg-gradient-to-r">
+          <h1 className="text-4xl text-center text-white">
             Why Wholesome Podcast?
           </h1>
-          <p className="px-60 sm:px-5 py-10 text-xl text-gray-800">
+          <p className="px-60 sm:px-5 py-10 text-xl text-center text-gray-200">
             Wholesome is creating a digital nation where Africans and the
             diaspora can build abundant lives. On the Wholesome Podcast, we
             continue the African tradition of oral storytelling to preserve our
@@ -59,179 +128,80 @@ const Podcast = () => {
             Our recent Episodes
           </h1>
 
-          <div className="py-5  flex flex-wrap mx-20 sm:mx-5">
-          <div className=" flex w-auto sm:flex-col   gap-4  p-2 m-auto justify-center">
-              <div className="avatar">
-                <div className="border border-4 border-red-500 border-double   h-fit p-4 rounded-full absolute -top-4 bg-white -left-3">
-                  <FontAwesomeIcon
-                    icon={faMicrophone}
-                    className=" text-red-600"
-                  />
-                </div>
-              </div>
-              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 p-5">
-                <img src="/Images/man.jpeg" className="w-40 sm:w-20"></img>
-                <div className="m-auto">
-                  <p className="  w-full text-white Aceh text-2xl ">
-                    How to Travel Abroad With Daniel
-                  </p>
-                  <p className="text-white ">May, 17, 2023 . 20min</p>
-                  <img src="/Images/waves'.png" className="m-auto"  width={200} height={200}></img>
-                </div>
-              </div>
+          <div className="py-5  flex flex-wrap mx-20 sm:mx-5 gap-10 justify-center">
+          {podcast?.map((item) => (
+
+            <div key={item.id}
+            dangerouslySetInnerHTML={{
+    __html: `
+     ${item.spotify}
+    `,}}
+            />
+          ))}
+          <div
+  dangerouslySetInnerHTML={{
+    __html: `
+      <iframe
+        style="border-radius: 12px"
+        src="https://open.spotify.com/embed/track/1AhDOtG9vPSOmsWgNW0BEY?utm_source=generator"
+        width="100%"
+        height="352"
+        frameBorder="0"
+        allowfullscreen=""
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        loading="lazy"
+      ></iframe>
+    `,
+  }}
+/>
+
+            <div>
+              <iframe
+                style={{ borderRadius: "12px" }}
+                src="https://open.spotify.com/embed/episode/7rDpsdkTIIWrpKbA0jQhz4?utm_source=generator"
+                width="100%"
+                height="352"
+                frameBorder="0"
+                allowfullscreen=""
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                loading="lazy"
+              ></iframe>
             </div>
-            <div className=" flex w-auto sm:flex-col   gap-4  p-2 m-auto justify-center">
-              <div className="avatar">
-                <div className="border border-4 border-red-500 border-double   h-fit p-4 rounded-full absolute -top-4 bg-white -left-3">
-                  <FontAwesomeIcon
-                    icon={faMicrophone}
-                    className=" text-red-600"
-                  />
-                </div>
-              </div>
-              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 p-5">
-                <img src="/Images/man.jpeg" className="w-40 sm:w-20"></img>
-                <div className="m-auto">
-                  <p className="  w-full text-white Aceh text-2xl ">
-                    How to Travel Abroad With Daniel
-                  </p>
-                  <p className="text-white ">May, 17, 2023 . 20min</p>
-                  <img src="/Images/waves'.png" className="m-auto"  width={200} height={200}></img>
-
-                </div>
-              </div>
+            <div>
+              <iframe
+                style={{ bordeRadius: "12px" }}
+                src="https://open.spotify.com/embed/track/4jDt1y2gCPiqC3PgWuzLjW?utm_source=generator"
+                width="100%"
+                height="352"
+                frameBorder="0"
+                allowfullscreen=""
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                loading="lazy"
+              ></iframe>
             </div>
-            <div className=" flex w-auto sm:flex-col   gap-4  p-2 m-auto justify-center">
-              <div className="avatar">
-                <div className="border border-4 border-red-500 border-double   h-fit p-4 rounded-full absolute -top-4 bg-white -left-3">
-                  <FontAwesomeIcon
-                    icon={faMicrophone}
-                    className=" text-red-600"
-                  />
-
-                </div>
-              </div>
-              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 p-5">
-                <img src="/Images/man.jpeg" className="w-40 sm:w-20"></img>
-                <div className="m-auto">
-                  <p className="  w-full text-white Aceh text-2xl ">
-                    How to Travel Abroad With Daniel
-                  </p>
-                  <p className="text-white ">May, 17, 2023 . 20min</p>
-                  <img src="/Images/waves'.png" className="m-auto"  width={200} height={200}></img>
-
-                </div>
-              </div>
+            <div>
+              <iframe
+                style={{ borderRadius: "12px" }}
+                src="https://open.spotify.com/embed/track/5MxNLUsfh7uzROypsoO5qe?utm_source=generator"
+                width="100%"
+                height="352"
+                frameBorder="0"
+                allowfullscreen=""
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                loading="lazy"
+              ></iframe>
             </div>
-            <div className=" flex w-auto sm:flex-col   gap-4  p-2 m-auto justify-center">
-              <div className="avatar">
-                <div className="border border-4 border-red-500 border-double   h-fit p-4 rounded-full absolute -top-4 bg-white -left-3">
-                  <FontAwesomeIcon
-                    icon={faMicrophone}
-                    className=" text-red-600"
-                  />
-
-                </div>
-              </div>
-              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 p-5">
-                <img src="/Images/man.jpeg" className="w-40 sm:w-20"></img>
-                <div className="m-auto">
-                  <p className="  w-full text-white Aceh text-2xl ">
-                    How to Travel Abroad With Daniel
-                  </p>
-                  <p className="text-white ">May, 17, 2023 . 20min</p>
-                  <img src="/Images/waves'.png" className="m-auto"  width={200} height={200}></img>
-
-                </div>
-              </div>
-            </div>
-            <div className=" flex w-auto sm:flex-col   gap-4  p-2 m-auto justify-center">
-              <div className="avatar">
-                <div className="border border-4 border-red-500 border-double   h-fit p-4 rounded-full absolute -top-4 bg-white -left-3">
-                  <FontAwesomeIcon
-                    icon={faMicrophone}
-                    className=" text-red-600"
-                  />
-
-                </div>
-              </div>
-              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 p-5">
-                <img src="/Images/man.jpeg" className="w-40 sm:w-20"></img>
-                <div className="m-auto">
-                  <p className="  w-full text-white Aceh text-2xl ">
-                    How to Travel Abroad With Daniel
-                  </p>
-                  <p className="text-white ">May, 17, 2023 . 20min</p>
-                  <img src="/Images/waves'.png" className="m-auto"  width={200} height={200}></img>
-
-                </div>
-              </div>
-            </div>
-              <div className=" flex w-auto sm:flex-col   gap-4  p-2 m-auto justify-center">
-              <div className="avatar">
-                <div className="border border-4 border-red-800 border-double   h-fit p-4 rounded-full absolute -top-4 bg-white -left-3">
-                  <FontAwesomeIcon
-                    icon={faMicrophone}
-                    className=" text-red-600"
-                  />
-
-                </div>
-              </div>
-              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 p-5">
-                <img src="/Images/man.jpeg" className="w-40 sm:w-20"></img>
-                <div className="m-auto">
-                  <p className="  w-full text-white Aceh text-2xl ">
-                    How to Travel Abroad With Daniel
-                  </p>
-                  <p className="text-white ">May, 17, 2023 . 20min</p>
-                  <img src="/Images/waves'.png" className="m-auto"  width={200} height={200}></img>
-
-                </div>
-              </div>
-            </div>
-            <div className=" flex w-auto sm:flex-col   gap-4  p-2 m-auto justify-center">
-              <div className="avatar">
-                <div className="border border-4 border-red-500 border-double   h-fit p-4 rounded-full absolute -top-4 bg-white -left-3">
-                  <FontAwesomeIcon
-                    icon={faMicrophone}
-                    className=" text-red-600"
-                  />
-
-                </div>
-              </div>
-              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-lg bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 p-5">
-                <img src="/Images/man.jpeg" className="w-40 sm:w-20"></img>
-                <div className="m-auto">
-                  <p className="  w-full text-white Aceh text-2xl ">
-                    How to Travel Abroad With Daniel
-                  </p>
-                  <p className="text-white ">May, 17, 2023 . 20min</p>
-                  <img src="/Images/waves'.png" className="m-auto"  width={200} height={200}></img>
-
-                </div>
-              </div>
-            </div>
-            <div className=" flex w-auto sm:flex-col   gap-4  p-2 m-auto justify-center">
-              <div className="avatar">
-                <div className="border border-4 border-red-500 border-double   h-fit p-4 rounded-full absolute -top-4 bg-white -left-3">
-                  <FontAwesomeIcon
-                    icon={faMicrophone}
-                    className=" text-red-600"
-                  />
-
-                </div>
-              </div>
-              <div className="h-full flex shadow-2xl  shadow gap-2 border border-2xl bg- rounded py-10 rounded-xl bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 p-5">
-                <img src="/Images/man.jpeg" className="w-40 sm:w-20"></img>
-                <div className="m-auto">
-                  <p className="  w-full text-white Aceh text-2xl ">
-                    How to Travel Abroad With Daniel
-                  </p>
-                  <p className="text-white ">May, 17, 2023 . 20min</p>
-                  <img src="/Images/waves'.png" className="m-auto"  width={200} height={200}></img>
-
-                </div>
-              </div>
+            <div>
+              <iframe
+                style={{ borderRadius: "12px" }}
+                src="https://open.spotify.com/embed/track/371VkfwKiXJxgH5ZPoQNHD?utm_source=generator"
+                width="100%"
+                height="352"
+                frameBorder="0"
+                allowfullscreen=""
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                loading="lazy"
+              ></iframe>
             </div>
           </div>
         </div>
