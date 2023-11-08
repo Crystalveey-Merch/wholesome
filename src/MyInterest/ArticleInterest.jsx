@@ -231,7 +231,7 @@ const ArticleInterest = () => {
                 <h2 className="text-md  text-gray-100 my-5 bg-black uppercase w-fit p-2">
                   {interest.key}
                 </h2>
-                <div className="flex flex-wrap gap-5">
+                <div className="flex flex-wrap gap-2">
                   {interestPosts
                     .filter((post) => post.category === interest.key)
                     .map((post) => (
@@ -239,9 +239,9 @@ const ArticleInterest = () => {
             to={`/readmore/${post.id}`}
             onClick={() => handleReadMoreClick(post)}
             key={post.id}
-            className="hover:border p-5  hover:rounded-xl transition duration-300  sm:m-10 ease-in-out "
+            className="hover:border p-5  hover:rounded-xl transition duration-300   ease-in-out "
           >
-            <div key={post.id} className="w-96 bg-white hover:bg-gradient-to-r hover:scale-105  hover:from-orange-400 hover:to-rose-400 transition duration-300 ease-in-out  rounded-xl p-2 shadow ">
+            <div key={post.id} className="w-96 sm:w-80 bg-white hover:bg-gradient-to-r hover:scale-105  hover:from-orange-400 hover:to-rose-400 transition duration-300 ease-in-out  rounded-xl p-2 shadow ">
               <div className="relative overflow-clip  h-40 sm:w-40" >
                 <img src={post.imgUrl}  height={200} className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out " />
               

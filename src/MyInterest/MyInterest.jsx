@@ -64,7 +64,7 @@ const MyInterest = () => {
         </h1>
         <hr></hr>
 
-        <ul className="flex flex-wrap text-sm m-auto justify-center Aceh sticky top-40 z-10 sm:top-16 font-medium text-center text-white  bg-gradient-to-r from-red-500 to-orange-500 border-b border-gray-200 ">
+        <ul className="flex flex-wrap text-sm m-auto justify-center Aceh sticky top-24 z-10 sm:top-16 font-medium text-center text-white  bg-gradient-to-r from-red-500 to-orange-500 border-b border-gray-200 ">
           <li className="">
             <NavLink
               to="articles"

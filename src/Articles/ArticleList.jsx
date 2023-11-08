@@ -69,6 +69,7 @@ const ArticleList = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
+        setLoading(true);
         const querySnapshot = await getDocs(collection(db, "posts"));
         const postData = [];
         const postIds = [];
@@ -104,6 +105,7 @@ const ArticleList = () => {
         if (postData[randomIndex]) {
           setRandomPost([postData[randomIndex]]);
         }
+        setLoading(false)
       } catch (error) {
         console.error("Error fetching posts:", error);
         setPosts([]);
@@ -112,7 +114,7 @@ const ArticleList = () => {
   
     fetchPosts();
   }, []);
-  
+
 console.log(posts)
 
 const handleSearch = () => {
