@@ -70,6 +70,7 @@ const[currentPage, setCurrentPage]= useState(1)
 
 
   useEffect(() => {
+    setLoading(true);
     const fetchPosts = async () => {
       try {
         setLoading(true);
@@ -112,6 +113,7 @@ const[currentPage, setCurrentPage]= useState(1)
       } catch (error) {
         console.error("Error fetching posts:", error);
         setPosts([]);
+        setLoading(false);
       }
     };
   

@@ -232,6 +232,9 @@ const ReadMore = () => {
   const handleCommentLikesUpdate = async (e) => {
 
   }
+
+ const  commentId = `${userId}-${Date.now()}`
+
   const handleComment = async (e) => {
     e.preventDefault();
 
@@ -240,6 +243,7 @@ const ReadMore = () => {
     const newComment = {
       createdAt: timestamp,
       userId,
+      commentId,
       name: userData?.displayName,
       body: userComment,
       imgUrl: userData?.photoURL,
@@ -417,8 +421,10 @@ const ReadMore = () => {
                         {...comment}
                         isAuthUserComment={isAuthUserComment(
                           comment,
-                          // authUser.Id
+                         userId,
                         )}
+                        postReplies={post.replies}
+                        postId={id}
                         key={id}
                       />
                     ))}
