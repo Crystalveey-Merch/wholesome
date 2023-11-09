@@ -52,14 +52,14 @@ const Dashboard = () => {
       };
 
   return (
-    <><div className="mt-20 py-20 sm:mt-18 sm:py-0 sm:px-0 px-20 w-screen ">
-     <div className=" relative top-1 left-0 hidden sm:block w-full  mt-5 ">
-            <ul className="menu menu-horizontal bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 dark:text-slate-200 m-auto justify-between  rounded-box  w-full">
+    <><div className="mt-20 py-20 sm:mt-18 sm:py-0 sm:px-0 px-20 w-screen relative ">
+     <div className=" sticky sm:top-20 z-10 hidden sm:block w-full  mt-5 ">
+            <ul className="menu  text-white menu-horizontal bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 dark:text-slate-200 m-auto justify-between  rounded-box  w-full">
               <li>
                 <NavLink to="profile" className="tooltip" data-tip="Home">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
+                    className="h-5 w-5 text-white"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -85,7 +85,7 @@ const Dashboard = () => {
                     viewBox="0 0 24 24"
                     strokeWidth="1.5"
                     stroke="currentColor"
-                    className="w-5 h-5"
+                    className="w-5 h-5 text-white"
                   >
                     <path
                       strokeLinecap="round"
@@ -107,7 +107,7 @@ const Dashboard = () => {
                     viewBox="0 0 24 24"
                     strokeWidth="1.5"
                     stroke="currentColor"
-                    className="w-5 h-5"
+                    className="w-5 h-5 text-white"
                   >
                     <path
                       strokeLinecap="round"
@@ -118,14 +118,14 @@ const Dashboard = () => {
                 </NavLink>
               </li>
               <li>
-                <NavLink to="drafts" className="tooltip" data-tip="Draft">
+                <NavLink to="drafts" className="tooltip text-white" data-tip="Draft">
                 <FontAwesomeIcon icon={faSave}/>
                 </NavLink>
               </li>
               <li>
                 <NavLink
                   to="bookmarks"
-                  className="tooltip"
+                  className="tooltip text-white"
                   data-tip="Bookmarks"
                 >
                 <FontAwesomeIcon icon={faBookmark}/>
@@ -135,7 +135,7 @@ const Dashboard = () => {
               <li>
                 <Link
                   to="#"
-                  className="tooltip"
+                  className="tooltip text-white"
                   data-tip="Log-out"
                   onClick={userSignout}
                 >

@@ -1,11 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowCircleRight, faArrowPointer, faArrowTurnRight } from "@fortawesome/free-solid-svg-icons";
 
 const CommentBox = ({ userId, userComment, setUserComment, handleComment, imgUrl }) => {
   const navigate = useNavigate();
   return (
-    <>
-      <form className="row blog-form  my-10">
+    <div className="flex gap-5">
+      <form className="row blog-form   w-full">
         <div className="col-12 py-3 flex gap-2">
         <div className="rounded-full overflow-hidden w-10 h-10 m-auto">               
                       <img
@@ -35,16 +37,16 @@ const CommentBox = ({ userId, userComment, setUserComment, handleComment, imgUrl
       ) : (
         <>
           <button
-            className="btn btn-primary m-auto flex"
+            className="btn btn-primary m-auto flex w-40"
             type="submit"
             onClick={handleComment}
             disabled={!userComment}
           >
-            Post Comment
+            <FontAwesomeIcon icon={faArrowTurnRight}/>
           </button>
         </>
       )}
-    </>
+    </div>
   );
 };
 

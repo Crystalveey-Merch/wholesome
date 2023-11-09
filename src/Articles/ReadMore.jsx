@@ -32,7 +32,7 @@ import MDEditor from "@uiw/react-md-editor";
 import { faComment, faCopy, faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
 import Like from "./Like.tsx";
-import UserComment from "./UserComment.tsx";
+import UserComment from "./UserComment.jsx";
 import CommentBox from "./CommentBox.tsx";
 import {
   FacebookShareButton,
@@ -243,6 +243,7 @@ const ReadMore = () => {
       name: userData?.displayName,
       body: userComment,
       imgUrl: userData?.photoURL,
+      replies:[]
     };
 
     // Create a copy of the existing comments array and add the new comment
@@ -283,12 +284,12 @@ const ReadMore = () => {
     try {
       // Fetch the specific post based on postId
       const postDocRef = doc(db, "posts", relatedPost.id);
-    
+
       const postDoc = await getDoc(postDocRef);
-  
+
       if (postDoc.exists()) {
         let updatedViewers;
-  
+
         if (userId) {
           // If userId exists, add it to the viewers array
           updatedViewers = [...postDoc.data().views, userId];
@@ -296,7 +297,7 @@ const ReadMore = () => {
           // If userId doesn't exist, pass an empty array
           updatedViewers = [];
         }
-  
+
         await updateDoc(postDocRef, { views: updatedViewers });
 
       }
@@ -311,7 +312,7 @@ const ReadMore = () => {
 
   return (
     <div className="flex mt-40 w-screen px-20 sm:flex-col sm:px-5 " >
-      <div className="  px-40 sm:px-0  sm:mt-30 flex flex-col m-auto justify-center" key={post.id}>
+      <div className="  px-40 lg:px-20 sm:px-0  sm:mt-30 flex flex-col m-auto justify-center" key={post.id}>
         <div className="badge bg-red-500 text-white text-xl Aceh p-4">
           {post.category}
         </div>
@@ -331,16 +332,17 @@ const ReadMore = () => {
             {formatTime(post.timestamp?.toDate())}
           </p>
           <p className="py-5 Aceh">By {profileData?.displayName}</p>
-          <span className="text-xl flex gap-5 pb-5">
-            <Like handleLike={handleLike} likes={likes} userId={userId} />
-            <FontAwesomeIcon
-              icon={faComment}
-              className="text-gray-300  "
-            />{" "}
-            {post.comments.length}
-
-            <div className="flex gap-3 m-auto">
-              <span>Share:</span>
+          <span className="text-xl flex gap-5 py-2 rounded-full sticky top-24  bg-gradient-to-r from-red-500/75 to-orange-500/75 m-auto justify-center">
+            <div className="flex gap-5   m-auto">
+              <Like handleLike={handleLike} likes={likes} userId={userId} />
+              <FontAwesomeIcon
+                icon={faComment}
+                className="text-gray-100  "
+              />{" "}
+              {post.comments.length}
+            </div>
+            <div className="flex gap-3 m-auto ">
+              <span className="text-white Aceh">Share:</span>
               <LinkedinShareButton url={url} title={post?.postTitle}>
                 <FontAwesomeIcon icon={faLinkedin} className="fab fa-linkedin text-sky-500 text-xl" />
               </LinkedinShareButton>
@@ -354,14 +356,12 @@ const ReadMore = () => {
                 <FontAwesomeIcon icon={faWhatsapp} className="fab fa-whatsapp text-green-500 text-xl" />
               </WhatsappShareButton>
               <span onClick={copyText}>
-                <FontAwesomeIcon icon={faCopy} className="fas fa-link text-xl" />
+                <FontAwesomeIcon icon={faCopy} className="fas fa-link text-xl text-white" />
               </span>
             </div>
           </span>
           <hr></hr>
-          <p className="text-green-500 text-xl ">{post.theme}</p>
-          <p className="text-red-500 py-5">{post.author}</p>
-
+          <br></br>
           <MDEditor.Markdown
             source={post.content}
             style={{ whiteSpace: "pre-wrap" }}
@@ -442,63 +442,63 @@ const ReadMore = () => {
       </div>
 
       <div className=" bg-gradient-to-l from-orange-400 to-rose-400 p-5 flex flex-col gap-5 sm:p-0 sm:w-full sm:m-auto">
-      <p className="text-white text-center text-xl">Related Publications</p>
-      {relatedPost?.map((post, index) => {
+        <p className="text-white text-center text-xl">Related Publications</p>
+        {relatedPost?.map((post, index) => {
           return (
             <NavLink
-            to={`/readmore/${post.id}`}
-            onClick={() => handleReadMoreClick(post)}
-            key={index}
-            className=" p-5 sm:p-0 sm:px-5   transition duration-300 ease-in-out"
-          >
-            <div className="w-72 bg-white hover:bg-gray-100/50   rounded-xl p-2 shadow ">
-              <div className="relative overflow-clip  h-40 sm:w-40" >
-                <img src={post.data.imgUrl}  height={200} className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out m-auto " />
-              
-              </div>
-              <div className="px-5 sm:p-0">
-              <p className="badge bg-gray-100 p-4  top-5 text-gray-600  sm:hidden border-none ">
-                  {post.data.category}
-                </p>
-                <p className="mt-1 text-sm leading-5 text-red-300 border-b Aceh">
-                  {post.data.timestamp?.toDate().toDateString()} at{" "}
-                  {formatTime(post.data.timestamp?.toDate())}
-                </p>
-                <h2 className="Aceh text-xl py-2 text-black ">
-                  {post.data.postTitle}   
-                </h2>
-               
+              to={`/readmore/${post.id}`}
+              onClick={() => handleReadMoreClick(post)}
+              key={index}
+              className=" p-5 sm:p-0 sm:px-5   transition duration-300 ease-in-out"
+            >
+              <div className="w-72 bg-white hover:bg-gray-100/50   rounded-xl p-2 shadow ">
+                <div className="relative overflow-clip  h-40 sm:w-40" >
+                  <img src={post.data.imgUrl} height={200} className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out m-auto " />
 
-                <p className="h-14 text-gray-800 sm:hidden">
-                  {excerpt(post.data.postDescription, 50)}
-                </p>
-                <span className="text-xl flex gap-5 ">
-                  <FontAwesomeIcon
-                    icon={faComment}
-                    className="text-gray-500 my-auto "
-                  />{" "}
-                  {post.data.comments?.length}
-                  <FontAwesomeIcon
-                    icon={faThumbsUp}
-                    className="text-gray-500 my-auto "
-                  />{" "}
-                  {post.data.likes?.length}
-                  <FontAwesomeIcon
-                    icon={faEye}
-                    className="text-gray-500 my-auto "
-                  />{" "}
-                  {post.data.views ? post.data.views.length : 0}
-                  {/* <FontAwesomeIcon
+                </div>
+                <div className="px-5 sm:p-0">
+                  <p className="badge bg-gray-100 p-4  top-5 text-gray-600  sm:hidden border-none ">
+                    {post.data.category}
+                  </p>
+                  <p className="mt-1 text-sm leading-5 text-red-300 border-b Aceh">
+                    {post.data.timestamp?.toDate().toDateString()} at{" "}
+                    {formatTime(post.data.timestamp?.toDate())}
+                  </p>
+                  <h2 className="Aceh text-xl py-2 text-black ">
+                    {post.data.postTitle}
+                  </h2>
+
+
+                  <p className="h-14 text-gray-800 sm:hidden">
+                    {excerpt(post.data.postDescription, 50)}
+                  </p>
+                  <span className="text-xl flex gap-5 ">
+                    <FontAwesomeIcon
+                      icon={faComment}
+                      className="text-gray-500 my-auto "
+                    />{" "}
+                    {post.data.comments?.length}
+                    <FontAwesomeIcon
+                      icon={faThumbsUp}
+                      className="text-gray-500 my-auto "
+                    />{" "}
+                    {post.data.likes?.length}
+                    <FontAwesomeIcon
+                      icon={faEye}
+                      className="text-gray-500 my-auto "
+                    />{" "}
+                    {post.data.views ? post.data.views.length : 0}
+                    {/* <FontAwesomeIcon
                     onClick={handleAddBookmark}
                     icon={faBookmark}
                     style={buttonStyle}
                     className="my-auto "
                   />{" "}
                   {bookmarkCount} */}
-                </span>
+                  </span>
+                </div>
               </div>
-            </div>
-          </NavLink>
+            </NavLink>
           )
         })}
       </div>

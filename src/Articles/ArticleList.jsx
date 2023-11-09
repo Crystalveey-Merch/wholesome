@@ -35,7 +35,7 @@ import {
   faThumbsUp,
 } from "@fortawesome/free-solid-svg-icons";
 // import ReactPaginate from 'react-paginate';
-
+import Pagination from "../components/pagination.jsx";
 
 const ArticleList = () => {
   const [authUser, setAuthUser] = useState(null);
@@ -65,6 +65,9 @@ const ArticleList = () => {
   const [tags, setTags] = useState([]);
   const [category, setCategory] = useState([]);
   const [search, setSearch] = useState("");
+const [postPerPage]= useState(9)
+const[currentPage, setCurrentPage]= useState(1)
+
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -115,7 +118,7 @@ const ArticleList = () => {
     fetchPosts();
   }, []);
 
-console.log(posts)
+
 
 const handleSearch = () => {
     return posts.filter(
@@ -125,6 +128,7 @@ const handleSearch = () => {
         blogs.content.toLowerCase().includes(search)
     );
   };
+
 
   useEffect(() => {
     // Retrieve the view count from Firestore
@@ -274,9 +278,19 @@ const handleSearch = () => {
     }
   };
 
+
+  const indexOfLastPage= currentPage * postPerPage;
+  const indexOfFirstPage= indexOfLastPage - postPerPage;
+  const currentPosts = handleSearch().slice(indexOfFirstPage, indexOfLastPage);
+
+  const paginate = (pageNumber)=> setCurrentPage(pageNumber);
+
+  console.log(handleSearch())
+  console.log(currentPosts.length)
+
   return (
     <div className="  py-20 sm:px-2 px-10  w-screen  flex sm:flex-col  m-auto  justify-center bg-stone-200  relative">
-      <div>
+      <div className="w-full">
         <div className="flex m-auto my-10 justify-center sm:hidden">
           {Array.isArray(randomPost) &&
             randomPost.map((post) => (
@@ -326,7 +340,7 @@ const handleSearch = () => {
               </NavLink>
             ))}
         </div>
-        <div className=" m-auto p-5  bg-gradient-to-l from-orange-400 to-rose-400 ">
+        <div className=" m-auto p-5  bg-gradient-to-l from-orange-400 to-rose-400  ">
         
         <p className="text-center text-2xl py-5 text-white">Search Post</p>
         <input
@@ -338,7 +352,7 @@ const handleSearch = () => {
             />
         </div>
         <div className="flex   flex-wrap m-auto justify-center gap-10 ">
-          {handleSearch().map((post) => (
+          {currentPosts.map((post) => (
             <div className=" " key={post.id}>
             <NavLink
             to={`/readmore/${post.id}`}
@@ -355,16 +369,16 @@ const handleSearch = () => {
               <p className="badge  bg-gradient-to-r from-orange-400 to-rose-400 p-4 my-5  top-5 text-gray-100   border-none ">
                   {post.category}
                 </p>
-                {/* <p className="mt-1 text-sm leading-5 text-red-300 border-b Aceh">
+                <p className="mt-1 text-sm leading-5 text-red-300 border-b Aceh">
                   {post?.timestamp.toDate().toDateString()} at{" "}
                   {formatTime(post?.timestamp.toDate())}
-                </p> */}
+                </p>
                 <h2 className="Aceh text-xl py-2 text-black ">
                   {post.postTitle}   
                 </h2>
                
 
-                <p className=" text-gray-800 sm:hidden ">
+                <p className=" text-gray-800  ">
                   {excerpt(post.postDescription, 100)}
                 </p>
                 <span className="text-xl flex gap-5 ">
@@ -396,6 +410,7 @@ const handleSearch = () => {
           </NavLink>
             </div>
           ))}
+         
           {/* <ReactPaginate
         breakLabel="..."
         nextLabel="next >"
@@ -406,9 +421,15 @@ const handleSearch = () => {
         renderOnZeroPageCount={null}
       /> */}
         </div>
+        <Pagination
+            postPerPage={postPerPage}
+            totalPosts={posts.length}
+            paginate={paginate}
+            currentPage={currentPage}
+          />
       </div>
       <div
-        className="tags p-5  m-5 bg-gradient-to-r from-orange-400 to-rose-400 w-2/3  sm:w-full sm:m-0 sm:my-10 ">
+        className="tags p-5  m-5 bg-gradient-to-r from-orange-400 to-rose-400 w-96  sm:w-full sm:m-0 sm:my-10 ">
         <div >
           <h2 className="text-xl Aceh text-white">Tags</h2>
           <hr></hr>

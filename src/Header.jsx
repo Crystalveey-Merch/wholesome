@@ -132,7 +132,7 @@ const Header = () => {
               {/* Sidebar content here */}
               <NavLink
                 to="/"
-                className="text-center py-5 Aceh  normal-case text-xl "
+                className="text-center py-5 Aceh  normal-case text-2xl "
               >
                 {" "}
                 <div>Wholesome</div>
@@ -142,7 +142,7 @@ const Header = () => {
                 <Menu.Button className="text-left p-2 text-white light:text-black   border-b border">
                   About us
                 </Menu.Button>
-                <Menu.Items className="flex flex-col gap-4 text-base px-5">
+                <Menu.Items className="flex flex-col gap-4 text-2xl px-5">
                   <Menu.Item>
                     {({ active }) => (
                       <NavLink
@@ -359,11 +359,11 @@ const Header = () => {
         <NavLink to="/">
           {" "}
           <div>
-            <a className=" Aceh  normal-case text-xl  ">Wholesome</a>
+            <a className=" Aceh  normal-case text-2xl  ">Wholesome</a>
           </div>
         </NavLink>
-        <div className=" w-full flex justify-center m-auto  sm:hidden ">
-          <ul className="menu menu-horizontal px-1 m-auto text-black">
+        <div className=" w-full flex justify-center m-auto text-2xl sm:hidden ">
+          <ul className="menu menu-horizontal text-2xl px-1 m-auto text-black">
             <div className="dropdown dropdown-bottom ">
               <label
                 tabIndex={0}
@@ -374,7 +374,7 @@ const Header = () => {
 
               <ul
                 tabIndex={0}
-                className="dropdown-content  z-[1] menu p-2 shadow bg-white w-52"
+                className="dropdown-content  bg-black/75  Aceh z-[1] menu p-2 shadow bg-white w-52"
               >
                 <ul className="p-2">
                   <li>
@@ -389,19 +389,19 @@ const Header = () => {
                 </ul>
               </ul>
             </div>
-            <div className="dropdown dropdown-bottom">
+            <div className="dropdown dropdown-bottom text-xl">
               <label
                 tabIndex={0}
-                className="text-black bg-white border-none capitalize btn m-1 hover:bg-gray-100"
+                className="text-black bg-white  border-none capitalize btn m-1 hover:bg-gray-100"
               >
                 Interest
               </label>
 
               <ul
                 tabIndex={0}
-                className="dropdown-content z-[1] menu p-2 shadow bg-white w-52"
+                className="dropdown-content z-[1] menu p-2 shadow bg-black/75  Aceh text-white w-52"
               >
-                <ul className="p-2">
+                <ul className="p-2 text-md">
                   {authUser ? (
                     <li>
                       <NavLink
@@ -464,10 +464,10 @@ const Header = () => {
 
               <ul
                 tabIndex={0}
-                className="dropdown-content z-[1] menu p-2 shadow bg-white w-52"
+                className="dropdown-content z-[1] menu p-2 shadow bg-black/75 text-white   Aceh w-52"
               >
-                <ul className="p-2">
-                  <li>
+                <ul className="p-2 text-white">
+                  <li className=" text-white">
                     <NavLink to="/upcomingevents">Upcoming Events</NavLink>
                   </li>
                   <li>
