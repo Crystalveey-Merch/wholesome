@@ -67,6 +67,7 @@ const ArticleList = () => {
   const [search, setSearch] = useState("");
 const [postPerPage]= useState(9)
 const[currentPage, setCurrentPage]= useState(1)
+const [trendingPost, setTrendingPost] = useState([]);
 
 
   useEffect(() => {
@@ -109,6 +110,11 @@ const[currentPage, setCurrentPage]= useState(1)
         if (postData[randomIndex]) {
           setRandomPost([postData[randomIndex]]);
         }
+        const sortedPosts = postData.sort((a, b) => b.views - a.views);
+        // Get the top 10 posts with highest views
+        const trendingPosts = sortedPosts.slice(0, 10);
+        setTrendingPost(trendingPosts);
+
         setLoading(false)
       } catch (error) {
         console.error("Error fetching posts:", error);
@@ -118,7 +124,7 @@ const[currentPage, setCurrentPage]= useState(1)
     };
   
     fetchPosts();
-  }, []);
+  }, [trendingPost]);
 
 
 
@@ -132,42 +138,34 @@ const handleSearch = () => {
   };
 
 
-  useEffect(() => {
-    // Retrieve the view count from Firestore
-    const fetchBookmarkCount = async () => {
-      try {
-        const docRef = doc(db, 'posts', postId);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          setBookmarkCount(docSnap.data().count);
-        } else {
-          console.log('Post document does not exist.');
-        }
-      } catch (error) {
-        console.log('Error fetching view count:', error);
-      }
-    };
-    fetchBookmarkCount();
-
-
-  }, [postId]);
+ 
 
 
   useEffect(() => {
     const checkBookmarkStatus = async () => {
       try {
-        if (authUser && postId) {
-          const bookmarkDocRef = doc(db, "bookmarks", authUser.uid);
+        if (userId && postId) {
+          const bookmarkDocRef = doc(db, "bookmarks", userId);
           const bookmarkDocSnapshot = await getDoc(bookmarkDocRef);
+          const blogRef = doc(db, "posts" , postId);
 
           if (bookmarkDocSnapshot.exists()) {
             const bookmarks = bookmarkDocSnapshot.data();
             const isBookmarked = postId in bookmarks;
             setIsBookmarked(isBookmarked);
+
             console.log(bookmarks.length);
           } else {
             setIsBookmarked(false); // Document doesn't exist, so it's not bookmarked
           }
+          const blogSnapshot = await getDoc(blogRef);
+          if (blogSnapshot.exists()) {
+            const blogData = blogSnapshot.data();
+            console.log(blogData)
+            setBookmarkCount(blogData.count)
+
+
+          } 
         }
       } catch (error) {
         console.error("Error checking bookmark status: ", error);
@@ -175,7 +173,7 @@ const handleSearch = () => {
     };
 
     checkBookmarkStatus();
-  }, [authUser, postId]);
+  }, [userId, postId]);
 
 
   if (loading) {
@@ -227,58 +225,6 @@ const handleSearch = () => {
     // Add any other button styles as needed
   };
 
-  const handleAddBookmark = async (postId) => {
-    if (!userId) {
-      console.error("userId is undefined or null");
-      return;
-     }
-  
-    const bookmarkRef = doc(db, "bookmarks", userId);
-    const blogRef = doc(db, "posts", postId);
-  
-    try {
-      if (isBookmarked) {
-
-        await updateDoc(bookmarkRef, {
-          [postId]: deleteField(),
-        });
-        setIsBookmarked(false);
-        toast.success("Removed from Bookmarks");
-  
-        setBookmarkCount((prevCount) => prevCount - 1);
-      } else {
-  
-        const blogSnapshot = await getDoc(blogRef);
-        if (blogSnapshot.exists()) {
-          const blogData = blogSnapshot.data();
-  
-          await setDoc(
-            bookmarkRef,
-            {
-              [postId]: {
-                ...blogData,
-                count: bookmarkCount + 1,
-              },
-            },
-            { merge: true }
-          );
-  
-          // Update the "posts" collection's count
-          await updateDoc(blogRef, {
-            count: increment(1),
-          });
-  
-          setIsBookmarked(true);
-          toast.success("Added to Bookmarks");
-  
-          setBookmarkCount((prevCount) => prevCount + 1);
-        }
-      }
-    } catch (error) {
-      console.error("Error toggling bookmark status: ", error);
-      toast.error("Failed to toggle bookmark");
-    }
-  };
 
 
   const indexOfLastPage= currentPage * postPerPage;
@@ -287,8 +233,7 @@ const handleSearch = () => {
 
   const paginate = (pageNumber)=> setCurrentPage(pageNumber);
 
-  console.log(handleSearch())
-  console.log(currentPosts.length)
+
 
   return (
     <div className="  py-20 sm:px-2 px-10  w-screen  flex sm:flex-col  m-auto  justify-center bg-stone-200  relative">
@@ -303,11 +248,11 @@ const handleSearch = () => {
                 className=""
               >
                 <div className="card card-side  w-full bg-gradient-to-r from-teal-200 to-lime-200  ">
-                  <figure className="w-96">
+                  <figure className="w-2/5 overflow-hidden" style={{}}>
                     <img src={post.imgUrl} alt="Album" />
                   </figure>
                   <div className="card-body">
-                    <div className="px-5  ">
+                    <div className="m-auto flex flex-col justify-center ">
                       <h2 className="Aceh text-3xl py-5 text-black  card-title">
                         {post.postTitle}
                       </h2>
@@ -335,6 +280,12 @@ const handleSearch = () => {
                           className="text-gray-800 my-auto "
                         />{" "}
                         {post.views ? post.views.length : 0}
+                        <FontAwesomeIcon
+                    icon={faBookmark}
+                    style={buttonStyle}
+                    className="my-auto "
+                  />
+                  {post.count}
                       </span>
                     </div>
                   </div>
@@ -342,11 +293,11 @@ const handleSearch = () => {
               </NavLink>
             ))}
         </div>
-        <div className=" m-auto p-5  bg-gradient-to-l from-orange-400 to-rose-400  ">
+        <div className=" m-auto p-5  bg-white ">
         
-        <p className="text-center text-2xl py-5 text-white">Search Post</p>
+        <p className="text-center text-2xl py-5 text-red-500">Search Post</p>
         <input
-              className="search  w-96 flex m-auto bg-white/50  input input-bordered border-white text-white "
+              className="search  w-96 flex m-auto bg-red/50  input input-bordered border-black text-red-600 "
               id="floatingInputCustom"
               type="text"
               placeholder="Search Article"
@@ -362,7 +313,7 @@ const handleSearch = () => {
             key={post.id}
             className="hover:border p-10   hover:rounded-xl transition duration-300  sm:m-5 ease-in-out "
           >
-            <div key={post.id} className="w-96 sm:w-full bg-white hover:bg-gradient-to-r sm:p-10 hover:scale-105  hover:from-orange-400 hover:to-rose-400 transition duration-300 ease-in-out  rounded-xl p-2 shadow ">
+            <div key={post.id} className="w-96 sm:w-full bg-white  sm:p-10 hover:scale-105   transition duration-300 ease-in-out  rounded-xl p-2 shadow ">
               <div className="relative overflow-clip  h-40 " >
                 <img src={post.imgUrl}  height={200} className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out " />
               
@@ -399,13 +350,12 @@ const handleSearch = () => {
                     className="text-gray-500 my-auto "
                   />{" "}
                   {post.views ? post.views.length : 0}
-                  {/* <FontAwesomeIcon
-                    onClick={handleAddBookmark}
+                  <FontAwesomeIcon
                     icon={faBookmark}
                     style={buttonStyle}
                     className="my-auto "
-                  />{" "}
-                  {bookmarkCount} */}
+                  />
+                  {post.count}
                 </span>
               </div>
             </div>
@@ -432,10 +382,53 @@ const handleSearch = () => {
       </div>
       <div
         className="tags p-5  m-5 bg-gradient-to-r from-orange-400 to-rose-400 w-96  sm:w-full sm:m-0 sm:my-10 ">
-        <div >
-          <h2 className="text-xl Aceh text-white">Tags</h2>
+        <div  key={trendingPost.id}>
+          <h2 className="text-xl Aceh text-white">Trending Posts</h2>
           <hr></hr>
           <br></br>
+          {trendingPost?.map((post)=>(
+            <NavLink
+                to={`/readmore/${post.id}`}
+                onClick={() => handleReadMoreClick(post)}
+                key={post.id}
+                className=""
+              >
+            <div key={post.id}>
+            <p className="mt-1 text-sm leading-5 text-red-300 border-b Aceh">
+                  {post?.timestamp.toDate().toDateString()} at{" "}
+                  {formatTime(post?.timestamp.toDate())}
+                </p>
+              <p>{post.postTitle}</p>
+              <span className="text-xl flex gap-5 ">
+                  <FontAwesomeIcon
+                    icon={faComment}
+                    className="text-gray-500 my-auto "
+                  />{" "}
+                  {post.comments.length}
+                  <FontAwesomeIcon
+                    icon={faThumbsUp}
+                    className="text-gray-500 my-auto "
+                  />{" "}
+                  {post.likes.length}
+                  <FontAwesomeIcon
+                    icon={faEye}
+                    className="text-gray-500 my-auto "
+                  />{" "}
+                  {post.views ? post.views.length : 0}
+                  <FontAwesomeIcon
+                    icon={faBookmark}
+                    style={buttonStyle}
+                    className="my-auto "
+                  />
+                  {post.count}
+                </span>
+              
+            </div>
+            </NavLink>
+          ))}
+          <h2 className="text-xl Aceh text-white">Tags</h2>
+
+
           {tags?.map((tag) => (
             <div
               className="badge bg-white   m-1 p-4 hvr-bounce-in"

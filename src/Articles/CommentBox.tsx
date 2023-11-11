@@ -37,12 +37,12 @@ const CommentBox = ({ userId, userComment, setUserComment, handleComment, imgUrl
       ) : (
         <>
           <button
-            className="btn btn-primary m-auto flex w-40"
+            className="btn btn-primary m-auto flex w-40 capitalize"
             type="submit"
             onClick={handleComment}
             disabled={!userComment}
           >
-            <FontAwesomeIcon icon={faArrowTurnRight}/>
+            Comment
           </button>
         </>
       )}

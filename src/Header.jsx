@@ -54,7 +54,6 @@ const Header = () => {
         if (profileDocSnapshot.exists()) {
           const profileData = profileDocSnapshot.data();
           setProfileData(profileData);
-          console.log(profileData.uid);
         } else {
           // Handle case where the profile document doesn't exist
         }

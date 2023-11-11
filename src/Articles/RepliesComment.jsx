@@ -2,9 +2,35 @@ import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 
-const RepliesComment = ({ reply, postId, userId, commentId }) => {
+const RepliesComment = ({
+  reply,
+  postId,
+  userId,
+  commentId,
+  authUser,
+  deleteReply,
+}) => {
+  const {
+    name,
+    body,
+    createdAt,
+    msg,
+    isAuthUserComment,
+    imgUrl,
+    commentLikes,
+    replyId,
+  } = reply;
+  const formatTime = (date) => {
+    return date.toLocaleTimeString("en-US", {
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    });
+  };
 
-  const { name, body, createdAt, msg, isAuthUserComment, imgUrl, commentLikes, replyId } = reply;
+  const [replyUserId] = reply.replyId.split('-');
+  console.log(replyUserId)
+
   return (
     <div>
       <div className="row w-auto ">
@@ -53,11 +79,11 @@ const RepliesComment = ({ reply, postId, userId, commentId }) => {
                             className={
                               isAuthUserComment
                                 ? "chat-bubble flex text-white    Aceh bg-red-500  "
-                                : "chat-bubble text-white chat-start Aceh bg-sky-800 flex gap-5  sm:gap-4 my-auto w-full "
+                                : "chat-bubble text-white chat-start Aceh bg-sky-500 flex gap-5  sm:gap-4 my-auto w-full "
                             }
                           >
                             <span className="text-green-400 text-sm  ">
-                              {/* {formatTime(createdAt.toDate())} */}
+                              {formatTime(createdAt.toDate())}
                             </span>
                             {body}
                           </div>
@@ -67,6 +93,13 @@ const RepliesComment = ({ reply, postId, userId, commentId }) => {
                               className="text-gray-300 flex my-auto"
                             />
                             {commentLikes}
+                          </div>
+                          <div>
+                            {replyUserId === authUser.uid && (
+                              <span onClick={() => deleteReply(reply)} className="text-red-500 cursor-pointer">
+                                Delete
+                              </span>
+                            )}
                           </div>
                         </div>
                       </div>

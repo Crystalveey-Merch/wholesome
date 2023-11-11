@@ -33,7 +33,7 @@ const UserComment = ({
   const [userData, setUserData] = useState(null);
   const [userReply, setUserReply] = useState("");
   const [replies, setReplies] = useState([]);
-
+const [showCommentBox, setShowCommentBox] =useState(false)
   const formatTime = (date) => {
     return date.toLocaleTimeString("en-US", {
       hour: "numeric",
@@ -43,7 +43,7 @@ const UserComment = ({
   };
   const commentClassName = isAuthUserComment ? " w-auto " : "w-auto ml-auto";
 
-  console.log(commentId);
+
   useEffect(() => {
     const listen = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -57,12 +57,11 @@ const UserComment = ({
       listen();
     };
   }, []);
-  console.log(id, "id");
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const profileDocRef = doc(db, "users", userId); // Assuming you have a "users" collection in Firebase
+        const profileDocRef = doc(db, "users", authUser?.uid); // Assuming you have a "users" collection in Firebase
         const profileDocSnapshot = await getDoc(profileDocRef);
         setUserData(profileDocSnapshot.data());
       } catch (error) {
@@ -70,12 +69,12 @@ const UserComment = ({
       }
     };
     // console.log(!profileData.photoURL);
-    if (userId) {
+    if (authUser?.uid) {
       fetchUserData();
     }
-  }, [userId, userData]);
+  }, [authUser?.uid, userData]);
 
-  const replyId = `${userId}-${Date.now()}`;
+  const replyId = `${authUser?.uid}-${Date.now()}`;
 
   const handleReply = async (e) => {
     e.preventDefault();
@@ -84,10 +83,11 @@ const UserComment = ({
     // }
 
     const timestamp = Timestamp.now();
+     const authUserId =  authUser?.uid
 
     const newReply = {
       createdAt: timestamp,
-      userId,
+      authUserId,
       name: userData?.displayName,
       body: userReply,
       imgUrl: userData?.photoURL,
@@ -127,13 +127,25 @@ const UserComment = ({
     fetchReplies();
   }, [postId, commentId]);
 
-  // const handleReply = async (e) => {
-  //   e.preventDefault();
+  
 
-  //  ;}
-  // console.log(id)
-  // Create a copy of the existing comments array and add the new comment
+  const deleteReply = async (reply) => {
+    const [replyUserId] = reply.replyId.split('-');
 
+    if (replyUserId === authUser?.uid) {
+      const updatedReplies = replies.filter((r) => r.replyId !== reply.replyId);
+      setReplies(updatedReplies);
+      try {
+        await updateDoc(doc(db, "posts", postId), {
+          replies: updatedReplies,
+        });
+        toast.success("Reply deleted successfully");
+      } catch (error) {
+        console.error("Error deleting reply: ", error);
+        toast.error("Error deleting reply", error);
+      }
+    }
+  };
   return (
     <div>
       <div className="row w-auto ">
@@ -176,29 +188,29 @@ const UserComment = ({
                           </div>
                         </div>
                       </div>
-                      <div className="m-auto mx-2">
+                      <div className="m-auto mx-2  flex ">
                         <FontAwesomeIcon
                           icon={faHeart}
                           className="text-gray-300 flex my-auto"
                         />
                         {commentLikes}
-                      </div>
-                    </div>
-                    <span className="flex gap-2 pl-5 sm:p-2">
-                      <FontAwesomeIcon
-                        icon={faReply}
-                        className="text-sky-500"
-                      ></FontAwesomeIcon>
+                        <span className="flex gap-2 pl-5 sm:p-2 cursor-pointer" onClick={() => setShowCommentBox(!showCommentBox)}>
+                      
                       <p className="text-sky-500">Reply</p>
                     </span>
-                    <div className="ml-20">
+                      </div>
+                    </div>
+                    
+                    <div className="ml-10">
+                    <div className={`comment-box transition-height duration-300 ease-in-out ${showCommentBox ? 'h-20' : 'h-0'}`}>
                       <CommentBox
-                        userId={userId}
+                        userId={authUser?.uid}
                         userComment={userReply}
                         setUserComment={setUserReply}
                         handleComment={handleReply}
                         imgUrl={userData?.photoURL}
                       />
+                      </div>
                       {replies?.length > 0 &&
                         replies.map((reply) => (
                           <RepliesComment
@@ -207,6 +219,8 @@ const UserComment = ({
                             userId={userId}
                             commentId={commentId}
                             key={reply.replyId}
+                            authUser={authUser}
+                            deleteReply={deleteReply}
                           />
                         ))}
                     </div>
