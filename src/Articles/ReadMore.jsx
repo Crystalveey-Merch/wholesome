@@ -183,14 +183,14 @@ const ReadMore = () => {
             setBookmarkCount(blogData.count)
 
 
-          }  
+          }
         }
       } catch (error) {
         console.error("Error checking bookmark status: ", error);
       }
     };
     checkBookmarkStatus();
-  }, [ id, userId]);
+  }, [id, userId]);
 
 
   useEffect(() => {
@@ -282,7 +282,7 @@ const ReadMore = () => {
       }
     }
   };
-  const handleCommentLikesUpdate = async (e) => {};
+  const handleCommentLikesUpdate = async (e) => { };
 
   const commentId = `${userId}-${Date.now()}`;
 
@@ -399,14 +399,14 @@ const ReadMore = () => {
       toast.error("Failed to toggle bookmark");
     }
   };
-  
+
   const buttonStyle = {
     color: isBookmarked ? "gold" : "gray",
     opacity: isBookmarked ? "100%" : "75%",
     // Add any other button styles as needed
   };
 
-  
+
   return (
     <div className="flex mt-40 w-screen px-20 sm:flex-col sm:px-5 ">
       <div
@@ -427,19 +427,31 @@ const ReadMore = () => {
         </div>
         <div className=" my-20 sm:mx-5 sm:my-10">
           <h1 className="text-red-500 text-xl">{post.date}</h1>
-          <p className="mt-1 text-xl sm:text-sm leading-5 text-red-400 Aceh pb-5">
+          <p className="mt-1 text-xl sm:text-sm leading-5 text-red-400 Aceh pb-2">
             Posted on {post.timestamp?.toDate()?.toDateString()} at{" "}
             {formatTime(post.timestamp?.toDate())}
           </p>
           <p className="py-5 Aceh">By {profileData?.displayName}</p>
-          <span className="text-xl flex text-gray-100 p-2 rounded-full sticky top-24  bg-gradient-to-r from-red-500/75 to-orange-500/75 m-auto justify-center">
-            <div className="flex gap-5   m-auto">
+          <p className="py-5 underline cursor-pointer  gap-2"
+            onClick={handleAddBookmark}
+          >
+            Add to Bookmarks
+            <FontAwesomeIcon
+              icon={faBookmark}
+              style={buttonStyle}
+              className="  cursor-pointer "
+            />{" "}
+
+            ({bookmarkCount})</p>
+          <span className="text-xl flex text-gray-100 p-2 rounded-full sticky top-24  bg-black m-auto justify-center">
+            <div className="flex gap-2   m-auto">
               <Like handleLike={handleLike} likes={likes} userId={userId} />
               <FontAwesomeIcon
                 icon={faComment}
                 className="text-gray-100  "
               />{" "}
               {post.comments.length}
+
             </div>
             <div className="flex gap-3 m-auto ">
               <span className="text-white Aceh">Share:</span>
@@ -474,16 +486,9 @@ const ReadMore = () => {
                 />
               </span>
 
-              <FontAwesomeIcon
-              onClick={handleAddBookmark}
-              icon={faBookmark}
-              style={buttonStyle}
-              className="  cursor-pointer ml-5 "
-            />{" "}
 
-            {bookmarkCount}
             </div>
-            
+
           </span>
           <hr></hr>
           <br></br>
@@ -529,9 +534,9 @@ const ReadMore = () => {
               </button>
             </NavLink>
           </div>
-          <div className=" bg-white border rounded-xl text-base-200 p-5 mob_width">
+          <div className=" bg-gray-200 border rounded-xl text-base-200 p-5 sm:p-2 ">
             <div className="scroll">
-              <h4 className="small-title Aceh text-red-500">
+              <h4 className="small-title Aceh text-red-500 ">
                 {post.comments?.length} Comment
               </h4>
               <div className="h-96 sm:h-60 overflow-scroll">
@@ -574,17 +579,18 @@ const ReadMore = () => {
         </div>
       </div>
 
-      <div className=" bg-gradient-to-l from-orange-400 to-rose-400 p-5 flex flex-col gap-5 sm:p-0 sm:w-full sm:m-auto">
-        <p className="text-white text-center text-xl">Related Publications</p>
+      <div className=" bg-gradient-to-l from-orange-400 to-rose-400  ">
+        <p className="text-white text-2xl text-red-500 sm:my-2 my-5 text-center Aceh text-md">Related Publications</p>
+        <div  className="flex  flex-wrap px-5 sm:p-5 my-20 sm:my-5 m-auto justify-center gap-5 sm:gap-2">
         {relatedPost?.map((post, index) => {
           return (
             <NavLink
               to={`/readmore/${post.id}`}
               onClick={() => handleReadMoreClick(post)}
               key={index}
-              className=" p-5 sm:p-0 sm:px-5   transition duration-300 ease-in-out"
+              className=" p-5 sm:p-0 sm:px-5 m-auto flex  flex-col  transition duration-300 ease-in-out"
             >
-              <div className="w-72 bg-white hover:bg-gray-100/50   rounded-xl p-2 shadow ">
+              <div className="w-72  bg-white hover:bg-gray-100/50   rounded-xl p-2 shadow ">
                 <div className="relative overflow-clip  h-40 sm:w-40">
                   <img
                     src={post.data.imgUrl}
@@ -636,6 +642,7 @@ const ReadMore = () => {
             </NavLink>
           );
         })}
+        </div>
       </div>
     </div>
   );

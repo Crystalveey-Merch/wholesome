@@ -6,7 +6,7 @@ import { faArrowCircleRight, faArrowPointer, faArrowTurnRight } from "@fortaweso
 const CommentBox = ({ userId, userComment, setUserComment, handleComment, imgUrl }) => {
   const navigate = useNavigate();
   return (
-    <div className="flex gap-5">
+    <div className="flex gap-5  bg-gray-100">
       <form className="row blog-form   w-full">
         <div className="col-12 py-3 flex gap-2">
         <div className="rounded-full overflow-hidden w-10 h-10 m-auto">               
@@ -37,12 +37,12 @@ const CommentBox = ({ userId, userComment, setUserComment, handleComment, imgUrl
       ) : (
         <>
           <button
-            className="btn btn-primary m-auto flex w-40 capitalize"
+            className="btn btn-primary m-auto flex w-14 capitalize"
             type="submit"
             onClick={handleComment}
             disabled={!userComment}
           >
-            Comment
+            Post
           </button>
         </>
       )}

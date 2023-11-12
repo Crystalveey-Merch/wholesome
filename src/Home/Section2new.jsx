@@ -63,7 +63,7 @@ const Section2new = () => {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      setLoading(true);
+      // setLoading(true);
 
       try {
         const querySnapshot = await getDocs(collection(db, "posts"));
@@ -84,7 +84,7 @@ const Section2new = () => {
         if (postData[randomIndex]) {
           setRandomPost([postData[randomIndex]]);
         }
-        setLoading(false);
+        // setLoading(false);
       } catch (error) {
         console.error("Error fetching posts:", error);
         setPosts([]);
@@ -143,19 +143,19 @@ const Section2new = () => {
   const limitedPosts = posts.slice(0, 6);
 
   return (
-    <div className="p-10 sm:p-2 bg-gradient-to-l from-orange-400 to-rose-400  w-full" >
-      <h1 className='text-white text-4xl text-red-500 sm:my-2 my-5 text-center Aceh text-md'>MUST READS</h1>
+    <div className="p-10 sm:p-5 bg-gradient-to-l from-orange-400 to-rose-400  w-screen" >
+      <h1 className='text-white text-2xl text-red-500 sm:my-2 my-5 text-center Aceh text-md'>MUST READS</h1>
       <hr></hr>
-<div className="flex  flex-wrap px-10 sm:px-0 my-20 sm:my-5 m-auto justify-center gap-10 sm:gap-2">
+<div className="flex  flex-wrap px-5 sm:p-5 my-20 sm:my-5 m-auto justify-center gap-5 sm:gap-2">
         {limitedPosts.map((post) => (
           <NavLink
             to={`/readmore/${post.id}`}
             onClick={handleReadMoreClick}
             key={post.id}
-            className="hover:border p-5 sm:px-10 hover:bg-red-100/50 hover:rounded-xl transition duration-300 ease-in-out"
+            className="hover:border p-5    hover:bg-red-100/50 hover:rounded-xl transition duration-300 ease-in-out"
           >
-            <div key={post.id} className="w-96 bg-white   rounded-xl p-2 shadow ">
-              <div className="relative overflow-clip  h-40 sm:w-40" >
+            <div key={post.id} className="w-96 sm:w-78 bg-white   rounded-xl p-5 shadow ">
+              <div className="relative overflow-clip  h-40 sm:w-full" >
                 <img src={post.imgUrl}  height={200} className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out m-auto " />
               
               </div>

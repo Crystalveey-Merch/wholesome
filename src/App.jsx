@@ -38,6 +38,9 @@ import ArticleInterest from "./MyInterest/ArticleInterest";
 import EventsInterest from "./MyInterest/EventsInterest";
 import PodcastAdmin from "./Podcast/PodcastAdmin";
 import { FollowersFeed } from "./MyInterest/FollowersFeed";
+import Admin from "./Admin/Admin";
+import Allarticles from "./Admin/Allarticles";
+import Users from "./Admin/Users";
 
 // import "@fortawesome/fontawesome-free"
 
@@ -134,7 +137,22 @@ function App() {
         </Route>
         <Route path="/profile/:profileId" element={<Profilepage />} />
 
+
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute>
+              <Admin />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="/admin/articles" element={<Allarticles />} />
+          <Route path="/admin/users" element={<Users />} />
+
+
+        </Route>
       </Routes>
+    
       <Footer />
       <ToastContainer />
     </div>

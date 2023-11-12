@@ -218,7 +218,7 @@ const Profile = () => {
                                 <div className="  m-auto mt-5 px-10 sm:px-2">
                                     <h2 className="p-5 Aceh text-red-500">Basic Information</h2>
                                     <hr></hr>
-                                    <div className="flex flex-col gap-5 my-5">
+                                    <div className="flex flex-col gap-5 my-5 px-10">
                                         <label className="flex gap-4 flex-col justify-center">
                                             <div className="Aceh">Display Name:</div>
                                             <input
