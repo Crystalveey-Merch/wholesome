@@ -140,13 +140,13 @@ const Section2new = () => {
     opacity: isBookmarked ? "100%" : "50%",
     // Add any other button styles as needed
   };
-  const limitedPosts = posts.slice(0, 6);
+  const limitedPosts = posts.slice(0, 3);
 
   return (
-    <div className="p-10 sm:p-5 bg-gradient-to-l from-orange-400 to-rose-400  w-screen" >
-      <h1 className='text-white text-2xl text-red-500 sm:my-2 my-5 text-center Aceh text-md'>MUST READS</h1>
+    <div className="p-5 sm:p-5 bg-sky-100  w-screen" >
+      <h1 className='text-black text-2xl  sm:my-2 my-5 text-center Aceh text-md'>MUST READS</h1>
       <hr></hr>
-<div className="flex  flex-wrap px-5 sm:p-5 my-20 sm:my-5 m-auto justify-center gap-5 sm:gap-2">
+<div className="flex  flex-wrap px-1 sm:p-5 my-20 sm:my-5 m-auto justify-center gap-2 sm:gap-2">
         {limitedPosts.map((post) => (
           <NavLink
             to={`/readmore/${post.id}`}
@@ -159,21 +159,20 @@ const Section2new = () => {
                 <img src={post.imgUrl}  height={200} className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out m-auto " />
               
               </div>
-              <div className="px-5 sm:p-0">
-              <p className="badge bg-gray-100 p-4  top-5 text-gray-600  sm:hidden border-none ">
+              <div className="px-5 sm:p-0 my-6"  >
+              <p className="badge bg-red-500 py-4  top-5 text-white sm:hidden border-none ">
                   {post.category}
                 </p>
-                <p className="mt-1 text-sm leading-5 text-red-300 border-b Aceh">
+                <p className="mt-1 text-sm leading-5 text-gray-500 border-b Aceh">
                   {post.timestamp.toDate().toDateString()} at{" "}
                   {formatTime(post.timestamp.toDate())}
                 </p>
-                <h2 className="Aceh text-xl py-2 text-black ">
+                <h2 className="Aceh text-xl py-2 text-red-500 ">
                   {post.postTitle}   
                 </h2>
-               
-
-                <p className="h-14 text-gray-800 sm:hidden">
-                  {excerpt(post.postDescription, 50)}
+                <p className="h-14 text-gray-800 ">
+                {/* {post.postDescription} */}
+                  {excerpt(post.postDescription, 80)}
                 </p>
                 <span className="text-xl flex gap-5 ">
                   <FontAwesomeIcon

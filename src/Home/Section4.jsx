@@ -25,8 +25,8 @@ import {
     deleteField,
     where,
     increment,
-  } from "firebase/firestore";
-  import { auth, db } from "../firebase/auth.js";
+} from "firebase/firestore";
+import { auth, db } from "../firebase/auth.js";
 import Spinner from "../components/Spinner.tsx";
 
 
@@ -39,36 +39,36 @@ const Section4 = () => {
     // const [event, setEvent] = useState("");
     useEffect(() => {
         const fetchEvents = async () => {
-          setLoading(true);
-    
-          try {
-            const q = query(collection(db, "events"), limit(10)); // Limit to 10 events
-            const querySnapshot = await getDocs(q);
-            const postData = [];
-    
-            querySnapshot.forEach((doc) => {
-              const event = doc.data();
-              event.id = doc.id;
-              postData.push(event);
-              setEventId(event.id);
+            setLoading(true);
 
-            });
+            try {
+                const q = query(collection(db, "events"), limit(10)); // Limit to 10 events
+                const querySnapshot = await getDocs(q);
+                const postData = [];
 
-            setEvents(postData);
-            setLoading(false);
-          } catch (error) {
-            console.error("Error fetching events:", error);
-            setEvents([]);
-          }
+                querySnapshot.forEach((doc) => {
+                    const event = doc.data();
+                    event.id = doc.id;
+                    postData.push(event);
+                    setEventId(event.id);
+
+                });
+
+                setEvents(postData);
+                setLoading(false);
+            } catch (error) {
+                console.error("Error fetching events:", error);
+                setEvents([]);
+            }
         };
-    
-        fetchEvents();
-      }, []);
 
-console.log(events)
-      if (loading) {
+        fetchEvents();
+    }, []);
+
+    console.log(events)
+    if (loading) {
         return <Spinner />;
-      }
+    }
 
     if (!event) {
         return <div>Event not found.</div>;
@@ -104,12 +104,12 @@ console.log(events)
             <div className='  m-auto justify-center flex auto'
             >
                 <Swiper
-                    slidesPerView={'auto'}
+                    slidesPerView={"auto"}
                     centeredSlides={true}
                     watchSlidesProgress
+                    navigation={true}
                     grabCursor={true}
                     spaceBetween={30}
-                    navigation={true}
                     loop={true}
                     breakpoints={breakpoints}
                     pagination={{
@@ -119,47 +119,50 @@ console.log(events)
                         delay: 4000,
                         disableOnInteraction: false,
                     }}
-                    modules={[Autoplay, Navigation, Pagination]}
-                    className="mySwiper w-full  mx-20 sm:mx-0  lg:px-10 "
+                    modules={[Autoplay, Pagination, Navigation]}
+                    className="mySwiper w-full  mx-20 sm:mx-0  lg:px-10"
                 >
                     {events.length > 0 ? (
                         events.map((event) => {
-                            return(
-                        <SwiperSlide key={event.id} style={{height:"32rem"}} className="">
-                            <div  className="w-94  bg-white     shadow  dark:border-gray-700">
-                                <NavLink to={`/upcomingevents/${event.id}`}>
-                                    <img className="rounded-t-lg" src={event.imgUrl} alt={event.eventName} />
+                            return (
+                                <SwiperSlide key={event.id}  className="">
+                                    <div className="  bg-white     shadow  dark:border-gray-700"style={{ height: "28rem" }}>
+                                        <NavLink to={`/upcomingevents/${event.id}`}  className="w-94" >
+                                        <div className="relative overflow-clip  h-40 sm:w-full" >
 
-                                    <div className="p-5">
-                                    <p  className="mb-3 font-bold  Aceh text-xl text-black Aceh">
-                                                {event.eventName}
-                                            </p>
-                                        <h5 className="mb-2 text-xl tracking-tight text-gray-900 ">{event.StartDateTime}</h5>
+                                            <img className="rounded-t-lg" src={event.imgUrl} alt={event.eventName} />
+                                            </div>
 
-                                        <p className="mb-1 font-normal text-md Aceh text-red-500 dark:text-red-500">{event.date}</p>
-                                        <p className="mb-3 font-normal text-md  text-gray-500 ">{event.address}</p>
-                                          
+                                            <div className="p-5">
+                                                <p className="mb-3 font-bold  Aceh text-xl text-black Aceh">
+                                                    {event.eventName}
+                                                </p>
+                                                <h5 className="mb-2 text-xl tracking-tight text-gray-900 ">{event.StartDateTime}</h5>
 
-                                        <svg className="w-3.5 h-3.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
-                                        </svg>
-                                        <p  className="mb-3 font-normal Aceh text-md text-black">
-                                              BY  {event.organizerName}
-                                          </p>
+                                                <p className="mb-1 font-normal text-md Aceh text-red-500 dark:text-red-500">{event.date}</p>
+                                                <p className="mb-3 font-normal text-md  text-gray-500 ">{event.address}</p>
 
+
+                                                <svg className="w-3.5 h-3.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
+                                                </svg>
+                                                <p className="mb-3 font-normal Aceh text-md text-black">
+                                                    BY  {event.organizerName}
+                                                </p>
+
+                                            </div>
+                                        </NavLink>
                                     </div>
-                                </NavLink>
-                            </div>
 
-                        </SwiperSlide>
+                                </SwiperSlide>
 
-                        );
-        })
-        ):(
-            <div className="text-center text-2xl font-bold text-gray-500 mt-4 h-48">
-            No events found matching your search.
-          </div>
-          )}
+                            );
+                        })
+                    ) : (
+                        <div className="text-center text-2xl font-bold text-gray-500 mt-4 h-48">
+                            No events found matching your search.
+                        </div>
+                    )}
 
                 </Swiper>
 

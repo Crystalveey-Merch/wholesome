@@ -408,7 +408,7 @@ const ReadMore = () => {
 
 
   return (
-    <div className="flex mt-40 w-screen px-20 sm:flex-col sm:px-5 ">
+    <div className="flex mt-40 w-screen px-30 sm:flex-col sm:px-5 ">
       <div
         className="  px-40 lg:px-20 sm:px-0  sm:mt-30 flex flex-col m-auto justify-center"
         key={post.id}

@@ -12,9 +12,13 @@ const Homepage = () => {
     <div className='h-full  w-screen pt-20 sm:pt-14  bg-stone-100'>
         <Section1/>
         <Section1plus/>
-        <Section2first/>
+
         <Section2new/>
         <Section4/>
+          
+        <Section2first/>
+        
+        
         <Section3/>
 
        

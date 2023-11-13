@@ -20,7 +20,8 @@ const Section2first = () => {
   const breakpoints = {
     300: {
       slidesPerView: 1,
-      spaceBetween: 5,
+      spaceBetween: 10,
+
     },
     639: {
       slidesPerView: 3,
@@ -32,9 +33,11 @@ const Section2first = () => {
     },
     1024: {
       slidesPerView: 4,
-      spaceBetween:5,
+      spaceBetween: 40,
       centeredSlides: true,
+
     },
+
   };
   return (
     <div className="py-20  sm:py-5 bg-gradient-to-r from-rose-100 to-teal-100">
@@ -60,27 +63,27 @@ const Section2first = () => {
             disableOnInteraction: false,
           }}
           modules={[Autoplay, Pagination, Navigation]}
-          className="mySwiper w-full  mx-10 sm:mx-0 py-10 sm:px-10 lg:px-10"
+          className="mySwiper w-full  mx-20 sm:mx-0  lg:px-10"
         >
-        {activities.length > 0 ? (
+          {activities.length > 0 ? (
             activities.map((activity) => {
               return (
-          <SwiperSlide key={activity.id}>
-          <NavLink to={`/activity/${activity.title}`}>
-            <div className="relative w-72  text-white shadow-xl  image-full">
-              <figure>
-                <img src={activity.src} />
-              </figure>
-              <div className=" p-5 bg-gray-800">
-              <div className="badge text-green-500 ">{activity.date}</div>
-                <h1 className="text-2xl py-2"> {activity.title}</h1>
-                <p>{activity.content} </p>
-              </div>
-            </div>
+                <SwiperSlide key={activity.id}>
+                  <NavLink to={`/activity/${activity.title}`} style={{ height: "32rem" }}>
+                    <div className="relative w-94  text-white shadow-xl  image-full">
+                      <figure  className="relative overflow-clip  h-40 sm:w-full">
+                        <img src={activity.src} />
+                      </figure>
+                      <div className=" p-5 bg-gray-900">
+                        <div className="badge bg-red-500 text-white p-4 text-md ">{activity.date}</div>
+                        <h1 className="text-2xl py-2"> {activity.title}</h1>
+                        <p>{activity.content} </p>
+                      </div>
+                    </div>
 
-           </NavLink>
-          </SwiperSlide>
-          );
+                  </NavLink>
+                </SwiperSlide>
+              );
             })
           ) : (
             <div className="text-center text-2xl font-bold text-gray-500 mt-4 h-48">
@@ -88,7 +91,7 @@ const Section2first = () => {
             </div>
           )}
 
-         
+
         </Swiper>
       </div>
     </div>

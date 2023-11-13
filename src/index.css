@@ -138,10 +138,12 @@ button:focus-visible {
 }
 .swiper-button-next:after, .swiper-button-prev:after{
   padding: 10px 20px 10px 10px !important;
-  color: rgba(255, 255, 255, 0.905);
-  background-color: #000000b9;
+  color: rgba(237, 242, 235, 0.905);
+  background:linear-gradient(to right, rgb(158, 45, 22), rgb(234, 64, 8));
   margin-right: 30px;
-  /* border: 4px solid rgba(128, 128, 128, 0.617); */
+  border-radius: 100%;
+  box-shadow: 2px #ec5f5f3e;
+  /* border: 4px solid rgba(34, 3, 3, 0.617); */
 }
 .swiper-button-prev:after{
   margin-left: 60px;
