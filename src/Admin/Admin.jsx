@@ -56,7 +56,7 @@ const Admin = () => {
      <div className=" sticky sm:top-20 z-10 hidden sm:block w-full  mt-5 ">
             <ul className="menu  text-white menu-horizontal bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 dark:text-slate-200 m-auto justify-between  rounded-box  w-full">
               <li>
-                <NavLink to="profile" className="tooltip" data-tip="Home">
+                <NavLink to="articles" className="tooltip" data-tip="Home">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-5 w-5 text-white"
@@ -75,7 +75,7 @@ const Admin = () => {
               </li>
               <li>
                 <NavLink
-                  to="statistics"
+                  to="users"
                   className="tooltip"
                   data-tip="Stats"
                 >
@@ -156,14 +156,14 @@ const Admin = () => {
               <div className="drawer-side">
                   <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
                   {/* Apply responsive classes to the menu */}
-                  <ul className="menu p-4 w-80 min-h-full bg-gradient-to-r from-orange-400 to-rose-400 text-base-content sm:hidden">
+                  <ul className="menu p-4 w-80 min-h-full bg-gray-200 text-base-content sm:hidden">
                       <p className="text-black text-xl Aceh font-bold text-center"> {greeting}<br />{authUser?.displayName}</p>
                       {/* Sidebar content here */}
-                      <li><NavLink to='articles'>All Articles</NavLink></li>
-                      <li><NavLink to='users'>Users</NavLink></li>
-                      <li><NavLink to='drafts'>My Draft</NavLink></li>
-                      <li><NavLink to='statistics'>Statistics</NavLink></li>
-                      <li><NavLink to='bookmarks'>Bookmarks</NavLink></li>
+                      <li><NavLink to='articles' className="text-black">All Articles</NavLink></li>
+                      <li><NavLink to='users'className="text-black">Users</NavLink></li>
+                      <li><NavLink to='drafts' className="text-black">My Draft</NavLink></li>
+                      {/* <li><NavLink to='statistics' className="text-black">Statistics</NavLink></li>
+                      <li><NavLink to='bookmarks' className="text-black">Bookmarks</NavLink></li> */}
 
 
                   </ul>

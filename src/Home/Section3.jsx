@@ -27,6 +27,7 @@ import {
   import { auth, db } from "../firebase/auth.js";
   import Spinner from "../components/Spinner.tsx";
 import { onAuthStateChanged } from "firebase/auth";
+import { NavLink } from "react-router-dom";
 
 const Section3 = () => {
     const [loading, setLoading] = useState(false);
@@ -133,6 +134,11 @@ const Section3 = () => {
                     <p className='text-black w-64 text-red-500 sm:text-center'>{user.occupation}</p>
 
                     <p className='text-black w-64 text-red-500 sm:text-center'>{user.shortBio}</p>
+                    <NavLink to={`/profile/${user.id}`}>
+              <button className="btn w-40 flex hover:bg-black m-auto my-2  bg-gradient-to-r from-orange-400 to-rose-400 text-white ">
+                View Profile
+              </button>
+            </NavLink>
 
                 </div>
             </div>
