@@ -51,12 +51,12 @@ const Login = () => {
   };
   return (
     <div>
-      <div className="  pt-40 bg-stone-100 text-black w-screen h-screen ">
+      <div className="  pt-40 bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 text-black w-screen h-screen ">
         <div className="text-center text-2xl">
           <div className="pt-34  m-auto   ">
             <div className=" h-full w-full flex rounded rounded-lg    ">
               <div className="w-2/5 m-auto  mt-36 sm:mt-20 sm:w-full sm:h-full mb-44 rounded">
-                <div className="bg-white  flex flex-col text-xl rounded-2xl">
+                <div className="bg-white/50  flex flex-col text-xl rounded-2xl">
                   <div className="container  flex flex-col items-center justify-center px-10 sm:px-2 shadow">
                     <div className="  p-10  text-black w-full">
                       <h1 className="mb-8 text-xl text-center text-red-500">

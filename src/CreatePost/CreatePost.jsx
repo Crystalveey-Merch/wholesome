@@ -223,7 +223,7 @@ const CreatePost = () => {
             userId: authUser.uid,
           });
           toast.success("Post created successfully");
-          navigate("/posts");
+          navigate("/articlelist");
         } catch (err) {
           console.log(err);
         }

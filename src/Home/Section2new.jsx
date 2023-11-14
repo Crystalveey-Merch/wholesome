@@ -143,7 +143,7 @@ const Section2new = () => {
   const limitedPosts = posts.slice(0, 3);
 
   return (
-    <div className="p-5 sm:p-5 bg-sky-100  w-screen" >
+    <div className="p-5 sm:p-5 bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 w-screen"  >
       <h1 className='text-black text-2xl  sm:my-2 my-5 text-center Aceh text-md'>MUST READS</h1>
       <hr></hr>
 <div className="flex  flex-wrap px-1 sm:p-5 my-20 sm:my-5 m-auto justify-center gap-2 sm:gap-2">

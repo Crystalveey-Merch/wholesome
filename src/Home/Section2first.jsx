@@ -6,16 +6,49 @@ import { Autoplay, Pagination, Navigation } from "swiper";
 import { activities } from "../data/activity";
 import { useParams } from "react-router";
 import { NavLink } from "react-router-dom";
+import { collection, getDocs, limit, query } from "firebase/firestore";
+import { useState, useEffect } from "react";
+import { auth, db } from "../firebase/auth.js";
 
 
 
 const Section2first = () => {
+  const [activityId, setActivityId] = useState([]);
+  const [activity, setActivity] = useState([]);
 
   const { activityName } = useParams();
 
   const ArticleName = () => {
     return activities.filter((activity) => activity.title === activityName);
   };
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+        // setLoading(true);
+
+        try {
+            const q = query(collection(db, "activities"), limit(10)); // Limit to 10 events
+            const querySnapshot = await getDocs(q);
+            const activityData = [];
+
+            querySnapshot.forEach((doc) => {
+                const activity = doc.data();
+                activity.id = doc.id;
+                activityData.push(activity);
+                setActivityId(activity.id);
+
+            });
+
+            setActivity(activityData);
+            // setLoading(false);
+        } catch (error) {
+            console.error("Error fetching events:", error);
+            setActivity([]);
+        }
+    };
+
+    fetchEvents();
+}, []);
 
   const breakpoints = {
     300: {
@@ -65,19 +98,19 @@ const Section2first = () => {
           modules={[Autoplay, Pagination, Navigation]}
           className="mySwiper w-full  mx-20 sm:mx-0  lg:px-10"
         >
-          {activities.length > 0 ? (
-            activities.map((activity) => {
+          {activity.length > 0 ? (
+            activity.map((activity) => {
               return (
                 <SwiperSlide key={activity.id}>
-                  <NavLink to={`/activity/${activity.title}`} style={{ height: "32rem" }}>
+                  <NavLink to={`/activity/${activity.id}`} style={{ height: "32rem" }}>
                     <div className="relative w-94  text-white shadow-xl  image-full">
                       <figure  className="relative overflow-clip  h-40 sm:w-full">
-                        <img src={activity.src} />
+                        <img src={activity.imgUrl} />
                       </figure>
                       <div className=" p-5 bg-gray-900">
-                        <div className="badge bg-red-500 text-white p-4 text-md ">{activity.date}</div>
-                        <h1 className="text-2xl py-2"> {activity.title}</h1>
-                        <p>{activity.content} </p>
+                        <div className="badge bg-red-500 text-white p-4 text-md ">{activity.category}</div>
+                        <h1 className="text-2xl py-2"> {activity.activityName}</h1>
+                        <p>{activity.writeup} </p>
                       </div>
                     </div>
 

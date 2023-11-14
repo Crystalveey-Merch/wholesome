@@ -41,6 +41,8 @@ import { FollowersFeed } from "./MyInterest/FollowersFeed";
 import Admin from "./Admin/Admin";
 import Allarticles from "./Admin/Allarticles";
 import Users from "./Admin/Users";
+import Settings from "./Dashboard/Settings";
+import ActivityInterest from "./MyInterest/ActivityInterest";
 
 // import "@fortawesome/fontawesome-free"
 
@@ -78,7 +80,7 @@ function App() {
          />
 
         <Route path="/article/:articleName" element={<Articles />} />
-        <Route path="/activity/:activityName" element={<Activity />} />
+        <Route path="/activity/:id" element={<Activity />} />
         <Route path="/activity/adminform" element={<ActivityForm />} />
 
         <Route path="/podcast/adminform" element={<PodcastAdmin />} />
@@ -112,6 +114,8 @@ function App() {
         <Route path="/myinterest" element={<MyInterest />}>
         <Route path="/myinterest/articles" element={<ArticleInterest/>} />
         <Route path="/myinterest/events" element={<EventsInterest/>} />
+
+        <Route path="/myinterest/activities" element={<ActivityInterest/>} />
         <Route path="/myinterest/feeds" element={<FollowersFeed/>} />
 
 
@@ -133,7 +137,9 @@ function App() {
           <Route path="/dashboard/drafts" element={<Drafts />} />
 
           <Route path="/dashboard/bookmarks" element={<Bookmarks />} />
+          <Route path="/dashboard/settings" element={<Settings />} />
 
+       
         </Route>
         <Route path="/profile/:profileId" element={<Profilepage />} />
 

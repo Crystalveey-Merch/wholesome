@@ -54,7 +54,7 @@ const Admin = () => {
   return (
     <><div className="mt-20 py-20 sm:mt-18 sm:py-0 sm:px-0 px-20 w-screen relative ">
      <div className=" sticky sm:top-20 z-10 hidden sm:block w-full  mt-5 ">
-            <ul className="menu  text-white menu-horizontal bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 dark:text-slate-200 m-auto justify-between  rounded-box  w-full">
+            <ul className="menu  text-white menu-horizontal bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 dark:text-slate-200 m-auto justify-center  rounded-box  w-full">
               <li>
                 <NavLink to="articles" className="tooltip" data-tip="Home">
                   <svg
@@ -95,54 +95,9 @@ const Admin = () => {
                   </svg>{" "}
                 </NavLink>
               </li>
-              <li>
-                <NavLink
-                  to="myposts"
-                  className="tooltip"
-                  data-tip="Published"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    className="w-5 h-5 text-white"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
-                    />
-                  </svg>{" "}
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="drafts" className="tooltip text-white" data-tip="Draft">
-                <FontAwesomeIcon icon={faSave}/>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="bookmarks"
-                  className="tooltip text-white"
-                  data-tip="Bookmarks"
-                >
-                <FontAwesomeIcon icon={faBookmark}/>
-                </NavLink>
-              </li>
+              
              
-              <li>
-                <Link
-                  to="#"
-                  className="tooltip text-white"
-                  data-tip="Log-out"
-                  onClick={userSignout}
-                >
-                <FontAwesomeIcon icon={faSignOut}/>
-
-                </Link>
-              </li>
+              
             </ul>
           </div>
           <div className="drawer drawer-open">
@@ -157,11 +112,11 @@ const Admin = () => {
                   <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
                   {/* Apply responsive classes to the menu */}
                   <ul className="menu p-4 w-80 min-h-full bg-gray-200 text-base-content sm:hidden">
-                      <p className="text-black text-xl Aceh font-bold text-center"> {greeting}<br />{authUser?.displayName}</p>
+                      <p className="text-black text-xl Aceh font-bold text-center"> {greeting}<br /></p>
                       {/* Sidebar content here */}
                       <li><NavLink to='articles' className="text-black">All Articles</NavLink></li>
                       <li><NavLink to='users'className="text-black">Users</NavLink></li>
-                      <li><NavLink to='drafts' className="text-black">My Draft</NavLink></li>
+
                       {/* <li><NavLink to='statistics' className="text-black">Statistics</NavLink></li>
                       <li><NavLink to='bookmarks' className="text-black">Bookmarks</NavLink></li> */}
 

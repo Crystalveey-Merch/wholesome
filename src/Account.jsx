@@ -7,9 +7,9 @@ const Account = () => {
         >
 
             <div className='text-center text-2xl'>
-                <div className="pt-34  m-auto bg-gray-100  pb-20 ">
+                <div className="pt-34  m-auto bg-gradient-to-r from-teal-200 to-lime-200  pb-20 ">
                     <div className=" h-full w-full flex rounded rounded-lg  pt-36  ">
-                        <div className='w-1/2 text-lg  sm:hidden'>
+                        <div className='w-1/2 text-lg  '>
                             <h1 className='w-98 text-left ml-40 text-3xl text-black'>Wholesome helps foster connections with like-minds
                                 that transcends borders and also share your
                                 experiences, knowledge and creativity</h1>

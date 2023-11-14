@@ -2,9 +2,6 @@ import { useEffect, useState } from "react";
 import {
     addDoc,
     collection,
-    DocumentSnapshot,
-    endAt,
-    endBefore,
     getDocs,
     doc,
     deleteDoc
@@ -14,6 +11,9 @@ import 'flowbite';
 
 import { auth, db, } from "../firebase/auth.js";
 import { NavLink } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBiohazard, faInfo, faWarning } from "@fortawesome/free-solid-svg-icons";
+import { toast } from "react-toastify";
 
 
 const Users = () => {
@@ -83,25 +83,31 @@ const Users = () => {
         fetchPosts();
     }, []);
 
-    const deleteUser = async (user) => {
-        try {
-            // Delete the user from Firebase Authentication
-            await deleteAuthUser(auth, user.id);
-
-            // Delete the user document from the "users" collection in Firestore
-            await deleteDoc(doc(db, "users", user.id));
-
-            console.log("User deleted successfully");
-        } catch (error) {
-            console.error("Error deleting user:", error);
-        }
+    const deleteUser = async ( user) => {
+        if (window.confirm(`Are you sure you want to delete '${user.name}'?. This user will no longer have  access to Wholesome ` )) {
+            try {
+              // Delete the document from Firestore
+              await deleteAuthUser(auth, user.id);
+              await deleteDoc(doc(db, "users", user.id));
+              toast.success("User deleted successfully")
+              // Update the state after successful deletion
+              const updatedUsers = users.filter((user) => user.user.id !== user.id);
+              setUsers(updatedUsers);
+        
+              toast.success("User deleted successfully");
+            } catch (error) {
+              console.error("Error deleting User:", error);
+              toast.error("An error occurred while deleting the user");
+            }
+          }
+    
     };
     return (
         <div className="py-10 sm:px-2 px-8 w-full ">
             <p className="text-center text-xl Aceh py-10">Users Data</p>
 
 
-            <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <div className="relative overflow-x-auto sm:w-screen shadow-md sm:rounded-lg">
                 <label htmlFor="table-search" className="sr-only">Search</label>
                 <div className="relative my-5">
                     <div className="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -175,27 +181,15 @@ const Users = () => {
                                     </NavLink>
                                 </td>
                                 <td className="px-6 py-4 text-right">
-                                    <button type="button" onClick={() => document.getElementById('my_modal_5').showModal()} className=" block font-medium text-blue-600 dark:text-blue-500 hover:underline">Delete User</button>
+                                    <button type="button" onClick={() => deleteUser(user)} className=" block font-medium text-blue-600 dark:text-blue-500 hover:underline">Delete User</button>
 
                                    
                                 </td>
 
                             </tr>
 
-                            <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle w-96 m-auto">
-                                        <div className="modal-box">
-                                            <h3 className="font-bold text-lg">Are you sure you want to delete this user?</h3>
-                                            <p className="py-4">Press ESC key or click the button below to close</p>
-                                            <div className="modal-action">
-                                                <form method="dialog flex gap-5">
-                                                <div  className="btn bg-red-500 text-white" onClick={() => deleteUser(user.id)}>Yes, Sure</div>
-
-                                                    {/* if there is a button in form, it will close the modal */}
-                                                    <button >No, Close</button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </dialog>
+                          
+                   
                         </tbody>
                      
                     ))}

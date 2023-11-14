@@ -32,25 +32,21 @@ import { auth, db } from "../firebase/auth.js";
 import "add-to-calendar-button";
 
 const EventDes = () => {
-  const { eventName } = useParams();
   const [event, setEvent] = useState(null);
   const [relatedEvents, setRelatedEvents] = useState([]);
-  // const [eventId, setEventId] = useState([]);
 
   const { id } = useParams();
   console.log(id);
   useEffect(() => {
     const fetchPosts = async () => {
-      // Find the   by comparing the name as a string
       try {
-        const docRef = doc(db, "events", id); // Replace "posts" with your collection name
+        const docRef = doc(db, "events", id); 
         const docSnapshot = await getDoc(docRef);
 
         if (docSnapshot.exists()) {
           setEvent(docSnapshot.data());
         } else {
           console.error(`Post with id '${id}' not found.`);
-          // Handle the case where the post is not found, e.g., display a 404 page.
         }
 
         // setLoading(false);

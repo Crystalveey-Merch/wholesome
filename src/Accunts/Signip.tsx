@@ -99,13 +99,13 @@ const Signip = () => {
 
   return (
     <div>
-      <div className="  my-20 bg-white text-black w-screen ">
+      <div className="  my-20 bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 text-black w-screen ">
         <div className="text-center text-2xl">
           <div className="  m-auto   ">
             <div className=" h-full w-full flex rounded rounded-lg    ">
              
               <div className="w-2/5 m-auto  sm:w-full sm:h-full ">
-                <div className="bg-grey-lighter  flex flex-col text-xl">
+                <div className="bg-grey-500  flex flex-col text-xl">
                   <div className="container max-w-xl mx-auto flex-1 flex flex-col items-center justify-center px-2">
                     <div className=" px-6 py-8  text-black w-full">
                       <h1 className="mb-8 text-xl text-center text-red-500">
@@ -118,7 +118,7 @@ const Signip = () => {
                           type="text"
                           value={displayName}
                           onChange={(e) => setDisplayname(e.target.value)}
-                          className="block border border-grey-100 bg-gray-100 w-full p-3 rounded mb-2 text-xl"
+                          className="block border-gray-100  bg-gray-100/50 w-full p-3 rounded mb-2 text-xl"
                           name="fullname"
                           placeholder="Full Name"
                         />
@@ -128,11 +128,11 @@ const Signip = () => {
                           onChange={(e) => setEmail(e.target.value)}
                           type="email"
                           required
-                          className="block border border-grey-light bg-gray-100 w-full p-3 rounded mb-2"
+                          className="block border-gray-100 bg-gray-100/50 w-full p-3 rounded mb-2"
                           name="email"
                           placeholder="Email"
                         />
-                        <label className="text-sm text-gray-400">
+                        <label className="text-sm text-gray-100">
                           Select at least 2 interests
                         </label>
                         <Multiselect
@@ -142,7 +142,7 @@ const Signip = () => {
                           onRemove={handleRemove}
                           onSearch={function noRefCheck() {}}
                           onSelect={handleSelect}
-                          className="mb-2"
+                          className="mb-2 bg-gray-100/50"
                           options={[
                             {
                               key: "Lifestyle and Fashion",
@@ -179,13 +179,13 @@ const Signip = () => {
 
 
 
-                        <span className="flex  gap-2 mb-4 border-grey-light bg-gray-100 w-full  rounded">
+                        <span className="flex  gap-2 mb-4 border-grey-light bg-gray-100/50 w-full  rounded">
                           <input
                             value={password}
                             type={showPassword ? "text" : "password"}
                             id="password"
                             required
-                            className="block  bg-gray-100 w-full p-3"
+                            className="block  bg-gray-100/50 border-gray-100 w-full p-3"
                             name="password"
                             placeholder="Password"
                             onChange={passwordChangeHandler}
@@ -218,23 +218,23 @@ const Signip = () => {
                           value={confirmPassword}
                           onChange={confirmPasswordChangeHandler}
                           onBlur={handlePasswordValidation}
-                          className="block border border-grey-light bg-gray-100 w-full p-3 rounded "
+                          className="block border border-grey-100 bg-gray-100/50 w-full p-3 rounded "
                           name="confirm_password"
                           placeholder="Confirm Password"
                         />
                         {passwordMatch ? (
-                          <div className="text-green-500 text-left text-sm">
+                          <div className="text-gray-100 text-left text-md">
                             Passwords match
                           </div>
                         ) : (
-                          <div className="text-red-500 text-left text-sm">
+                          <div className="text-gray-100 text-left text-md">
                             Passwords do not match
                           </div>
                         )}
                         <div className="form-control">
                           <label className="label cursor-pointer">
-                            <span className="label-text text-green-500">
-                              Remember me
+                            <span className="label-text text-gray-100  ">
+                            <p className="text-xl" >Remember me</p>
                             </span>
                             <input type="checkbox" className="checkbox" />
                           </label>

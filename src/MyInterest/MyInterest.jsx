@@ -32,6 +32,7 @@ import {
   faEye,
   faFeed,
   faMicrophone,
+  faRunning,
   faThumbsUp,
 } from "@fortawesome/free-solid-svg-icons";
 import Spinner from "../components/Spinner.tsx";
@@ -84,6 +85,16 @@ const MyInterest = () => {
               Events
             </NavLink>
           </li>
+          <li className="">
+            <NavLink
+              to="activities"
+              className="inline-block p-4 text-white  hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300"
+            >
+                        <FontAwesomeIcon icon={faRunning} className="mx-2"/>
+
+              Activities
+            </NavLink>
+          </li>
         
           <li className="">
             <a
@@ -102,7 +113,7 @@ const MyInterest = () => {
             >
                         <FontAwesomeIcon icon={faFeed} className="mx-2"/>
 
-              Followers Feed
+               Feeds
             </NavLink>
           </li>
         

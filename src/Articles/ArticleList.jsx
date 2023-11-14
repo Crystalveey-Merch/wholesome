@@ -189,6 +189,7 @@ const ArticleList = () => {
   if (loading) {
     return <Spinner />;
   }
+console.log(tags)
 
   const excerpt = (str, count) => {
     if (str && str.length > count) {
@@ -400,8 +401,15 @@ const ArticleList = () => {
                 to={`/readmore/${post.id}`}
                 onClick={() => handleReadMoreClick(post)}
                 key={post.id}
-                className="flex flex-col gap-5 hover:bg-white/50 p-5 rounded-xl  transition duration-300   ease-in-out  "
+                className="flex flex-col gap-5 hover:bg-white/50 p-5 bg-black rounded-xl  transition duration-300   ease-in-out  "
               >
+               <div className="relative overflow-clip  h-20 ">
+                    <img
+                      src={post.imgUrl}
+                      height={200}
+                      className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out "
+                    />
+                  </div>
                 <div key={post.id}>
                   <p className="mt-1 text-sm leading-5 text-gray-200 border-b Aceh">
                     {post?.timestamp.toDate().toDateString()} at{" "}
@@ -411,22 +419,22 @@ const ArticleList = () => {
                   <span className="text-xl flex gap-5  text-white ">
                     <FontAwesomeIcon
                       icon={faComment}
-                      className="text-gray-800 my-auto "
+                      className="text-gray-200 my-auto "
                     />{" "}
                     {post.comments.length}
                     <FontAwesomeIcon
                       icon={faThumbsUp}
-                      className="text-gray-800 my-auto "
+                      className="text-gray-200 my-auto "
                     />{" "}
                     {post.likes.length}
                     <FontAwesomeIcon
                       icon={faEye}
-                      className="text-gray-800 my-auto "
+                      className="text-gray-200 my-auto "
                     />{" "}
                     {post.views ? post.views.length : 0}
                     <FontAwesomeIcon
                       icon={faBookmark}
-                      className="my-auto  text-gray-800 "
+                      className="my-auto  text-gray-200 "
                     />
                     {post.count}
                   </span>

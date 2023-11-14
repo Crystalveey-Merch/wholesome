@@ -146,7 +146,7 @@ const ArticleInterest = () => {
     const fetchInterestPosts = async () => {
       if (userInterests.length === 0) {
         // No interests to fetch, exit early
-        setLoading(true);
+        // setLoading(true);
         return;
       }
 
@@ -170,10 +170,10 @@ const ArticleInterest = () => {
         });
 
         setInterestPosts(postData);
-        setLoading(false); // Set loading to false when data is fetched
+        // setLoading(false); // Set loading to false when data is fetched
       } catch (error) {
         console.error("Error fetching interest posts:", error);
-        setLoading(false); // Set loading to false in case of error
+        // setLoading(false); // Set loading to false in case of error
       }
     };
 
