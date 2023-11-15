@@ -75,7 +75,7 @@ const Profile = () => {
                     setInstagramLink(profileData.instagramLink || "");
                     setWebsiteUrl(profileData.websiteUrl || "");
                     setOccupation(profileData.occupation || "");
-                    setName(profileData.displayName || "");
+                    setName(profileData.name || "");
                     setphotoURL(profileData.photoURL);
                     setSelectedOptions(profileData.selectedOptions);
                     // setProfileData(profileData)

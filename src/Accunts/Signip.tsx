@@ -28,7 +28,7 @@ const Signip = () => {
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
   const [error, setError] = useState(null);
-  const [displayName, setDisplayname] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordMatch, setPasswordMatch] = useState(true);
@@ -81,7 +81,7 @@ const Signip = () => {
     const userData = {
       email,
       password,
-      displayName,
+      name,
       selectedOptions,
     };
 
@@ -116,8 +116,8 @@ const Signip = () => {
                       <form onSubmit={signup} className="form-control">
                         <input
                           type="text"
-                          value={displayName}
-                          onChange={(e) => setDisplayname(e.target.value)}
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
                           className="block border-gray-100  bg-gray-100/50 w-full p-3 rounded mb-2 text-xl"
                           name="fullname"
                           placeholder="Full Name"
