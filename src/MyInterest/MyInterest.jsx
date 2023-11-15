@@ -97,14 +97,14 @@ const MyInterest = () => {
           </li>
         
           <li className="">
-            <a
-              href="#"
+          <NavLink
+              to="podcast"
               className="inline-block p-4 text-white hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300"
             >
                         <FontAwesomeIcon icon={faMicrophone} className="mx-2"/>
 
               Podcasts
-            </a>
+              </NavLink>
           </li>
           <li className="">
             <NavLink

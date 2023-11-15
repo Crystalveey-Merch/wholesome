@@ -45,6 +45,7 @@ import Settings from "./Dashboard/Settings";
 import ActivityInterest from "./MyInterest/ActivityInterest";
 import Podcasts from "./Admin/Podcasts";
 import AllActivity from "./Admin/AllActivity";
+import PodcastInterest from "./MyInterest/PodcastInterest";
 
 // import "@fortawesome/fontawesome-free"
 
@@ -119,6 +120,8 @@ function App() {
 
         <Route path="/myinterest/activities" element={<ActivityInterest/>} />
         <Route path="/myinterest/feeds" element={<FollowersFeed/>} />
+
+        <Route path="/myinterest/podcast" element={<PodcastInterest/>} />
 
 
 
