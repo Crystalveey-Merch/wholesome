@@ -38,6 +38,8 @@ const PodcastAdmin = () => {
   
     const [selectedFile, setSelectedFile] = useState();
     const [previewUrl, setPreviewUrl] = useState();
+    const [selectedImageFile, setSelectedImageFile] = useState();
+    const [previewImageUrl, setPreviewImageUrl] = useState();
     const [progress, setProgress] = useState(null);
     const navigate = useNavigate();
 
@@ -77,7 +79,7 @@ const PodcastAdmin = () => {
         [name]: value,
       });
     };
-    const handleImageChange = (e) => {
+    const handleAudioChange = (e) => {
       if (!e.target.files || e.target.files.length === 0) {
         console.log(e.target.files);
         setSelectedFile();
@@ -94,9 +96,9 @@ const PodcastAdmin = () => {
       fileReader.readAsDataURL(e.target.files[0]);
     };
     useEffect(() => {
-      const uploadFile = () => {
-        const storageRef = ref(storage, selectedFile.name);
-        const uploadTask = uploadBytesResumable(storageRef, selectedFile);
+      const uploadFile = (file) => {
+        const storageRef = ref(storage, file.name);
+        const uploadTask = uploadBytesResumable(storageRef, file);
         uploadTask.on(
           "state_changed",
           (snapshot) => {
@@ -120,15 +122,48 @@ const PodcastAdmin = () => {
           },
           () => {
             getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => {
-              toast.info("Image upload ");
-              setForm((prev) => ({ ...prev, imgUrl: downloadUrl }));
+              toast.info("File upload");
+              if (file === selectedFile) {
+                setForm((prev) => ({ ...prev, audioUrl: downloadUrl }));
+
+              } else if (file === selectedImageFile) {
+                setForm((prev) => ({ ...prev, imageUrl: downloadUrl }));
+                setPreviewImageUrl(downloadUrl);
+              }
             });
           }
         );
       };
+    
+      if (selectedFile) {
+        uploadFile(selectedFile);
+      }
+    
+      if (selectedImageFile) {
+        uploadFile(selectedImageFile);
+      }
+    }, [selectedFile, selectedImageFile]);
+
+
+
+    const handleImageChange = (e) => {
+      if (!e.target.files || e.target.files.length === 0) {
+        console.log(e.target.files);
+        setSelectedImageFile();
+        setPreviewImageUrl();
+        return;
+      }
+      setSelectedImageFile(e.target.files[0]);
   
-      selectedFile && uploadFile();
-    }, [selectedFile]);
+      const fileReader = new FileReader();
+      fileReader.onload = () => {
+        setPreviewImageUrl(fileReader.result);
+      };
+  
+      fileReader.readAsDataURL(e.target.files[0]);
+    };
+
+
     const handleSubmit = async (e) => {
       e.preventDefault();
   
@@ -165,6 +200,8 @@ const PodcastAdmin = () => {
         // Handle the error appropriately
       }
     };
+
+    
   return (
     <div className="w-screen my-20">
     <div className="mx-40 px-40 sm:mx-5 sm:px-5">
@@ -197,13 +234,53 @@ const PodcastAdmin = () => {
             ))}
           </select>
         </div>
-    
+        <div className="flex flex-col gap-2 py-2">
+          <label className="text-gray-500 Aceh text-sm">Podcast Image </label>
+          <input
+            name="filnamee"
+            id="myFile"
+            onChange={handleImageChange}
+            accept="image/*, video/*"
+            type="file"
+            className="p-3  bg-transparent border rounded-xl  text-black"
+          ></input>
+        </div> 
+        <div className="card p-4 m-auto">
+              {previewImageUrl && (
+                <img
+                  className="w-full h-30"
+                  src={previewImageUrl}
+                  alt="File Preview"
+                />
+              )}
+            </div>
+        <div className="flex flex-col gap-2 py-2">
+          <label className="text-gray-500 Aceh text-sm">Podcast Audio file</label>
+          <input
+            name="filnamee"
+            id="myFile"
+            onChange={handleAudioChange}
+            accept="audio/*"
+            type="file"
+            className="p-3  bg-transparent border rounded-xl  text-black"
+          ></input>
+        </div>  
+        <div className="card p-4 m-auto">
+
+        {previewUrl && (
+                <audio
+                  className="w-full h-30"
+                  src={previewUrl}
+                  controls
+                />
+              )}
+            </div>  
 
         <div className="flex flex-col gap-2 py-2">
-          <label className="text-gray-500 Aceh text-sm"> Spotify Embed Link</label>
+          <label className="text-gray-500 Aceh text-sm"> Spotify  Link</label>
           <input
             name="spotify"
-            value={form.location}
+            value={form.spotify}
             onChange={handleChange}
             type="text"
             className="p-3  bg-transparent border rounded-xl  text-black"
@@ -214,7 +291,7 @@ const PodcastAdmin = () => {
           <label className="text-gray-500 Aceh text-sm"> Youtube Link</label>
           <input
             name="youtube"
-            value={form.location}
+            value={form.youtube}
             onChange={handleChange}
             type="text"
             className="p-3  bg-transparent border rounded-xl  text-black"
@@ -223,7 +300,7 @@ const PodcastAdmin = () => {
         <div className="flex flex-col gap-2 py-2">
           <label className="text-gray-500 Aceh text-sm">
             {" "}
-            Podcast Write-up
+            Podcast Content
           </label>
           <textarea
             name="writeup"
@@ -249,6 +326,8 @@ const PodcastAdmin = () => {
         <button
           className=" btn m-auto flex my-5 p-3 w-40 bg-green-500 text-white border-none "
           type="submit"
+          disabled={progress < 100}
+
         >
           Submit
         </button>

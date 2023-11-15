@@ -29,7 +29,6 @@ const RepliesComment = ({
   };
 
   const [replyUserId] = reply.replyId.split('-');
-  console.log(replyUserId)
 
   return (
     <div>

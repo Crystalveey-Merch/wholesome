@@ -45,6 +45,7 @@ const ActivityForm = () => {
     location: "",
     writeup: "",
     tags: [],
+    claps: 0,
   });
   const categoryOption = [
     "Lifestyle and Fashion",

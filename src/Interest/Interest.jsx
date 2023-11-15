@@ -17,6 +17,9 @@ import {
   faBookmark,
   faComment,
   faEye,
+  faHands,
+  faLocation,
+  faLocationPin,
   faThumbsUp,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -87,6 +90,7 @@ const Interest = () => {
 
     console.log(postsData)
     console.log(interestName)
+    console.log(activitiesData)
 
     const breakpoints = {
         300: {
@@ -148,17 +152,10 @@ const Interest = () => {
     
 
   return (
-    <div className="mt-20 w-screen  sm:mt-18 ">
+    <div className="mt-20 w-screen  sm:mt-18 bg-gray-100 ">
     <div className='bg-gradient-to-r from-indigo-300 to-purple-400 w-screen'>
         <h1 className='text-white text-center uppercase Aceh text-3xl sm:text-2xl py-10'>{interestName}</h1>
     </div>
-   
-  
-       
-
-
-
-
 <div  className="flex justify-center  sm:flex-col">
        <div>
         <div className='py-5'>
@@ -182,7 +179,7 @@ const Interest = () => {
               
               </div>
               <div className="px-5 sm:p-0">
-              <p className="badge bg-gray-100 p-4  top-5 text-gray-600  sm:hidden border-none ">
+              <p className="badge bg-red-500 p-4 my-2  top-5 text-gray-100  sm:hidden border-none ">
                   {post.category}
                 </p>
                 <p className="mt-1 text-sm leading-5 text-red-300 border-b Aceh">
@@ -246,27 +243,31 @@ const Interest = () => {
             return (
               <div
                 key={event.id}
-                className="w-80 bg-white    shadow  dark:border-gray-700"
+                className="w-80 bg-gradient-to-r from-fuchsia-600 to-pink-600   shadow  dark:border-gray-700 rounded-xl"
               >
                 <NavLink to={`/upcomingevents/${event.id}`}>
-                  <img
-                    className="rounded-t-lg"
-                    src={event.imgUrl}
-                    alt={event.name}
-                  />
+                <div className="relative overflow-clip  h-40 ">
+                    <img
+                      src={event.imgUrl}
+                      height={200}
+                      className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out "
+                    />
+                  </div>
+                  
 
                   <div className="p-5">
-                    <div className="badge">{event.category}</div>
-                    <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 Aceh">
-                      {event.name}
+                    <div className="badge p-4 ">{event.category}</div>
+                    <p className="m-3 font-normal text-md  text-gray-100 ">
+                    <FontAwesomeIcon icon={faLocationPin}/> {event.address}
+                    </p>
+                    <h5 className="mb-2 text-xl  font-bold tracking-tight text-gray-100 Aceh">
+                      {event.eventName}
                     </h5>
 
                     <p className="mb-1 font-normal text-md Aceh text-red-500 dark:text-red-500">
                       {event.date}
                     </p>
-                    <p className="mb-3 font-normal text-md  text-gray-500 ">
-                      {event.address}
-                    </p>
+                   
                       <p
                         className="mb-3 font-normal Aceh text-md text-black"
                       >
@@ -274,24 +275,7 @@ const Interest = () => {
                       </p>
                   </div>
                 </NavLink>
-                <div className="text-red-500 flex btn bg-red-500 text-white border-none w-40 Aceh">
-                  <h2>Attend</h2>
-                  <svg
-                    className="w-3.5 h-3.5 ml-2"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 14 10"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M1 5h12m0 0L9 1m4 4L9 9"
-                    />
-                  </svg>
-                </div>
+               
               </div>
             );
           })
@@ -331,16 +315,16 @@ const Interest = () => {
             activitiesData.map((activity) => {
               return (
           <SwiperSlide key={activity.id}>
-          <NavLink to={`/activity/${activity.title}`}>
-            <div className="relative w-72  bg-base-100 text-white shadow-xl  image-full">
+          <NavLink to={`/activity/${activity.id}`}>
+            <div className="relative w-72  bg-gray-800 rounded-xl  shadow-xl  image-full">
               <figure>
-                <img src={activity.src} />
+                <img src={activity.imgUrl} />
               </figure>
-              <div className='p-5'>
-
-              <div className="badge text-green-500">{activity.date}</div>
-                <h1 className="text-2xl py-2"> {activity.title}</h1>
-                <p>{activity.content} </p>
+              <div className='p-5 bg-base-500'>
+              <p className="text-gray-100 flex  gap-4"><FontAwesomeIcon icon={faLocationPin}/>{activity.location} </p>
+                <p className="text-gray-100 flex  gap-4  "><FontAwesomeIcon icon={faHands} className="p-2 rounded-full border"/> {activity.claps} Claps</p>
+              <div className="badge text-gray-200 bg-gray-600 p-4 my-3 ">{activity.DateTime}</div>
+                <h1 className="text-2xl py-2 text-gray-200"> {activity.activityName}</h1>
               </div>
             </div>
 

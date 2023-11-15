@@ -28,6 +28,8 @@ const UserComment = ({
   postReplies,
   postId,
   userId,
+  deleteComment,
+  comment
 }) => {
   const [authUser, setAuthUser] = useState(null);
   const [userData, setUserData] = useState(null);
@@ -43,7 +45,7 @@ const [showCommentBox, setShowCommentBox] =useState(false)
   };
   const commentClassName = isAuthUserComment ? " w-auto " : "w-auto ml-auto";
 
-
+console.log(comment)
   useEffect(() => {
     const listen = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -128,6 +130,8 @@ const [showCommentBox, setShowCommentBox] =useState(false)
   }, [postId, commentId]);
 
   
+  // eslint-disable-next-line react/prop-types
+  // const [commentUserId] = comment.commentId.split('-');
 
   const deleteReply = async (reply) => {
     const [replyUserId] = reply.replyId.split('-');
@@ -146,6 +150,8 @@ const [showCommentBox, setShowCommentBox] =useState(false)
       }
     }
   };
+
+ 
   return (
     <div>
       <div className="row w-auto ">
@@ -198,6 +204,11 @@ const [showCommentBox, setShowCommentBox] =useState(false)
                       
                       <p className="text-sky-500">Reply</p>
                     </span>
+                    {authUser?.uid == comment.userId  && (
+                              <span onClick={() => deleteComment(comment)} className="text-red-500 cursor-pointer">
+                                Delete
+                              </span>
+                            )}
                       </div>
                     </div>
                     

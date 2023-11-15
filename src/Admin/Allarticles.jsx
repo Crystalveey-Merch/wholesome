@@ -24,7 +24,7 @@ const Allarticles = () => {
   const [tags, setTags] = useState([]);
   const [category, setCategory] = useState([]);
   const [search, setSearch] = useState("");
-  const [postPerPage] = useState(9);
+  const [postPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [trendingPost, setTrendingPost] = useState([]);
 
@@ -81,6 +81,24 @@ const Allarticles = () => {
     fetchPosts();
   }, []);
 
+  const handleSearch = () => {
+    if (search.trim() === "") {
+      return posts; // Return all users when search input is empty
+    } else {
+      return posts.filter(
+        (post) =>
+          post.postTitle && post.postTitle.toLowerCase().includes(search.toLowerCase()) ||
+          post.author && post.author.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+  };
+
+  const indexOfLastPage = currentPage * postPerPage;
+  const indexOfFirstPage = indexOfLastPage - postPerPage;
+  const currentPosts = handleSearch().slice(indexOfFirstPage, indexOfLastPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   const handleDelete = async (postId) => {
     if (window.confirm("Are you sure you want to delete the user post?")) {
       try {
@@ -101,8 +119,37 @@ const Allarticles = () => {
 
   return (
     <div className="py-20 sm:px-2 px-8 w-full">
-      Allarticles
-      <div className="relative overflow-x-auto sm:w-screen shadow-md sm:rounded-lg">
+     <p  className="text-center text-xl Aceh py-10">All Articles</p> 
+     <label htmlFor="table-search" className="sr-only">
+          Search
+        </label>
+        <div className="relative my-5">
+          <div className="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+            <svg
+              className="w-4 h-4 text-gray-500 dark:text-gray-400"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 20 20"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+              />
+            </svg>
+          </div>
+          <input
+            type="text"
+            id="table-search-users"
+            className="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Search for users"
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
+      <div className="relative overflow-x-auto sm:w-screen shadow-md sm:rounded-lg p-8">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 ">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
@@ -111,6 +158,9 @@ const Allarticles = () => {
               </th>
               <th scope="col" className="px-6 py-3">
                 Author
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Category
               </th>
               <th scope="col" className="px-6 py-3">
                 Likes
@@ -127,18 +177,20 @@ const Allarticles = () => {
               </th>
             </tr>
           </thead>
-          {posts?.map((post) => (
+          {currentPosts?.map((post) => (
             <tbody key={post.id}>
               <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                 <NavLink to={`/readmore/${post.id}`}>
-                  <th
+                  <td
                     scope="row"
                     className="px-6 py-4 font-medium Aceh  text-gray-900 whitespace-nowrap dark:text-white"
                   >
                     {post.postTitle}
-                  </th>
+                  </td>
                 </NavLink>
                 <td className="px-6 py-4">{post.author}</td>
+                <td className="px-6 py-4">{post.category}</td>
+
                 <td className="px-6 py-4">{post.likes.length}</td>
 
                 <td className="px-6 py-4">{post.comments.length}</td>
@@ -192,6 +244,12 @@ const Allarticles = () => {
             </tbody>
           ))}
         </table>
+        <Pagination
+          postPerPage={postPerPage}
+          totalPosts={posts.length}
+          paginate={paginate}
+          currentPage={currentPage}
+        />
       </div>
     </div>
   );

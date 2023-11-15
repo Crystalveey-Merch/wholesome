@@ -29,7 +29,6 @@ const Podcast = () => {
   const [loading, setLoading] = useState(false);
   const [podcast, setPodcast] = useState([]);
 
- 
   useEffect(() => {
     const fetchPodcast = async () => {
       setLoading(true);
@@ -46,17 +45,13 @@ const Podcast = () => {
           podcastData.push(post);
           postIds.push(doc.id); // Collect post IDs in the array
         });
-        
+
         // Set the postId state with the collected post IDs
-        
+
         // setPostId(postIds);
-    
+
         setPodcast(podcastData);
 
-
-       
-
-       
         setLoading(false);
       } catch (error) {
         console.error("Error fetching posts:", error);
@@ -64,10 +59,9 @@ const Podcast = () => {
       }
     };
 
-
     fetchPodcast();
-  },[] );
-  console.log(podcast)
+  }, []);
+  console.log(podcast);
 
   if (loading) {
     return <Spinner />;
@@ -128,81 +122,37 @@ const Podcast = () => {
             Our recent Episodes
           </h1>
 
-          <div className="py-5  flex flex-wrap mx-20 sm:mx-5 gap-10 justify-center">
-          {podcast?.map((item) => (
+          <div className="py-5  flex flex-wrap px-20 sm:w-full sm:px-5  gap-4  justify-center">
+            {podcast?.map((item) => (
+              <div key={item.key} className="flex flex-col gap-4 bg-gray-800 h-56 ">
+              <div key={item.id} className=" relative flex rounded-xl shadow w-96 sm:w-full" >
+                <div className=" relative w-40 overflow-clip p-2  rounded-xl ">
+                <img src={item.imageUrl} className="absolute  hover:scale-125  m-auto  transition duration-300 ease-in-out"></img>
+                </div>
+                <div className=" p-4">
+                  <p className="text-white Aceh text-2xl sm:text-xl">{item.podcastName} </p>
+                  <p className="text-gray-300   ">{item.category} </p>
+                
+                 <div className="flex  gap-2">
+                <FontAwesomeIcon icon={faSpotify} className=" text-2xl text-gray-500 hover:text-gray-200 cursor-pointer hover:scale-125 transition duration-300 ease-in-out" />
+                <FontAwesomeIcon icon={faYoutube} className="text-2xl text-gray-500 hover:text-gray-200 cursor-pointer hover:scale-125 transition duration-300 ease-in-out" />
 
-            <div key={item.id}
-            dangerouslySetInnerHTML={{
-    __html: `
-     ${item.spotify}
-    `,}}
-            />
-          ))}
-          <div
-  dangerouslySetInnerHTML={{
-    __html: `
-      <iframe
-        style="border-radius: 12px"
-        src="https://open.spotify.com/embed/track/1AhDOtG9vPSOmsWgNW0BEY?utm_source=generator"
-        width="100%"
-        height="352"
-        frameBorder="0"
-        allowfullscreen=""
-        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-        loading="lazy"
-      ></iframe>
-    `,
-  }}
-/>
+                </div>
+                </div>
 
-            <div>
-              <iframe
-                style={{ borderRadius: "12px" }}
-                src="https://open.spotify.com/embed/episode/7rDpsdkTIIWrpKbA0jQhz4?utm_source=generator"
-                width="100%"
-                height="352"
-                frameBorder="0"
-                allowfullscreen=""
-                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                loading="lazy"
-              ></iframe>
-            </div>
-            <div>
-              <iframe
-                style={{ bordeRadius: "12px" }}
-                src="https://open.spotify.com/embed/track/4jDt1y2gCPiqC3PgWuzLjW?utm_source=generator"
-                width="100%"
-                height="352"
-                frameBorder="0"
-                allowfullscreen=""
-                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                loading="lazy"
-              ></iframe>
-            </div>
-            <div>
-              <iframe
-                style={{ borderRadius: "12px" }}
-                src="https://open.spotify.com/embed/track/5MxNLUsfh7uzROypsoO5qe?utm_source=generator"
-                width="100%"
-                height="352"
-                frameBorder="0"
-                allowfullscreen=""
-                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                loading="lazy"
-              ></iframe>
-            </div>
-            <div>
-              <iframe
-                style={{ borderRadius: "12px" }}
-                src="https://open.spotify.com/embed/track/371VkfwKiXJxgH5ZPoQNHD?utm_source=generator"
-                width="100%"
-                height="352"
-                frameBorder="0"
-                allowfullscreen=""
-                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                loading="lazy"
-              ></iframe>
-            </div>
+              </div>
+              <div className="px-5">
+              <audio
+                  className="w-full h-10 "
+                  src={item.audioUrl}
+                  controls
+                />
+               </div>
+              </div>
+
+            ))}
+
+           
           </div>
         </div>
       </div>

@@ -43,6 +43,8 @@ import Allarticles from "./Admin/Allarticles";
 import Users from "./Admin/Users";
 import Settings from "./Dashboard/Settings";
 import ActivityInterest from "./MyInterest/ActivityInterest";
+import Podcasts from "./Admin/Podcasts";
+import AllActivity from "./Admin/AllActivity";
 
 // import "@fortawesome/fontawesome-free"
 
@@ -154,6 +156,10 @@ function App() {
         >
           <Route path="/admin/articles" element={<Allarticles />} />
           <Route path="/admin/users" element={<Users />} />
+          <Route path="/admin/podcasts" element={<Podcasts />} />
+          <Route path="/admin/activities" element={<AllActivity />} />
+
+
 
 
         </Route>

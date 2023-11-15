@@ -168,7 +168,7 @@ const Activity = () => {
   return (
     <div className="mt-20 sm:mt-18  m-auto justify-center  w-screen">
       <div>
-        <h1 className="bg-gradient-to-r from-green-200 via-green-400 to-green-500 text-center p-10 text-3xl sm:text-2xl">
+        <h1 className="bg-gradient-to-r from-teal-200 to-lime-200 text-center p-10 text-3xl sm:text-2xl">
           Community Activity
         </h1>
       </div>

@@ -189,7 +189,6 @@ const ArticleList = () => {
   if (loading) {
     return <Spinner />;
   }
-console.log(tags)
 
   const excerpt = (str, count) => {
     if (str && str.length > count) {

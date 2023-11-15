@@ -319,6 +319,23 @@ const ReadMore = () => {
     }
   };
 
+  const deleteComment = async (comment) => {
+    const [commentId] = comment.commentId.split('-');
+    if (commentId === authUser?.uid) {
+      const updatedComments = comments.filter((c) => c.commentId !== comment.commentId);
+      setComments(updatedComments);
+      try {
+        await updateDoc(doc(db, "posts", id), {
+          comments: updatedComments,
+        });
+        toast.success("comment deleted successfully");
+      } catch (error) {
+        console.error("Error deleting comment: ", error);
+        toast.error("Error deleting comment", error);
+      }
+  }
+  }
+
   function copyText() {
     /* Copy text into clipboard */
     navigator.clipboard.writeText(
@@ -561,6 +578,8 @@ const ReadMore = () => {
                         postReplies={post.replies}
                         postId={id}
                         key={id}
+                        deleteComment={deleteComment}
+                        comment={comment}
                       />
                     ))}
                   </>
