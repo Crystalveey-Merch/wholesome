@@ -73,7 +73,7 @@ const ArticleList = () => {
     // setLoading(true);
     const fetchPosts = async () => {
       try {
-        // setLoading(true);
+        setLoading(true);
         const querySnapshot = await getDocs(collection(db, "posts"));
         const postData = [];
         const postIds = [];
@@ -110,7 +110,7 @@ const ArticleList = () => {
           setRandomPost([postData[randomIndex]]);
         }
 
-        // setLoading(false)
+        setLoading(false)
       } catch (error) {
         console.error("Error fetching posts:", error);
         setPosts([]);
