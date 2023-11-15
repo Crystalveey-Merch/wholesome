@@ -124,35 +124,49 @@ const Podcast = () => {
 
           <div className="py-5  flex flex-wrap px-20 sm:w-full sm:px-5  gap-4  justify-center">
             {podcast?.map((item) => (
-              <div key={item.key} className="flex flex-col gap-4 bg-gray-800 h-56 ">
-              <div key={item.id} className=" relative flex rounded-xl shadow w-96 sm:w-full" >
-                <div className=" relative w-40 overflow-clip p-2  rounded-xl ">
-                <img src={item.imageUrl} className="absolute  hover:scale-125  m-auto  transition duration-300 ease-in-out"></img>
-                </div>
-                <div className=" p-4">
-                  <p className="text-white Aceh text-2xl sm:text-xl">{item.podcastName} </p>
-                  <p className="text-gray-300   ">{item.category} </p>
-                
-                 <div className="flex  gap-2">
-                <FontAwesomeIcon icon={faSpotify} className=" text-2xl text-gray-500 hover:text-gray-200 cursor-pointer hover:scale-125 transition duration-300 ease-in-out" />
-                <FontAwesomeIcon icon={faYoutube} className="text-2xl text-gray-500 hover:text-gray-200 cursor-pointer hover:scale-125 transition duration-300 ease-in-out" />
+              <div
+                key={item.key}
+                className="flex flex-col gap-4 bg-gray-800 h-56 "
+              >
+                <div
+                  key={item.id}
+                  className=" relative flex rounded-xl shadow w-96 sm:w-full"
+                >
+                  <div className=" relative w-40 overflow-clip p-2  rounded-xl ">
+                    <img
+                      src={item.imageUrl}
+                      className="absolute  hover:scale-125  m-auto  transition duration-300 ease-in-out"
+                    ></img>
+                  </div>
+                  <div className=" p-4">
+                    <p className="text-white Aceh text-2xl sm:text-xl">
+                      {item.podcastName}{" "}
+                    </p>
+                    <p className="text-gray-300   ">{item.category} </p>
 
+                    <div className="flex  gap-2">
+                      <a  href={item.spotify}>                          
+                           <FontAwesomeIcon
+                        icon={faSpotify}
+                        className=" text-2xl text-gray-500 hover:text-gray-200 cursor-pointer hover:scale-125 transition duration-300 ease-in-out"/>
+                        </a>
+                      <a href={item.youtube}> 
+                      <FontAwesomeIcon
+                        icon={faYoutube}
+                        className="text-2xl text-gray-500 hover:text-gray-200 cursor-pointer hover:scale-125 transition duration-300 ease-in-out"
+                      /> </a>
+                    </div>
+                  </div>
                 </div>
+                <div className="px-5">
+                  <audio
+                    className="w-full h-10 "
+                    src={item.audioUrl}
+                    controls
+                  />
                 </div>
-
               </div>
-              <div className="px-5">
-              <audio
-                  className="w-full h-10 "
-                  src={item.audioUrl}
-                  controls
-                />
-               </div>
-              </div>
-
             ))}
-
-           
           </div>
         </div>
       </div>
