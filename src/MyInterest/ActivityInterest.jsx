@@ -126,9 +126,12 @@ const ActivityInterest = () => {
                     <div key={activity.key}>
                         <NavLink to={`/activity/${activity.id}`} style={{ height: "32rem" }}>
                             <div className="relative w-94 text-white shadow-xl image-full">
-                                <figure className="relative overflow-clip h-40 sm:w-full">
-                                    <img src={activity.imgUrl} alt={activity.activityName} />
+                            <div className="relative overflow-clip  h-40 sm:w-40" >
+
+                                <figure className="">
+                                    <img src={activity.imgUrl} alt={activity.activityName} className='p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out' />
                                 </figure>
+                                </div>
                                 <div className="p-5 bg-gray-900">
                                     <div className="badge bg-red-500 text-white p-4 text-md">{activity.category}</div>
                                     <h1 className="text-2xl py-2">{activity.activityName}</h1>
