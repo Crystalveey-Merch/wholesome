@@ -56,6 +56,7 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { NavLink } from "react-router-dom";
 import { faBookmark, faEye } from "@fortawesome/free-solid-svg-icons";
+import { Helmet } from "react-helmet-async";
 
 const ReadMore = () => {
   const url = window.location.href;
@@ -425,245 +426,235 @@ const ReadMore = () => {
 
 
   return (
+    <><Helmet>
+      <title>{post.postTitle}</title>
+      <meta name='description' content={excerpt(post.postDescription, 80)} />
+      <link rel=" canonical" href='/readmore' />
+    </Helmet>
     <div className="flex mt-40 w-screen px-30 sm:flex-col sm:px-5 ">
-      <div
-        className="  px-40 lg:px-20 sm:px-0  sm:mt-30 flex flex-col m-auto justify-center"
-        key={post.id}
-      >
-        <div className="badge bg-red-500 text-white text-xl Aceh p-4">
-          {post.category}
-        </div>
-
-        <h1 className="text-black text-4xl sm:text-3xl py-5">
-          {" "}
-          {post.postTitle}
-        </h1>
-
-        <div className="m-auto">
-          <img src={post.imgUrl} alt={post.postTitle} width={1000} />
-        </div>
-        <div className=" my-20 sm:mx-5 sm:my-10">
-          <h1 className="text-red-500 text-xl">{post.date}</h1>
-          <p className="mt-1 text-xl sm:text-sm leading-5 text-red-400 Aceh pb-2">
-            Posted on {post.timestamp?.toDate()?.toDateString()} at{" "}
-            {formatTime(post.timestamp?.toDate())}
-          </p>
-          <p className="py-5 Aceh">By {profileData?.displayName}</p>
-          <p className="py-5 underline cursor-pointer  gap-2"
-            onClick={handleAddBookmark}
-          >
-            Add to Bookmarks
-            <FontAwesomeIcon
-              icon={faBookmark}
-              style={buttonStyle}
-              className="  cursor-pointer "
-            />{" "}
-
-            ({bookmarkCount})</p>
-          <span className="text-xl flex text-gray-100 p-2 rounded-full sticky top-24  bg-black m-auto justify-center">
-            <div className="flex gap-2   m-auto">
-              <Like handleLike={handleLike} likes={likes} userId={userId} />
-              <FontAwesomeIcon
-                icon={faComment}
-                className="text-gray-100  "
-              />{" "}
-              {post.comments.length}
-
-            </div>
-            <div className="flex gap-3 m-auto ">
-              <span className="text-white Aceh">Share:</span>
-              <LinkedinShareButton url={url} title={post?.postTitle}>
-                <FontAwesomeIcon
-                  icon={faLinkedin}
-                  className="fab fa-linkedin text-sky-500 text-xl"
-                />
-              </LinkedinShareButton>
-              <FacebookShareButton url={url} title={post?.postTitle}>
-                <FontAwesomeIcon
-                  icon={faFacebook}
-                  className="fab fa-facebook text-sky-500 text-xl"
-                />
-              </FacebookShareButton>
-              <TwitterShareButton url={url} title={post?.postTitle}>
-                <FontAwesomeIcon
-                  icon={faTwitter}
-                  className="fab fa-twitter text-sky-500 text-xl"
-                />
-              </TwitterShareButton>
-              <WhatsappShareButton url={url} title={post?.postTitle}>
-                <FontAwesomeIcon
-                  icon={faWhatsapp}
-                  className="fab fa-whatsapp text-green-500 text-xl"
-                />
-              </WhatsappShareButton>
-              <span onClick={copyText}>
-                <FontAwesomeIcon
-                  icon={faCopy}
-                  className="fas fa-link text-xl text-white"
-                />
-              </span>
-
-
-            </div>
-
-          </span>
-          <hr></hr>
-          <br></br>
-          <MDEditor.Markdown
-            source={post.content}
-            style={{ whiteSpace: "pre-wrap" }}
-          />
-
-          <ul>
-            {Array.isArray(post.tags) ? (
-              post.tags.map((tag, index) => (
-                <li
-                  key={index}
-                  className="badge bg-green-800 p-3 text-white Aceh my-10 mx-2"
-                >
-                  {tag}
-                </li>
-              ))
-            ) : (
-              <li>No tags available</li>
-            )}
-          </ul>
-        </div>
-        <div>
-          <div className="flex flex-col m-auto my-5 bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400   rounded-xl p-5">
-            <img
-              src={profileData?.photoURL}
-              className="rounded-full h-20 w-20 m-auto"
-            />
-            <h1 className="text-xl m-auto text-black py-5">
-              {" "}
-              Author: {profileData?.displayName}
-            </h1>
-            <h1 className="text-sm text-gray-600 py-1 m-auto">
-              Bio: {profileData?.shortBio}
-            </h1>
-            <h1 className="text-sm text-gray-600 py-1 m-auto">
-              Email: {profileData?.email}
-            </h1>
-            <NavLink to={`/profile/${profileId}`}>
-              <button className="btn w-40 flex hover:bg-black m-auto my-2  bg-gradient-to-r from-orange-400 to-rose-400 text-white ">
-                View Profile
-              </button>
-            </NavLink>
+        <div
+          className="  px-40 lg:px-20 sm:px-0  sm:mt-30 flex flex-col m-auto justify-center"
+          key={post.id}
+        >
+          <div className="badge bg-red-500 text-white text-xl Aceh p-4">
+            {post.category}
           </div>
-          <div className=" bg-gray-200 border rounded-xl text-base-200 p-5 sm:p-2 ">
-            <div className="scroll">
-              <h4 className="small-title Aceh text-red-500 ">
-                {post.comments?.length} Comment
-              </h4>
-              <div className="h-96 sm:h-60 overflow-scroll">
-                {isEmpty(post.comments) ? (
-                  <UserComment
-                    msg={
-                      "No Comment yet posted on this blog. Be the first to comment"
-                    }
-                    name="any"
-                    body="any"
-                    createdAt="any"
-                    className="text-red-500"
-                    imgUrl="any"
-                    commentLikes="any"
-                  />
-                ) : (
-                  <>
-                    {comments?.map((comment) => (
-                      <UserComment
-                        {...comment}
-                        isAuthUserComment={isAuthUserComment(comment, userId)}
-                        postReplies={post.replies}
-                        postId={id}
-                        key={id}
-                        deleteComment={deleteComment}
-                        comment={comment}
-                      />
-                    ))}
-                  </>
-                )}
-              </div>
-            </div>
 
-            <CommentBox
-              userId={userId}
-              userComment={userComment}
-              setUserComment={setUserComment}
-              handleComment={handleComment}
-              imgUrl={userData?.photoURL}
-            />
+          <h1 className="text-black text-4xl sm:text-3xl py-5">
+            {" "}
+            {post.postTitle}
+          </h1>
+
+          <div className="m-auto">
+            <img src={post.imgUrl} alt={post.postTitle} width={1000} />
           </div>
-        </div>
-      </div>
-
-      <div className=" bg-gradient-to-l from-orange-400 to-rose-400  ">
-        <p className="text-white text-2xl text-red-500 sm:my-2 my-5 text-center Aceh text-md">Related Publications</p>
-        <div  className="flex  flex-wrap px-5 sm:p-5 my-20 sm:my-5 m-auto justify-center gap-5 sm:gap-2">
-        {relatedPost?.map((post, index) => {
-          return (
-            <NavLink
-              to={`/readmore/${post.id}`}
-              onClick={() => handleReadMoreClick(post)}
-              key={index}
-              className=" p-5 sm:p-0 sm:px-5 m-auto flex  flex-col  transition duration-300 ease-in-out"
+          <div className=" my-20 sm:mx-5 sm:my-10">
+            <h1 className="text-red-500 text-xl">{post.date}</h1>
+            <p className="mt-1 text-xl sm:text-sm leading-5 text-red-400 Aceh pb-2">
+              Posted on {post.timestamp?.toDate()?.toDateString()} at{" "}
+              {formatTime(post.timestamp?.toDate())}
+            </p>
+            <p className="py-5 Aceh">By {profileData?.displayName}</p>
+            <p className="py-5 underline cursor-pointer  gap-2"
+              onClick={handleAddBookmark}
             >
-              <div className="w-72  bg-white hover:bg-gray-100/50   rounded-xl p-2 shadow ">
-                <div className="relative overflow-clip  h-40 sm:w-40">
-                  <img
-                    src={post.data.imgUrl}
-                    height={200}
-                    className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out m-auto "
-                  />
-                </div>
-                <div className="px-5 sm:p-0">
-                  <p className="badge bg-gray-100 p-4  top-5 text-gray-600  sm:hidden border-none ">
-                    {post.data.category}
-                  </p>
-                  <p className="mt-1 text-sm leading-5 text-red-300 border-b Aceh">
-                    {post.data.timestamp?.toDate().toDateString()} at{" "}
-                    {formatTime(post.data.timestamp?.toDate())}
-                  </p>
-                  <h2 className="Aceh text-xl py-2 text-black ">
-                    {post.data.postTitle}
-                  </h2>
+              Add to Bookmarks
+              <FontAwesomeIcon
+                icon={faBookmark}
+                style={buttonStyle}
+                className="  cursor-pointer " />{" "}
 
-                  <p className="h-14 text-gray-800 sm:hidden">
-                    {excerpt(post.data.postDescription, 50)}
-                  </p>
-                  <span className="text-xl flex gap-5 ">
-                    <FontAwesomeIcon
-                      icon={faComment}
-                      className="text-gray-500 my-auto "
-                    />{" "}
-                    {post.data.comments?.length}
-                    <FontAwesomeIcon
-                      icon={faThumbsUp}
-                      className="text-gray-500 my-auto "
-                    />{" "}
-                    {post.data.likes?.length}
-                    <FontAwesomeIcon
-                      icon={faEye}
-                      className="text-gray-500 my-auto "
-                    />{" "}
-                    {post.data.views ? post.data.views.length : 0}
-                    {/* <FontAwesomeIcon
-                    onClick={handleAddBookmark}
-                    icon={faBookmark}
-                    style={buttonStyle}
-                    className="my-auto "
-                  />{" "}
-                  {bookmarkCount} */}
-                  </span>
+              ({bookmarkCount})</p>
+            <span className="text-xl flex text-gray-100 p-2 rounded-full sticky top-24  bg-black m-auto justify-center">
+              <div className="flex gap-2   m-auto">
+                <Like handleLike={handleLike} likes={likes} userId={userId} />
+                <FontAwesomeIcon
+                  icon={faComment}
+                  className="text-gray-100  " />{" "}
+                {post.comments.length}
+
+              </div>
+              <div className="flex gap-3 m-auto ">
+                <span className="text-white Aceh">Share:</span>
+                <LinkedinShareButton url={url} title={post?.postTitle}>
+                  <FontAwesomeIcon
+                    icon={faLinkedin}
+                    className="fab fa-linkedin text-sky-500 text-xl" />
+                </LinkedinShareButton>
+                <FacebookShareButton url={url} title={post?.postTitle}>
+                  <FontAwesomeIcon
+                    icon={faFacebook}
+                    className="fab fa-facebook text-sky-500 text-xl" />
+                </FacebookShareButton>
+                <TwitterShareButton url={url} title={post?.postTitle}>
+                  <FontAwesomeIcon
+                    icon={faTwitter}
+                    className="fab fa-twitter text-sky-500 text-xl" />
+                </TwitterShareButton>
+                <WhatsappShareButton url={url} title={post?.postTitle}>
+                  <FontAwesomeIcon
+                    icon={faWhatsapp}
+                    className="fab fa-whatsapp text-green-500 text-xl" />
+                </WhatsappShareButton>
+                <span onClick={copyText}>
+                  <FontAwesomeIcon
+                    icon={faCopy}
+                    className="fas fa-link text-xl text-white" />
+                </span>
+
+
+              </div>
+
+            </span>
+            <hr></hr>
+            <br></br>
+            <MDEditor.Markdown
+              source={post.content}
+              style={{ whiteSpace: "pre-wrap" }} />
+
+            <ul>
+              {Array.isArray(post.tags) ? (
+                post.tags.map((tag, index) => (
+                  <li
+                    key={index}
+                    className="badge bg-green-800 p-3 text-white Aceh my-10 mx-2"
+                  >
+                    {tag}
+                  </li>
+                ))
+              ) : (
+                <li>No tags available</li>
+              )}
+            </ul>
+          </div>
+          <div>
+            <div className="flex flex-col m-auto my-5 bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400   rounded-xl p-5">
+              <img
+                src={profileData?.photoURL}
+                className="rounded-full h-20 w-20 m-auto" />
+              <h1 className="text-xl m-auto text-black py-5">
+                {" "}
+                Author: {profileData?.displayName}
+              </h1>
+              <h1 className="text-sm text-gray-600 py-1 m-auto">
+                Bio: {profileData?.shortBio}
+              </h1>
+              <h1 className="text-sm text-gray-600 py-1 m-auto">
+                Email: {profileData?.email}
+              </h1>
+              <NavLink to={`/profile/${profileId}`}>
+                <button className="btn w-40 flex hover:bg-black m-auto my-2  bg-gradient-to-r from-orange-400 to-rose-400 text-white ">
+                  View Profile
+                </button>
+              </NavLink>
+            </div>
+            <div className=" bg-gray-200 border rounded-xl text-base-200 p-5 sm:p-2 ">
+              <div className="scroll">
+                <h4 className="small-title Aceh text-red-500 ">
+                  {post.comments?.length} Comment
+                </h4>
+                <div className="h-96 sm:h-60 overflow-scroll">
+                  {isEmpty(post.comments) ? (
+                    <UserComment
+                      msg={"No Comment yet posted on this blog. Be the first to comment"}
+                      name="any"
+                      body="any"
+                      createdAt="any"
+                      className="text-red-500"
+                      imgUrl="any"
+                      commentLikes="any" />
+
+                  ) : (
+                    <>
+                      {comments?.map((comment) => (
+                        <div key={comment.commentId}>
+                          <UserComment
+                            {...comment}
+                            isAuthUserComment={isAuthUserComment(comment, userId)}
+                            postReplies={post.replies}
+                            postId={id}
+                            userId={userId}
+                            deleteComment={deleteComment}
+                            comment={comment} />
+                        </div>
+                      ))}
+                    </>
+                  )}
                 </div>
               </div>
-            </NavLink>
-          );
-        })}
+
+              <CommentBox
+                userId={userId}
+                userComment={userComment}
+                setUserComment={setUserComment}
+                handleComment={handleComment}
+                imgUrl={userData?.photoURL} />
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+
+        <div className=" bg-gradient-to-l from-orange-400 to-rose-400  ">
+          <p className="text-white text-2xl text-red-500 sm:my-2 my-5 text-center Aceh text-md">Related Publications</p>
+          <div className="flex  flex-wrap px-5 sm:p-5 my-20 sm:my-5 m-auto justify-center gap-5 sm:gap-2">
+            {relatedPost?.map((post, index) => {
+              return (
+                <NavLink
+                  to={`/readmore/${post.id}`}
+                  onClick={() => handleReadMoreClick(post)}
+                  key={index}
+                  className=" p-5 sm:p-0 sm:px-5 m-auto flex  flex-col  transition duration-300 ease-in-out"
+                >
+                  <div className="w-72  bg-white hover:bg-gray-100/50   rounded-xl p-2 shadow ">
+                    <div className="relative overflow-clip  h-40 sm:w-40">
+                      <img
+                        src={post.data.imgUrl}
+                        height={200}
+                        className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out m-auto " />
+                    </div>
+                    <div className="px-5 sm:p-0">
+                      <p className="badge bg-gray-100 p-4  top-5 text-gray-600  sm:hidden border-none ">
+                        {post.data.category}
+                      </p>
+                      <p className="mt-1 text-sm leading-5 text-red-300 border-b Aceh">
+                        {post.data.timestamp?.toDate().toDateString()} at{" "}
+                        {formatTime(post.data.timestamp?.toDate())}
+                      </p>
+                      <h2 className="Aceh text-xl py-2 text-black ">
+                        {post.data.postTitle}
+                      </h2>
+
+                      <p className="h-14 text-gray-800 sm:hidden">
+                        {excerpt(post.data.postDescription, 50)}
+                      </p>
+                      <span className="text-xl flex gap-5 ">
+                        <FontAwesomeIcon
+                          icon={faComment}
+                          className="text-gray-500 my-auto " />{" "}
+                        {post.data.comments?.length}
+                        <FontAwesomeIcon
+                          icon={faThumbsUp}
+                          className="text-gray-500 my-auto " />{" "}
+                        {post.data.likes?.length}
+                        <FontAwesomeIcon
+                          icon={faEye}
+                          className="text-gray-500 my-auto " />{" "}
+                        {post.data.views ? post.data.views.length : 0}
+                        {/* <FontAwesomeIcon
+                onClick={handleAddBookmark}
+                icon={faBookmark}
+                style={buttonStyle}
+                className="my-auto "
+              />{" "}
+              {bookmarkCount} */}
+                      </span>
+                    </div>
+                  </div>
+                </NavLink>
+              );
+            })}
+          </div>
+        </div>
+      </div></>
   );
 };
 

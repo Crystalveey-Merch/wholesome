@@ -14,6 +14,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "../firebase/auth.js";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { Helmet } from "react-helmet-async";
 
 const UserComment = ({
   name,
@@ -153,96 +154,90 @@ console.log(comment)
 
  
   return (
-    <div>
-      <div className="row w-auto ">
-        <div className="col-lg-12">
-          <div className="comments-list">
-            <div className="media dark:text-red-300">
-              {msg ? (
-                <h4 className="mt-5 text-red-300 text-xl  text-center">
-                  {msg}
-                </h4>
-              ) : (
-                <>
-                  <div className=" flex  ml-14 w-full ">
-                    <div className="chat-header text-sky-500 flex gap-2 Aceh  my-auto">
-                      {name}{" "}
-                      <time className="text-sm opacity-50 text-red-500 flex gap-4">
-                        {createdAt.toDate().toDateString()}
-                      </time>
-                    </div>
-                  </div>
-
-                  <div className=" flex flex-col gap-2 w-full ">
-                    <div className="flex gap-5 ">
-                      <div className="rounded-full overflow-hidden w-10 h-10">
-                        <img
-                          src={imgUrl}
-                          alt="user"
-                          className=" m-auto"
-                          // width={30}
-                          // height={30}
-                        />
+    <><div>
+        <div className="row w-auto ">
+          <div className="col-lg-12">
+            <div className="comments-list">
+              <div className="media dark:text-red-300">
+                {msg ? (
+                  <h4 className="mt-5 text-red-300 text-xl  text-center">
+                    {msg}
+                  </h4>
+                ) : (
+                  <>
+                    <div className=" flex  ml-14 w-full ">
+                      <div className="chat-header text-sky-500 flex gap-2 Aceh  my-auto">
+                        {name}{" "}
+                        <time className="text-sm opacity-50 text-red-500 flex gap-4">
+                          {createdAt.toDate().toDateString()}
+                        </time>
                       </div>
-                      <div className="chat chat-start  w-full ">
-                        <div className=" w-full ">
-                          <div className="chat-bubble text-white  Aceh bg-sky-800 flex gap-6  sm:gap-4 my-auto w-fit ">
-                            <span className="text-green-400  text-sm   ">
-                              {formatTime(createdAt.toDate())}
-                            </span>
-                            {body}
+                    </div>
+
+                    <div className=" flex flex-col gap-2 w-full ">
+                      <div className="flex gap-5 ">
+                        <div className="rounded-full overflow-hidden w-10 h-10">
+                          <img
+                            src={imgUrl}
+                            alt="user"
+                            className=" m-auto" />
+                        </div>
+                        <div className="chat chat-start  w-full ">
+                          <div className=" w-full ">
+                            <div className="chat-bubble text-white  Aceh bg-sky-800 flex gap-6  sm:gap-4 my-auto w-fit ">
+                              <span className="text-green-400  text-sm   ">
+                                {formatTime(createdAt.toDate())}
+                              </span>
+                              {body}
+                            </div>
                           </div>
                         </div>
+                        <div className="m-auto mx-2  flex ">
+                          <FontAwesomeIcon
+                            icon={faHeart}
+                            className="text-gray-300 flex my-auto" />
+                          {commentLikes}
+                          <span className="flex gap-2 pl-5 sm:p-2 cursor-pointer" onClick={() => setShowCommentBox(!showCommentBox)}>
+
+                            <p className="text-sky-500">Reply</p>
+                          </span>
+                          {authUser?.uid == comment.userId && (
+                            <span onClick={() => deleteComment(comment)} className="text-red-500 cursor-pointer">
+                              Delete
+                            </span>
+                          )}
+                        </div>
                       </div>
-                      <div className="m-auto mx-2  flex ">
-                        <FontAwesomeIcon
-                          icon={faHeart}
-                          className="text-gray-300 flex my-auto"
-                        />
-                        {commentLikes}
-                        <span className="flex gap-2 pl-5 sm:p-2 cursor-pointer" onClick={() => setShowCommentBox(!showCommentBox)}>
-                      
-                      <p className="text-sky-500">Reply</p>
-                    </span>
-                    {authUser?.uid == comment.userId  && (
-                              <span onClick={() => deleteComment(comment)} className="text-red-500 cursor-pointer">
-                                Delete
-                              </span>
-                            )}
+
+                      <div className="ml-10">
+                        <div className={`comment-box transition-height duration-300 ease-in-out ${showCommentBox ? 'h-20' : 'h-0'}`}>
+                          <CommentBox
+                            userId={authUser?.uid}
+                            userComment={userReply}
+                            setUserComment={setUserReply}
+                            handleComment={handleReply}
+                            imgUrl={userData?.photoURL} />
+                        </div>
+                        {replies?.length > 0 &&
+                          replies.map((reply) => (
+                            <RepliesComment
+                              reply={reply}
+                              postId={postId}
+                              userId={userId}
+                              commentId={commentId}
+                              key={reply.replyId}
+                              authUser={authUser}
+                              deleteReply={deleteReply} />
+                          ))}
                       </div>
                     </div>
-                    
-                    <div className="ml-10">
-                    <div className={`comment-box transition-height duration-300 ease-in-out ${showCommentBox ? 'h-20' : 'h-0'}`}>
-                      <CommentBox
-                        userId={authUser?.uid}
-                        userComment={userReply}
-                        setUserComment={setUserReply}
-                        handleComment={handleReply}
-                        imgUrl={userData?.photoURL}
-                      />
-                      </div>
-                      {replies?.length > 0 &&
-                        replies.map((reply) => (
-                          <RepliesComment
-                            reply={reply}
-                            postId={postId}
-                            userId={userId}
-                            commentId={commentId}
-                            key={reply.replyId}
-                            authUser={authUser}
-                            deleteReply={deleteReply}
-                          />
-                        ))}
-                    </div>
-                  </div>
-                </>
-              )}
+                  </>
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </div></>
   );
 };
 

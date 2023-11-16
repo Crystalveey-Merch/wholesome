@@ -273,6 +273,7 @@ const CreatePost = () => {
           userId: authUser.uid,
         });
         toast.success("Draft Published");
+        navigate("/articlelist");
       } catch (err) {
         console.log(err);
       }
@@ -325,7 +326,12 @@ const CreatePost = () => {
           </h3>
           <form className="form-control" onSubmit={handleAddPost}>
             {id ? (
-              ""
+              <div
+                className=" text-red-500 cursor-pointer"
+                onClick={handleAddDraft}
+              >
+                <FontAwesomeIcon icon={faSave} /> Update Draft
+              </div>
             ) : (
               <div
                 className=" text-red-500 cursor-pointer"
