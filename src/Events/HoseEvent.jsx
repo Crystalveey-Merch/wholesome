@@ -15,6 +15,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase/auth.js";
 import { toast } from "react-toastify";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { Helmet } from "react-helmet-async";
 
 
 
@@ -173,6 +174,11 @@ const HostEvent = () => {
   };
 
   return (
+    <>
+    <Helmet>
+    <title>Host an Event</title><meta name='description' content='Empower Your Community: Create a Meetup Today
+    ' /><link rel=" canonical" href='/hostevent' />
+    </Helmet>
     <div className="w-screen">
       <div className=" ">
         <div className="h-full bg-red-800 sm:py-5 relative w-full">
@@ -237,195 +243,192 @@ const HostEvent = () => {
             Fill Event/Meetup Details
           </h1>
           <form onSubmit={handleSubmit}>
-          <div className="flex flex-col gap-2 py-5">
-            <label className="text-gray-500 Aceh text-sm"> Event Name</label>
-            <input
-              name="eventName"
-              value={form.eventName}
-              onChange={handleChange}
-              className="p-3 bg-transparent border rounded-xl text-black"
-            ></input>
-          </div>
-          <div className="flex flex-col gap-2">
-            <label className="text-gray-500 Aceh text-sm"> Theme</label>
-            <input
-              name="theme"
-              value={form.theme}
-              onChange={handleChange}
-              className="p-3 bg-transparent border rounded-xl text-black"
-            ></input>
-          </div>
-          <div className="flex flex-col gap-2 py-2">
-            <label className="text-gray-500 Aceh text-sm"> Start Date/Time</label>
-            <input
-              name="StartDateTime"
-              value={form.StartDateTime}
-              onChange={handleChange}
-              type="datetime-local"
-              className="p-3 bg-transparent border rounded-xl text-black"
-            ></input>
-          </div>
-          <div className="flex flex-col gap-2 py-2">
-            <label className="text-gray-500 Aceh text-sm"> End Date/Time</label>
-            <input
-              name="EndDateTime"
-              value={form.EndDateTime}
-              onChange={handleChange}
-              type="datetime-local"
-              className="p-3 bg-transparent border rounded-xl text-black"
-            ></input>
-          </div>
-          <div className="flex flex-col gap-2 py-2">
-            <label className="text-gray-500 Aceh text-sm"> Category</label>
-            <select
-              value={form.category}
-              onChange={onCategoryChange}
-              className="bg-white text-black border p-4 rounded-xl w-full"
-            >
-              <option>Please select category</option>
-              {categoryOption.map((option, index) => (
-                <option value={option || ""} key={index}>
-                  {option}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="flex flex-col gap-2 py-2">
-          <label className="text-gray-600 mt-5 text-md Aceh">Add Image</label>
-            <input
-              type="file"
-              id="myFile"
-              onChange={handleImageChange}
-              accept="image/*, video/*"
-              name="filename"
-              className="file-input file-input-bordered w-full bg-white text-gray-500"
-            />
-             {progress > 0 && (
-                    <div className="w-40 bg-gray-200 flex m-auto rounded-full h-2.5 dark:bg-gray-700 overflow-hidden transition-all duration-300 ease-in-out">
-                      <div
-                        className="bg-red-600 h-2.5 rounded-full"
-                        style={{ width: `${progress}%` }}
-                      ></div>
-                    </div>
-                  )}
-            <div className="card p-4 m-auto">
-              {previewUrl && (
-                <img
-                  className="w-full h-30"
-                  src={previewUrl}
-                  alt="File Preview"
-                />
-              )}
+            <div className="flex flex-col gap-2 py-5">
+              <label className="text-gray-500 Aceh text-sm"> Event Name</label>
+              <input
+                name="eventName"
+                value={form.eventName}
+                onChange={handleChange}
+                className="p-3 bg-transparent border rounded-xl text-black"
+              ></input>
             </div>
-          </div>
+            <div className="flex flex-col gap-2">
+              <label className="text-gray-500 Aceh text-sm"> Theme</label>
+              <input
+                name="theme"
+                value={form.theme}
+                onChange={handleChange}
+                className="p-3 bg-transparent border rounded-xl text-black"
+              ></input>
+            </div>
+            <div className="flex flex-col gap-2 py-2">
+              <label className="text-gray-500 Aceh text-sm"> Start Date/Time</label>
+              <input
+                name="StartDateTime"
+                value={form.StartDateTime}
+                onChange={handleChange}
+                type="datetime-local"
+                className="p-3 bg-transparent border rounded-xl text-black"
+              ></input>
+            </div>
+            <div className="flex flex-col gap-2 py-2">
+              <label className="text-gray-500 Aceh text-sm"> End Date/Time</label>
+              <input
+                name="EndDateTime"
+                value={form.EndDateTime}
+                onChange={handleChange}
+                type="datetime-local"
+                className="p-3 bg-transparent border rounded-xl text-black"
+              ></input>
+            </div>
+            <div className="flex flex-col gap-2 py-2">
+              <label className="text-gray-500 Aceh text-sm"> Category</label>
+              <select
+                value={form.category}
+                onChange={onCategoryChange}
+                className="bg-white text-black border p-4 rounded-xl w-full"
+              >
+                <option>Please select category</option>
+                {categoryOption.map((option, index) => (
+                  <option value={option || ""} key={index}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="flex flex-col gap-2 py-2">
+              <label className="text-gray-600 mt-5 text-md Aceh">Add Image</label>
+              <input
+                type="file"
+                id="myFile"
+                onChange={handleImageChange}
+                accept="image/*, video/*"
+                name="filename"
+                className="file-input file-input-bordered w-full bg-white text-gray-500" />
+              {progress > 0 && (
+                <div className="w-40 bg-gray-200 flex m-auto rounded-full h-2.5 dark:bg-gray-700 overflow-hidden transition-all duration-300 ease-in-out">
+                  <div
+                    className="bg-red-600 h-2.5 rounded-full"
+                    style={{ width: `${progress}%` }}
+                  ></div>
+                </div>
+              )}
+              <div className="card p-4 m-auto">
+                {previewUrl && (
+                  <img
+                    className="w-full h-30"
+                    src={previewUrl}
+                    alt="File Preview" />
+                )}
+              </div>
+            </div>
 
-          <div className="flex flex-col gap-2 py-2">
-            <label className="text-gray-500 Aceh text-sm"> Address</label>
-            <input
-              name="address"
-              value={form.address}
-              onChange={handleChange}
-              type="text"
-              className="p-3  bg-transparent border rounded-xl  text-black"
-            ></input>
-          </div>
-          <div className="flex flex-col gap-2 py-2">
-            <label className="text-gray-500 Aceh text-sm">
-              {" "}
-              Description of Event
-            </label>
-            <textarea
-              name="eventDescription"
-              value={form.eventDescription}
-              onChange={handleChange}
-              type="text"
-              className="p-3 bg-transparent border rounded-xl text-black"
-            ></textarea>
-          </div>
-          <div className="flex flex-col gap-2 py-2">
-            <label className="text-gray-500 Aceh text-sm">Tags</label>
-            <TagsInput
-              value={form.tags}
-              name="Tags"
-              onChange={handleTags}
-              required
-              editable
-              placeHolder="Enter Post Tags"
-              classNames="text-black  w-full text-xl rti--container "
-            />{" "}
-          </div>
-          <p className="text-center text-xl text-red-300 py-2 my-5 border-b">
-            Organizers Details
-          </p>
-          <div className="flex flex-col gap-2 py-2">
-            <label className="text-gray-500 Aceh text-sm">
-              {" "}
-              Organizers Name
-            </label>
-            <input
-              name="organizerName"
-              value={form.organizerName}
-              onChange={handleChange}
-              type="text"
-              className="p-3 bg-transparent border rounded-xl text-black"
-            ></input>
-          </div>
-          <div className="flex flex-col gap-2 py-2">
-            <label className="text-gray-500 Aceh text-sm"> Twitter</label>
-            <input
-              name="twitter"
-              value={form.twitter}
-              onChange={handleChange}
-              type="text"
-              className="p-3 bg-transparent border rounded-xl  text-black"
-            ></input>
-          </div>
-          <div className="flex flex-col gap-2 py-2">
-            <label className="text-gray-500 Aceh text-sm"> Website</label>
-            <input
-              name="website"
-              value={form.website}
-              onChange={handleChange}
-              type="text"
-              className="p-3 bg-transparent border rounded-xl text-black"
-            ></input>
-          </div>
-          <div className="flex flex-col gap-2 py-2">
-            <label className="text-gray-500 Aceh text-sm"> Phone Number</label>
-            <input
-              name="phoneNumber"
-              value={form.phoneNumber}
-              onChange={handleChange}
-              type="text"
-              className="p-3 bg-transparent border rounded-xl text-black"
-            ></input>
-          </div>
-          <div className="flex flex-col gap-2 py-2">
-            <label className="text-gray-500 Aceh text-sm">
-              {" "}
-              About Organiser
-            </label>
-            <input
-              name="aboutOrganizer"
-              value={form.aboutOrganizer}
-              onChange={handleChange}
-              type="text"
-              className="p-3 bg-transparent border rounded-xl text-black"
-            ></input>
-          </div>
+            <div className="flex flex-col gap-2 py-2">
+              <label className="text-gray-500 Aceh text-sm"> Address</label>
+              <input
+                name="address"
+                value={form.address}
+                onChange={handleChange}
+                type="text"
+                className="p-3  bg-transparent border rounded-xl  text-black"
+              ></input>
+            </div>
+            <div className="flex flex-col gap-2 py-2">
+              <label className="text-gray-500 Aceh text-sm">
+                {" "}
+                Description of Event
+              </label>
+              <textarea
+                name="eventDescription"
+                value={form.eventDescription}
+                onChange={handleChange}
+                type="text"
+                className="p-3 bg-transparent border rounded-xl text-black"
+              ></textarea>
+            </div>
+            <div className="flex flex-col gap-2 py-2">
+              <label className="text-gray-500 Aceh text-sm">Tags</label>
+              <TagsInput
+                value={form.tags}
+                name="Tags"
+                onChange={handleTags}
+                required
+                editable
+                placeHolder="Enter Post Tags"
+                classNames="text-black  w-full text-xl rti--container " />{" "}
+            </div>
+            <p className="text-center text-xl text-red-300 py-2 my-5 border-b">
+              Organizers Details
+            </p>
+            <div className="flex flex-col gap-2 py-2">
+              <label className="text-gray-500 Aceh text-sm">
+                {" "}
+                Organizers Name
+              </label>
+              <input
+                name="organizerName"
+                value={form.organizerName}
+                onChange={handleChange}
+                type="text"
+                className="p-3 bg-transparent border rounded-xl text-black"
+              ></input>
+            </div>
+            <div className="flex flex-col gap-2 py-2">
+              <label className="text-gray-500 Aceh text-sm"> Twitter</label>
+              <input
+                name="twitter"
+                value={form.twitter}
+                onChange={handleChange}
+                type="text"
+                className="p-3 bg-transparent border rounded-xl  text-black"
+              ></input>
+            </div>
+            <div className="flex flex-col gap-2 py-2">
+              <label className="text-gray-500 Aceh text-sm"> Website</label>
+              <input
+                name="website"
+                value={form.website}
+                onChange={handleChange}
+                type="text"
+                className="p-3 bg-transparent border rounded-xl text-black"
+              ></input>
+            </div>
+            <div className="flex flex-col gap-2 py-2">
+              <label className="text-gray-500 Aceh text-sm"> Phone Number</label>
+              <input
+                name="phoneNumber"
+                value={form.phoneNumber}
+                onChange={handleChange}
+                type="text"
+                className="p-3 bg-transparent border rounded-xl text-black"
+              ></input>
+            </div>
+            <div className="flex flex-col gap-2 py-2">
+              <label className="text-gray-500 Aceh text-sm">
+                {" "}
+                About Organiser
+              </label>
+              <input
+                name="aboutOrganizer"
+                value={form.aboutOrganizer}
+                onChange={handleChange}
+                type="text"
+                className="p-3 bg-transparent border rounded-xl text-black"
+              ></input>
+            </div>
 
-          <button
-            className=" btn m-auto flex my-5 p-3 w-40 bg-green-500 text-white border-none "
-            type="submit"
-            disabled={progress < 100} 
+            <button
+              className=" btn m-auto flex my-5 p-3 w-40 bg-green-500 text-white border-none "
+              type="submit"
+              disabled={progress < 100}
 
-          >
-            Submit
-          </button>
+            >
+              Submit
+            </button>
           </form>
         </div>
       </div>
-    </div>
+    </div></>
   );
 };
 

@@ -21,6 +21,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
+import { Helmet } from "react-helmet-async";
 
 const initialState = {
   postTitle: "",
@@ -315,152 +316,152 @@ const CreatePost = () => {
   };
 
   return (
-    <div className="pt-24  flex m-auto  justify-center w-screen ">
-      <div
-        style={{}}
-        className="bg-white mx-40 sm:mx-0 px-40 sm:px-5 dark:text-white  w-full  "
-      >
-        <div className="   bg-white ">
-          <h3 className=" font-bold text-center my-10 text-4xl">
-            {id ? "Edit Post" : "Create Post on Wholesome"}
-          </h3>
-          <form className="form-control" onSubmit={handleAddPost}>
-            {id ? (
-              <div
-                className=" text-red-500 cursor-pointer"
-                onClick={handleAddDraft}
-              >
-                <FontAwesomeIcon icon={faSave} /> Update Draft
-              </div>
-            ) : (
-              <div
-                className=" text-red-500 cursor-pointer"
-                onClick={handleAddDraft}
-              >
-                <FontAwesomeIcon icon={faSave} /> Save to draft
-              </div>
-            )}
-            <label className="text-gray-600 mt-5 text-md Aceh"> Title</label>
-            <input
-              required
-              value={postTitle}
-              name="postTitle"
-              onChange={handleChange}
-              type="text"
-              className="input input-bordered w-full  bg-transparent text-gray-800 mt-3 text-xl font-bold"
-            />
-            <label className="text-gray-600 mt-5 text-md Aceh">
-              Description
-            </label>
-            <input
-              required
-              type="text"
-              value={postDescription}
-              name="postDescription"
-              onChange={handleChange}
-              className="input input-bordered w-full   bg-transparent text-gray-800  text-xl"
-            ></input>
-            <label className=" flex text-gray-600 mt-5 text-md Aceh">
-              Tags (Seperate with Key ENTER)
-            </label>
-            <TagsInput
-              value={tags}
-              name="Tags"
-              onChange={handleTags}
-              required
-              editable
-              placeHolder="Enter Post Tags"
-              classNames="text-black  w-full text-xl rti--container "
-            />{" "}
-            <div className=" border-1 rounded-1 cursor-text">
-              <div className="tags flex m-2 border-1"></div>
-            </div>
-            <label className="text-gray-600 mt-5 text-md Aceh">Add Image</label>
-            <input
-              type="file"
-              id="myFile"
-              onChange={handleImageChange}
-              accept="image/*, video/*"
-              name="filename"
-              className="file-input file-input-bordered w-full bg-white text-gray-500"
-            />
-            <div className="card p-4 m-auto">
-              {previewUrl && (
-                <img
-                  className="w-full h-30"
-                  src={previewUrl}
-                  alt="File Preview"
-                />
-              )}
-            </div>
-            <label className="text-gray-600 mt-5 text-md Aceh">
-              Select Category
-            </label>
-            <div className="col-12 py-3">
-              <select
-                value={category}
-                onChange={onCategoryChange}
-                className="bg-white text-black border p-4 rounded-xl w-full"
-              >
-                <option>Please select category</option>
-                {categoryOption.map((option, index) => (
-                  <option value={option || ""} key={index}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <label className="text-gray-600 mt-5 text-md Aceh">Content</label>
-            <div>
-              <div className="container" data-color-mode="light">
-                <MDEditor
-                  style={{ height: "500px", display: "" }}
-                  value={content}
-                  renderHTML={(text) => mdParser.render(text)}
-                  onChange={handleEditorChange}
-                  preview="edit"
-                />
-                <MDEditor.Markdown
-                  source={content}
-                  style={{ whiteSpace: "pre-wrap" }}
-                />
-              </div>
-            </div>
-            <div className="m-auto py-5">
+    <><Helmet>
+      <title>Create a Post</title>
+      <meta
+        name="description"
+        content='' />
+      <link rel=" canonical" href="/createpost" />
+    </Helmet><div className="pt-24  flex m-auto  justify-center w-screen ">
+        <div
+          style={{}}
+          className="bg-white mx-40 sm:mx-0 px-40 sm:px-5 dark:text-white  w-full  "
+        >
+          <div className="   bg-white ">
+            <h3 className=" font-bold text-center my-10 text-4xl">
+              {id ? "Edit Post" : "Create Post on Wholesome"}
+            </h3>
+            <form className="form-control" onSubmit={handleAddPost}>
               {id ? (
-                <button
-                  type="submit"
-                  className="btn mr-10"
-                  disabled={progress < 100}
+                <div
+                  className=" text-red-500 cursor-pointer"
+                  onClick={handleAddDraft}
                 >
-                  Update
-                </button>
+                  <FontAwesomeIcon icon={faSave} /> Update Draft
+                </div>
               ) : (
-                <button
-                  type="submit"
-                  className="btn mr-10"
-                  disabled={progress < 100}
+                <div
+                  className=" text-red-500 cursor-pointer"
+                  onClick={handleAddDraft}
                 >
-                  Submit
-                </button>
+                  <FontAwesomeIcon icon={faSave} /> Save to draft
+                </div>
               )}
+              <label className="text-gray-600 mt-5 text-md Aceh"> Title</label>
+              <input
+                required
+                value={postTitle}
+                name="postTitle"
+                onChange={handleChange}
+                type="text"
+                className="input input-bordered w-full  bg-transparent text-gray-800 mt-3 text-xl font-bold" />
+              <label className="text-gray-600 mt-5 text-md Aceh">
+                Description
+              </label>
+              <input
+                required
+                type="text"
+                value={postDescription}
+                name="postDescription"
+                onChange={handleChange}
+                className="input input-bordered w-full   bg-transparent text-gray-800  text-xl"
+              ></input>
+              <label className=" flex text-gray-600 mt-5 text-md Aceh">
+                Tags (Seperate with Key ENTER)
+              </label>
+              <TagsInput
+                value={tags}
+                name="Tags"
+                onChange={handleTags}
+                required
+                editable
+                placeHolder="Enter Post Tags"
+                classNames="text-black  w-full text-xl rti--container " />{" "}
+              <div className=" border-1 rounded-1 cursor-text">
+                <div className="tags flex m-2 border-1"></div>
+              </div>
+              <label className="text-gray-600 mt-5 text-md Aceh">Add Image</label>
+              <input
+                type="file"
+                id="myFile"
+                onChange={handleImageChange}
+                accept="image/*, video/*"
+                name="filename"
+                className="file-input file-input-bordered w-full bg-white text-gray-500" />
+              <div className="card p-4 m-auto">
+                {previewUrl && (
+                  <img
+                    className="w-full h-30"
+                    src={previewUrl}
+                    alt="File Preview" />
+                )}
+              </div>
+              <label className="text-gray-600 mt-5 text-md Aceh">
+                Select Category
+              </label>
+              <div className="col-12 py-3">
+                <select
+                  value={category}
+                  onChange={onCategoryChange}
+                  className="bg-white text-black border p-4 rounded-xl w-full"
+                >
+                  <option>Please select category</option>
+                  {categoryOption.map((option, index) => (
+                    <option value={option || ""} key={index}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <label className="text-gray-600 mt-5 text-md Aceh">Content</label>
+              <div>
+                <div className="container" data-color-mode="light">
+                  <MDEditor
+                    style={{ height: "500px", display: "" }}
+                    value={content}
+                    renderHTML={(text) => mdParser.render(text)}
+                    onChange={handleEditorChange}
+                    preview="edit" />
+                  <MDEditor.Markdown
+                    source={content}
+                    style={{ whiteSpace: "pre-wrap" }} />
+                </div>
+              </div>
+              <div className="m-auto py-5">
+                {id ? (
+                  <button
+                    type="submit"
+                    className="btn mr-10"
+                    disabled={progress < 100}
+                  >
+                    Update
+                  </button>
+                ) : (
+                  <button
+                    type="submit"
+                    className="btn mr-10"
+                    disabled={progress < 100}
+                  >
+                    Submit
+                  </button>
+                )}
 
-              {id ? (
-                <button
-                  onClick={handlepublishDraft}
-                  className="btn mr-10"
-                  disabled={progress < 100}
-                >
-                  Publish Draft
-                </button>
-              ) : (
-                ""
-              )}
-            </div>
-          </form>
+                {id ? (
+                  <button
+                    onClick={handlepublishDraft}
+                    className="btn mr-10"
+                    disabled={progress < 100}
+                  >
+                    Publish Draft
+                  </button>
+                ) : (
+                  ""
+                )}
+              </div>
+            </form>
+          </div>
         </div>
-      </div>
-    </div>
+      </div></>
   );
 };
 

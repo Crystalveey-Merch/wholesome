@@ -35,7 +35,6 @@ import {
   faHorse,
   faMicrophone,
   faMicrophoneAlt,
-
   faMoneyBillTrendUp,
   faMusic,
   faPlusCircle,
@@ -47,7 +46,7 @@ import { Helmet } from "react-helmet-async";
 const EventList = () => {
   const { eventName } = useParams();
   const [searchInput, setSearchInput] = useState("");
-  
+
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(false);
   const [eventId, setEventId] = useState([]);
@@ -71,7 +70,6 @@ const EventList = () => {
         setEvents(postData);
         setFilteredEvents(postData);
 
-       
         setLoading(false);
       } catch (error) {
         console.error("Error fetching posts:", error);
@@ -81,7 +79,7 @@ const EventList = () => {
 
     fetchPosts();
   }, []);
-  console.log(events)
+  console.log(events);
 
   if (loading) {
     return <Spinner />;
@@ -127,24 +125,25 @@ const EventList = () => {
   };
   const filterHealthandler = () => {
     // Filter products with a data collection called "Tech"
-    const healthFilter = events.filter(
-      (event) => event.category === "Health"
-    );
+    const healthFilter = events.filter((event) => event.category === "Health");
     setFilteredEvents(healthFilter); // Update the state with the filtered events
   };
-  const clearFilteredEvents = () =>{
+  const clearFilteredEvents = () => {
     setFilteredEvents(events);
-  }
+  };
   return (
-    <><Helmet>
-      <title>Homepage</title>
-      <meta name='description' content='Wholesome helps foster connections with like-minds that transcends borders and also share your experiences, knowledge and creativity' />
-      <link rel=" canonical" href='/' />
-    </Helmet><div className="my-20 w-screen  sm:mt-18">
-        <div
-          className="h-96"
-
-        >
+    <>
+      <Helmet>
+        <title>Events List</title>
+        <meta
+          name="description"
+          content="See upcoming Events Around You
+"
+        />
+        <link rel=" canonical" href="/upcomingevents" />
+      </Helmet>
+      <div className="my-20 w-screen  sm:mt-18">
+        <div className="h-96">
           <div className="h-full bg-gradient-to-r from-fuchsia-600 to-pink-600">
             <h1 className="text-white text-center sm:text-4xl pt-24 sm:pt-14">
               See upcoming Events Around You
@@ -175,53 +174,64 @@ const EventList = () => {
             <FontAwesomeIcon
               icon={faComputer}
               className="border rounded-full p-4 cursor-pointer	"
-              onClick={filterTechHandler} />
+              onClick={filterTechHandler}
+            />
             <p className="text-sm text-center text-gray-400 ">Tech</p>
           </span>
           <span className="">
             <FontAwesomeIcon
               icon={faFirstAid}
               className="border rounded-full p-4 cursor-pointer	"
-              onClick={filterHealthandler} />
+              onClick={filterHealthandler}
+            />
             <p className="text-sm text-center text-gray-400 ">Health</p>
           </span>
           <span className="">
             <FontAwesomeIcon
               icon={faBible}
               className="border rounded-full p-4 cursor-pointer	"
-              onClick={filterReligionHandler} />
+              onClick={filterReligionHandler}
+            />
             <p className="text-sm text-center text-gray-400 ">Religion</p>
           </span>
           <span className="">
             <FontAwesomeIcon
               icon={faMoneyBillTrendUp}
               className="border rounded-full p-4 cursor-pointer	"
-              onClick={filterBusinessHandler} />
+              onClick={filterBusinessHandler}
+            />
             <p className="text-sm text-center text-gray-400 ">Business</p>
           </span>
           <span className="">
             <FontAwesomeIcon
               icon={faMicrophoneAlt}
-              className="border rounded-full p-4 cursor-pointer	" />
+              className="border rounded-full p-4 cursor-pointer	"
+            />
             <p className="text-sm text-center text-gray-400 ">Music</p>
           </span>
           <span className="">
             <FontAwesomeIcon
               icon={faCalendar}
-              className="border rounded-full p-4 cursor-pointer	" />
+              className="border rounded-full p-4 cursor-pointer	"
+            />
             <p className="text-sm text-center text-gray-400 ">Holiday</p>
           </span>
           <span className="">
             <FontAwesomeIcon
               icon={faGamepad}
-              className="border rounded-full p-4 cursor-pointer	" />
+              className="border rounded-full p-4 cursor-pointer	"
+            />
             <p className="text-sm text-center text-gray-400 ">Hobbies</p>
           </span>
         </div>
-        <span className="text-red-500 px-40 cursor-pointer		sm:px-5	" onClick={clearFilteredEvents}>X Clear Filters</span>
+        <span
+          className="text-red-500 px-40 cursor-pointer		sm:px-5	"
+          onClick={clearFilteredEvents}
+        >
+          X Clear Filters
+        </span>
 
         <div className="flex m-auto justify-center gap-10 m-10 flex-wrap px-20 sm:p-2 ">
-
           {filteredEvents.length > 0 ? (
             filteredEvents.map((event) => {
               return (
@@ -233,7 +243,8 @@ const EventList = () => {
                     <img
                       className="rounded-t-lg"
                       src={event.imgUrl}
-                      alt={event.eventName} />
+                      alt={event.eventName}
+                    />
 
                     <div className="p-5">
                       <div className="badge">{event.category}</div>
@@ -247,14 +258,11 @@ const EventList = () => {
                       <p className="mb-3 font-normal text-md  text-gray-500 ">
                         {event.address}
                       </p>
-                      <p
-                        className=" font-normal Aceh text-md text-black"
-                      >
+                      <p className=" font-normal Aceh text-md text-black">
                         {event.organizerName}
                       </p>
                     </div>
                   </NavLink>
-
                 </div>
               );
             })
@@ -265,7 +273,8 @@ const EventList = () => {
           )}
         </div>
         <div></div>
-      </div></>
+      </div>
+    </>
   );
 };
 

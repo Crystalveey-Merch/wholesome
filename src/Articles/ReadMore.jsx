@@ -287,11 +287,42 @@ const ReadMore = () => {
 
   const commentId = `${userId}-${Date.now()}`;
 
+  // const handleComment = async (e) => {
+  //   e.preventDefault();
+
+  //   const timestamp = Timestamp.now();
+
+  //   const newComment = {
+  //     createdAt: timestamp,
+  //     userId,
+  //     commentId,
+  //     name: userData?.displayName,
+  //     body: userComment,
+  //     imgUrl: userData?.photoURL,
+  //     replies: [],
+  //   };
+
+  //   // Create a copy of the existing comments array and add the new comment
+  //   const updatedComments = [...post.comments, newComment];
+
+  //   try {
+  //     await updateDoc(doc(db, "posts", id), {
+  //       comments: updatedComments, // Update with the merged comments array
+  //     });
+
+  //     // Update the local state if needed
+  //     setComments(updatedComments);
+  //     setUserComment(""); // Clear the input field
+  //     toast.success("Comment posted successfully");
+  //   } catch (error) {
+  //     console.error("Error posting comment:", error);
+  //     toast.error("Failed to post comment. Please try again later.");
+  //   }
+  // };
+
   const handleComment = async (e) => {
     e.preventDefault();
-
     const timestamp = Timestamp.now();
-
     const newComment = {
       createdAt: timestamp,
       userId,
@@ -301,25 +332,19 @@ const ReadMore = () => {
       imgUrl: userData?.photoURL,
       replies: [],
     };
-
-    // Create a copy of the existing comments array and add the new comment
-    const updatedComments = [...post.comments, newComment];
-
     try {
+      const updatedComments = [...post.comments, newComment];
       await updateDoc(doc(db, "posts", id), {
-        comments: updatedComments, // Update with the merged comments array
+        comments: updatedComments,
       });
-
-      // Update the local state if needed
-      setComments(updatedComments);
-      setUserComment(""); // Clear the input field
+      setComments((prevComments) => [...prevComments, newComment]);
+      setUserComment("");
       toast.success("Comment posted successfully");
     } catch (error) {
       console.error("Error posting comment:", error);
       toast.error("Failed to post comment. Please try again later.");
     }
   };
-
   const deleteComment = async (comment) => {
     const [commentId] = comment.commentId.split('-');
     if (commentId === authUser?.uid) {

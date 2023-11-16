@@ -9,6 +9,8 @@ import { NavLink } from "react-router-dom";
 import { collection, getDocs, limit, query } from "firebase/firestore";
 import { useState, useEffect } from "react";
 import { auth, db } from "../firebase/auth.js";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalendar, faHands, faLocationPin } from "@fortawesome/free-solid-svg-icons";
 
 
 
@@ -72,6 +74,20 @@ const Section2first = () => {
     },
 
   };
+    const formatTime = (date) => {
+    if (date instanceof Date) {
+      return date.toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+      });
+    }};
+    const formatDate = (date) => {
+      if (date instanceof Date) {
+        return date.toLocaleDateString("en-US");
+      }
+      return ""; // Return an empty string if date is not a valid Date object
+    };
   return (
     <div className="py-20  sm:py-5 bg-gradient-to-r from-rose-100 to-teal-100">
       <h1 className="text-black text-2xl   text-center Aceh text-md">
@@ -103,16 +119,22 @@ const Section2first = () => {
               return (
                 <SwiperSlide key={activity.id}>
                   <NavLink to={`/activity/${activity.id}`} style={{ height: "32rem" }}>
-                    <div className="relative w-94  text-white shadow-xl  image-full">
-                      <figure  className="relative overflow-clip  h-40 sm:w-full">
-                        <img src={activity.imgUrl} />
-                      </figure>
-                      <div className=" p-5 bg-gray-900">
-                        <div className="badge bg-red-500 text-white p-4 text-md ">{activity.category}</div>
-                        <h1 className="text-2xl py-2"> {activity.activityName}</h1>
-                        <p>{activity.writeup} </p>
-                      </div>
-                    </div>
+                  <div className="relative w-94  bg-gray-800 rounded-xl  shadow-xl  image-full">
+                  <div className="relative overflow-clip  h-40 sm:w-40" >
+
+              <figure>
+                <img src={activity.imgUrl} />
+              </figure>
+              </div>
+
+              <div className='p-5 bg-base-500'>
+              <p className="text-gray-100 flex  gap-4"><FontAwesomeIcon icon={faLocationPin}/>{activity.location} </p>
+                <p className="text-gray-100 flex  gap-4  "><FontAwesomeIcon icon={faHands} className="p-2 rounded-full border"/> {activity.claps} Claps</p>
+              <div className="badge text-gray-200 bg-gray-600 p-4 my-3 ">   <FontAwesomeIcon icon={faCalendar} />{" "} {formatDate(activity.DateTime instanceof Date ? activity.DateTime : new Date(activity.DateTime))} {formatTime(activity.DateTime instanceof Date ? activity.DateTime : new Date(activity.DateTime))}</div>
+                <h1 className="text-2xl py-2 text-gray-200"> {activity.activityName}</h1>
+              </div>
+            </div>
+
 
                   </NavLink>
                 </SwiperSlide>

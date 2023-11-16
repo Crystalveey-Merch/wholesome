@@ -155,8 +155,8 @@ console.log(comment)
  
   return (
     <><div>
-        <div className="row w-auto ">
-          <div className="col-lg-12">
+        <div className="row overflow-x-hidden ">
+          <div className="">
             <div className="comments-list">
               <div className="media dark:text-red-300">
                 {msg ? (
@@ -175,16 +175,18 @@ console.log(comment)
                     </div>
 
                     <div className=" flex flex-col gap-2 w-full ">
-                      <div className="flex gap-5 ">
+                    
+                      <div className="flex gap-5 sm:gap-2  sm:flex-col">
+                      <div className="flex gap-2">
                         <div className="rounded-full overflow-hidden w-10 h-10">
                           <img
                             src={imgUrl}
                             alt="user"
                             className=" m-auto" />
                         </div>
-                        <div className="chat chat-start  w-full ">
+                        <div className=" w-full ">
                           <div className=" w-full ">
-                            <div className="chat-bubble text-white  Aceh bg-sky-800 flex gap-6  sm:gap-4 my-auto w-fit ">
+                            <div className="p-2 rounded-full px-3 text-white  Aceh bg-sky-800 flex gap-6  sm:gap-4 my-auto w-fit ">
                               <span className="text-green-400  text-sm   ">
                                 {formatTime(createdAt.toDate())}
                               </span>
@@ -192,12 +194,13 @@ console.log(comment)
                             </div>
                           </div>
                         </div>
-                        <div className="m-auto mx-2  flex ">
+                        </div>
+                        <div className="m-auto mx-2  flex gap-3 justify-end ">
                           <FontAwesomeIcon
                             icon={faHeart}
                             className="text-gray-300 flex my-auto" />
                           {commentLikes}
-                          <span className="flex gap-2 pl-5 sm:p-2 cursor-pointer" onClick={() => setShowCommentBox(!showCommentBox)}>
+                          <span className="flex  pl-5  cursor-pointer" onClick={() => setShowCommentBox(!showCommentBox)}>
 
                             <p className="text-sky-500">Reply</p>
                           </span>
@@ -207,6 +210,7 @@ console.log(comment)
                             </span>
                           )}
                         </div>
+                        
                       </div>
 
                       <div className="ml-10">

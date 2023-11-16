@@ -56,7 +56,9 @@ const RepliesComment = ({
                       </div>
                     </div>
 
-                    <div className=" flex gap-5 ">
+                    <div className=" flex gap-5 sm:gap-2  sm:flex-col ">
+                    <div className="flex gap-2">
+
                       <div className="rounded-full overflow-hidden w-10 h-10">
                         <img
                           src={imgUrl}
@@ -73,33 +75,34 @@ const RepliesComment = ({
                             : "chat chat-start  w-full "
                         }
                       >
-                        <div className="flex">
+                        <div className="flex flex-col gap-2 w-full">
+                        <div className="flex gap-5 sm:gap-2  sm:flex-col">
+
                           <div
-                            className={
-                              isAuthUserComment
-                                ? "chat-bubble flex text-white    Aceh bg-red-500  "
-                                : "chat-bubble text-white chat-start Aceh bg-sky-500 flex gap-5  sm:gap-4 my-auto w-full "
-                            }
+                            className= "p-2 px-3 rounded-full text-white chat-start Aceh bg-sky-500 flex gap-5  sm:gap-4 my-auto w-full "
+                            
                           >
                             <span className="text-green-400 text-sm  ">
                               {formatTime(createdAt.toDate())}
                             </span>
                             {body}
                           </div>
-                          <div className="m-auto mx-2">
+                          </div>
+                          <div className="m-auto mx-2 flex gap-3 justify-end">
                             <FontAwesomeIcon
                               icon={faHeart}
                               className="text-gray-300 flex my-auto"
                             />
                             {commentLikes}
-                          </div>
-                          <div>
+                              <div>
                             {replyUserId === authUser.uid && (
                               <span onClick={() => deleteReply(reply)} className="text-red-500 cursor-pointer">
                                 Delete
                               </span>
                             )}
                           </div>
+                          </div>
+                        </div>
                         </div>
                       </div>
                     </div>

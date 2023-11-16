@@ -30,6 +30,7 @@ import {
 } from "firebase/firestore";
 import { auth, db } from "../firebase/auth.js";
 import "add-to-calendar-button";
+import { Helmet } from "react-helmet-async";
 
 const EventDes = () => {
   const [event, setEvent] = useState(null);
@@ -114,6 +115,15 @@ const EventDes = () => {
 
 
   return (
+    <>
+    <Helmet>
+    <title>{event.eventName}</title>
+    <meta
+      name="description"
+      content={event.eventName}
+    />
+    <link rel=" canonical" href="/upcomingevents" />
+  </Helmet>
     <div className="pt-40 sm:mt-18 flex sm:flex-col gap-10  m-auto justify-center bg-stone-100 w-screen">
       <div  className=" w-1/2 sm:w-full">
       <div className="m-auto sm:w-full" >
@@ -189,7 +199,7 @@ const EventDes = () => {
         </div>
       )}
       </div>
-    </div>
+    </div></>
   );
 };
 

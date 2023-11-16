@@ -22,6 +22,7 @@ import {
   faLocationPin,
   faThumbsUp,
 } from "@fortawesome/free-solid-svg-icons";
+import { Helmet } from "react-helmet-async";
 
 const Interest = () => {
 
@@ -152,196 +153,196 @@ const Interest = () => {
     
 
   return (
-    <div className="mt-20 w-screen  sm:mt-18 bg-gray-100 ">
-    <div className='bg-gradient-to-r from-indigo-300 to-purple-400 w-screen'>
-        <h1 className='text-white text-center uppercase Aceh text-3xl sm:text-2xl py-10'>{interestName}</h1>
-    </div>
-<div  className="flex justify-center  sm:flex-col">
-       <div>
-        <div className='py-5'>
-        <h1 className=' text-gray-500 text-xl  capitalize text-center py-5'>Articles/Publications</h1>
-        <hr></hr>
+    <><Helmet>
+      <title>{interestName}</title>
+      <meta name='' content={interestName} />
+      <link rel=" canonical" href='/articlelist' />
+    </Helmet><div className="mt-20 w-screen  sm:mt-18 bg-gray-100 ">
+        <div className='bg-gradient-to-r from-indigo-300 to-purple-400 w-screen'>
+          <h1 className='text-white text-center uppercase Aceh text-3xl sm:text-2xl py-10'>{interestName}</h1>
+        </div>
+        <div className="flex justify-center  sm:flex-col">
+          <div>
+            <div className='py-5'>
+              <h1 className=' text-gray-500 text-xl  capitalize text-center py-5'>Articles/Publications</h1>
+              <hr></hr>
 
-    </div>
-    <div className='flex flex-wrap gap-5 justify-center'>
-    {postsData.length > 0 ? (
-            postsData.map((post) => {
-              return (
-                <NavLink
-            to={`/readmore/${post.id}`}
-            onClick={handleReadMoreClick}
-            key={post.id}
-            className="hover:border p-5 hover:bg-red-100/50 hover:rounded-xl transition duration-300 ease-in-out"
-          >
-            <div key={post.id} className="w-80 bg-white   rounded-xl p-2 shadow ">
-              <div className="relative overflow-clip  h-40 sm:w-40" >
-                <img src={post.imgUrl}  height={200} className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out " />
-              
-              </div>
-              <div className="px-5 sm:p-0">
-              <p className="badge bg-red-500 p-4 my-2  top-5 text-gray-100  sm:hidden border-none ">
-                  {post.category}
-                </p>
-                <p className="mt-1 text-sm leading-5 text-red-300 border-b Aceh">
-                  {post.timestamp.toDate().toDateString()} at{" "}
-                  {formatTime(post.timestamp.toDate())}
-                </p>
-                <h2 className="Aceh text-xl py-2 text-black ">
-                  {post.postTitle}   
-                </h2>
-               
-
-                <p className="h-14 text-gray-800 sm:hidden">
-                  {excerpt(post.postDescription, 50)}
-                </p>
-                <span className="text-xl flex gap-5 ">
-                  <FontAwesomeIcon
-                    icon={faComment}
-                    className="text-gray-500 my-auto "
-                  />{" "}
-                  {post.comments.length}
-                  <FontAwesomeIcon
-                    icon={faThumbsUp}
-                    className="text-gray-500 my-auto "
-                  />{" "}
-                  {post.likes.length}
-                  <FontAwesomeIcon
-                    icon={faEye}
-                    className="text-gray-500 my-auto "
-                  />{" "}
-                  {post.views ? post.views.length : 0}
-                  {/* <FontAwesomeIcon
-                    onClick={handleAddBookmark}
-                    icon={faBookmark}
-                    style={buttonStyle}
-                    className="my-auto "
-                  />{" "}
-                  {bookmarkCount} */}
-                </span>
-              </div>
             </div>
-          </NavLink>
+            <div className='flex flex-wrap gap-5 justify-center'>
+              {postsData.length > 0 ? (
+                postsData.map((post) => {
+                  return (
+                    <NavLink
+                      to={`/readmore/${post.id}`}
+                      onClick={handleReadMoreClick}
+                      key={post.id}
+                      className="hover:border p-5 hover:bg-red-100/50 hover:rounded-xl transition duration-300 ease-in-out"
+                    >
+                      <div key={post.id} className="w-80 bg-white   rounded-xl p-2 shadow ">
+                        <div className="relative overflow-clip  h-40 sm:w-40">
+                          <img src={post.imgUrl} height={200} className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out " />
 
-              );
-            })
-          ) : (
-            <div className="text-center text-2xl font-bold text-gray-500 mt-4 h-48">
-              No Posts found matching your search.
+                        </div>
+                        <div className="px-5 sm:p-0">
+                          <p className="badge bg-red-500 p-4 my-2  top-5 text-gray-100  sm:hidden border-none ">
+                            {post.category}
+                          </p>
+                          <p className="mt-1 text-sm leading-5 text-red-300 border-b Aceh">
+                            {post.timestamp.toDate().toDateString()} at{" "}
+                            {formatTime(post.timestamp.toDate())}
+                          </p>
+                          <h2 className="Aceh text-xl py-2 text-black ">
+                            {post.postTitle}
+                          </h2>
+
+
+                          <p className="h-14 text-gray-800 sm:hidden">
+                            {excerpt(post.postDescription, 50)}
+                          </p>
+                          <span className="text-xl flex gap-5 ">
+                            <FontAwesomeIcon
+                              icon={faComment}
+                              className="text-gray-500 my-auto " />{" "}
+                            {post.comments.length}
+                            <FontAwesomeIcon
+                              icon={faThumbsUp}
+                              className="text-gray-500 my-auto " />{" "}
+                            {post.likes.length}
+                            <FontAwesomeIcon
+                              icon={faEye}
+                              className="text-gray-500 my-auto " />{" "}
+                            {post.views ? post.views.length : 0}
+                            {/* <FontAwesomeIcon
+                      onClick={handleAddBookmark}
+                      icon={faBookmark}
+                      style={buttonStyle}
+                      className="my-auto "
+                    />{" "}
+                    {bookmarkCount} */}
+                          </span>
+                        </div>
+                      </div>
+                    </NavLink>
+
+                  );
+                })
+              ) : (
+                <div className="text-center text-2xl font-bold text-gray-500 mt-4 h-48">
+                  No Posts found matching your search.
+                </div>
+              )}
             </div>
-          )}
-          </div>
           </div>
           <div className="bg-gradient-to-r from-red-300 via-red-200 to-yellow-100  mx-5">
-          <div className='py-5'>
-        <h1 className=' text-gray-500 text-xl  capitalize text-center py-5'> Events</h1>
-        <hr></hr>
-    </div>
-   
-          <div className='flex flex-wrap gap-5  sm:px-5'>
-        {eventsData.length > 0 ? (
-          eventsData.map((event) => {
-            return (
-              <div
-                key={event.id}
-                className="w-80 bg-gradient-to-r from-fuchsia-600 to-pink-600   shadow  dark:border-gray-700 rounded-xl"
-              >
-                <NavLink to={`/upcomingevents/${event.id}`}>
-                <div className="relative overflow-clip  h-40 ">
-                    <img
-                      src={event.imgUrl}
-                      height={200}
-                      className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out "
-                    />
-                  </div>
-                  
+            <div className='py-5'>
+              <h1 className=' text-gray-500 text-xl  capitalize text-center py-5'> Events</h1>
+              <hr></hr>
+            </div>
 
-                  <div className="p-5">
-                    <div className="badge p-4 ">{event.category}</div>
-                    <p className="m-3 font-normal text-md  text-gray-100 ">
-                    <FontAwesomeIcon icon={faLocationPin}/> {event.address}
-                    </p>
-                    <h5 className="mb-2 text-xl  font-bold tracking-tight text-gray-100 Aceh">
-                      {event.eventName}
-                    </h5>
+            <div className='flex flex-wrap gap-5  sm:px-5'>
+              {eventsData.length > 0 ? (
+                eventsData.map((event) => {
+                  return (
+                    <div
+                      key={event.id}
+                      className="w-80 bg-gradient-to-r from-fuchsia-600 to-pink-600   shadow  dark:border-gray-700 rounded-xl"
+                    >
+                      <NavLink to={`/upcomingevents/${event.id}`}>
+                        <div className="relative overflow-clip  h-40 ">
+                          <img
+                            src={event.imgUrl}
+                            height={200}
+                            className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out " />
+                        </div>
 
-                    <p className="mb-1 font-normal text-md Aceh text-red-500 dark:text-red-500">
-                      {event.date}
-                    </p>
-                   
-                      <p
-                        className="mb-3 font-normal Aceh text-md text-black"
-                      >
-                        {event.organizerName}
-                      </p>
-                  </div>
-                </NavLink>
-               
-              </div>
-            );
-          })
-        ) : (
-          <div className="text-center text-2xl font-bold text-gray-500 mt-4 h-48">
-            No events found matching your search.
-          </div>
-        )}
-        </div></div>
+
+                        <div className="p-5">
+                          <div className="badge p-4 ">{event.category}</div>
+                          <p className="m-3 font-normal text-md  text-gray-100 ">
+                            <FontAwesomeIcon icon={faLocationPin} /> {event.address}
+                          </p>
+                          <h5 className="mb-2 text-xl  font-bold tracking-tight text-gray-100 Aceh">
+                            {event.eventName}
+                          </h5>
+
+                          <p className="mb-1 font-normal text-md Aceh text-red-500 dark:text-red-500">
+                            {event.date}
+                          </p>
+
+                          <p
+                            className="mb-3 font-normal Aceh text-md text-black"
+                          >
+                            {event.organizerName}
+                          </p>
+                        </div>
+                      </NavLink>
+
+                    </div>
+                  );
+                })
+              ) : (
+                <div className="text-center text-2xl font-bold text-gray-500 mt-4 h-48">
+                  No events found matching your search.
+                </div>
+              )}
+            </div></div>
         </div>
-          <div className='py-5'>
-        <h1 className=' text-gray-500 text-xl  capitalize text-center my-5'>Community Activity</h1>
-        <hr></hr>
+        <div className='py-5'>
+          <h1 className=' text-gray-500 text-xl  capitalize text-center my-5'>Community Activity</h1>
+          <hr></hr>
 
-    </div>
-          <div className="  m-auto justify-center flex m-auto ">
-        <Swiper
-          slidesPerView={"auto"}
-          centeredSlides={true}
-          watchSlidesProgress
-          navigation={true}
-          grabCursor={true}
-          spaceBetween={30}
-          loop={true}
-          breakpoints={breakpoints}
-          pagination={{
-            clickable: true,
-          }}
-          autoplay={{
-            delay: 4000,
-            disableOnInteraction: false,
-          }}
-          modules={[Autoplay, Pagination, Navigation]}
-          className="mySwiper w-full  mx-10 sm:mx-0 py-10 sm:px-10 lg:px-10"
-        >
-        {activitiesData.length > 0 ? (
-            activitiesData.map((activity) => {
-              return (
-          <SwiperSlide key={activity.id}>
-          <NavLink to={`/activity/${activity.id}`}>
-            <div className="relative w-72  bg-gray-800 rounded-xl  shadow-xl  image-full">
-              <figure>
-                <img src={activity.imgUrl} />
-              </figure>
-              <div className='p-5 bg-base-500'>
-              <p className="text-gray-100 flex  gap-4"><FontAwesomeIcon icon={faLocationPin}/>{activity.location} </p>
-                <p className="text-gray-100 flex  gap-4  "><FontAwesomeIcon icon={faHands} className="p-2 rounded-full border"/> {activity.claps} Claps</p>
-              <div className="badge text-gray-200 bg-gray-600 p-4 my-3 ">{activity.DateTime}</div>
-                <h1 className="text-2xl py-2 text-gray-200"> {activity.activityName}</h1>
+        </div>
+        <div className="  m-auto justify-center flex m-auto ">
+          <Swiper
+            slidesPerView={"auto"}
+            centeredSlides={true}
+            watchSlidesProgress
+            navigation={true}
+            grabCursor={true}
+            spaceBetween={30}
+            loop={true}
+            breakpoints={breakpoints}
+            pagination={{
+              clickable: true,
+            }}
+            autoplay={{
+              delay: 4000,
+              disableOnInteraction: false,
+            }}
+            modules={[Autoplay, Pagination, Navigation]}
+            className="mySwiper w-full  mx-10 sm:mx-0 py-10 sm:px-10 lg:px-10"
+          >
+            {activitiesData.length > 0 ? (
+              activitiesData.map((activity) => {
+                return (
+                  <SwiperSlide key={activity.id}>
+                    <NavLink to={`/activity/${activity.id}`}>
+                      <div className="relative w-72  bg-gray-800 rounded-xl  shadow-xl  image-full">
+                        <figure>
+                          <img src={activity.imgUrl} />
+                        </figure>
+                        <div className='p-5 bg-base-500'>
+                          <p className="text-gray-100 flex  gap-4"><FontAwesomeIcon icon={faLocationPin} />{activity.location} </p>
+                          <p className="text-gray-100 flex  gap-4  "><FontAwesomeIcon icon={faHands} className="p-2 rounded-full border" /> {activity.claps} Claps</p>
+                          <div className="badge text-gray-200 bg-gray-600 p-4 my-3 ">{activity.DateTime}</div>
+                          <h1 className="text-2xl py-2 text-gray-200"> {activity.activityName}</h1>
+                        </div>
+                      </div>
+
+                    </NavLink>
+                  </SwiperSlide>
+                );
+              })
+            ) : (
+              <div className="text-center text-2xl font-bold text-gray-500  ">
+                No Activity found
               </div>
-            </div>
+            )}
 
-           </NavLink>
-          </SwiperSlide>
-          );
-            })
-          ) : (
-            <div className="text-center text-2xl font-bold text-gray-500  ">
-              No Activity found 
-            </div>
-          )}
 
-         
-        </Swiper>
-      </div>
-    </div>
+          </Swiper>
+        </div>
+      </div></>
   )
 }
 
