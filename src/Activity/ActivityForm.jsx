@@ -253,12 +253,15 @@ const ActivityForm = () => {
             ></textarea>
           </div>
           <div className="flex flex-col gap-2 py-2">
-            <label className="text-gray-500 Aceh text-sm">Tags</label>
+            <label className="text-gray-500 Aceh text-sm">Tags
+            <span className="text-sky-500">(Seperate tags with spacebar or comma "," )</span>
+</label>
             <TagsInput
               value={form.tags}
               name="Tags"
               onChange={handleTags}
               required
+              separators={[' ', ',']}
               editable
               placeHolder="Enter Post Tags"
               classNames="text-black  w-full text-xl rti--container "

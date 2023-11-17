@@ -1,10 +1,16 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPeopleGroup, faHandHoldingHand, faSeedling, faPeoplePulling, faHandsHoldingChild , faQuestion, faUserGroup} from "@fortawesome/free-solid-svg-icons";
+import { Helmet } from "react-helmet-async";
 
 const Aboutus = () => {
   return (
     <>
+     <Helmet>
+      <title>About Wholesome</title>
+      <meta name='description' content='Wholesome helps foster connections with like-minds that transcends borders and also share your experiences, knowledge and creativity' />
+      <link rel=" canonical" href='/aboutus' />
+    </Helmet>
       <div className="mt-16   sm:mt-18 relative overflow-hidden w-screen ">
       <div className=" mt-5 sm:mt-0 h-fit w-screen ">
         <div className="hero-main absolute sm:w-screen sm:ml-0 sm:h-40 ">

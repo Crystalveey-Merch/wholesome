@@ -157,7 +157,8 @@ const Interest = () => {
       <title>{interestName}</title>
       <meta name='' content={interestName} />
       <link rel=" canonical" href='/articlelist' />
-    </Helmet><div className="mt-20 w-screen  sm:mt-18 bg-gray-100 ">
+    </Helmet>
+    <div className="mt-20 w-screen  sm:mt-18 bg-gray-100 ">
         <div className='bg-gradient-to-r from-indigo-300 to-purple-400 w-screen'>
           <h1 className='text-white text-center uppercase Aceh text-3xl sm:text-2xl py-10'>{interestName}</h1>
         </div>

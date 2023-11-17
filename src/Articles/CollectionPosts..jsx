@@ -23,6 +23,7 @@ import {
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase/auth.js";
+import { Helmet } from "react-helmet-async";
 
 const CategoryPosts = () => {
   const [categoryBlogs, setCategoryBlogs] = useState([]);
@@ -112,6 +113,13 @@ const CategoryPosts = () => {
 
   return (
     <div>
+    <Helmet>
+      <title>{category} Category</title>
+      <meta
+        name="description"
+        content={`Post Based on ${category} category`} />
+      <link rel=" canonical" href="/createpost" />
+    </Helmet>
       <div className="
         mt-5  pt-10 h-100 w-screen bg-gradient-to-r from-rose-100 to-teal-100 overflow-hidden">
         <div className="m-10 m-10 m_5 h-full ">

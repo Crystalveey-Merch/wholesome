@@ -14,6 +14,7 @@ import { auth } from "../firebase/auth.js";
 import "firebase/auth";
 import { db } from "../firebase/auth";
 import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { Helmet } from "react-helmet-async";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -51,6 +52,11 @@ const Login = () => {
   };
   return (
     <div>
+    <Helmet>
+      <title>Login to Wholesome</title>
+      <meta name='description' content='Login to Wholesome' />
+      <link rel=" canonical" href='/login' />
+    </Helmet>
       <div className="  pt-40 bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 text-black w-screen h-screen ">
         <div className="text-center text-2xl">
           <div className="pt-34  m-auto   ">

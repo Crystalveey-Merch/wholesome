@@ -312,15 +312,22 @@ const CreatePost = () => {
           }
         }
       }
+    }else{
+      try{
+        toast.info("Opps!! Ensure you have some contents in Title, category, tags, Post Description and content");
+
+      }catch (err) {
+        console.log(err);
+
     }
-  };
+  }};
 
   return (
     <><Helmet>
       <title>Create a Post</title>
       <meta
         name="description"
-        content='' />
+        content='Create Post on Wholesome' />
       <link rel=" canonical" href="/createpost" />
     </Helmet><div className="pt-24  flex m-auto  justify-center w-screen ">
         <div
@@ -367,12 +374,14 @@ const CreatePost = () => {
                 className="input input-bordered w-full   bg-transparent text-gray-800  text-xl"
               ></input>
               <label className=" flex text-gray-600 mt-5 text-md Aceh">
-                Tags (Seperate with Key ENTER)
+                Tags 
+                 <span className="text-sky-500">(Seperate tags with spacebar or comma "," )</span>
               </label>
               <TagsInput
                 value={tags}
                 name="Tags"
                 onChange={handleTags}
+                separators={[' ', ',']}
                 required
                 editable
                 placeHolder="Enter Post Tags"

@@ -169,7 +169,7 @@ const Profile = () => {
 
     return (
         <><Helmet>
-            <title>Your Profile</title>
+            <title>{name}</title>
             <meta
                 name="description"
                 content={name} />

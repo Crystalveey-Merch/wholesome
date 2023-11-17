@@ -1,4 +1,4 @@
-import { faHeart, faReply } from "@fortawesome/free-solid-svg-icons";
+import { faHands, faHeart, faReply } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import RepliesComment from "./RepliesComment";
@@ -30,7 +30,9 @@ const UserComment = ({
   postId,
   userId,
   deleteComment,
-  comment
+  comment,
+  claps,
+  handleClaps
 }) => {
   const [authUser, setAuthUser] = useState(null);
   const [userData, setUserData] = useState(null);
@@ -197,9 +199,10 @@ console.log(comment)
                         </div>
                         <div className="m-auto mx-2  flex gap-3 justify-end ">
                           <FontAwesomeIcon
-                            icon={faHeart}
-                            className="text-gray-300 flex my-auto" />
-                          {commentLikes}
+                            icon={faHands}
+                            onClick= {() => handleClaps(commentId)}
+                            className="text-gray-600 text-xl flex my-auto hover:text-red-500 active:scale-90 " />
+                          <span className="text-gray-500">{claps}</span>
                           <span className="flex  pl-5  cursor-pointer" onClick={() => setShowCommentBox(!showCommentBox)}>
 
                             <p className="text-sky-500">Reply</p>

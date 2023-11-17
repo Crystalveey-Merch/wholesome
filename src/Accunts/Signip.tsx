@@ -23,6 +23,7 @@ import {
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Multiselect from "multiselect-react-dropdown";
+import { Helmet } from "react-helmet-async";
 
 const Signip = () => {
   const [email, setEmail] = useState("");
@@ -99,6 +100,11 @@ const Signip = () => {
 
   return (
     <div>
+       <Helmet>
+      <title>Signup to Wholesome</title>
+      <meta name='description' content='Signup on Wholesome' />
+      <link rel=" canonical" href='/signup' />
+    </Helmet>
       <div className="  my-20 bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 text-black w-screen ">
         <div className="text-center text-2xl">
           <div className="  m-auto   ">

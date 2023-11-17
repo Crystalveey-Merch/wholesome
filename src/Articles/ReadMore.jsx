@@ -76,6 +76,7 @@ const ReadMore = () => {
   const [userComment, setUserComment] = useState("");
   const [bookmarkCount, setBookmarkCount] = useState(0);
   const [isBookmarked, setIsBookmarked] = useState(false);
+  const [claps, setClaps] = useState(0);
 
   useEffect(() => {
     const listen = onAuthStateChanged(auth, (user) => {
@@ -140,10 +141,10 @@ const ReadMore = () => {
           docSnapshot.data().comments ? docSnapshot.data().comments : []
         );
         setLikes(docSnapshot.data().likes ? docSnapshot.data().likes : []);
-        setCommentLikes(
+        setClaps(
           docSnapshot.data().comments
-            ? docSnapshot.data().comments.commentLikes
-            : []
+            ? docSnapshot.data().comments.claps
+            : ("")
         );
 
         if (docSnapshot.exists()) {
@@ -173,17 +174,14 @@ const ReadMore = () => {
             const bookmarks = bookmarkDocSnapshot.data();
             const isBookmarked = id in bookmarks;
             setIsBookmarked(isBookmarked);
-          }
-          else {
+          } else {
             setIsBookmarked(false); // Document doesn't exist, so it's not bookmarked
           }
           const blogSnapshot = await getDoc(blogRef);
           if (blogSnapshot.exists()) {
             const blogData = blogSnapshot.data();
-            console.log(blogData)
-            setBookmarkCount(blogData.count)
-
-
+            console.log(blogData);
+            setBookmarkCount(blogData.count);
           }
         }
       } catch (error) {
@@ -192,7 +190,6 @@ const ReadMore = () => {
     };
     checkBookmarkStatus();
   }, [id, userId]);
-
 
   useEffect(() => {
     const fetchRelatedPosts = async () => {
@@ -283,42 +280,9 @@ const ReadMore = () => {
       }
     }
   };
-  const handleCommentLikesUpdate = async (e) => { };
+  const handleCommentLikesUpdate = async (e) => {};
 
   const commentId = `${userId}-${Date.now()}`;
-
-  // const handleComment = async (e) => {
-  //   e.preventDefault();
-
-  //   const timestamp = Timestamp.now();
-
-  //   const newComment = {
-  //     createdAt: timestamp,
-  //     userId,
-  //     commentId,
-  //     name: userData?.displayName,
-  //     body: userComment,
-  //     imgUrl: userData?.photoURL,
-  //     replies: [],
-  //   };
-
-  //   // Create a copy of the existing comments array and add the new comment
-  //   const updatedComments = [...post.comments, newComment];
-
-  //   try {
-  //     await updateDoc(doc(db, "posts", id), {
-  //       comments: updatedComments, // Update with the merged comments array
-  //     });
-
-  //     // Update the local state if needed
-  //     setComments(updatedComments);
-  //     setUserComment(""); // Clear the input field
-  //     toast.success("Comment posted successfully");
-  //   } catch (error) {
-  //     console.error("Error posting comment:", error);
-  //     toast.error("Failed to post comment. Please try again later.");
-  //   }
-  // };
 
   const handleComment = async (e) => {
     e.preventDefault();
@@ -330,7 +294,7 @@ const ReadMore = () => {
       name: userData?.displayName,
       body: userComment,
       imgUrl: userData?.photoURL,
-      replies: [],
+      claps: 0,
     };
     try {
       const updatedComments = [...post.comments, newComment];
@@ -346,9 +310,11 @@ const ReadMore = () => {
     }
   };
   const deleteComment = async (comment) => {
-    const [commentId] = comment.commentId.split('-');
+    const [commentId] = comment.commentId.split("-");
     if (commentId === authUser?.uid) {
-      const updatedComments = comments.filter((c) => c.commentId !== comment.commentId);
+      const updatedComments = comments.filter(
+        (c) => c.commentId !== comment.commentId
+      );
       setComments(updatedComments);
       try {
         await updateDoc(doc(db, "posts", id), {
@@ -359,8 +325,8 @@ const ReadMore = () => {
         console.error("Error deleting comment: ", error);
         toast.error("Error deleting comment", error);
       }
-  }
-  }
+    }
+  };
 
   function copyText() {
     /* Copy text into clipboard */
@@ -449,14 +415,41 @@ const ReadMore = () => {
     // Add any other button styles as needed
   };
 
+  const handleClaps = async () => {
+    try {
+      const postDocRef = doc(db, "posts", id);
+      const postDoc = await getDoc(postDocRef);
+      if (postDoc.exists()) {
+        setClaps(claps + 1)
+
+        const comments = postDoc.data().comments;
+        const updatedComments = comments.map((comment) => {
+          if (comment.commentId === commentId) {
+            return {
+              ...comment,
+              claps: comment.claps + 1,
+            };
+
+          }
+          return comment;
+        });
+        await updateDoc(postDocRef, { comments: updatedComments });
+        toast.success("Clap added to comment");
+      }
+    } catch (error) {
+      console.error("Error updating claps count:", error);
+      toast.error("Failed to add clap to comment. Please try again later.");
+    }
+  };
 
   return (
-    <><Helmet>
-      <title>{post.postTitle}</title>
-      <meta name='description' content={excerpt(post.postDescription, 80)} />
-      <link rel=" canonical" href='/readmore' />
-    </Helmet>
-    <div className="flex mt-40 w-screen px-30 sm:flex-col sm:px-5 ">
+    <>
+      <Helmet>
+        <title>{post.postTitle}</title>
+        <meta name="description" content={excerpt(post.postDescription, 80)} />
+        <link rel=" canonical" href="/readmore" />
+      </Helmet>
+      <div className="flex mt-40 w-screen px-30 sm:flex-col sm:px-5 ">
         <div
           className="  px-40 lg:px-20 sm:px-0  sm:mt-30 flex flex-col m-auto justify-center"
           key={post.id}
@@ -480,62 +473,67 @@ const ReadMore = () => {
               {formatTime(post.timestamp?.toDate())}
             </p>
             <p className="py-5 Aceh">By {profileData?.displayName}</p>
-            <p className="py-5 underline cursor-pointer  gap-2"
+            <p
+              className="py-5 underline cursor-pointer  gap-2"
               onClick={handleAddBookmark}
             >
               Add to Bookmarks
               <FontAwesomeIcon
                 icon={faBookmark}
                 style={buttonStyle}
-                className="  cursor-pointer " />{" "}
-
-              ({bookmarkCount})</p>
+                className="  cursor-pointer "
+              />{" "}
+              ({bookmarkCount})
+            </p>
             <span className="text-xl flex text-gray-100 p-2 rounded-full sticky top-24  bg-black m-auto justify-center">
               <div className="flex gap-2   m-auto">
                 <Like handleLike={handleLike} likes={likes} userId={userId} />
                 <FontAwesomeIcon
                   icon={faComment}
-                  className="text-gray-100  " />{" "}
+                  className="text-gray-100  "
+                />{" "}
                 {post.comments.length}
-
               </div>
               <div className="flex gap-3 m-auto ">
                 <span className="text-white Aceh">Share:</span>
                 <LinkedinShareButton url={url} title={post?.postTitle}>
                   <FontAwesomeIcon
                     icon={faLinkedin}
-                    className="fab fa-linkedin text-sky-500 text-xl" />
+                    className="fab fa-linkedin text-sky-500 text-xl"
+                  />
                 </LinkedinShareButton>
                 <FacebookShareButton url={url} title={post?.postTitle}>
                   <FontAwesomeIcon
                     icon={faFacebook}
-                    className="fab fa-facebook text-sky-500 text-xl" />
+                    className="fab fa-facebook text-sky-500 text-xl"
+                  />
                 </FacebookShareButton>
                 <TwitterShareButton url={url} title={post?.postTitle}>
                   <FontAwesomeIcon
                     icon={faTwitter}
-                    className="fab fa-twitter text-sky-500 text-xl" />
+                    className="fab fa-twitter text-sky-500 text-xl"
+                  />
                 </TwitterShareButton>
                 <WhatsappShareButton url={url} title={post?.postTitle}>
                   <FontAwesomeIcon
                     icon={faWhatsapp}
-                    className="fab fa-whatsapp text-green-500 text-xl" />
+                    className="fab fa-whatsapp text-green-500 text-xl"
+                  />
                 </WhatsappShareButton>
                 <span onClick={copyText}>
                   <FontAwesomeIcon
                     icon={faCopy}
-                    className="fas fa-link text-xl text-white" />
+                    className="fas fa-link text-xl text-white"
+                  />
                 </span>
-
-
               </div>
-
             </span>
             <hr></hr>
             <br></br>
             <MDEditor.Markdown
               source={post.content}
-              style={{ whiteSpace: "pre-wrap" }} />
+              style={{ whiteSpace: "pre-wrap" }}
+            />
 
             <ul>
               {Array.isArray(post.tags) ? (
@@ -556,7 +554,8 @@ const ReadMore = () => {
             <div className="flex flex-col m-auto my-5 bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400   rounded-xl p-5">
               <img
                 src={profileData?.photoURL}
-                className="rounded-full h-20 w-20 m-auto" />
+                className="rounded-full h-20 w-20 m-auto"
+              />
               <h1 className="text-xl m-auto text-black py-5">
                 {" "}
                 Author: {profileData?.displayName}
@@ -581,26 +580,34 @@ const ReadMore = () => {
                 <div className="h-96 sm:h-60 overflow-scroll">
                   {isEmpty(post.comments) ? (
                     <UserComment
-                      msg={"No Comment yet posted on this blog. Be the first to comment"}
+                      msg={
+                        "No Comment yet posted on this blog. Be the first to comment"
+                      }
                       name="any"
                       body="any"
                       createdAt="any"
                       className="text-red-500"
                       imgUrl="any"
-                      commentLikes="any" />
-
+                      commentLikes="any"
+                    />
                   ) : (
                     <>
                       {comments?.map((comment) => (
                         <div key={comment.commentId}>
                           <UserComment
                             {...comment}
-                            isAuthUserComment={isAuthUserComment(comment, userId)}
+                            isAuthUserComment={isAuthUserComment(
+                              comment,
+                              userId
+                            )}
                             postReplies={post.replies}
                             postId={id}
                             userId={userId}
                             deleteComment={deleteComment}
-                            comment={comment} />
+                            comment={comment}
+                            handleClaps={handleClaps}
+                            claps={claps}
+                          />
                         </div>
                       ))}
                     </>
@@ -613,13 +620,16 @@ const ReadMore = () => {
                 userComment={userComment}
                 setUserComment={setUserComment}
                 handleComment={handleComment}
-                imgUrl={userData?.photoURL} />
+                imgUrl={userData?.photoURL}
+              />
             </div>
           </div>
         </div>
 
         <div className=" bg-gradient-to-l from-orange-400 to-rose-400  ">
-          <p className="text-white text-2xl text-red-500 sm:my-2 my-5 text-center Aceh text-md">Related Publications</p>
+          <p className="text-white text-2xl text-red-500 sm:my-2 my-5 text-center Aceh text-md">
+            Related Publications
+          </p>
           <div className="flex  flex-wrap px-5 sm:p-5 my-20 sm:my-5 m-auto justify-center gap-5 sm:gap-2">
             {relatedPost?.map((post, index) => {
               return (
@@ -634,7 +644,8 @@ const ReadMore = () => {
                       <img
                         src={post.data.imgUrl}
                         height={200}
-                        className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out m-auto " />
+                        className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out m-auto "
+                      />
                     </div>
                     <div className="px-5 sm:p-0">
                       <p className="badge bg-gray-100 p-4  top-5 text-gray-600  sm:hidden border-none ">
@@ -654,15 +665,18 @@ const ReadMore = () => {
                       <span className="text-xl flex gap-5 ">
                         <FontAwesomeIcon
                           icon={faComment}
-                          className="text-gray-500 my-auto " />{" "}
+                          className="text-gray-500 my-auto "
+                        />{" "}
                         {post.data.comments?.length}
                         <FontAwesomeIcon
                           icon={faThumbsUp}
-                          className="text-gray-500 my-auto " />{" "}
+                          className="text-gray-500 my-auto "
+                        />{" "}
                         {post.data.likes?.length}
                         <FontAwesomeIcon
                           icon={faEye}
-                          className="text-gray-500 my-auto " />{" "}
+                          className="text-gray-500 my-auto "
+                        />{" "}
                         {post.data.views ? post.data.views.length : 0}
                         {/* <FontAwesomeIcon
                 onClick={handleAddBookmark}
@@ -679,7 +693,8 @@ const ReadMore = () => {
             })}
           </div>
         </div>
-      </div></>
+      </div>
+    </>
   );
 };
 

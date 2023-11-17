@@ -5,6 +5,7 @@ import { articles } from '../data/artucles';
 const tags = () => {
   return (
     <div>
+   
     <div className="tags">
       {tags?.map((tag: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal, index: Key) => (
         <div className="badge badge-primary m-1 p-2 hvr-bounce-in" key={index}>
