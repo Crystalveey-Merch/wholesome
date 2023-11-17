@@ -200,7 +200,7 @@ console.log(comment)
                         <div className="m-auto mx-2  flex gap-3 justify-end ">
                           <FontAwesomeIcon
                             icon={faHands}
-                            onClick= {() => handleClaps(commentId)}
+                            // onClick= {() => handleClaps(commentId)}
                             className="text-gray-600 text-xl flex my-auto hover:text-red-500 active:scale-90 " />
                           <span className="text-gray-500">{claps}</span>
                           <span className="flex  pl-5  cursor-pointer" onClick={() => setShowCommentBox(!showCommentBox)}>

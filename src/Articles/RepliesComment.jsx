@@ -95,7 +95,7 @@ const RepliesComment = ({
                             />
                             {commentLikes}
                               <div>
-                            {replyUserId === authUser.uid && (
+                            {replyUserId === authUser?.uid && (
                               <span onClick={() => deleteReply(reply)} className="text-red-500 cursor-pointer">
                                 Delete
                               </span>
