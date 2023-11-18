@@ -62,8 +62,8 @@ const Login = () => {
           <div className="pt-34  m-auto   ">
             <div className=" h-full w-full flex rounded rounded-lg    ">
               <div className="w-2/5 m-auto  mt-36 sm:mt-20 sm:w-full sm:h-full mb-44 rounded">
-                <div className="bg-white/50  flex flex-col text-xl rounded-2xl">
-                  <div className="container  flex flex-col items-center justify-center px-10 sm:px-2 shadow">
+                <div className="bg-white/50 p-5 flex flex-col text-xl rounded-2xl  shadow">
+                  <div className="  flex flex-col items-center justify-center px-10 sm:px-2 ">
                     <div className="  p-10  text-black w-full">
                       <h1 className="mb-8 text-xl text-center text-red-500">
                         Login

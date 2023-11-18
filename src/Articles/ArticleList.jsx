@@ -248,7 +248,7 @@ const ArticleList = () => {
       <link rel=" canonical" href='/articlelist' />
     </Helmet><div className="  py-20 sm:px-2 px-8  w-screen  flex sm:flex-col  m-auto  justify-center bg-stone-200  relative">
         <div className="w-full">
-          <div className="flex m-auto my-10 justify-center sm:hidden">
+          <div className="flex m-auto my-10 justify-center ">
             {Array.isArray(randomPost) &&
               randomPost.map((post) => (
                 <NavLink
@@ -257,8 +257,8 @@ const ArticleList = () => {
                   key={post.id}
                   className=""
                 >
-                  <div className="card card-side  w-full bg-gradient-to-r from-teal-200 to-lime-200  ">
-                    <figure className="w-2/5 overflow-hidden" style={{}}>
+                  <div className="card card-side  sm:flex-col w-full bg-gradient-to-r from-teal-200 to-lime-200  ">
+                    <figure className="w-2/5 sm:w-full overflow-hidden" style={{}}>
                       <img src={post.imgUrl} alt="Album" />
                     </figure>
                     <div className="card-body">
@@ -299,27 +299,27 @@ const ArticleList = () => {
                 </NavLink>
               ))}
           </div>
-          <div className=" m-auto p-5  bg-white sm:w-screen  ">
+          <div className=" m-auto p-5  bg-white sm:w-full  ">
             <p className="text-center text-2xl py-5 text-red-500">Search Post</p>
             <input
-              className="search  w-96 sm:w-full flex m-auto bg-red/50  input input-bordered border-black text-red-600 "
+              className=" seearh w-96 sm:w-full flex m-auto bg-red/50  input input-bordered border-black text-red-600 "
               id="floatingInputCustom"
               type="text"
               placeholder="Search Article"
               onChange={(e) => setSearch(e.target.value)} />
           </div>
-          <div className="flex   flex-wrap m-auto justify-center gap-5 sm:gap-2">
+          <div className="flex sm:hidden  flex-wrap m-auto justify-center gap-5 sm:gap-0">
             {currentPosts.map((post) => (
               <div className=" " key={post.id}>
                 <NavLink
                   to={`/readmore/${post.id}`}
                   onClick={() => handleReadMoreClick(post)}
                   key={post.id}
-                  className="hover:border p-8   hover:rounded-xl transition duration-300  sm:m-5 ease-in-out "
+                  className="hover:border sm:hover:border-none p-8 sm:p-0  hover:rounded-xl transition duration-300  sm:m-0 ease-in-out "
                 >
                   <div
-                    key={post.id}
-                    className="w-96 sm:w-full bg-white  sm:p-10 hover:scale-105   transition duration-300 ease-in-out  rounded-xl p-2 shadow "
+                    key={post.id} 
+                    className="w-96   sm:w-full bg-white  sm:p-10 hover:scale-105   transition duration-300 ease-in-out sm:rounded-none  rounded-xl p-2 shadow "
                   >
                     <div className="relative overflow-clip  h-40 ">
                       <img
@@ -338,10 +338,10 @@ const ArticleList = () => {
                       <h2 className="Aceh text-xl py-2 text-black ">
                         {post.postTitle}
                       </h2>
-
-                      <p className=" text-gray-800  ">
+                      <div className="">
+                      <p className=" text-gray-800 ">
                         {excerpt(post.postDescription, 100)}
-                      </p>
+                      </p></div>
                       <span className="text-xl flex gap-5 ">
                         <FontAwesomeIcon
                           icon={faComment}
@@ -367,15 +367,68 @@ const ArticleList = () => {
               </div>
             ))}
 
-            {/* <ReactPaginate
-  breakLabel="..."
-  nextLabel="next >"
-  // onPageChange={}
-  pageRangeDisplayed={5}
-  pageCount={20}
-  previousLabel="< previous"
-  renderOnZeroPageCount={null}
-/> */}
+      
+          </div>
+          <div className="flex hidden sm:block w-full  flex-wrap m-auto justify-center gap-5 sm:gap-0">
+            {currentPosts.map((post) => (
+              <div className="border my-2 " key={post.id}>
+                <NavLink
+                  to={`/readmore/${post.id}`}
+                  onClick={() => handleReadMoreClick(post)}
+                  key={post.id}
+                  className="hover:border sm:hover:border-none p-8 sm:p-0  hover:rounded-xl transition duration-300  sm:my-2 ease-in-out "
+                >
+                  <div
+                    key={post.id} 
+                    className="w-96 sm:w-full sm:flex sm:w-full bg-white  sm:p-2    transition duration-300 ease-in-out sm:rounded-none  rounded-xl p-2 shadow "
+                  >
+                    <div className="relative overflow-clip  h-40  w-40 my-auto flex ">
+                      <img
+                        src={post.imgUrl}
+                        height={200}
+                        className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out " />
+                    </div>
+                    <div className="px-5 sm:p-0 ">
+                      <p className="badge  bg-gradient-to-r from-orange-400 to-rose-400 p-4  top-5 text-gray-100   border-none ">
+                        {post.category}
+                      </p>
+                      <p className="mt-1 text-sm leading-5 text-red-300 border-b Aceh">
+                        {post?.timestamp.toDate().toDateString()} at{" "}
+                        {formatTime(post?.timestamp.toDate())}
+                      </p>
+                      <h2 className="Aceh text-md py-2 text-black ">
+                        {post.postTitle}
+                      </h2>
+                      <div className="">
+                      <p className=" text-gray-800 hidden ">
+                        {excerpt(post.postDescription, 100)}
+                      </p></div>
+                      <span className="text-xl flex gap-5 ">
+                        <FontAwesomeIcon
+                          icon={faComment}
+                          className="text-gray-500 my-auto " />{" "}
+                        {post.comments.length}
+                        <FontAwesomeIcon
+                          icon={faThumbsUp}
+                          className="text-gray-500 my-auto " />{" "}
+                        {post.likes.length}
+                        <FontAwesomeIcon
+                          icon={faEye}
+                          className="text-gray-500 my-auto " />{" "}
+                        {post.views ? post.views.length : 0}
+                        <FontAwesomeIcon
+                          icon={faBookmark}
+                          style={buttonStyle}
+                          className="my-auto   " />
+                        {post.count}
+                      </span>
+                    </div>
+                  </div>
+                </NavLink>
+              </div>
+            ))}
+
+      
           </div>
           <Pagination
             postPerPage={postPerPage}

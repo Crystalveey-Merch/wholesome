@@ -26,18 +26,24 @@ import {
 import {
   faAngleDown,
   faAnglesDown,
+  faBagShopping,
   faBible,
+  faBook,
   faCalendar,
   faComputer,
   faFirstAid,
   faGamepad,
+  faHand,
   faHockeyPuck,
   faHorse,
   faMicrophone,
   faMicrophoneAlt,
   faMoneyBillTrendUp,
   faMusic,
+  faPalette,
+  faPlane,
   faPlusCircle,
+  faTree,
 } from "@fortawesome/free-solid-svg-icons";
 import { auth, db } from "../firebase/auth.js";
 import Spinner from "../components/Spinner";
@@ -53,7 +59,7 @@ const EventList = () => {
   const [filteredEvents, setFilteredEvents] = useState([]);
   useEffect(() => {
     const fetchPosts = async () => {
-      setLoading(true);
+      // setLoading(true);
 
       try {
         const querySnapshot = await getDocs(collection(db, "events"));
@@ -72,7 +78,10 @@ const EventList = () => {
 
         setLoading(false);
       } catch (error) {
+        setLoading(false);
         console.error("Error fetching posts:", error);
+       
+
         setEvents([]);
       }
     };
@@ -102,32 +111,72 @@ const EventList = () => {
     setFilteredEvents(filtered);
   };
 
-  const filterTechHandler = () => {
-    // Filter products with a data collection called "Tech"
-    const techFilter = events.filter((event) => event.category === "Tech");
-    setFilteredEvents(techFilter); // Update the state with the filtered events
-  };
 
   const filterBusinessHandler = () => {
     // Filter products with a data collection called "Tech"
     const businessFilter = events.filter(
-      (event) => event.category === "Business"
+      (event) => event.category === "Business and Finance"
     );
     setFilteredEvents(businessFilter); // Update the state with the filtered events
   };
 
-  const filterReligionHandler = () => {
+  const filterLifestyle = () => {
     // Filter products with a data collection called "Tech"
     const religionFilter = events.filter(
-      (event) => event.category === "Religion"
+      (event) => event.category === "Lifestyle and Fashion"
     );
     setFilteredEvents(religionFilter); // Update the state with the filtered events
   };
   const filterHealthandler = () => {
     // Filter products with a data collection called "Tech"
-    const healthFilter = events.filter((event) => event.category === "Health");
+    const healthFilter = events.filter(
+      (event) => event.category === "Health and wellness"
+    );
     setFilteredEvents(healthFilter); // Update the state with the filtered events
   };
+  const filterGameshandler = () => {
+    // Filter products with a data collection called "Tech"
+    const healthFilter = events.filter(
+      (event) => event.category === "Games and Sports"
+    );
+    setFilteredEvents(healthFilter); // Update the state with the filtered events
+  };
+  const filterTravelhandler = () => {
+    // Filter products with a data collection called "Tech"
+    const healthFilter = events.filter(
+      (event) => event.category === "Travel and Adventure"
+    );
+    setFilteredEvents(healthFilter); // Update the state with the filtered events
+  };
+  const filterVolunteerhandler = () => {
+    // Filter products with a data collection called "Tech"
+    const healthFilter = events.filter(
+      (event) => event.category === "Volunteer and Philanthropy"
+    );
+    setFilteredEvents(healthFilter); // Update the state with the filtered events
+  };
+  const filterArthandler = () => {
+    // Filter products with a data collection called "Tech"
+    const healthFilter = events.filter(
+      (event) => event.category === "Art and crafts"
+    );
+    setFilteredEvents(healthFilter); // Update the state with the filtered events
+  };
+  const filterEnvironmental = () => {
+    // Filter products with a data collection called "Tech"
+    const healthFilter = events.filter(
+      (event) => event.category === "Environmental and Sustainability"
+    );
+    setFilteredEvents(healthFilter); // Update the state with the filtered events
+  };
+  const filterBook = () => {
+    // Filter products with a data collection called "Tech"
+    const healthFilter = events.filter(
+      (event) => event.category === "Book club"
+    );
+    setFilteredEvents(healthFilter); // Update the state with the filtered events
+  };
+
   const clearFilteredEvents = () => {
     setFilteredEvents(events);
   };
@@ -142,9 +191,9 @@ const EventList = () => {
         />
         <link rel=" canonical" href="/upcomingevents" />
       </Helmet>
-      <div className="my-20 w-screen  sm:mt-18">
-        <div className="h-96">
-          <div className="h-full bg-gradient-to-r from-fuchsia-600 to-pink-600">
+      <div className="py-20 w-screen  sm:pt-18">
+        <div className="">
+          <div className="h-full bg-gradient-to-r from-fuchsia-600 to-pink-600 sm:p-10">
             <h1 className="text-white text-center sm:text-4xl pt-24 sm:pt-14">
               See upcoming Events Around You
             </h1>
@@ -161,7 +210,7 @@ const EventList = () => {
               </p>
               <input
                 type="text"
-                className="bg-transparent border border-1 border-gray-100/50 rounded-full p-3 w-96 m-auto text-white"
+                className="bg-transparent border border-1 border-gray-100/50 rounded-full p-3 w-96 sm:w-full m-auto text-white"
                 placeholder="Search an event/location"
                 value={searchInput}
                 onChange={handleSearchInputChange}
@@ -169,59 +218,79 @@ const EventList = () => {
             </div>
           </div>
         </div>
-        <div className="flex justify-center text-red-400 text-4xl m-auto sm:px-2 py-5 gap-20 sm:gap-2 px-20 mt-10 overflow-x-auto">
+        <div className="flex  flex-wrap justify-center  text-4xl sm:text-2xl m-auto py-5 gap-20 sm:gap-3 px-20 sm:px-5  mt-10 overflow-x-auto">
           <span className="">
             <FontAwesomeIcon
-              icon={faComputer}
-              className="border rounded-full p-4 cursor-pointer	"
-              onClick={filterTechHandler}
+              icon={faHand}
+              className="border rounded-full p-4 cursor-pointer m-auto flex text-sky-300  shadow	"
+              onClick={filterVolunteerhandler}
             />
-            <p className="text-sm text-center text-gray-400 ">Tech</p>
+            <p className="text-sm text-center text-gray-400 ">Volunteer</p>
           </span>
           <span className="">
             <FontAwesomeIcon
               icon={faFirstAid}
-              className="border rounded-full p-4 cursor-pointer	"
+              className="border rounded-full p-4 cursor-pointer m-auto flex  text-green-300  shadow"
               onClick={filterHealthandler}
             />
             <p className="text-sm text-center text-gray-400 ">Health</p>
           </span>
           <span className="">
             <FontAwesomeIcon
-              icon={faBible}
-              className="border rounded-full p-4 cursor-pointer	"
-              onClick={filterReligionHandler}
+              icon={faBook}
+              className="border rounded-full p-4 cursor-pointer m-auto flex  shadow	 text-yellow-800"
+              onClick={filterBook}
             />
-            <p className="text-sm text-center text-gray-400 ">Religion</p>
+            <p className="text-sm text-center text-gray-400 ">Book club</p>
           </span>
           <span className="">
             <FontAwesomeIcon
               icon={faMoneyBillTrendUp}
-              className="border rounded-full p-4 cursor-pointer	"
+              className="border rounded-full p-4 cursor-pointer  m-auto flex  shadow  text-red-700	"
               onClick={filterBusinessHandler}
             />
             <p className="text-sm text-center text-gray-400 ">Business</p>
           </span>
           <span className="">
             <FontAwesomeIcon
-              icon={faMicrophoneAlt}
-              className="border rounded-full p-4 cursor-pointer	"
+              onClick={filterTravelhandler}
+              icon={faPlane}
+              className="border rounded-full p-4 cursor-pointer  m-auto flex  shadow	text-cyan-500"
             />
-            <p className="text-sm text-center text-gray-400 ">Music</p>
+            <p className="text-sm text-center text-gray-400 ">Travel</p>
           </span>
           <span className="">
             <FontAwesomeIcon
-              icon={faCalendar}
-              className="border rounded-full p-4 cursor-pointer	"
+              icon={faPalette}
+              onClick={filterArthandler}
+
+              className="border rounded-full p-4 cursor-pointer m-auto flex   shadow  text-purple-700	"
             />
-            <p className="text-sm text-center text-gray-400 ">Holiday</p>
+            <p className="text-sm text-center text-gray-400 ">Art</p>
           </span>
           <span className="">
             <FontAwesomeIcon
               icon={faGamepad}
-              className="border rounded-full p-4 cursor-pointer	"
+              onClick={filterGameshandler}
+              className="border rounded-full p-4 m-auto flex cursor-pointer  shadow text-orange-500	"
             />
-            <p className="text-sm text-center text-gray-400 ">Hobbies</p>
+            <p className="text-sm text-center text-gray-400 ">Games</p>
+          </span>
+          <span className="">
+            <FontAwesomeIcon
+              icon={faTree}
+              onClick={filterEnvironmental}
+              className="border rounded-full p-4 cursor-pointer m-auto flex   shadow text-green-900	"
+            />
+            <p className="text-sm text-center text-gray-400 ">Environmental</p>
+          </span>
+          <span className="">
+            <FontAwesomeIcon
+              icon={faBagShopping}
+              onClick={filterLifestyle}
+              className="border rounded-full p-4 cursor-pointer	m-auto flex  shadow text-pink-500"
+            />
+            <p className="text-sm text-center text-gray-400 ">Lifestyle</p>
           </span>
         </div>
         <span

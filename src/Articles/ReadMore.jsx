@@ -454,7 +454,7 @@ const ReadMore = () => {
           className="  px-40 lg:px-20 sm:px-0  sm:mt-30 flex flex-col m-auto justify-center"
           key={post.id}
         >
-          <div className="badge bg-red-500 text-white text-xl Aceh p-4">
+          <div className="badge bg-red-500 text-white sm:text-sm text-xl Aceh p-4">
             {post.category}
           </div>
 

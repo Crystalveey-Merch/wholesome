@@ -105,7 +105,7 @@ const Signip = () => {
       <meta name='description' content='Signup on Wholesome' />
       <link rel=" canonical" href='/signup' />
     </Helmet>
-      <div className="  my-20 bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 text-black w-screen ">
+      <div className="  py-20 bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 text-black w-screen h-screen ">
         <div className="text-center text-2xl">
           <div className="  m-auto   ">
             <div className=" h-full w-full flex rounded rounded-lg    ">

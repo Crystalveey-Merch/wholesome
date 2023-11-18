@@ -1,5 +1,8 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeftLong, faArrowRightLong, faBackward, faStepBackward } from "@fortawesome/free-solid-svg-icons";
+import { faArrowAltCircleLeft } from "@fortawesome/free-regular-svg-icons";
 
 
 const Pagination = ({ postPerPage, totalPosts, paginate, currentPage }) => {
@@ -35,9 +38,9 @@ const Pagination = ({ postPerPage, totalPosts, paginate, currentPage }) => {
             <a
               onClick={handlePrevious}
               href="#"
-              className="bg-blue-500 hover:bg-blue-700 text-white hover:text-white font-bold py-2 px-4 rounded"
+              className="bg-blue-500 hover:bg-blue-700  btn text-white hover:text-white font-bold py-2 px-4 rounded-full"
             >
-              Previous
+              <FontAwesomeIcon icon={faArrowLeftLong}/>
             </a>
           </li>
 
@@ -50,8 +53,8 @@ const Pagination = ({ postPerPage, totalPosts, paginate, currentPage }) => {
                                 }}
                                 href="#"
                                 className={`${activePage === number
-                                    ? "bg-blue-700 text-white"
-                                    : "bg-gray-400 hover:bg-blue-700 hover:scale-110 text-white hover:text-white"
+                                    ? "bg-blue-700 text-white  btn"
+                                    : "bg-gray-400 hover:bg-blue-700 btn hover:scale-110 text-white hover:text-white"
                                     } font-bold py-2 px-4 rounded-full`}            >
                                 {number}
                             </a>
@@ -61,9 +64,10 @@ const Pagination = ({ postPerPage, totalPosts, paginate, currentPage }) => {
             <a
               onClick={handleNext}
               href="#"
-              className="bg-blue-500 hover:bg-blue-700 text-white hover:text-white font-bold py-2 px-4 rounded"
+              className="bg-blue-500 hover:bg-blue-700 btn text-white hover:text-white font-bold py-2 px-4 rounded-full"
             >
-              Next
+                            <FontAwesomeIcon icon={faArrowRightLong}/>
+
             </a>
           </li>
                 </ul>
