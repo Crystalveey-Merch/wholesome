@@ -32,6 +32,7 @@ import {
   faThumbsUp,
   faTrashAlt,
 } from "@fortawesome/free-solid-svg-icons";
+import { Helmet } from "react-helmet-async";
 const Bookmarks = () => {
   const [bookmarks, setBookmarks] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -134,6 +135,13 @@ const Bookmarks = () => {
 
   return (
     <div className=" w-full  ">
+     <Helmet>
+            <title>My Bookmarks</title>
+            <meta
+                name="description"
+                content="Your Bookmarks " />
+            <link rel=" canonical" href="/dashboard/settings" />
+        </Helmet>
       {authUser ? (
         <div>
           <div

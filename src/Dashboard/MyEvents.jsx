@@ -25,6 +25,7 @@ import {
   faThumbsUp,
   faTrashAlt,
 } from "@fortawesome/free-solid-svg-icons";
+import { Helmet } from "react-helmet-async";
 const MyEvents = () => {
     const [userPosts, setUserPosts] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -114,6 +115,13 @@ const MyEvents = () => {
     
   return (
     <div>
+    <Helmet>
+            <title>My Events</title>
+            <meta
+                name="description"
+                content="list of your uploaded events" />
+            <link rel=" canonical" href="/dashboard/events" />
+        </Helmet>
         <div className=" w-full  ">
       {authUser ? (
         <div>

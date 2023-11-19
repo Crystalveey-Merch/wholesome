@@ -6,6 +6,7 @@ import { reauthenticateWithCredential, EmailAuthProvider } from "firebase/auth";
 import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { Helmet } from "react-helmet-async";
 
 const Settings = () => {
   const [authUser, setAuthUser] = useState(null);
@@ -59,6 +60,13 @@ const Settings = () => {
 
   return (
     <div>
+    <Helmet>
+            <title>Account Settings</title>
+            <meta
+                name="description"
+                content="Account settings" />
+            <link rel=" canonical" href="/dashboard/settings" />
+        </Helmet>
       <p className="text-center text-xl Aceh">Account Settings</p>
 
       <div className="my-20 flex flex-col gap-5">
