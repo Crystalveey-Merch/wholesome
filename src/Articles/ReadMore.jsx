@@ -76,7 +76,7 @@ const ReadMore = () => {
   const [userComment, setUserComment] = useState("");
   const [bookmarkCount, setBookmarkCount] = useState(0);
   const [isBookmarked, setIsBookmarked] = useState(false);
-  const [claps, setClaps] = useState(0);
+  const [claps, setClaps] = useState([]);
 
   useEffect(() => {
     const listen = onAuthStateChanged(auth, (user) => {
@@ -93,6 +93,29 @@ const ReadMore = () => {
   }, []);
 
   const userId = authUser?.uid;
+
+  useEffect(() => {
+    const fetchClaps = async () => {
+      try {
+        const postRef = doc(db, "posts", id); // Replace "posts" with the appropriate collection name
+        const postSnapshot = await getDoc(postRef);
+        if (postSnapshot.exists()) {
+          const postData = postSnapshot.data();
+          const comments = postData.comments ? postData.comments : [];
+          const clapsArray = comments.map((comment) => (comment.claps ? comment.claps : []));
+          setClaps(clapsArray);
+        } else {
+          console.error(`Post with id '${id}' not found.`);
+          // Handle the case where the post is not found, e.g., display a 404 page.
+        }
+      } catch (error) {
+        console.error("Error fetching claps:", error);
+        // Handle the error, e.g., display an error message to the user.
+      }
+    };
+  
+    fetchClaps();
+  }, [id]);
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -130,25 +153,21 @@ const ReadMore = () => {
       fetchUserData();
     }
   }, [userId, userData]);
+console.log(claps)
+// console.log(likes)
 
-  useEffect(() => {
+useEffect(() => {
     const fetchSelectedPost = async () => {
       try {
         const docRef = doc(db, "posts", id); // Replace "posts" with your collection name
         const docSnapshot = await getDoc(docRef);
-
-        setComments(
-          docSnapshot.data().comments ? docSnapshot.data().comments : []
-        );
-        setLikes(docSnapshot.data().likes ? docSnapshot.data().likes : []);
-        setClaps(
-          docSnapshot.data().comments
-            ? docSnapshot.data().comments.claps
-            : ("")
-        );
-
         if (docSnapshot.exists()) {
-          setPost(docSnapshot.data());
+          const postData = docSnapshot.data();
+          const comments = postData.comments ? postData.comments : [];
+          const claps = comments.map(comment => comment.claps ? comment.claps : []);
+          setComments(comments);
+          setLikes(postData.likes ? postData.likes : []);
+          setPost(postData);
         } else {
           console.error(`Post with id '${id}' not found.`);
           // Handle the case where the post is not found, e.g., display a 404 page.
@@ -158,7 +177,6 @@ const ReadMore = () => {
         // Handle the error, e.g., display an error message to the user.
       }
     };
-
     fetchSelectedPost();
   }, [id]);
 
@@ -180,7 +198,7 @@ const ReadMore = () => {
           const blogSnapshot = await getDoc(blogRef);
           if (blogSnapshot.exists()) {
             const blogData = blogSnapshot.data();
-            console.log(blogData);
+            // console.log(blogData);
             setBookmarkCount(blogData.count);
           }
         }
@@ -294,7 +312,7 @@ const ReadMore = () => {
       name: userData?.displayName,
       body: userComment,
       imgUrl: userData?.photoURL,
-      claps: 0,
+      claps: [],
     };
     try {
       const updatedComments = [...post.comments, newComment];
@@ -439,6 +457,40 @@ const ReadMore = () => {
     } catch (error) {
       console.error("Error updating claps count:", error);
       toast.error("Failed to add clap to comment. Please try again later.");
+    }
+  };
+
+  const handleClaps2 = async (commentId) => {
+    console.log(commentId)
+    if (userId) {
+      try {
+        const postRef = doc(db, "posts", id);
+        const postDoc = await getDoc(postRef);
+        if (postDoc.exists()) {
+          const postData = postDoc.data();
+          const comments = postData.comments ? [...postData.comments] : [];
+          const commentIndex = comments.findIndex(comment => comment.commentId === commentId);
+          if (commentIndex !== -1) {
+            const updatedClaps = comments[commentIndex].claps ? [...comments[commentIndex].claps] : [];
+            const userIndex = updatedClaps.indexOf(userId);
+            if (userIndex === -1) {
+              // User has not clapped, add their ID to claps
+              updatedClaps.push(userId);
+            } else {
+              // User has already clapped, remove their ID from claps
+              updatedClaps.splice(userIndex, 1);
+            }
+            // Update the claps array in Firestore
+            comments[commentIndex].claps = updatedClaps;
+            await updateDoc(postRef, { comments });
+            // Update your component state with the updatedClaps array
+            setClaps(updatedClaps);
+            toast.success("Clap updated");
+          }
+        }
+      } catch (error) {
+        console.error("Error updating Claps:", error);
+      }
     }
   };
 
@@ -591,10 +643,11 @@ const ReadMore = () => {
                       commentLikes="any"
                     />
                   ) : (
-                    <>
+                    <div > 
                       {comments?.map((comment) => (
                         <div key={comment.commentId}>
                           <UserComment
+
                             {...comment}
                             isAuthUserComment={isAuthUserComment(
                               comment,
@@ -605,12 +658,12 @@ const ReadMore = () => {
                             userId={userId}
                             deleteComment={deleteComment}
                             comment={comment}
-                            handleClaps={handleClaps}
+                            handleClaps2={handleClaps2}
                             claps={claps}
                           />
                         </div>
                       ))}
-                    </>
+                    </div>
                   )}
                 </div>
               </div>

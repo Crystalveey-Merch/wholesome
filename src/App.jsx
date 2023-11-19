@@ -46,6 +46,7 @@ import ActivityInterest from "./MyInterest/ActivityInterest";
 import Podcasts from "./Admin/Podcasts";
 import AllActivity from "./Admin/AllActivity";
 import PodcastInterest from "./MyInterest/PodcastInterest";
+import MyEvents from "./Dashboard/MyEvents";
 
 // import "@fortawesome/fontawesome-free"
 
@@ -143,8 +144,7 @@ function App() {
 
           <Route path="/dashboard/bookmarks" element={<Bookmarks />} />
           <Route path="/dashboard/settings" element={<Settings />} />
-
-       
+          <Route path="/dashboard/events" element={<MyEvents />} />       
         </Route>
         <Route path="/profile/:profileId" element={<Profilepage />} />
 

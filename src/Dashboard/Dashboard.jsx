@@ -165,6 +165,7 @@ const Dashboard = () => {
                       <li><NavLink to='statistics'>Statistics</NavLink></li>
                       <li><NavLink to='bookmarks'>Bookmarks</NavLink></li>
                       <li><NavLink to='settings'>Settings</NavLink></li>
+                      <li><NavLink to='Events'>Events</NavLink></li>
 
 
                   </ul>

@@ -124,7 +124,7 @@ const EventDes = () => {
     />
     <link rel=" canonical" href="/upcomingevents" />
   </Helmet>
-    <div className="pt-40 sm:mt-18 flex sm:flex-col gap-10  m-auto justify-center bg-stone-100 w-screen">
+    <div className="pt-40  sm:pt-10 sm:mt-18 flex sm:flex-col gap-10  m-auto justify-center bg-stone-100 w-screen">
       <div  className=" w-1/2 sm:w-full">
       <div className="m-auto sm:w-full" >
         <img src={event.imgUrl} alt={event.eventName} />

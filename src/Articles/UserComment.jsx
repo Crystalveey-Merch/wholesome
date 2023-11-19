@@ -15,6 +15,7 @@ import { auth, db } from "../firebase/auth.js";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Helmet } from "react-helmet-async";
+import Claps  from "./Claps.tsx"
 
 const UserComment = ({
   name,
@@ -32,13 +33,14 @@ const UserComment = ({
   deleteComment,
   comment,
   claps,
-  handleClaps
+  handleClaps2,
 }) => {
   const [authUser, setAuthUser] = useState(null);
   const [userData, setUserData] = useState(null);
   const [userReply, setUserReply] = useState("");
   const [replies, setReplies] = useState([]);
 const [showCommentBox, setShowCommentBox] =useState(false)
+
   const formatTime = (date) => {
     return date.toLocaleTimeString("en-US", {
       hour: "numeric",
@@ -48,7 +50,8 @@ const [showCommentBox, setShowCommentBox] =useState(false)
   };
   const commentClassName = isAuthUserComment ? " w-auto " : "w-auto ml-auto";
 
-console.log(comment)
+// console.log(comment)
+
   useEffect(() => {
     const listen = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -197,12 +200,13 @@ console.log(comment)
                           </div>
                         </div>
                         </div>
-                        <div className="m-auto mx-2  flex gap-3 justify-end ">
-                          <FontAwesomeIcon
+                        <div className="m-auto mx-2  flex gap-3 justify-end " key={commentId} >
+                        <Claps handleClap2={handleClaps2} claps={comment.claps} userId={userId} commentId={commentId} key={commentId} />
+
+                          {/* <FontAwesomeIcon
                             icon={faHands}
-                            // onClick= {() => handleClaps(commentId)}
-                            className="text-gray-600 text-xl flex my-auto hover:text-red-500 active:scale-90 " />
-                          <span className="text-gray-500">{claps}</span>
+                            onClick= {() => handleClaps2(commentId)}
+                            className="text-gray-600 text-xl flex my-auto hover:text-red-500 active:scale-90 " /> */}
                           <span className="flex  pl-5  cursor-pointer" onClick={() => setShowCommentBox(!showCommentBox)}>
 
                             <p className="text-sky-500">Reply</p>

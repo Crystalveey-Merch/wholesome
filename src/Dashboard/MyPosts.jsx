@@ -1,25 +1,15 @@
-import React from "react";
 import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "../firebase/auth.js";
 import Spinner from "../components/Spinner.tsx";
 import {
-  addDoc,
   collection,
-  DocumentSnapshot,
-  endAt,
-  endBefore,
   getDocs,
   doc,
   getDoc,
   deleteDoc,
   updateDoc,
-  Timestamp,
-  limit,
-  limitToLast,
-  orderBy,
   query,
-  startAfter,
   where,
 } from "firebase/firestore";
 import { NavLink } from "react-router-dom";
@@ -78,8 +68,7 @@ const MyPosts = () => {
       getUserPosts();
     }
   }, [user]);
-  console.log(userPosts.id);
-  console.log(postId);
+  
 
   if (loading) {
     return <Spinner />;
@@ -208,7 +197,7 @@ const MyPosts = () => {
           </div>
         </div>
       ) : (
-        ""
+        "You have not Made any Post"
       )}
     </div>
   );
