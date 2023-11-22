@@ -15,14 +15,7 @@ import Pagination from "../components/pagination.jsx";
 
 const Allarticles = () => {
   const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [isBookmarked, setIsBookmarked] = useState(false);
-  const [bookmarkCount, setBookmarkCount] = useState(0);
 
-  const [postId, setPostId] = useState([]);
-  const [randomPost, setRandomPost] = useState([]);
-  const [tags, setTags] = useState([]);
-  const [category, setCategory] = useState([]);
   const [search, setSearch] = useState("");
   const [postPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
@@ -245,6 +238,7 @@ const Allarticles = () => {
           ))}
         </table>
         <Pagination
+        className="flex m-auto"
           postPerPage={postPerPage}
           totalPosts={posts.length}
           paginate={paginate}

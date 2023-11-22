@@ -240,17 +240,7 @@ const CreatePost = () => {
             toast.success("Post updated successfully");
             navigate("/articlelist");
 
-            // try {
-            //   await updateDoc(doc(db, "draft", id), {
-            //     ...form,
-            //     timestamp: serverTimestamp(),
-            //     author: authUser.displayName,
-            //     userId: authUser.uid,
-            //   });
-            //   toast.success("post updated successfully");
-            //   navigate("/posts")
-            // } catch (err) {
-            //   console.log(err);
+      
           } catch (err) {
             console.log(err);
             toast.error("Click on Publish Draft Instead");
@@ -457,7 +447,7 @@ const CreatePost = () => {
 
                 {id ? (
                   <button
-                    onClick={handlepublishDraft}
+                    onClick={handlepublishDraft}      
                     className="btn mr-10"
                     disabled={progress < 100}
                   >
