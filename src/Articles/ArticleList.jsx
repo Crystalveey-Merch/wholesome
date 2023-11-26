@@ -438,7 +438,7 @@ const ArticleList = () => {
         </div>
         <div className="tags p-5  ml-4 bg-gradient-to-r from-orange-400 to-rose-400 w-96  sm:w-full sm:m-0 sm:my-10 ">
           <div key={trendingPost.id}>
-            <h2 className="text-xl Aceh text-white">Trending Posts</h2>
+            <h2 className="text-xl Aceh text-white">Trending Posts</h2>   
             <hr></hr>
             <br></br>
             <div className="flex flex-col gap-5">

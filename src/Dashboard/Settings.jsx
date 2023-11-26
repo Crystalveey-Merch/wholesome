@@ -81,7 +81,7 @@ const Settings = () => {
 
               onChange={handleOldPasswordChange}
               placeholder="Enter old password"
-              className="rounded-full p-4 w-96"
+              className="rounded-full p-4 w-96 text-black  text-xl"
             />
             <div
               onClick={handleTogglePassword}
@@ -103,7 +103,7 @@ const Settings = () => {
               type={showPassword ? "text" : "password"}
               onChange={handleNewPasswordChange}
               placeholder="Enter new password"
-              className="rounded-full p-4 w-96"
+              className="rounded-full p-4 w-96 text-black text-xl"
             />
 
           </div></form>
