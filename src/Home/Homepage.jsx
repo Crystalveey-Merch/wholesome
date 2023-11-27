@@ -10,7 +10,7 @@ import { Helmet } from 'react-helmet-async'
 const Homepage = () => {
   return (
     <><Helmet>
-    <title>Homepage</title>
+    <title>Wholesome</title>
     <meta name='description' content='Wholesome helps foster connections with like-minds that transcends borders and also share your experiences, knowledge and creativity'/>
     <link rel=" canonical"  href='/'/>
     </Helmet>
