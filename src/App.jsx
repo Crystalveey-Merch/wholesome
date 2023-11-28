@@ -157,7 +157,7 @@ function App() {
             </ProtectedRoute>
           }
         >
-          <Route path="/admin/articles" element={<Aindexllarticles />} />
+          <Route path="/admin/articles" element={<Allarticles />} />
           <Route path="/admin/users" element={<Users />} />
           <Route path="/admin/podcasts" element={<Podcasts />} />
           <Route path="/admin/activities" element={<AllActivity />} />
