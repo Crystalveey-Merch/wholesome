@@ -1,3 +1,4 @@
+
 /* eslint-disable no-unused-vars */
 import React from "react";
 import { useParams } from "react-router";
@@ -59,7 +60,6 @@ import { faBookmark, faEye } from "@fortawesome/free-solid-svg-icons";
 import { Helmet } from "react-helmet-async";
 import { BlogPosting } from "schema-dts";
 import { jsonLdScriptProps } from "react-schemaorg";
-import Head from "next/head"
 
 const ReadMore = () => {
   const url = window.location.href;
@@ -504,8 +504,7 @@ useEffect(() => {
         <meta name="description" content={excerpt(post.postDescription, 80)} />
         <meta property="og:type" content="article" />
         <link rel=" canonical" href="/readmore" />
-      </Helmet>
-      <Head>
+      
   <script
     {...jsonLdScriptProps<BlogPosting>({
       "@context": "https://schema.org",
@@ -527,7 +526,7 @@ useEffect(() => {
       "datePublished": `${post.timestamp?.toDate()?.toDateString()}`,
     })}
   />
-</Head>
+  </Helmet>
       <div className="flex mt-40 w-screen px-30 sm:flex-col sm:px-5 ">
         <div
           className="  px-40 lg:px-20 sm:px-0  sm:mt-30 flex flex-col m-auto justify-center"
