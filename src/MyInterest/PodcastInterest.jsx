@@ -36,6 +36,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Spinner from "../components/Spinner.tsx";
 import { faSpotify, faYoutube } from "@fortawesome/free-brands-svg-icons";
+import { Helmet } from "react-helmet-async";
 
 
 const PodcastInterest = () => {
@@ -124,6 +125,65 @@ const PodcastInterest = () => {
     
   return (
     <div>
+      <Helmet>  
+        <title>Podcast Interest</title>
+        <meta
+          name="description"
+          property="og:description"
+          content={interestPosts.map(interest => interest.podcastName).join(", ")}
+        />
+<meta name="keywords" content={interestPosts.map(interest => interest.podcastName).join(", ")} />        <meta
+          name="url"
+          content="http://wholesome.crystaleey.com/myinterest/podcast"
+        />
+        <meta name="robots" content="index, follow" />
+        <meta property="og:type" content="article" />
+        <link
+          rel=" canonical"
+          href="http://wholesome.crystaleey.com/myinterest/podcast"
+        />
+        <meta property="og:title" content="Article Interest" />
+        <meta
+          property="og:url"
+          content="http://wholesome.crystaleey.com/myinterest/podcast"
+        />
+        <meta property="og:image" content='' />
+        <meta name="og:description" content={interestPosts.map(interest => interest.podcastName).join(", ")}/>
+        <meta name="og:site_name" content="Wholesome" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:url"
+          content="http://wholesome.crystaleey.com/myinterest/podcast"
+        />
+        <meta name="twitter:title" content="Article Interest" />
+        <meta name="twitter:description" content={interestPosts.map(interest => interest.podcastName).join(", ")} />
+        {/* <meta name="twitter:image" content="../../public/20231116_210104-removebg-preview.png" /> */}
+
+        <script
+          type="application/ld+jason"
+          {...JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "website",
+            headline: "Article Interest",
+            url: "http://wholesome.crystaleey.com/myinterest/podcast",
+
+            image: "",
+            author: {
+              "@type": "Person",
+              name: "Wholesome",
+            },
+            publisher: {
+              "@type": "Organization",
+              name: "Wholesome",
+              logo: {
+                "@type": "ImageObject",
+                url: "",
+              },
+            },
+            // datePublished: `${post.timestamp?.toDate()?.toDateString()}`,
+          })}
+        />
+      </Helmet>
      <div className="py-32  flex flex-wrap px-20 sm:w-full sm:px-5  gap-4  justify-center">
             {interestPosts?.map((item) => (
               <div
