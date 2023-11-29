@@ -186,10 +186,47 @@ const EventList = () => {
         <title>Events List</title>
         <meta
           name="description"
-          content="See upcoming Events Around You
-"
+          content="See upcoming Events Around You"     />
+        <link rel="canonical" href="http://wholesome.crystaleey.com/upcomingevents/" />
+        <meta
+          name="keywords"
+          content="`Wholesome, Crystalveey,
+         , Events,  Attend, Calender, Create Events, Host Events, Search Events, City , Location, Time, Venue, schedule, event listings , event calendar , upcoming events, activities, city events, Art, Travel and Adventure"
         />
-        <link rel=" canonical" href="/upcomingevents" />
+      <meta name="robots" content="index, follow" />
+        <meta property="og:title" content="Event List" />
+        <meta property="og:url" content="http://wholesome.crystaleey.com/upcomingevents/"/>
+        {/* <meta property="og:image" content={posts} /> */}
+        <meta name="og:description" content='See upcoming Events Around You' />
+        <meta name="og:site_name" content="Wholesome" />
+        <meta name="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content="http://wholesome.crystaleey.com/upcomingevents/" />
+        <meta name="twitter:title" content="Article List" />
+        <meta name="twitter:description" content='See upcoming Events Around You'/>
+        {/* <meta name="twitter:image" content="../../public/20231116_210104-removebg-preview.png" /> */}
+
+  <script
+  type="application/ld+jason"
+    {...JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "Events List",
+      url:"http://wholesome.crystaleey.com/upcomingevents",
+
+      // "image": {posts.imgUrl},
+     
+      "publisher": {
+        "@type": "Organization",
+        "name": "Wholesome",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "",
+        },
+      },
+      // "datePublished": `${posts.timestamp?.toDate()?.toDateString()}`,
+    })}
+  />
       </Helmet>
       <div className="py-20 w-screen  sm:pt-18">
         <div className="">

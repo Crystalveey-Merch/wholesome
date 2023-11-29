@@ -504,32 +504,30 @@ useEffect(() => {
         <meta name="description" property="og:description" content={post.postDescription} />
         <meta
           name="keywords"
-          content={`Wholesome, Crystalveey, ${post.postTitle},
-          ${post.category}, Chat with friends, Blog, Connect with friends, Share your travel experiences, Attends Events`}
+          content={post.tags.join(", ")}
         />
-         <meta name="url" content={`http://wholesome.crystaleey/readmore/${id}`} />
+         <meta name="url" content={`http://wholesome.crystaleey.com/readmore/${id}`} />
         <meta name="robots" content="index, follow" />
         <meta property="og:type" content="article" />
-        <link rel=" canonical" href="/readmore" />
+        <link rel=" canonical" href={`http://wholesome.crystaleey.com/readmore/${id}`} />
         <meta property="og:title" content={post.postTitle} />
-        <meta property="og:url" content={`http://wholesome.crystaleey/readmore/${id}`}/>
+        <meta property="og:url" content={`http://wholesome.crystaleey.com/readmore/${id}`}/>
         <meta property="og:image" content={post.imgUrl} />
         <meta name="og:description" content={post.postDescription} />
         <meta name="og:site_name" content="Wholesome" />
-        <meta name="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:url" content={`http://wholesome.crystaleey/readmore/${id}`} />
+        <meta name="twitter:url" content={`http://wholesome.crystaleey.com/readmore/${id}`} />
         <meta name="twitter:title" content={post.postTitle} />
         <meta name="twitter:description" content={post.postDescription}/>
         {/* <meta name="twitter:image" content="../../public/20231116_210104-removebg-preview.png" /> */}
 
   <script
   type="application/ld+jason"
-    {...jsonLdScriptProps<BlogPosting>({
+    {...JSON.stringify({
       "@context": "https://schema.org",
       "@type": "BlogPosting",
       "headline": `${post.postTitle}`,
-      url:`http://wholesome.crystaleey/readmore/${id}`,
+      url:`http://wholesome.crystaleey.com/readmore/${id}`,
 
       "image": `${post.imgUrl}`,
       "author": {

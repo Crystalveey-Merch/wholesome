@@ -120,9 +120,47 @@ const EventDes = () => {
     <title>{event.eventName}</title>
     <meta
       name="description"
-      content={event.eventName}
+      content={event.eventDescription}
     />
-    <link rel=" canonical" href="/upcomingevents" />
+    <link rel=" canonical" href={`http://wholesome.crystaleey.com/upcomingevents/${id}`} />
+    <meta
+          name="keywords"
+          content={event.tags.join(", ")}
+        />
+      <meta name="robots" content="index, follow" />
+        <meta property="og:title" content={event.eventName} />
+        <meta property="og:url" content={`http://wholesome.crystaleey.com/upcomingevents/${id}`}/>
+        {/* <meta property="og:image" content={posts} /> */}
+        <meta name="og:description" content={event.eventDescription} />
+        <meta name="og:site_name" content="Wholesome" />
+        <meta name="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content={`http://wholesome.crystaleey.com/upcomingevents/${id}`}/>
+        <meta name="twitter:title" content="Host an Event" />
+        <meta name="twitter:description" content={event.eventDescription}/>
+        <meta name="twitter:image" content={event.imgUrl} />
+
+  <script
+  type="application/ld+jason"
+    {...JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "Host an Event",
+      url:`http://wholesome.crystaleey.com/upcomingevents/${id}`,
+
+      "image": `${event.imgUrl}`,
+     
+      "publisher": {
+        "@type": "Organization",
+        "name": "Wholesome",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "",
+        },
+      },
+      // "datePublished": `${posts.timestamp?.toDate()?.toDateString()}`,
+    })}
+  />
   </Helmet>
     <div className="pt-40  sm:pt-10 sm:mt-18 flex sm:flex-col gap-10  m-auto justify-center bg-stone-100 w-screen">
       <div  className=" w-1/2 sm:w-full">

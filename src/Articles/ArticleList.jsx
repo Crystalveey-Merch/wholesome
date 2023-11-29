@@ -37,6 +37,9 @@ import {
 // import ReactPaginate from 'react-paginate';
 import Pagination from "../components/pagination.jsx";
 import { Helmet } from "react-helmet-async";
+import { jsonLdScriptProps } from "react-schemaorg";
+import { BlogPosting } from "schema-dts";
+
 
 const ArticleList = () => {
   const [authUser, setAuthUser] = useState(null);
@@ -245,8 +248,49 @@ const ArticleList = () => {
     <><Helmet>
       <title>Article List</title>
       <meta name='description' content='Search and Navigate through posts on Wholesome'/>
-      <link rel=" canonical" href='/articlelist' />
-    </Helmet><div className="  py-20 sm:px-2 px-8  w-screen  flex sm:flex-col  m-auto  justify-center bg-stone-200  relative">
+      <link rel=" canonical" href='http://wholesome.crystaleey.com/articlelist/' />
+      <meta
+          name="keywords"
+          content="`Wholesome, Crystalveey,
+         , Blog rticle, Blog, writing, Article, marketing, content creation, crystalveey, tell your story, Business, marketing, Technology, Fashion, Nutrition, Food, Art, Travel and Adventure, Game and sports, Book club, Environmental and Sustainability"
+        />
+      <meta name="robots" content="index, follow" />
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content="Article List" />
+        <meta property="og:url" content="http://wholesome.crystaleey.com/articlelist/"/>
+        {/* <meta property="og:image" content={posts} /> */}
+        <meta name="og:description" content='Search and Navigate through posts on Wholesome' />
+        <meta name="og:site_name" content="Wholesome" />
+        <meta name="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content="http://wholesome.crystaleey.com/articlelist/" />
+        <meta name="twitter:title" content="Article List" />
+        <meta name="twitter:description" content='Search and Navigate through posts on Wholesome'/>
+        {/* <meta name="twitter:image" content="../../public/20231116_210104-removebg-preview.png" /> */}
+
+  <script
+  type="application/ld+jason"
+    {...JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "Article List",
+      url:"http://wholesome.crystaleey.com/articlelist",
+
+      // "image": {posts.imgUrl},
+     
+      "publisher": {
+        "@type": "Organization",
+        "name": "Wholesome",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "",
+        },
+      },
+      // "datePublished": `${posts.timestamp?.toDate()?.toDateString()}`,
+    })}
+  />
+    </Helmet>
+    <div className="  py-20 sm:px-2 px-8  w-screen  flex sm:flex-col  m-auto  justify-center bg-stone-200  relative">
         <div className="w-full">
           <div className="flex m-auto my-10 justify-center ">
             {Array.isArray(randomPost) &&

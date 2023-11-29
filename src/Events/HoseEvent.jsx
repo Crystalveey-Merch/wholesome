@@ -177,10 +177,50 @@ const HostEvent = () => {
         <title>Host an Event</title>
         <meta
           name="description"
-          content="Empower Your Community: Create a Meetup Today
+          content="Empower Your Community: Create a Meetup/ Eevent Today
     "
         />
-        <link rel=" canonical" href="/hostevent" />
+
+        <link rel=" canonical" href="http://wholesome.crystaleey.com/hostevent/" />
+        <meta
+          name="keywords"
+          content="`Wholesome, Crystalveey,
+         , Events,  Attend, Calender, Create Events, Host Events, Search Events, City , Location, Time, Venue, schedule, event listings , event calendar , upcoming events, activities, city events, Art, Travel and Adventure"
+        />
+      <meta name="robots" content="index, follow" />
+        <meta property="og:title" content="Host Event Lst" />
+        <meta property="og:url" content="http://wholesome.crystaleey.com/hostevent/"/>
+        {/* <meta property="og:image" content={posts} /> */}
+        <meta name="og:description" content='Empower Your Community: Create a Meetup/ Eevent Today' />
+        <meta name="og:site_name" content="Wholesome" />
+        <meta name="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content="http://wholesome.crystaleey.com/hostevent/" />
+        <meta name="twitter:title" content="Host an Event" />
+        <meta name="twitter:description" content='Empower Your Community: Create a Meetup/ Eevent Today'/>
+        {/* <meta name="twitter:image" content="../../public/20231116_210104-removebg-preview.png" /> */}
+
+  <script
+  type="application/ld+jason"
+    {...JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "Host an Event",
+      url:"http://wholesome.crystaleey.com/hostevent",
+
+      // "image": {posts.imgUrl},
+     
+      "publisher": {
+        "@type": "Organization",
+        "name": "Wholesome",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "",
+        },
+      },
+      // "datePublished": `${posts.timestamp?.toDate()?.toDateString()}`,
+    })}
+  />
       </Helmet>
       <div className="w-screen">
         <div className=" ">
