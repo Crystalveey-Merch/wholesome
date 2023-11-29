@@ -501,17 +501,36 @@ useEffect(() => {
     <>
     <Helmet>
         <title>{post.postTitle}</title>
-        <meta name="description" property="og:description" content={excerpt(post.postDescription, 80)} />
+        <meta name="description" property="og:description" content={post.postDescription} />
+        <meta
+          name="keywords"
+          content={`Wholesome, Crystalveey, ${post.postTitle},
+          ${post.category}, Chat with friends, Blog, Connect with friends, Share your travel experiences, Attends Events`}
+        />
+         <meta name="url" content={`http://wholesome.crystaleey/readmore/${id}`} />
+        <meta name="robots" content="index, follow" />
         <meta property="og:type" content="article" />
         <link rel=" canonical" href="/readmore" />
         <meta property="og:title" content={post.postTitle} />
         <meta property="og:url" content={`http://wholesome.crystaleey/readmore/${id}`}/>
         <meta property="og:image" content={post.imgUrl} />
+        <meta name="og:description" content={post.postDescription} />
+        <meta name="og:site_name" content="Wholesome" />
+        <meta name="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content={`http://wholesome.crystaleey/readmore/${id}`} />
+        <meta name="twitter:title" content={post.postTitle} />
+        <meta name="twitter:description" content={post.postDescription}/>
+        {/* <meta name="twitter:image" content="../../public/20231116_210104-removebg-preview.png" /> */}
+
   <script
+  type="application/ld+jason"
     {...jsonLdScriptProps<BlogPosting>({
       "@context": "https://schema.org",
       "@type": "BlogPosting",
       "headline": `${post.postTitle}`,
+      url:`http://wholesome.crystaleey/readmore/${id}`,
+
       "image": `${post.imgUrl}`,
       "author": {
         "@type": "Person",
@@ -519,7 +538,7 @@ useEffect(() => {
       },
       "publisher": {
         "@type": "Organization",
-        "name": "",
+        "name": "Wholesome",
         "logo": {
           "@type": "ImageObject",
           "url": "",
@@ -528,6 +547,8 @@ useEffect(() => {
       "datePublished": `${post.timestamp?.toDate()?.toDateString()}`,
     })}
   />
+  
+     
   </Helmet>
       <div className="flex mt-40 w-screen px-30 sm:flex-col sm:px-5 ">
         <div
