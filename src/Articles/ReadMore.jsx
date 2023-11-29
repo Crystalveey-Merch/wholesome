@@ -499,16 +499,14 @@ useEffect(() => {
 
   return (
     <>
-      <Helmet>
+    <Helmet>
         <title>{post.postTitle}</title>
         <meta name="description" property="og:description" content={excerpt(post.postDescription, 80)} />
         <meta property="og:type" content="article" />
-        <link rel=" canonical" href="/readmore" /> og:url og:image 
+        <link rel=" canonical" href="/readmore" />
         <meta property="og:title" content={post.postTitle} />
         <meta property="og:url" content={`http://wholesome.crystaleey/readmore/${id}`}/>
         <meta property="og:image" content={post.imgUrl} />
-
-
   <script
     {...jsonLdScriptProps<BlogPosting>({
       "@context": "https://schema.org",

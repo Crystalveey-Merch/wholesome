@@ -12,7 +12,7 @@ const Homepage = () => {
     <><Helmet>
     <title>Wholesome</title>
     <meta name='description' content='Wholesome helps foster connections with like-minds that transcends borders and also share your experiences, knowledge and creativity'/>
-    <link rel=" canonical"  href='/'/>
+    <link rel=" canonical"  href='https://wholesome.crystalveey.com/'/>
     </Helmet>
     <div className='h-full  w-screen pt-20 sm:pt-14  bg-stone-100'>
         <Section1 />
