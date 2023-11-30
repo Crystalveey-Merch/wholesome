@@ -11,22 +11,35 @@ import {
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
 import { NavLink } from "react-router-dom";
-import { faBookmark, faComment, faEnvelope, faEye, faGlobe, faPlus, faThumbsUp, faUser } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBookmark,
+  faComment,
+  faEnvelope,
+  faEye,
+  faGlobe,
+  faPlus,
+  faThumbsUp,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
 import {
   updateDoc,
   setDoc,
   arrayUnion,
-  collection, query, where, getDocs,
+  collection,
+  query,
+  where,
+  getDocs,
   arrayRemove,
 } from "firebase/firestore";
 import { toast } from "react-toastify";
+import { Helmet } from "react-helmet-async";
+
 const Profilepage = () => {
   const { profileId } = useParams();
   const [isFollowing, setIsFollowing] = useState(false); // Track whether the current user is following the profile.
-  const [userPosts, setUserPosts] = useState([])
+  const [userPosts, setUserPosts] = useState([]);
   const [profileData, setProfileData] = useState(null);
   const [postId, setPostId] = useState([]);
-
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -67,8 +80,7 @@ const Profilepage = () => {
       getUserPosts();
     }
   }, [profileId]);
-    console.log(); // Update the variable name here
-
+  console.log(); // Update the variable name here
 
   const handleFollowToggle = async () => {
     if (auth.currentUser) {
@@ -83,7 +95,7 @@ const Profilepage = () => {
         await updateDoc(currentUserDocRef, {
           following: arrayRemove(profileId),
         });
-        toast.success('Account unfollowed');
+        toast.success("Account unfollowed");
       } else {
         // Follow the user.
         await updateDoc(userDocRef, {
@@ -92,8 +104,7 @@ const Profilepage = () => {
         await updateDoc(currentUserDocRef, {
           following: arrayUnion(profileId),
         });
-        toast.success('Account followed');
-
+        toast.success("Account followed");
       }
 
       // Update the follow state.
@@ -134,36 +145,121 @@ const Profilepage = () => {
 
   return (
     <div className="py-40 sm:py-10 h-full w-screen mx-auto flex flex-col  bg-gradient-to-r from-rose-100 to-teal-100">
-      <div className="flex">
+      <Helmet>
+        <title>{profileData?.displayName}</title>
+        <meta
+          name="description"
+          content={profileData?.shortBio}
+        />
+        <link
+          rel=" canonical"
+          href={`http://wholesome.crystaleey.com/articlelist/${profileId}`}
+        />
+        <meta
+          name="keywords"
+          content={`Wholesome, Crystalveey
+         , Profile, Blog, ${profileData?.displayName}, Article, marketing, content creation, crystalveey, tell your story, Business, marketing, Technology, Fashion, Nutrition, Food, Art, Travel and Adventure, Game and sports, Book club, Environmental and Sustainability`}
+        />
+        <meta name="robots" content="index, follow" />
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content="Article List" />
+        <meta
+          property="og:url"
+          content={`http://wholesome.crystaleey.com/articlelist/${profileId}`}
+        />
+        {/* <meta property="og:image" content={posts} /> */}
+        <meta
+          name="og:description"
+          content={profileData?.shortBio}
+        />
+        <meta name="og:site_name" content="Wholesome" />
 
+        <meta name="og:image" content={profileData?.photoURL}/>
+
+        <meta name="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:url"
+          content={`http://wholesome.crystaleey.com/articlelist/${profileId}`}
+        />
+        <meta name="twitter:title" content={profileData?.displayName} />
+        <meta
+          name="twitter:description"
+          content={profileData?.shortBio}
+        />
+        <meta name="twitter:image" content={profileData?.photoURL}/>
+
+        <script
+          type="application/ld+jason"
+          {...JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Person",
+            name: `${profileData?.displayName}`,
+            image: `${profileData?.photoURL}`,
+            // birthDate: "1980-01-01",
+            // nationality: "United States",
+            // occupation: "Software Engineer",
+            website: `http://wholesome.crystaleey.com/articlelist/${profileId}`,
+            email: `${profileData?.email}`,
+            followers: `${profileData?.followers}`,
+            // phone: "1-800-555-1212",
+            // address: {
+            //   "@type": "PostalAddress",
+            //   streetAddress: "123 Main Street",
+            //   city: "Anytown",
+            //   state: "CA",
+            //   postalCode: "91234",
+            // },
+
+            // "datePublished": `${posts.timestamp?.toDate()?.toDateString()}`,
+          })}
+        />
+      </Helmet>
+      <div className="flex">
         <div className="flex sm:flex-col m-auto gap-20 sm:gap-10">
-          <img src={profileData?.photoURL} className="w-96 h-96  my-auto  rounded-full"></img>
+          <img
+            src={profileData?.photoURL}
+            className="w-96 h-96  my-auto  rounded-full"
+          ></img>
           <div className="px-5 bg-gradient-to-r from-rose-700 to-pink-600 text-white  w-96 p-10 sm:w-full">
             <h1 className="sm:text-center">{profileData?.displayName}</h1>
             <h2 className="sm:text-center text-gray-200 text-xl">
               {profileData?.shortBio}
             </h2>
-            <button className="flex m-auto  my-5 text-gray-500" onClick={handleFollowToggle} >
-              <FontAwesomeIcon icon={faPlus} className="m-auto px-2  text-gray-500" /> {isFollowing ? "Unfollow" : "Follow"}
+            <button
+              className="flex m-auto  my-5 text-gray-500"
+              onClick={handleFollowToggle}
+            >
+              <FontAwesomeIcon
+                icon={faPlus}
+                className="m-auto px-2  text-gray-500"
+              />{" "}
+              {isFollowing ? "Unfollow" : "Follow"}
             </button>
 
             <p className="m-auto bg-green-600 text-gray-100 p-5 flex badge text-center">
-              {profileData?.followers ? `${profileData.followers.length} follower(s)` : 'No followers'}
+              {profileData?.followers
+                ? `${profileData.followers.length} follower(s)`
+                : "No followers"}
             </p>
             <br></br>
             <label className="text-xl Aceh my-2">
-              <FontAwesomeIcon icon={faEnvelope} className="mx-2" />Email</label>
+              <FontAwesomeIcon icon={faEnvelope} className="mx-2" />
+              Email
+            </label>
             <hr></hr>
 
             <h1 className=" text-gray-100 text-xl AcehLight my-5">
               {profileData?.email}
             </h1>
             <label className="text-xl Aceh">
-              <FontAwesomeIcon icon={faUser} className="mx-2" />Interests</label>
+              <FontAwesomeIcon icon={faUser} className="mx-2" />
+              Interests
+            </label>
             <hr></hr>
             <br></br>
             {profileData?.selectedOptions &&
-              Array.isArray(profileData.selectedOptions) ? (
+            Array.isArray(profileData.selectedOptions) ? (
               profileData.selectedOptions.map((option) => (
                 <span key={option.id} className=" flex w-fit  hvr-grow">
                   <p className="p-2 bg-red-500 my-2  Aceh text-center rounded-full text-sm text-white">
@@ -177,7 +273,9 @@ const Profilepage = () => {
             )}
             <br></br>
             <label className="text-xl   Aceh py-2">
-              <FontAwesomeIcon icon={faGlobe} className="mx-2" />Socials</label>
+              <FontAwesomeIcon icon={faGlobe} className="mx-2" />
+              Socials
+            </label>
             <hr></hr>
 
             <div className="flex gap-5  text-2xl py-5 text-gray-500">
@@ -203,16 +301,19 @@ const Profilepage = () => {
         <ul className="flex flex-wrap justify-center gap-5 sm:px-10 ">
           {userPosts.map((post) => (
             <li key={post.id} className="w-96 border bg-black/25 rounded-xl">
-            <NavLink
+              <NavLink
                 to={`/readmore/${post.id}`}
                 onClick={() => handleReadMoreClick(post)}
                 key={post.id}
                 className="flex flex-col gap-5 hover:bg-black/50 p-5 rounded-xl  transition duration-300   ease-in-out  "
               >
-              <div className="relative overflow-clip  h-40 sm:w-full" >
-                <img src={post.imgUrl}  height={200} className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out m-auto " />
-              
-              </div>
+                <div className="relative overflow-clip  h-40 sm:w-full">
+                  <img
+                    src={post.imgUrl}
+                    height={200}
+                    className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out m-auto "
+                  />
+                </div>
                 <div key={post.id}>
                   <p className="mt-1 text-sm leading-5 text-gray-200 border-b Aceh">
                     {post?.timestamp.toDate().toDateString()} at{" "}
