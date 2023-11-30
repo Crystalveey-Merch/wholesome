@@ -501,13 +501,13 @@ useEffect(() => {
     <>
     <Helmet>
         <title>{post.postTitle}</title>
-        <meta name="description" property="og:description" content={post.postDescription} />
+       <meta name="description" property="og:description" content={post.postDescription} />
         <meta
           name="keywords"
           content={post.tags.join(", ")}
         />
          <meta name="url" content={`http://wholesome.crystaleey.com/readmore/${id}`} />
-        <meta name="robots" content="index, follow" />
+         <meta name="robots" content="index, follow" />
         <meta property="og:type" content="article" />
         <link rel=" canonical" href={`http://wholesome.crystaleey.com/readmore/${id}`} />
         <meta property="og:title" content={post.postTitle} />

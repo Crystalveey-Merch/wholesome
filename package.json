@@ -36,6 +36,7 @@
     "lodash": "^4.17.21",
     "markdown-it": "^13.0.2",
     "markdown-it-emoji": "^2.0.2",
+    "moment": "^2.29.4",
     "multiselect-react-dropdown": "^2.0.25",
     "postcss-cli": "^10.1.0",
     "prop-type": "^0.0.1",

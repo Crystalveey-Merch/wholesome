@@ -1,4 +1,6 @@
 import React from 'react'
+import Moment from "moment";
+
 import { useState, useEffect } from "react";
 import {
   addDoc,
@@ -28,6 +30,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faBook,
   faCalendar,
+  faClock,
   faComment,
   faEye,
   faFeed,
@@ -157,10 +160,13 @@ const EventsInterest = () => {
                     <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 Aceh">
                       {event.eventName}
                     </h5>
-
-                    <p className="mb-1 font-normal text-md Aceh text-red-500 dark:text-red-500">
-                      {event.dateTime}
-                    </p>
+                    <p className="text-red-500 Aceh text-xl flex gap-4 m-2">
+              <FontAwesomeIcon icon={faCalendar} />
+           {Moment(event.StartDateTime).format("DD-MM-YYYY")} - {Moment(event.EndDateTime).format("DD-MM-YYYY")}
+        </p>
+        <p className="text-gray-800 text-xl flex gap-4 m-2">
+              <FontAwesomeIcon icon={faClock} />{Moment(event.StartDateTime).format("HH:MM a")}- {Moment(event.EndDateTime).format("HH:MM a")}
+        </p>
                     <p className="mb-3 font-normal text-md  text-gray-500 ">
                       {event.address}
                     </p>

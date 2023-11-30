@@ -31,13 +31,14 @@ import {
 import { auth, db } from "../firebase/auth.js";
 import "add-to-calendar-button";
 import { Helmet } from "react-helmet-async";
+import Moment from "moment";
+import { NavLink } from "react-router-dom";
 
 const EventDes = () => {
   const [event, setEvent] = useState(null);
   const [relatedEvents, setRelatedEvents] = useState([]);
 
   const { id } = useParams();
-  console.log(id);
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -46,9 +47,7 @@ const EventDes = () => {
 
         if (docSnapshot.exists()) {
           setEvent(docSnapshot.data());
-        } else {
-          console.error(`Post with id '${id}' not found.`);
-        }
+        } 
 
         // setLoading(false);
       } catch (error) {
@@ -64,6 +63,8 @@ const EventDes = () => {
     
           querySnapshot.forEach((doc) => {
             const eventData = doc.data();
+            eventData.id = doc.id;
+
             // Exclude the current event by checking its ID
             if (eventData.id !== id && eventData.category === event.category) {
               otherEvents.push(eventData);
@@ -78,13 +79,12 @@ const EventDes = () => {
     };
     fetchPosts();
     fetchOtherEventsInSameCategory();
-  }, [id, event]);
+  }, [id, event, relatedEvents]);
 
   if (!event) {
     return <div>Event not found.</div>;
   }
 
-  console.log(event);
 
   
 
@@ -133,6 +133,8 @@ const EventDes = () => {
         {/* <meta property="og:image" content={posts} /> */}
         <meta name="og:description" content={event.eventDescription} />
         <meta name="og:site_name" content="Wholesome" />
+        <meta name="og:image" content={event.imgUrl} />
+
         <meta name="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:url" content={`http://wholesome.crystaleey.com/upcomingevents/${id}`}/>
@@ -144,21 +146,26 @@ const EventDes = () => {
   type="application/ld+jason"
     {...JSON.stringify({
       "@context": "https://schema.org",
-      "@type": "BlogPosting",
+      "@type": "Event",
+      "name": `${event.eventName}`,
+      "description":` ${event.eventDescription}`,
+      "image": `${event.imgUrl}`,
+      "startDate":` ${startDateTime.date}`,
+      "endDate": `${endDateTime.time}`,
+
       "headline": "Host an Event",
       url:`http://wholesome.crystaleey.com/upcomingevents/${id}`,
-
-      "image": `${event.imgUrl}`,
+      "location": {
+    "@type": "Place",
+    "name": "Event Venue",
+    "address": `${event.address}`
+  },
+  "organizer": {
+    "@type": "Organization",
+    "name":`${event.organizerName}`,
+    "website": `${event.website}`
+  },
      
-      "publisher": {
-        "@type": "Organization",
-        "name": "Wholesome",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "",
-        },
-      },
-      // "datePublished": `${posts.timestamp?.toDate()?.toDateString()}`,
     })}
   />
   </Helmet>
@@ -193,11 +200,12 @@ const EventDes = () => {
         <p className="text-gray-600 py-5 text-xl">{event.eventDescription}</p>
 
         <h1 className="text-gray-800 text-2xl py-4">Date and Time</h1>
-        <p className="text-gray-500 text-xl">
-          <FontAwesomeIcon icon={faCalendar} />  {startDateTime.date}
+        <p className="text-gray-500 text-xl flex gap-4">
+        <FontAwesomeIcon icon={faCalendar} />
+        {Moment(event.StartDateTime).format("DD-MM-YYYY")} - {Moment(event.EndDateTime).format("DD-MM-YYYY")}
         </p>
-        <p className="text-gray-500 text-xl">
-          <FontAwesomeIcon icon={faClock} /> {startDateTime.time} - {endDateTime.time}
+        <p className="text-gray-500 text-xl flex gap-4">
+        <FontAwesomeIcon icon={faClock} />{Moment(event.StartDateTime).format("HH:MM a")}- {Moment(event.EndDateTime).format("HH:MM a")}
         </p>
 
         <h1 className="text-gray-800 text-2xl py-4">Location</h1>
@@ -217,21 +225,35 @@ const EventDes = () => {
             );
           })}
         </div>
+        <div className="rounded-xl border shadow bg-gray-200 p-5 my-5">
+        <h1 className="text-gray-800 text-2xl py-4">Organizer</h1>
+        <p className="text-xl">{event.organizerName}</p>
+       <a href={`${event.website}`}><p className="text-xl">{event.website}</p></a> 
+
+        </div>
       </div>
       </div>
-          <div  className="w-1/4 sm:w-full h-screen bg-sky-200">
+          <div  className="w-1/4 sm:w-full h-screen bg-sky-100">
       {relatedEvents.length > 0 && (
-        <div  >
+        <div className="" >
           <h3 className="text-red-500 text-2xl text-center p-10 Aceh">Related Events</h3>
-          <ul className="p-5">
+          <ul className="p-5 ">
             {relatedEvents.map((related) => (
-              <li key={related.id} className="border bg-sky-600 rounded-2xl w-72 m-auto  ">
+              <NavLink to={`/upcomingevents/${related.id}`} className="" key={related.id}>
+              <li key={related.id} className="border bg-sky-600 rounded-2xl w-72 m-auto shadow  cursor-pointer ">
               <img src={related.imgUrl} alt={related.eventName} className="" />
               <h3 className="text-xl text-white Aceh p-5">{related.eventName}</h3>
-              <p className="text-gray-100 text-xl">
-          <FontAwesomeIcon icon={faClock} /> {related.StartDateTime} - {related.EndDateTime}
+              <p className="text-gray-200 text-xl p-3">
+          <FontAwesomeIcon icon={faLocationPin} /> {event.address}
         </p>
-              </li>
+              <p className="text-gray-100 text-xl flex gap-4 m-2">
+              <FontAwesomeIcon icon={faCalendar} />
+           {Moment(related.StartDateTime).format("DD-MM-YYYY")} - {Moment(related.EndDateTime).format("DD-MM-YYYY")}
+        </p>
+        <p className="text-gray-100 text-xl flex gap-4 m-2">
+              <FontAwesomeIcon icon={faClock} />{Moment(related.StartDateTime).format("HH:MM a")}- {Moment(related.EndDateTime).format("HH:MM a")}
+        </p>
+              </li></NavLink>
             ))}
           </ul>
         </div>

@@ -15,6 +15,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBookmark,
+  faCalendar,
   faComment,
   faEye,
   faHands,
@@ -23,6 +24,8 @@ import {
   faThumbsUp,
 } from "@fortawesome/free-solid-svg-icons";
 import { Helmet } from "react-helmet-async";
+import Moment from "moment";
+
 
 const Interest = () => {
 
@@ -155,8 +158,50 @@ const Interest = () => {
   return (
     <><Helmet>
       <title>{interestName}</title>
-      <meta name='' content={interestName} />
-      <link rel=" canonical" href='/articlelist' />
+      <meta name="description" property="og:description" content={`View contents based on ${interestName}`} />
+        <meta
+          name="keywords"
+          content={`${interestName}, Acivities, Podcasts, Articles `}
+        />
+         <meta name="url" content={`http://wholesome.crystaleey.com/interest/${interestName}`} />
+         <meta name="robots" content="index, follow" />
+        <meta property="og:type" content="article" />
+        <link rel=" canonical" href={`http://wholesome.crystaleey.com/interest/${interestName}`} />
+        <meta property="og:title" content={interestName} />
+        <meta property="og:url" content={`http://wholesome.crystaleey.com/interest/${interestName}`}/>
+        {/* <meta property="og:image" content={post.imgUrl} /> */}
+        <meta name="og:description" content={`View contents based on ${interestName}`} />
+        <meta name="og:site_name" content="Wholesome" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content={`http://wholesome.crystaleey.com/interest/${interestName}`} />
+        <meta name="twitter:title" content={interestName} />
+        <meta name="twitter:description" content={`View contents based on ${interestName}`}/>
+        {/* <meta name="twitter:image" content="../../public/20231116_210104-removebg-preview.png" /> */}
+
+  <script
+  type="application/ld+jason"
+    {...JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": `${interestName}`,
+      url:`http://wholesome.crystaleey.com/interest/${interestName}`,
+
+      // "image": `${post.imgUrl}`,
+      "author": {
+        "@type": "Person",
+        "name": `Wholesome`,
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Wholesome",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "",
+        },
+      },
+      // "datePublished": `${post.timestamp?.toDate()?.toDateString()}`,
+    })}
+  />
     </Helmet>
     <div className="mt-20 w-screen  sm:mt-18 bg-gray-100 ">
         <div className='bg-gradient-to-r from-indigo-300 to-purple-400 w-screen'>
@@ -325,7 +370,7 @@ const Interest = () => {
                         <div className='p-5 bg-base-500'>
                           <p className="text-gray-100 flex  gap-4"><FontAwesomeIcon icon={faLocationPin} />{activity.location} </p>
                           <p className="text-gray-100 flex  gap-4  "><FontAwesomeIcon icon={faHands} className="p-2 rounded-full border" /> {activity.claps} Claps</p>
-                          <div className="badge text-gray-200 bg-gray-600 p-4 my-3 ">{activity.DateTime}</div>
+                          <div className="badge text-gray-200 bg-gray-600 p-4 my-3 flex gap-4 ">   <FontAwesomeIcon icon={faCalendar} />{" "}{Moment(activity.DateTime).format("DD-MM-YYYY")} - {Moment(activity.DateTime).format(" hh:mm a")}</div>
                           <h1 className="text-2xl py-2 text-gray-200"> {activity.activityName}</h1>
                         </div>
                       </div>
