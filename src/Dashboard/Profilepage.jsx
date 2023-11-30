@@ -161,7 +161,7 @@ const Profilepage = () => {
          , Profile, Blog, ${profileData?.displayName}, Article, marketing, content creation, crystalveey, tell your story, Business, marketing, Technology, Fashion, Nutrition, Food, Art, Travel and Adventure, Game and sports, Book club, Environmental and Sustainability`}
         />
         <meta name="robots" content="index, follow" />
-        <meta property="og:type" content="article" />
+        <meta property="og:type" content="website" />
         <meta property="og:title" content="Article List" />
         <meta
           property="og:url"
@@ -190,7 +190,7 @@ const Profilepage = () => {
         <meta name="twitter:image" content={profileData?.photoURL}/>
 
         <script
-          type="application/ld+jason"
+          type="application/ld+json"
           {...JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Person",

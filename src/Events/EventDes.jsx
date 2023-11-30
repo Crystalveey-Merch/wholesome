@@ -143,7 +143,7 @@ const EventDes = () => {
         <meta name="twitter:image" content={event.imgUrl} />
 
   <script
-  type="application/ld+jason"
+  type="application/ld+json"
     {...JSON.stringify({
       "@context": "https://schema.org",
       "@type": "Event",

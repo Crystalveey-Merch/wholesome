@@ -255,7 +255,7 @@ console.log(userInterests);
         {/* <meta name="twitter:image" content="../../public/20231116_210104-removebg-preview.png" /> */}
 
         <script
-          type="application/ld+jason"
+          type="application/ld+json"
           {...JSON.stringify({
             "@context": "https://schema.org",
             "@type": "website",
