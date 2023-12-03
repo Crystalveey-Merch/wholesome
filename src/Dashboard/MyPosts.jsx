@@ -197,7 +197,10 @@ const MyPosts = () => {
           </div>
         </div>
       ) : (
-        "You have not Made any Post"
+        <div>
+          <p className="text-black text-2xl text-center">No articles yet, click <NavLink to="/createpost" className="cursor-pointer  text-sky-500"> <span>here</span></NavLink> to create an article</p>
+
+        </div>
       )}
     </div>
   );

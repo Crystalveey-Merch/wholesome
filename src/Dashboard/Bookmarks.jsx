@@ -222,8 +222,10 @@ const Bookmarks = () => {
           </div>
         </div>
       ) : (
-        ""
-      )}
+        <div>
+          <p className="text-black text-2xl text-center">No Bookmarks yet, click <NavLink to="/articlelist" className="cursor-pointer  text-sky-500"> <span>here</span></NavLink> to read and bookmark your favourite articles</p>
+
+        </div>       )}
     </div>
   );
 };

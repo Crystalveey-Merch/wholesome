@@ -3,7 +3,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPeopleGroup, faHandHoldingHand, faSeedling, faPeoplePulling, faHandsHoldingChild , faQuestion, faUserGroup} from "@fortawesome/free-solid-svg-icons";
 import { Helmet } from "react-helmet-async";
 
+
+
+
 const Aboutus = () => {
+
+ document.addEventListener("DOMContentLoaded", function() {
+  var element = document.getElementById("whatwedo");
+  if (element) {
+    console.log(element.offsetTop);
+  }
+});
   return (
     <>
      <Helmet>
@@ -97,9 +107,9 @@ const Aboutus = () => {
           <div className="mt-20 mb-10" id="whatwedo">
             <h2 className="text-red-500 text-xl Aceh text-center  ">WHAT WE DO</h2>
             <hr></hr>
-          </div>
+          
 
-          <div className="flex  sm:block px-40 mb-20 sm:px-5">
+          <div className="flex  sm:block px-40 mb-20 sm:px-5 py-14">
             
             <div className="flex sm:flex-col gap-6  sm:w-full">
               <div className="flex gap-4 text-xl">
@@ -124,7 +134,7 @@ const Aboutus = () => {
                 </span>
               </div>
             </div>
-          </div>
+          </div></div>
         </div>
       </div>
     </>

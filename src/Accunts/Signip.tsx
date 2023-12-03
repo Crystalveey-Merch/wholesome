@@ -4,6 +4,7 @@ import PasswordStrengthBar from "react-password-strength-bar";
 import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
+  sendEmailVerification,
   signInWithPopup,
 } from "firebase/auth";
 import { auth, db } from "../firebase/auth";
@@ -77,14 +78,17 @@ const Signip = () => {
 
     const user = userCredential.user;
 
-    // Update the user's profile with additional information
-
     const userData = {
       email,
       password,
       name,
       selectedOptions,
+      photoURL: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=1380&t=st=1701420226~exp=1701420826~hmac=2284e7a4b1f4cc634d76e02dc665ad6f93fc816574f3a3a605581318745e20a0"
     };
+
+    sendEmailVerification(user);
+
+    toast.success("Verification Link has been sent to your email Address");
 
     // Use setDoc to add the user data to the "users" collection with the user's UID as the document ID
     await setDoc(doc(db, "users", user.uid), userData);
@@ -93,7 +97,7 @@ const Signip = () => {
     toast.success(<div className="text-black text-sm">Sign-up Successful</div>);
 
     // Redirect to the login page
-    navigate("/login");
+    navigate("/dashboard/profile");
 
     console.log(userCredential);
   };

@@ -204,8 +204,10 @@ const MyEvents = () => {
           </div>
         </div>
       ) : (
-        "You have not Made any Post"
-      )}
+        <div>
+          <p className="text-black text-2xl text-center">No Drafts yet, click <NavLink to="/articlelist" className="cursor-pointer  text-sky-500"> <span>here</span></NavLink> to read and bookmark your favourite articles</p>
+
+        </div>       )}
     </div>
     </div>
   )

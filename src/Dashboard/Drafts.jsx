@@ -181,8 +181,10 @@ const Drafts = () => {
               
             </ul>
             ) : (
-          <p className="text-center  text-2xl h-96">No drafts available.</p>
-        )}
+              <div>
+          <p className="text-black text-2xl text-center">No Drafts yet, click <NavLink to="/createpost" className="cursor-pointer  text-sky-500"> <span>here</span></NavLink> to create or draft your Article</p>
+
+        </div>        )}
           </div>
         </div>
       ) : (

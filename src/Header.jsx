@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { Fragment, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from './firebase/auth.js';
@@ -364,29 +364,14 @@ const Header = () => {
         <div className=" w-full flex justify-center m-auto text-2xl sm:hidden ">
           <ul className="menu menu-horizontal text-2xl px-1 m-auto text-black">
             <div className="dropdown dropdown-bottom ">
-              <label
+            <NavLink to="/aboutus">  <label
                 tabIndex={0}
                 className=" bg-white text-black border-none capitalize btn m-1 hover:bg-gray-100"
               >
                 About us
-              </label>
+              </label></NavLink>
 
-              <ul
-                tabIndex={0}
-                className="dropdown-content  bg-black/75  Aceh z-[1] menu p-2 shadow bg-white w-52"
-              >
-                <ul className="p-2">
-                  <li>
-                    <NavLink to="/aboutus">Our mission & values</NavLink>
-                  </li>
-                  <li>
-                    <NavLink to="/aboutus/#whatwedo">What we do</NavLink>
-                  </li>
-                  <li>
-                    <a>Who we are</a>
-                  </li>
-                </ul>
-              </ul>
+            
             </div>
             <div className="dropdown dropdown-bottom text-xl">
               <label

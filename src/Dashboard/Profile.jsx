@@ -249,11 +249,13 @@ const Profile = () => {
                                                     Email:
                                                 </div>
                                                 <input
-                                                    type="text"
+                                                    type="email"
+                                                    id="email"
                                                     disabled
                                                     className="p-2 border rounded-full o  text-slate-600 enabled:hover:border-gray-400 "
                                                     placeholder={authUser.email} />
                                             </label>
+
                                             <label className="flex flex-col gap-4 justify-center">
                                                 <div className="my-auto text-black Aceh">Interests:</div>
 

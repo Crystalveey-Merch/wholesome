@@ -51,22 +51,13 @@ import MyEvents from "./Dashboard/MyEvents";
 // import "@fortawesome/fontawesome-free"
 
 function App() {
-  useEffect(() => {
     // Scroll to the section based on the hash in the URL
-    const hash = window.location.hash;
-    if (hash) {
-      const element = document.querySelector(hash);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
-      }
-    }
-  }, []);
+    
   return (
     <div className="">
       <Header />
       <Routes>
         <Route path="/aboutus" element={<Aboutus />} />
-        <Route path="/aboutus/#whatwedo" element={<Aboutus />} />
 
         <Route path="/whatwedo" element={<Whatwedo />} />
 

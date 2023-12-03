@@ -8,7 +8,7 @@ import {
 } from "firebase/firestore";
 import { deleteUser as deleteAuthUser } from "firebase/auth";
 import "flowbite";
-
+import { getAuth } from "firebase/auth";
 import { auth, db } from "../firebase/auth.js";
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -20,11 +20,17 @@ import {
 import { toast } from "react-toastify";
 import Pagination from "../components/pagination.jsx";
 
+
 const Users = () => {
+  // eslint-disable-next-line no-undef
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [postPerPage] = useState(10);
+  // eslint-disable-next-line no-undef
+  const [auth, setAuth] = useState(getAuth());
+
+  // ...
 
   useEffect(() => {
     // setLoading(true);
@@ -65,11 +71,12 @@ const Users = () => {
     ) {
       try {
         // Delete the document from Firestore
-        await deleteAuthUser(auth, user.id);
+        await auth.deleteUser(user.id);
+
         await deleteDoc(doc(db, "users", user.id));
         toast.success("User deleted successfully");
         // Update the state after successful deletion
-        const updatedUsers = users.filter((user) => user.user.id !== user.id);
+        const updatedUsers = users.filter((user) => user.id !== user.id);
         setUsers(updatedUsers);
 
         toast.success("User deleted successfully");
