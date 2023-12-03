@@ -466,10 +466,6 @@ const ReadMore = () => {
   };
 
   const handleClaps2 = async (commentId) => {
-<<<<<<< HEAD
-=======
-    console.log(commentId);
->>>>>>> a02c90ebbf9959ce75ca19099bb957d045faf708
     if (userId) {
       try {
         const postRef = doc(db, "posts", id);
@@ -523,10 +519,7 @@ const ReadMore = () => {
         />
         <meta name="robots" content="index, follow" />
         <meta property="og:type" content="article" />
-<<<<<<< HEAD
         <link rel="canonical" href={`http://wholesome.crystaleey.com/readmore/${id}`} />
-=======
->>>>>>> a02c90ebbf9959ce75ca19099bb957d045faf708
         <meta property="og:title" content={post.postTitle} />
         <meta
           property="og:url"

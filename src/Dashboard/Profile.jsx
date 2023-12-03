@@ -1,6 +1,6 @@
 import { auth, db, storage } from "../firebase/auth.js";
 import { useEffect, useState } from "react";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged,sendEmailVerification} from "firebase/auth";
 import { useNavigate } from "react-router";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import Multiselect from "multiselect-react-dropdown";
@@ -28,6 +28,7 @@ const Profile = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
 
   const handleSelect = (selectedOption) => {
     setSelectedOptions(selectedOption);
@@ -41,7 +42,15 @@ const Profile = () => {
     setSelectedOptions(updatedOptions);
   };
   const navigate = useNavigate();
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setIsEmailVerified(user.emailVerified);
+      }
+    });
 
+    return () => unsubscribe();
+  }, []);
   useEffect(() => {
     const listen = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -168,6 +177,23 @@ const Profile = () => {
       // Display an error message to the user
     }
   };
+  const handleSendVerificationLink = () => {
+    const user = auth.currentUser;
+
+    if (user) {
+      sendEmailVerification(user)
+        .then(() => {
+            toast.success("Verification email sent");
+
+          console.log("Verification email sent");
+        })
+        .catch((error) => {
+            toast.error("Verification not sent");
+
+          console.error("Error sending verification email:", error);
+        });
+    }
+  };
 
   return (
     <>
@@ -263,6 +289,16 @@ const Profile = () => {
                           className="p-2 border rounded-full o  text-slate-600 enabled:hover:border-gray-400 "
                           placeholder={authUser.email}
                         />
+                        {isEmailVerified ? (
+                          <span className="text-green-500">
+                            Email is verified
+                          </span>
+                        ) : (
+                          <span className="text-red-500 flex gap-4">
+                          <p>  Email is not verified  </p>   <div className=" cursor-pointer underline text-sky-500" onClick={handleSendVerificationLink}>Send Verification Link</div>
+
+                          </span>
+                        )}
                       </label>
 
                       <label className="flex flex-col gap-4 justify-center">
