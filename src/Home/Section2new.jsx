@@ -1,24 +1,11 @@
 import { useEffect, useState } from "react";
 import {
-  addDoc,
   collection,
-  DocumentSnapshot,
-  endAt,
-  endBefore,
   getDocs,
-  setDoc,
   doc,
   getDoc,
   updateDoc,
-  limit,
-  limitToLast,
-  orderBy,
-  query,
-  startAfter,
-  deleteField,
-  where,
-  increment,
-} from "firebase/firestore";
+} from "../firebase/auth.js";
 import { auth, db } from "../firebase/auth.js";
 // import { useParams } from 'react-router';
 import { NavLink } from "react-router-dom";
@@ -63,9 +50,8 @@ const Section2new = () => {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      // setLoading(true);
-
       try {
+        setLoading(true);
         const querySnapshot = await getDocs(collection(db, "posts"));
         const postData = [];
         querySnapshot.forEach((doc) => {
@@ -84,15 +70,17 @@ const Section2new = () => {
         if (postData[randomIndex]) {
           setRandomPost([postData[randomIndex]]);
         }
-        // setLoading(false);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching posts:", error);
-        setPosts([]);
+        setLoading(false);
+        // setPosts([]);
       }
     };
 
     fetchPosts();
   }, []);
+
 
   if (loading) {
     return <Spinner />;

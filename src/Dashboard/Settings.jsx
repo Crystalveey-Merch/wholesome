@@ -30,7 +30,6 @@ const Settings = () => {
 
   console.log(authUser);
 
-
   const changePassword = async () => {
     try {
       const user = auth.currentUser;
@@ -40,7 +39,6 @@ const Settings = () => {
       toast.success("Password changed successfully");
       await signOut(auth);
       toast.info("You have been logged out.");
-
     } catch (error) {
       toast.error("Error changing password: " + error.message);
     }
@@ -60,54 +58,55 @@ const Settings = () => {
 
   return (
     <div>
-    <Helmet>
-            <title>Account Settings</title>
-            <meta
-                name="description"
-                content="Account settings" />
-            <link rel=" canonical" href="/dashboard/settings" />
-        </Helmet>
+      <Helmet>
+        <title>Account Settings</title>
+        <meta name="description" content="Account settings" />
+        <link rel="canonical" href="/dashboard/settings" />
+      </Helmet>
       <p className="text-center text-xl Aceh">Account Settings</p>
 
       <div className="my-20 flex flex-col gap-5">
         <p className="text-center text-xl">Change Password</p>
         <form>
           <div className="flex flex-col gap-5">
-          <div className="flex">
-            <input
-              type={showPassword ? "text" : "password"}
-              value={oldPassword}
-              name="password"
-
-              onChange={handleOldPasswordChange}
-              placeholder="Enter old password"
-              className="rounded-full p-4 w-96 text-black  text-xl"
-            />
-            <div
-              onClick={handleTogglePassword}
-              className="bg-transparent centre m-auto p-2 border-none"
-            >
-              {showPassword ? (
-                <FontAwesomeIcon
-                  icon={faEye}
-                  className="text-gray-500 text-sm"
-                />
-              ) : (
-                <FontAwesomeIcon
-                  icon={faEyeSlash}
-                  className="text-gray-500 text-sm"
-                />
-              )}
-            </div></div>
+            <div className="flex">
+              <input
+                type={showPassword ? "text" : "password"}
+                value={oldPassword}
+                name="password"
+                onChange={handleOldPasswordChange}
+                placeholder="Enter old password"
+                className="rounded-full p-4 w-96 text-black  text-xl"
+              />
+              <div
+                onClick={handleTogglePassword}
+                className="bg-transparent centre m-auto p-2 border-none"
+              >
+                {showPassword ? (
+                  <FontAwesomeIcon
+                    icon={faEye}
+                    className="text-gray-500 text-sm"
+                  />
+                ) : (
+                  <FontAwesomeIcon
+                    icon={faEyeSlash}
+                    className="text-gray-500 text-sm"
+                  />
+                )}
+              </div>
+            </div>
             <input
               type={showPassword ? "text" : "password"}
               onChange={handleNewPasswordChange}
               placeholder="Enter new password"
               className="rounded-full p-4 w-96 text-black text-xl"
             />
-
-          </div></form>
-        <button onClick={changePassword} className="w-96 rounded-full bg-blue-500 text-white  p-4">
+          </div>
+        </form>
+        <button
+          onClick={changePassword}
+          className="w-96 rounded-full bg-blue-500 text-white  p-4"
+        >
           Change Password
         </button>
       </div>

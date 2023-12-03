@@ -1,4 +1,3 @@
-
 /* eslint-disable no-unused-vars */
 import React from "react";
 import { useParams } from "react-router";
@@ -105,7 +104,9 @@ const ReadMore = () => {
         if (postSnapshot.exists()) {
           const postData = postSnapshot.data();
           const comments = postData.comments ? postData.comments : [];
-          const clapsArray = comments.map((comment) => (comment.claps ? comment.claps : []));
+          const clapsArray = comments.map((comment) =>
+            comment.claps ? comment.claps : []
+          );
           setClaps(clapsArray);
         } else {
           console.error(`Post with id '${id}' not found.`);
@@ -116,7 +117,7 @@ const ReadMore = () => {
         // Handle the error, e.g., display an error message to the user.
       }
     };
-  
+
     fetchClaps();
   }, [id]);
 
@@ -156,10 +157,10 @@ const ReadMore = () => {
       fetchUserData();
     }
   }, [userId, userData]);
-console.log(claps)
-// console.log(likes)
+  // console.log(claps);
+  // console.log(likes)
 
-useEffect(() => {
+  useEffect(() => {
     const fetchSelectedPost = async () => {
       try {
         const docRef = doc(db, "posts", id); // Replace "posts" with your collection name
@@ -167,7 +168,9 @@ useEffect(() => {
         if (docSnapshot.exists()) {
           const postData = docSnapshot.data();
           const comments = postData.comments ? postData.comments : [];
-          const claps = comments.map(comment => comment.claps ? comment.claps : []);
+          const claps = comments.map((comment) =>
+            comment.claps ? comment.claps : []
+          );
           setComments(comments);
           setLikes(postData.likes ? postData.likes : []);
           setPost(postData);
@@ -441,7 +444,7 @@ useEffect(() => {
       const postDocRef = doc(db, "posts", id);
       const postDoc = await getDoc(postDocRef);
       if (postDoc.exists()) {
-        setClaps(claps + 1)
+        setClaps(claps + 1);
 
         const comments = postDoc.data().comments;
         const updatedComments = comments.map((comment) => {
@@ -450,7 +453,6 @@ useEffect(() => {
               ...comment,
               claps: comment.claps + 1,
             };
-
           }
           return comment;
         });
@@ -464,6 +466,10 @@ useEffect(() => {
   };
 
   const handleClaps2 = async (commentId) => {
+<<<<<<< HEAD
+=======
+    console.log(commentId);
+>>>>>>> a02c90ebbf9959ce75ca19099bb957d045faf708
     if (userId) {
       try {
         const postRef = doc(db, "posts", id);
@@ -471,9 +477,13 @@ useEffect(() => {
         if (postDoc.exists()) {
           const postData = postDoc.data();
           const comments = postData.comments ? [...postData.comments] : [];
-          const commentIndex = comments.findIndex(comment => comment.commentId === commentId);
+          const commentIndex = comments.findIndex(
+            (comment) => comment.commentId === commentId
+          );
           if (commentIndex !== -1) {
-            const updatedClaps = comments[commentIndex].claps ? [...comments[commentIndex].claps] : [];
+            const updatedClaps = comments[commentIndex].claps
+              ? [...comments[commentIndex].claps]
+              : [];
             const userIndex = updatedClaps.indexOf(userId);
             if (userIndex === -1) {
               // User has not clapped, add their ID to claps
@@ -499,55 +509,116 @@ useEffect(() => {
 
   return (
     <>
-    <Helmet>
+      <Helmet>
         <title>{post.postTitle}</title>
-       <meta name="description" property="og:description" content={post.postDescription} />
         <meta
-          name="keywords"
-          content={post.tags.join(", ")}
+          name="description"
+          property="og:description"
+          content={post.postDescription}
         />
-         <meta name="url" content={`http://wholesome.crystaleey.com/readmore/${id}`} />
-         <meta name="robots" content="index, follow" />
+        <meta name="keywords" content={post.tags.join(", ")} />
+        <meta
+          name="url"
+          content={`https://wholesome.crystaleey.com/readmore/${id}`}
+        />
+        <meta name="robots" content="index, follow" />
         <meta property="og:type" content="article" />
+<<<<<<< HEAD
         <link rel="canonical" href={`http://wholesome.crystaleey.com/readmore/${id}`} />
+=======
+>>>>>>> a02c90ebbf9959ce75ca19099bb957d045faf708
         <meta property="og:title" content={post.postTitle} />
-        <meta property="og:url" content={`http://wholesome.crystaleey.com/readmore/${id}`}/>
+        <meta
+          property="og:url"
+          content={`https://wholesome.crystaleey.com/readmore/${id}`}
+        />
         <meta property="og:image" content={post.imgUrl} />
         <meta name="og:description" content={post.postDescription} />
         <meta name="og:site_name" content="Wholesome" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:url" content={`http://wholesome.crystaleey.com/readmore/${id}`} />
+        <meta
+          name="twitter:url"
+          content={`https://wholesome.crystaleey.com/readmore/${id}`}
+        />
         <meta name="twitter:title" content={post.postTitle} />
-        <meta name="twitter:description" content={post.postDescription}/>
-        {/* <meta name="twitter:image" content="../../public/20231116_210104-removebg-preview.png" /> */}
+        <meta name="twitter:description" content={post.postDescription} />
+        <meta name="twitter:image"  content={post.imgUrl} />
+        <meta name="twitter:creator" content={profileData?.displayName} />
+        <meta name="twitter:site" content="@wholesome" />
+        <meta name="twitter:image:alt" content={post.postTitle} />
+        <meta
+          property="article:published_time"
+          content={post.timestamp?.toDate()?.toDateString()}
+        />
+        <meta
+          property="article:modified_time"
+          content={post.timestamp?.toDate()?.toDateString()}
+        />
+        <meta property="article:section" content={post.category} />
+        <meta property="article:tag" content={post.tags.join(", ")} />
+        <meta property="og:locale" content="en_US" />
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content={post.postTitle} />
+        <meta property="og:description" content={post.postDescription} />
+        <meta
+          property="og:url"
+          content={`https://wholesome.crystaleey.com/readmore/${id}`}
+        />
+        <link
+          rel="canonical"
+          href={`https://wholesome.crystaleey.com/readmore/${id}`}
+        />
+      <script type="application/ld+json">
+          {`
+          {
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            "headline": "${post.postTitle}",
+            "image": "${post.imgUrl}",
+            "genre": "${post.category}",
+            "author": {
+              "@type": "Person",
+              "name": "${profileData?.displayName}"
+              "url": "https://wholesome.crystaleey.com/profile/${profileId}"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "Wholesome",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://wholesome.crystaleey.com/wholesome-logo.png"
+              }
+            },
+            "datePublished": "${post.timestamp?.toDate()?.toDateString()}",
+            "dateModified": "${post.timestamp?.toDate()?.toDateString()}",
+            "description": "${post.postDescription}",
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": "https://wholesome.crystaleey.com/readmore/${id}"
+            }
+          }
+          `}
+          {/*  "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            headline: `${post.postTitle}`,
+            url: `https://wholesome.crystaleey.com/readmore/${id}`,
 
-  <script
-  type="application/ld+json"
-    {...JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "BlogPosting",
-      "headline": `${post.postTitle}`,
-      url:`http://wholesome.crystaleey.com/readmore/${id}`,
-
-      "image": `${post.imgUrl}`,
-      "author": {
-        "@type": "Person",
-        "name": `${profileData?.displayName}`,
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "Wholesome",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "",
-        },
-      },
-      "datePublished": `${post.timestamp?.toDate()?.toDateString()}`,
-    })}
-  />
-  
-     
-  </Helmet>
+            image: `${post.imgUrl}`,
+            author: {
+              "@type": "Person",
+              name: `${profileData?.displayName}`,
+            },
+            publisher: {
+              "@type": "Organization",
+              name: "Wholesome",
+              logo: {
+                "@type": "ImageObject",
+                url: "",
+              },
+            },
+            datePublished: `${post.timestamp?.toDate()?.toDateString()}`, */}
+        </script>
+      </Helmet>
       <div className="flex mt-40 w-screen px-30 sm:flex-col sm:px-5 ">
         <div
           className="  px-40 lg:px-20 sm:px-0  sm:mt-30 flex flex-col m-auto justify-center"
@@ -690,11 +761,10 @@ useEffect(() => {
                       commentLikes="any"
                     />
                   ) : (
-                    <div > 
+                    <div>
                       {comments?.map((comment) => (
                         <div key={comment.commentId}>
                           <UserComment
-
                             {...comment}
                             isAuthUserComment={isAuthUserComment(
                               comment,
@@ -727,7 +797,7 @@ useEffect(() => {
         </div>
 
         <div className=" bg-gradient-to-l from-orange-400 to-rose-400  ">
-          <p className="text-white text-2xl text-red-500 sm:my-2 my-5 text-center Aceh text-md">
+          <p className="text-white text-2xl sm:my-2 my-5 text-center Aceh text-md">
             Related Publications
           </p>
           <div className="flex  flex-wrap px-5 sm:p-5 my-20 sm:my-5 m-auto justify-center gap-5 sm:gap-2">

@@ -104,16 +104,16 @@ const Signip = () => {
 
   return (
     <div>
-       <Helmet>
-      <title>Signup to Wholesome</title>
-      <meta name='description' content='Signup on Wholesome' />
-      <link rel=" canonical" href='/signup' />
-    </Helmet>
+      <Helmet>
+        <title>Signup to Wholesome</title>
+        <meta name='description' content='Signup on Wholesome' />
+        <link rel="canonical" href='/signup' />
+      </Helmet>
       <div className="  py-20 bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 text-black w-screen h-screen ">
         <div className="text-center text-2xl">
           <div className="  m-auto   ">
             <div className=" h-full w-full flex rounded rounded-lg    ">
-             
+
               <div className="w-2/5 m-auto  sm:w-full sm:h-full ">
                 <div className="bg-grey-500  flex flex-col text-xl">
                   <div className="container max-w-xl mx-auto flex-1 flex flex-col items-center justify-center px-2">
@@ -121,7 +121,7 @@ const Signip = () => {
                       <h1 className="mb-8 text-xl text-center text-red-500">
                         Sign up
                       </h1>
-                
+
 
                       <form onSubmit={signup} className="form-control">
                         <input
@@ -148,9 +148,9 @@ const Signip = () => {
                         <Multiselect
                           placeholder="Select your Interest"
                           displayValue="key"
-                          onKeyPressFn={function noRefCheck() {}}
+                          onKeyPressFn={function noRefCheck() { }}
                           onRemove={handleRemove}
-                          onSearch={function noRefCheck() {}}
+                          onSearch={function noRefCheck() { }}
                           onSelect={handleSelect}
                           className="mb-2 bg-gray-100/50"
                           options={[
@@ -185,7 +185,7 @@ const Signip = () => {
 
                           showCheckbox
                         />
-                       
+
 
 
 
@@ -244,7 +244,7 @@ const Signip = () => {
                         <div className="form-control">
                           <label className="label cursor-pointer">
                             <span className="label-text text-gray-100  ">
-                            <p className="text-xl" >Remember me</p>
+                              <p className="text-xl" >Remember me</p>
                             </span>
                             <input type="checkbox" className="checkbox" />
                           </label>

@@ -147,13 +147,10 @@ const Profilepage = () => {
     <div className="py-40 sm:py-10 h-full w-screen mx-auto flex flex-col  bg-gradient-to-r from-rose-100 to-teal-100">
       <Helmet>
         <title>{profileData?.displayName}</title>
-        <meta
-          name="description"
-          content={profileData?.shortBio}
-        />
+        <meta name="description" content={profileData?.shortBio} />
         <link
-          rel=" canonical"
-          href={`http://wholesome.crystaleey.com/articlelist/${profileId}`}
+          rel="canonical"
+          href={`https://wholesome.crystaleey.com/articlelist/${profileId}`}
         />
         <meta
           name="keywords"
@@ -165,29 +162,23 @@ const Profilepage = () => {
         <meta property="og:title" content="Article List" />
         <meta
           property="og:url"
-          content={`http://wholesome.crystaleey.com/articlelist/${profileId}`}
+          content={`https://wholesome.crystaleey.com/articlelist/${profileId}`}
         />
         {/* <meta property="og:image" content={posts} /> */}
-        <meta
-          name="og:description"
-          content={profileData?.shortBio}
-        />
+        <meta name="og:description" content={profileData?.shortBio} />
         <meta name="og:site_name" content="Wholesome" />
 
-        <meta name="og:image" content={profileData?.photoURL}/>
+        <meta name="og:image" content={profileData?.photoURL} />
 
         <meta name="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           name="twitter:url"
-          content={`http://wholesome.crystaleey.com/articlelist/${profileId}`}
+          content={`https://wholesome.crystaleey.com/articlelist/${profileId}`}
         />
         <meta name="twitter:title" content={profileData?.displayName} />
-        <meta
-          name="twitter:description"
-          content={profileData?.shortBio}
-        />
-        <meta name="twitter:image" content={profileData?.photoURL}/>
+        <meta name="twitter:description" content={profileData?.shortBio} />
+        <meta name="twitter:image" content={profileData?.photoURL} />
 
         <script
           type="application/ld+json"
@@ -199,7 +190,7 @@ const Profilepage = () => {
             // birthDate: "1980-01-01",
             // nationality: "United States",
             // occupation: "Software Engineer",
-            website: `http://wholesome.crystaleey.com/articlelist/${profileId}`,
+            website: `https://wholesome.crystaleey.com/articlelist/${profileId}`,
             email: `${profileData?.email}`,
             followers: `${profileData?.followers}`,
             // phone: "1-800-555-1212",
