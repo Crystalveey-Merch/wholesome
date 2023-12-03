@@ -80,7 +80,6 @@ const EventList = () => {
       } catch (error) {
         setLoading(false);
         console.error("Error fetching posts:", error);
-       
 
         setEvents([]);
       }
@@ -110,7 +109,6 @@ const EventList = () => {
     });
     setFilteredEvents(filtered);
   };
-
 
   const filterBusinessHandler = () => {
     // Filter products with a data collection called "Tech"
@@ -184,49 +182,59 @@ const EventList = () => {
     <>
       <Helmet>
         <title>Events List</title>
-        <meta
-          name="description"
-          content="See upcoming Events Around You"     />
-        <link rel="canonical" href="http://wholesome.crystaleey.com/upcomingevents/" />
+        <meta name="description" content="See upcoming Events Around You" />
+        <link
+          rel="canonical"
+          href="https://wholesome.crystaleey.com/upcomingevents/"
+        />
         <meta
           name="keywords"
           content="`Wholesome, Crystalveey,
          , Events,  Attend, Calender, Create Events, Host Events, Search Events, City , Location, Time, Venue, schedule, event listings , event calendar , upcoming events, activities, city events, Art, Travel and Adventure"
         />
-      <meta name="robots" content="index, follow" />
+        <meta name="robots" content="index, follow" />
         <meta property="og:title" content="Event List" />
-        <meta property="og:url" content="http://wholesome.crystaleey.com/upcomingevents/"/>
+        <meta
+          property="og:url"
+          content="https://wholesome.crystaleey.com/upcomingevents/"
+        />
         {/* <meta property="og:image" content={posts} /> */}
-        <meta name="og:description" content='See upcoming Events Around You' />
+        <meta name="og:description" content="See upcoming Events Around You" />
         <meta name="og:site_name" content="Wholesome" />
         <meta name="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:url" content="http://wholesome.crystaleey.com/upcomingevents/" />
+        <meta
+          name="twitter:url"
+          content="https://wholesome.crystaleey.com/upcomingevents/"
+        />
         <meta name="twitter:title" content="Article List" />
-        <meta name="twitter:description" content='See upcoming Events Around You'/>
+        <meta
+          name="twitter:description"
+          content="See upcoming Events Around You"
+        />
         {/* <meta name="twitter:image" content="../../public/20231116_210104-removebg-preview.png" /> */}
 
-  <script
-  type="application/ld+json"
-    {...JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "BlogPosting",
-      "headline": "Events List",
-      url:"http://wholesome.crystaleey.com/upcomingevents",
+        <script
+          type="application/ld+json"
+          {...JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            headline: "Events List",
+            url: "https://wholesome.crystaleey.com/upcomingevents",
 
-      // "image": {posts.imgUrl},
-     
-      "publisher": {
-        "@type": "Organization",
-        "name": "Wholesome",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "",
-        },
-      },
-      // "datePublished": `${posts.timestamp?.toDate()?.toDateString()}`,
-    })}
-  />
+            // "image": {posts.imgUrl},
+
+            publisher: {
+              "@type": "Organization",
+              name: "Wholesome",
+              logo: {
+                "@type": "ImageObject",
+                url: "",
+              },
+            },
+            // "datePublished": `${posts.timestamp?.toDate()?.toDateString()}`,
+          })}
+        />
       </Helmet>
       <div className="py-20 w-screen  sm:pt-18">
         <div className="">
@@ -300,7 +308,6 @@ const EventList = () => {
             <FontAwesomeIcon
               icon={faPalette}
               onClick={filterArthandler}
-
               className="border rounded-full p-4 cursor-pointer m-auto flex   shadow  text-purple-700	"
             />
             <p className="text-sm text-center text-gray-400 ">Art</p>

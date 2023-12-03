@@ -84,7 +84,9 @@ const AllActivity = () => {
       return activity.filter(
         (activity) =>
           (activity.activityName &&
-            activity.activityName.toLowerCase().includes(search.toLowerCase())) ||
+            activity.activityName
+              .toLowerCase()
+              .includes(search.toLowerCase())) ||
           (activity.location &&
             activity.location.toLowerCase().includes(search.toLowerCase()))
       );
@@ -112,7 +114,7 @@ const AllActivity = () => {
               <svg
                 className="w-4 h-4 text-gray-500 dark:text-gray-400"
                 aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
+                xmlns="https://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 20 20"
               >
@@ -193,11 +195,11 @@ const AllActivity = () => {
           </table>
 
           <Pagination
-          postPerPage={postPerPage}
-          totalPosts={activity.length}
-          paginate={paginate}
-          currentPage={currentPage}
-        />
+            postPerPage={postPerPage}
+            totalPosts={activity.length}
+            paginate={paginate}
+            currentPage={currentPage}
+          />
         </div>
       </div>
     </div>

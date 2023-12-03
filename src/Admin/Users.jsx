@@ -20,7 +20,6 @@ import {
 import { toast } from "react-toastify";
 import Pagination from "../components/pagination.jsx";
 
-
 const Users = () => {
   // eslint-disable-next-line no-undef
   const [users, setUsers] = useState([]);
@@ -87,15 +86,16 @@ const Users = () => {
     }
   };
 
-
   const handleSearch = () => {
     if (search.trim() === "") {
       return users; // Return all users when search input is empty
     } else {
       return users.filter(
         (user) =>
-          user.name && user.name.toLowerCase().includes(search.toLowerCase()) ||
-          user.email && user.email.toLowerCase().includes(search.toLowerCase())
+          (user.name &&
+            user.name.toLowerCase().includes(search.toLowerCase())) ||
+          (user.email &&
+            user.email.toLowerCase().includes(search.toLowerCase()))
       );
     }
   };
@@ -119,7 +119,7 @@ const Users = () => {
             <svg
               className="w-4 h-4 text-gray-500 dark:text-gray-400"
               aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
+              xmlns="https://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 20 20"
             >

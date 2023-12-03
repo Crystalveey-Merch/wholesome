@@ -4,7 +4,7 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { Link, NavLink } from "react-router-dom";
 import { Fragment, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth, db } from './firebase/auth.js';
+import { auth, db } from "./firebase/auth.js";
 import { signOut } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { useNavigate } from "react-router";
@@ -20,15 +20,12 @@ import { useParams } from "react-router";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 
-
-
 const Header = () => {
   const { interestName } = useParams();
 
   const [authUser, setAuthUser] = useState(null);
   const [profileData, setProfileData] = useState(null);
   const navigate = useNavigate();
-
 
   useEffect(() => {
     const listen = onAuthStateChanged(auth, (user) => {
@@ -106,7 +103,7 @@ const Header = () => {
                 className="btn btn-square btn-ghost"
               >
                 <svg
-                  xmlns="http://www.w3.org/2000/svg"
+                  xmlns="https://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
                   className="inline-block w-6 h-6 stroke-current"
@@ -187,7 +184,9 @@ const Header = () => {
                         </NavLink>
                       )}
                     </Menu.Item>
-                  ) : (<div></div>)}
+                  ) : (
+                    <div></div>
+                  )}
                   <Menu.Item>
                     {({ active }) => (
                       <NavLink
@@ -273,7 +272,7 @@ const Header = () => {
                         className={`${active && "bg-blue-500"}`}
                         to="/interest/Environmental and Sustainability"
                       >
-                       Environmental & Sustainability
+                        Environmental & Sustainability
                       </NavLink>
                     )}
                   </Menu.Item>
@@ -284,7 +283,7 @@ const Header = () => {
                         className={`${active && "bg-blue-500"}`}
                         to="/interest/Book club"
                       >
-                       Book club
+                        Book club
                       </NavLink>
                     )}
                   </Menu.Item>
@@ -330,7 +329,6 @@ const Header = () => {
                 >
                   <span className=" whitespace-nowrap">Podcast</span>
                 </NavLink>
-
               </li>
               <li>
                 <NavLink
@@ -340,7 +338,6 @@ const Header = () => {
                 >
                   <span className=" whitespace-nowrap">Create Post</span>
                 </NavLink>
-
               </li>
               <li>
                 <NavLink
@@ -350,7 +347,6 @@ const Header = () => {
                 >
                   <span className=" whitespace-nowrap">Article List</span>
                 </NavLink>
-
               </li>
             </ul>
           </div>
@@ -364,14 +360,15 @@ const Header = () => {
         <div className=" w-full flex justify-center m-auto text-2xl sm:hidden ">
           <ul className="menu menu-horizontal text-2xl px-1 m-auto text-black">
             <div className="dropdown dropdown-bottom ">
-            <NavLink to="/aboutus">  <label
-                tabIndex={0}
-                className=" bg-white text-black border-none capitalize btn m-1 hover:bg-gray-100"
-              >
-                About us
-              </label></NavLink>
-
-            
+              <NavLink to="/aboutus">
+                {" "}
+                <label
+                  tabIndex={0}
+                  className=" bg-white text-black border-none capitalize btn m-1 hover:bg-gray-100"
+                >
+                  About us
+                </label>
+              </NavLink>
             </div>
             <div className="dropdown dropdown-bottom text-xl">
               <label
@@ -388,21 +385,25 @@ const Header = () => {
                 <ul className="p-2 text-md">
                   {authUser ? (
                     <li>
-                      <NavLink
-                        to="/myinterest/articles"
-                      >
-                        My Interest
-                      </NavLink>
+                      <NavLink to="/myinterest/articles">My Interest</NavLink>
                     </li>
-                  ) : ("")}
+                  ) : (
+                    ""
+                  )}
                   <li>
-                    <NavLink to={`/interest/Health and Wellness`}>Health & Wellness</NavLink>
+                    <NavLink to={`/interest/Health and Wellness`}>
+                      Health & Wellness
+                    </NavLink>
                   </li>
                   <li>
-                    <NavLink to={`/interest/Business and Finance`}>Business and Finance</NavLink>
+                    <NavLink to={`/interest/Business and Finance`}>
+                      Business and Finance
+                    </NavLink>
                   </li>
                   <li>
-                    <NavLink to={`/interest/Travel and Adventure`}>Travel & Adventure</NavLink>
+                    <NavLink to={`/interest/Travel and Adventure`}>
+                      Travel & Adventure
+                    </NavLink>
                   </li>
                   <li>
                     <NavLink to={`/interest/Lifestyle and Fashion`}>
@@ -417,23 +418,21 @@ const Header = () => {
                   </li>
                   <li>
                     <NavLink to={`/interest/Games and Sports`}>
-                    Games & Sports
+                      Games & Sports
                     </NavLink>
                   </li>
                   <li>
                     <NavLink to={`/interest/Art and crafts`}>
-                    Art & crafts
+                      Art & crafts
                     </NavLink>
                   </li>
                   <li>
                     <NavLink to={`/interest/Environmental and Sustainability`}>
-                    Environmental & Sustainability
+                      Environmental & Sustainability
                     </NavLink>
                   </li>
                   <li>
-                    <NavLink to={`/interest/Book club`}>
-                    Book club
-                    </NavLink>
+                    <NavLink to={`/interest/Book club`}>Book club</NavLink>
                   </li>
                 </ul>
               </ul>
@@ -466,14 +465,16 @@ const Header = () => {
                 className=" text-black bg-white border-none capitalize btn m-1 hover:bg-gray-100"
               >
                 Podcast
-              </label></NavLink>
+              </label>
+            </NavLink>
             <NavLink to="/createpost">
               <label
                 tabIndex={0}
                 className=" text-black bg-white border-none capitalize btn m-1 hover:bg-gray-100"
               >
                 Create Post
-              </label></NavLink>
+              </label>
+            </NavLink>
 
             <NavLink to="/articlelist">
               <label
@@ -481,14 +482,14 @@ const Header = () => {
                 className=" text-black bg-white border-none capitalize btn m-1 hover:bg-gray-100"
               >
                 Article List
-              </label></NavLink>
+              </label>
+            </NavLink>
           </ul>
         </div>
         <div className="justify-end flex gap-10">
           <FontAwesomeIcon icon={faMagnifyingGlass} />
           {authUser ? (
             <div className="flex">
-
               {profileData ? (
                 <div className="dropdown dropdown-end ">
                   <label tabIndex={0} className="btn-primary   flex-row ">
@@ -522,7 +523,10 @@ const Header = () => {
                     <li>
                       <a>Settings</a>
                     </li>
-                    <div onClick={userSignout} className="cursor-pointer bg-red-500 p-2 rounded-xl">
+                    <div
+                      onClick={userSignout}
+                      className="cursor-pointer bg-red-500 p-2 rounded-xl"
+                    >
                       <a className="text-white ">Logout</a>
                     </div>
                   </ul>
@@ -535,7 +539,8 @@ const Header = () => {
             <NavLink to="/account">
               {" "}
               <FontAwesomeIcon icon={faUser} />{" "}
-            </NavLink>)}
+            </NavLink>
+          )}
         </div>
       </div>
     </div>

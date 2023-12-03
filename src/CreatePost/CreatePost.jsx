@@ -239,8 +239,6 @@ const CreatePost = () => {
             });
             toast.success("Post updated successfully");
             navigate("/articlelist");
-
-      
           } catch (err) {
             console.log(err);
             toast.error("Click on Publish Draft Instead");
@@ -302,24 +300,25 @@ const CreatePost = () => {
           }
         }
       }
-    }else{
-      try{
-        toast.info("Opps!! Ensure you have some contents in Title, category, tags, Post Description and content");
-
-      }catch (err) {
+    } else {
+      try {
+        toast.info(
+          "Opps!! Ensure you have some contents in Title, category, tags, Post Description and content"
+        );
+      } catch (err) {
         console.log(err);
-
+      }
     }
-  }};
+  };
 
   return (
-    <><Helmet>
-      <title>Create a Post</title>
-      <meta
-        name="description"
-        content='Create Post on Wholesome' />
-      <link rel=" canonical" href="/createpost" />
-    </Helmet><div className="pt-24  flex m-auto  justify-center w-screen ">
+    <>
+      <Helmet>
+        <title>Create a Post</title>
+        <meta name="description" content="Create Post on Wholesome" />
+        <link rel="canonical" href="/createpost" />
+      </Helmet>
+      <div className="pt-24  flex m-auto  justify-center w-screen ">
         <div
           style={{}}
           className="bg-white mx-40 sm:mx-0 px-40 sm:px-5 dark:text-white  w-full  "
@@ -351,7 +350,8 @@ const CreatePost = () => {
                 name="postTitle"
                 onChange={handleChange}
                 type="text"
-                className="input input-bordered w-full  bg-transparent text-gray-800 mt-3 text-xl font-bold" />
+                className="input input-bordered w-full  bg-transparent text-gray-800 mt-3 text-xl font-bold"
+              />
               <label className="text-gray-600 mt-5 text-md Aceh">
                 Description
               </label>
@@ -364,35 +364,42 @@ const CreatePost = () => {
                 className="input input-bordered w-full   bg-transparent text-gray-800  text-xl"
               ></input>
               <label className=" flex text-gray-600 mt-5 text-md Aceh">
-                Tags 
-                 <span className="text-sky-500">(Seperate tags with spacebar or comma "," )</span>
+                Tags
+                <span className="text-sky-500">
+                  (Seperate tags with spacebar or comma "," )
+                </span>
               </label>
               <TagsInput
                 value={tags}
                 name="Tags"
                 onChange={handleTags}
-                separators={[' ', ',']}
+                separators={[" ", ","]}
                 required
                 editable
                 placeHolder="Enter Post Tags"
-                classNames="text-black  w-full text-xl rti--container " />{" "}
+                classNames="text-black  w-full text-xl rti--container "
+              />{" "}
               <div className=" border-1 rounded-1 cursor-text">
                 <div className="tags flex m-2 border-1"></div>
               </div>
-              <label className="text-gray-600 mt-5 text-md Aceh">Add Image</label>
+              <label className="text-gray-600 mt-5 text-md Aceh">
+                Add Image
+              </label>
               <input
                 type="file"
                 id="myFile"
                 onChange={handleImageChange}
                 accept="image/*, video/*"
                 name="filename"
-                className="file-input file-input-bordered w-full bg-white text-gray-500" />
+                className="file-input file-input-bordered w-full bg-white text-gray-500"
+              />
               <div className="card p-4 m-auto">
                 {previewUrl && (
                   <img
                     className="w-full h-30"
                     src={previewUrl}
-                    alt="File Preview" />
+                    alt="File Preview"
+                  />
                 )}
               </div>
               <label className="text-gray-600 mt-5 text-md Aceh">
@@ -420,10 +427,12 @@ const CreatePost = () => {
                     value={content}
                     renderHTML={(text) => mdParser.render(text)}
                     onChange={handleEditorChange}
-                    preview="edit" />
+                    preview="edit"
+                  />
                   <MDEditor.Markdown
                     source={content}
-                    style={{ whiteSpace: "pre-wrap" }} />
+                    style={{ whiteSpace: "pre-wrap" }}
+                  />
                 </div>
               </div>
               <div className="m-auto py-5">
@@ -447,7 +456,7 @@ const CreatePost = () => {
 
                 {id ? (
                   <button
-                    onClick={handlepublishDraft}      
+                    onClick={handlepublishDraft}
                     className="btn mr-10"
                     disabled={progress < 100}
                   >
@@ -460,7 +469,8 @@ const CreatePost = () => {
             </form>
           </div>
         </div>
-      </div></>
+      </div>
+    </>
   );
 };
 

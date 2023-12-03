@@ -58,37 +58,33 @@ const Bookmarks = () => {
     const getBookmarks = async () => {
       setLoading(true);
       try {
-    
-          const bookmarkDocRef = doc(db, "bookmarks", user);
-          const bookmarkDocSnapshot = await getDoc(bookmarkDocRef);
-          const bookmarksData = bookmarkDocSnapshot.data();
-          if (bookmarksData) {
-            const bookmarkList = Object.keys(bookmarksData).map((bookmarkId) => {
-                setPostId(bookmarkId)
+        const bookmarkDocRef = doc(db, "bookmarks", user);
+        const bookmarkDocSnapshot = await getDoc(bookmarkDocRef);
+        const bookmarksData = bookmarkDocSnapshot.data();
+        if (bookmarksData) {
+          const bookmarkList = Object.keys(bookmarksData).map((bookmarkId) => {
+            setPostId(bookmarkId);
 
-              return {
-                id: bookmarkId,
-                ...bookmarksData[bookmarkId]
-              };
+            return {
+              id: bookmarkId,
+              ...bookmarksData[bookmarkId],
+            };
+          });
+          setBookmarks(bookmarkList);
+        } else {
+          setBookmarks([]);
+        }
 
-            });
-            setBookmarks(bookmarkList);
-          } else {
-            setBookmarks([]);
-          }
-        
-          setLoading(false)
-        }
-       
-        catch (error) {
-          console.error("Error fetching bookmarks: ", error);
-        }
-        
-        // setLoading(false);
-      };
-      if (user) {
-        getBookmarks();
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching bookmarks: ", error);
       }
+
+      // setLoading(false);
+    };
+    if (user) {
+      getBookmarks();
+    }
   }, [user]);
   console.log(bookmarks.id);
   console.log(postId);
@@ -114,17 +110,16 @@ const Bookmarks = () => {
     }
   };
   const handleDelete = async () => {
-    
-      try {
-        // setLoading(true);
-        await deleteDoc(doc(db, "bookmarks", postId));
-        toast.success("Post deleted successfully");
-        // setLoading(false);
-      } catch (err) {
-        console.log(err);
-      }
+    try {
+      // setLoading(true);
+      await deleteDoc(doc(db, "bookmarks", postId));
+      toast.success("Post deleted successfully");
+      // setLoading(false);
+    } catch (err) {
+      console.log(err);
     }
- 
+  };
+
   const formatTime = (date) => {
     return date.toLocaleTimeString("en-US", {
       hour: "numeric",
@@ -135,13 +130,11 @@ const Bookmarks = () => {
 
   return (
     <div className=" w-full  ">
-     <Helmet>
-            <title>My Bookmarks</title>
-            <meta
-                name="description"
-                content="Your Bookmarks " />
-            <link rel=" canonical" href="/dashboard/settings" />
-        </Helmet>
+      <Helmet>
+        <title>My Bookmarks</title>
+        <meta name="description" content="Your Bookmarks " />
+        <link rel="canonical" href="/dashboard/settings" />
+      </Helmet>
       {authUser ? (
         <div>
           <div
@@ -191,31 +184,28 @@ const Bookmarks = () => {
                               {item.views.length}
                             </span>
                           </div>
-                         
                         </div>
                       </div>
                     </div>
                   </NavLink>
                   <div className="card-actions py-5 relative">
-                            {authUser && authUser.uid === user && (
-                              <>
-                                <span
-                                  style={{}}
-                                  className="  gap-5 flex absolute z-10  rounded-full "
-                                >
-                                  <span
-                                    onClick={() => handleDelete()}
-                                    className="  cursor-pointer text-red-500"
-                                  >
-                                    <p>Remove</p>
-                                  </span>
-                                  <span className="">
-                                   
-                                  </span>
-                                </span>
-                              </>
-                            )}
-                          </div>
+                    {authUser && authUser.uid === user && (
+                      <>
+                        <span
+                          style={{}}
+                          className="  gap-5 flex absolute z-10  rounded-full "
+                        >
+                          <span
+                            onClick={() => handleDelete()}
+                            className="  cursor-pointer text-red-500"
+                          >
+                            <p>Remove</p>
+                          </span>
+                          <span className=""></span>
+                        </span>
+                      </>
+                    )}
+                  </div>
                 </li>
               ))}
             </ul>
@@ -223,9 +213,16 @@ const Bookmarks = () => {
         </div>
       ) : (
         <div>
-          <p className="text-black text-2xl text-center">No Bookmarks yet, click <NavLink to="/articlelist" className="cursor-pointer  text-sky-500"> <span>here</span></NavLink> to read and bookmark your favourite articles</p>
-
-        </div>       )}
+          <p className="text-black text-2xl text-center">
+            No Bookmarks yet, click{" "}
+            <NavLink to="/articlelist" className="cursor-pointer  text-sky-500">
+              {" "}
+              <span>here</span>
+            </NavLink>{" "}
+            to read and bookmark your favourite articles
+          </p>
+        </div>
+      )}
     </div>
   );
 };

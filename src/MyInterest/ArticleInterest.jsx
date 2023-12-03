@@ -217,50 +217,59 @@ const ArticleInterest = () => {
       }
     }
   };
-console.log(userInterests);
+  console.log(userInterests);
   return (
     <div>
-      <Helmet>  
+      <Helmet>
         <title>Article Interest</title>
         <meta
           name="description"
           property="og:description"
           content="List of Articles based on your Interest"
         />
-<meta name="keywords" content={userInterests.map(interest => interest.key).join(", ")} />        <meta
+        <meta
+          name="keywords"
+          content={userInterests.map((interest) => interest.key).join(", ")}
+        />{" "}
+        <meta
           name="url"
-          content="http://wholesome.crystaleey.com/myinterest/articles"
+          content="https://wholesome.crystaleey.com/myinterest/articles"
         />
         <meta name="robots" content="index, follow" />
         <meta property="og:type" content="article" />
         <link
-          rel=" canonical"
-          href="http://wholesome.crystaleey.com/myinterest/articles"
+          rel="canonical"
+          href="https://wholesome.crystaleey.com/myinterest/articles"
         />
         <meta property="og:title" content="Article Interest" />
         <meta
           property="og:url"
-          content="http://wholesome.crystaleey.com/myinterest/articles"
+          content="https://wholesome.crystaleey.com/myinterest/articles"
         />
-        <meta property="og:image" content='' />
-        <meta name="og:description" content="List of Articles based on your Interest" />
+        <meta property="og:image" content="" />
+        <meta
+          name="og:description"
+          content="List of Articles based on your Interest"
+        />
         <meta name="og:site_name" content="Wholesome" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           name="twitter:url"
-          content="http://wholesome.crystaleey.com/myinterest/articles"
+          content="https://wholesome.crystaleey.com/myinterest/articles"
         />
         <meta name="twitter:title" content="Article Interest" />
-        <meta name="twitter:description" content="List of Articles based on your Interest" />
+        <meta
+          name="twitter:description"
+          content="List of Articles based on your Interest"
+        />
         {/* <meta name="twitter:image" content="../../public/20231116_210104-removebg-preview.png" /> */}
-
         <script
           type="application/ld+json"
           {...JSON.stringify({
             "@context": "https://schema.org",
             "@type": "website",
             headline: "Article Interest",
-            url: "http://wholesome.crystaleey.com/myinterest/articles",
+            url: "https://wholesome.crystaleey.com/myinterest/articles",
 
             image: "",
             author: {

@@ -68,11 +68,16 @@ const Podcast = () => {
     return <Spinner />;
   }
   return (
-    <><Helmet>
-      <title>Wholesome Podcast</title>
-      <meta name='description' content='Wholesome is creating a digital nation where Africans and the diaspora can build abundant lives. On the Wholesome Podcast, we continue the African tradition of oral storytelling to preserve our history, knowledge, and achievements. ' />
-      <link rel=" canonical" href='/podcast' />
-    </Helmet><div className="mt-20 sm:mt-18 w-screen">
+    <>
+      <Helmet>
+        <title>Wholesome Podcast</title>
+        <meta
+          name="description"
+          content="Wholesome is creating a digital nation where Africans and the diaspora can build abundant lives. On the Wholesome Podcast, we continue the African tradition of oral storytelling to preserve our history, knowledge, and achievements. "
+        />
+        <link rel="canonical" href="/podcast" />
+      </Helmet>
+      <div className="mt-20 sm:mt-18 w-screen">
         <div className="relative">
           <img src="/Images/modern-microphone.jpeg" className="sm:w-full"></img>
           <div className=" absolute sm:relative sm:top-0 sm:px-5 top-40 px-20 flex flex-col gap-5 sm:gap-2">
@@ -108,18 +113,18 @@ const Podcast = () => {
             <p className="px-60 sm:px-5 py-10 text-xl text-center text-gray-200">
               Wholesome is creating a digital nation where Africans and the
               diaspora can build abundant lives. On the Wholesome Podcast, we
-              continue the African tradition of oral storytelling to preserve our
-              history, knowledge, and achievements. We extract blueprints of
+              continue the African tradition of oral storytelling to preserve
+              our history, knowledge, and achievements. We extract blueprints of
               fearlessness and innovation from Wholesome citizens building the
-              future of a bold and progressive nation. Through in-depth interviews
-              with Wholesome citizens, we delve into their stories, their
-              struggles, and their triumphs. We explore the challenges they have
-              faced and the solutions they have found to overcome them. Our goal
-              is to inspire and empower Afropolitans to reclaim their abundance
-              and build the future they want to see. Join us as we challenge the
-              status quo, question the norm, and create a new narrative for the
-              Wholesome. Listen to the Wholesome Podcast and be a part of building
-              the future of a bold and progressive nation.
+              future of a bold and progressive nation. Through in-depth
+              interviews with Wholesome citizens, we delve into their stories,
+              their struggles, and their triumphs. We explore the challenges
+              they have faced and the solutions they have found to overcome
+              them. Our goal is to inspire and empower Afropolitans to reclaim
+              their abundance and build the future they want to see. Join us as
+              we challenge the status quo, question the norm, and create a new
+              narrative for the Wholesome. Listen to the Wholesome Podcast and
+              be a part of building the future of a bold and progressive nation.
             </p>
           </div>
           <div className="bg-gray-100">
@@ -153,12 +158,15 @@ const Podcast = () => {
                         <a href={item.spotify}>
                           <FontAwesomeIcon
                             icon={faSpotify}
-                            className=" text-2xl text-gray-500 hover:text-gray-200 cursor-pointer hover:scale-125 transition duration-300 ease-in-out" />
+                            className=" text-2xl text-gray-500 hover:text-gray-200 cursor-pointer hover:scale-125 transition duration-300 ease-in-out"
+                          />
                         </a>
                         <a href={item.youtube}>
                           <FontAwesomeIcon
                             icon={faYoutube}
-                            className="text-2xl text-gray-500 hover:text-gray-200 cursor-pointer hover:scale-125 transition duration-300 ease-in-out" /> </a>
+                            className="text-2xl text-gray-500 hover:text-gray-200 cursor-pointer hover:scale-125 transition duration-300 ease-in-out"
+                          />{" "}
+                        </a>
                       </div>
                     </div>
                   </div>
@@ -166,14 +174,16 @@ const Podcast = () => {
                     <audio
                       className="w-full h-10 "
                       src={item.audioUrl}
-                      controls />
+                      controls
+                    />
                   </div>
                 </div>
               ))}
             </div>
           </div>
         </div>
-      </div></>
+      </div>
+    </>
   );
 };
 

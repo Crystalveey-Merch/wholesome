@@ -65,7 +65,7 @@ const Section1 = () => {
         modules={[Autoplay, Navigation]}
         breakpoints={breakpoints}
         loop={true}
-        Navigation
+        navigation={true}
         effect="fade"
         // direction={"vertical"}
         pagination={{

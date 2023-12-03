@@ -44,19 +44,17 @@ const Login = () => {
         navigate("/dashboard/profile");
       })
       .catch((err) => {
-        toast.error(
-            err.message
-          );
+        toast.error(err.message);
         setError(err.message);
       });
   };
   return (
     <div>
-    <Helmet>
-      <title>Login to Wholesome</title>
-      <meta name='description' content='Login to Wholesome' />
-      <link rel=" canonical" href='/login' />
-    </Helmet>
+      <Helmet>
+        <title>Login to Wholesome</title>
+        <meta name="description" content="Login to Wholesome" />
+        <link rel="canonical" href="/login" />
+      </Helmet>
       <div className="  pt-40 bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 text-black w-screen h-screen ">
         <div className="text-center text-2xl">
           <div className="pt-34  m-auto   ">
