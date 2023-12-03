@@ -464,7 +464,6 @@ useEffect(() => {
   };
 
   const handleClaps2 = async (commentId) => {
-    console.log(commentId)
     if (userId) {
       try {
         const postRef = doc(db, "posts", id);
@@ -490,6 +489,7 @@ useEffect(() => {
             setClaps(updatedClaps);
             toast.success("Clap updated");
           }
+
         }
       } catch (error) {
         console.error("Error updating Claps:", error);
@@ -509,7 +509,7 @@ useEffect(() => {
          <meta name="url" content={`http://wholesome.crystaleey.com/readmore/${id}`} />
          <meta name="robots" content="index, follow" />
         <meta property="og:type" content="article" />
-        <link rel=" canonical" href={`http://wholesome.crystaleey.com/readmore/${id}`} />
+        <link rel="canonical" href={`http://wholesome.crystaleey.com/readmore/${id}`} />
         <meta property="og:title" content={post.postTitle} />
         <meta property="og:url" content={`http://wholesome.crystaleey.com/readmore/${id}`}/>
         <meta property="og:image" content={post.imgUrl} />
