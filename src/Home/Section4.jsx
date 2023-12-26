@@ -9,6 +9,13 @@ import { NavLink } from "react-router-dom";
 import { collection, getDocs, limit, query } from "firebase/firestore";
 import { auth, db } from "../firebase/auth.js";
 import Spinner from "../components/Spinner.tsx";
+import Moment from "moment";
+import {
+  faCalendar,
+  faClock,
+  faLocationPin,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Section4 = () => {
   const { eventName } = useParams();
@@ -51,6 +58,28 @@ const Section4 = () => {
   if (!event) {
     return <div>Event not found.</div>;
   }
+  const startDateTimeString = event.StartDateTime;
+  const endDateTimeString = event.EndDateTime;
+
+  const separateDateTime = (dateTimeString) => {
+    const dateTime = new Date(dateTimeString);
+
+    // Extract the date components
+    const year = dateTime.getFullYear(); // Extract the year
+    const month = (dateTime.getMonth() + 1).toString().padStart(2, "0"); // Extract the month (add 1 because months are zero-based)
+    const day = dateTime.getDate().toString().padStart(2, "0"); // Extract the day
+
+    // Extract the time components
+    const hours = dateTime.getHours().toString().padStart(2, "0"); // Extract the hours
+    const minutes = dateTime.getMinutes().toString().padStart(2, "0"); // Extract the minutes
+
+    return {
+      date: `${year}-${month}-${day}`,
+      time: `${hours}:${minutes}`,
+    };
+  };
+  const startDateTime = separateDateTime(startDateTimeString);
+  const endDateTime = separateDateTime(endDateTimeString);
 
   const breakpoints = {
     300: {
@@ -99,7 +128,7 @@ const Section4 = () => {
           {events.length > 0 ? (
             events.map((event) => {
               return (
-                <SwiperSlide key={event.id} className="">
+                <SwiperSlide key={event.id} className=" transition duration-500 hover:scale-90  ease-in-out">
                   <div
                     className="  bg-white     shadow  dark:border-gray-700"
                     style={{ height: "28rem" }}
@@ -120,9 +149,15 @@ const Section4 = () => {
                         <p className="mb-3 font-bold  Aceh text-xl text-black Aceh">
                           {event.eventName}
                         </p>
-                        <h5 className="mb-2 text-xl tracking-tight text-gray-900 ">
-                          {event.StartDateTime}
-                        </h5>
+                        <badge className="badge p-2 bg-yellow-400 mb-2 text-xl tracking-tight text-gray-900 ">
+                          <FontAwesomeIcon
+                            icon={faCalendar}
+                            className="text-sm mr-2"
+                          />{" "}
+                          {Moment(event.StartDateTime).format("DD-MM-YYYY")}{" "}
+                          {", "}
+                          {Moment(event.StartDateTime).format("HH:MM a")}
+                        </badge>
 
                         <p className="mb-1 font-normal text-md Aceh text-red-500 dark:text-red-500">
                           {event.date}
@@ -131,23 +166,8 @@ const Section4 = () => {
                           {event.address}
                         </p>
 
-                        <svg
-                          className="w-3.5 h-3.5 ml-2"
-                          aria-hidden="true"
-                          xmlns="https://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 14 10"
-                        >
-                          <path
-                            stroke="currentColor"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M1 5h12m0 0L9 1m4 4L9 9"
-                          />
-                        </svg>
-                        <p className="mb-3 font-normal Aceh text-md text-black">
-                          BY {event.organizerName}
+                        <p className="mb-3 font-normal Aceh text-md text-gray-500">
+                          Organised by: {event.organizerName}
                         </p>
                       </div>
                     </NavLink>

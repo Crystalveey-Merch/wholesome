@@ -206,8 +206,8 @@ const EventDes = () => {
             </p>
             <p className="text-gray-500 text-xl flex gap-4">
               <FontAwesomeIcon icon={faClock} />
-              {Moment(event.StartDateTime).format("HH:MM a")}-{" "}
-              {Moment(event.EndDateTime).format("HH:MM a")}
+              {Moment(event.StartDateTime).format("H:MM a")}-{" "}
+              {Moment(event.EndDateTime).format("H:MM a")}
             </p>
 
             <h1 className="text-gray-800 text-2xl py-4">Location</h1>
@@ -230,7 +230,7 @@ const EventDes = () => {
             <div className="rounded-xl border shadow bg-gray-200 p-5 my-5">
               <h1 className="text-gray-800 text-2xl py-4">Organizer</h1>
               <p className="text-xl">{event.organizerName}</p>
-              <a href={`${event.website}`}>
+              <a href={`http://${event.website}`}>
                 <p className="text-xl">{event.website}</p>
               </a>
             </div>

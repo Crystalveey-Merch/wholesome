@@ -48,6 +48,11 @@ import {
 import { auth, db } from "../firebase/auth.js";
 import Spinner from "../components/Spinner";
 import { Helmet } from "react-helmet-async";
+import Moment from "moment";
+import {
+  faClock,
+  faLocationPin,
+} from "@fortawesome/free-solid-svg-icons";
 
 const EventList = () => {
   const { eventName } = useParams();
@@ -365,9 +370,15 @@ const EventList = () => {
                         {event.eventName}
                       </h5>
 
-                      <p className="mb-1 font-normal text-md Aceh text-red-500 dark:text-red-500">
-                        {event.dateTime}
-                      </p>
+                      <badge className="badge p-2 bg-yellow-400 mb-2 text-xl tracking-tight text-gray-900 ">
+                          <FontAwesomeIcon
+                            icon={faCalendar}
+                            className="text-sm mr-2"
+                          />{" "}
+                          {Moment(event.StartDateTime).format("DD-MM-YYYY")}{" "}
+                          {", "}
+                          {Moment(event.StartDateTime).format("HH:MM a")}
+                        </badge>
                       <p className="mb-3 font-normal text-md  text-gray-500 ">
                         {event.address}
                       </p>
