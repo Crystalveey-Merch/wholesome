@@ -331,7 +331,7 @@ const ArticleInterest = () => {
                           <p className=" text-gray-800 ">
                             {excerpt(post.postDescription, 100)}
                           </p>
-                          <span className="text-xl flex gap-5 ">
+                          <span className="text-l flex gap-5 ">
                             <FontAwesomeIcon
                               icon={faComment}
                               className="text-gray-500 my-auto "

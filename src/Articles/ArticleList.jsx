@@ -298,7 +298,7 @@ const ArticleList = () => {
           })}
         />
       </Helmet>
-      <div className="  py-20 sm:px-2 px-8  w-screen  flex sm:flex-col  m-auto  justify-center bg-stone-200  relative">
+      <div className="  py-20 sm:px-2 px-8  w-screen  flex sm:flex-col  m-auto  justify-center bg-gray-800  relative">
         <div className="w-full">
           <div className="flex m-auto my-10 justify-center ">
             {Array.isArray(randomPost) &&
@@ -358,8 +358,8 @@ const ArticleList = () => {
                 </NavLink>
               ))}
           </div>
-          <div className=" m-auto p-5  bg-white sm:w-full  ">
-            <p className="text-center text-2xl py-5 text-red-500">
+          <div className=" m-auto p-5  bg-white   dark:bg-gray-600 sm:w-full  ">
+            <p className="text-center text-2xl py-5 text-red-500  dark:text-white">
               Search Post
             </p>
             <input
@@ -381,7 +381,7 @@ const ArticleList = () => {
                 >
                   <div
                     key={post.id}
-                    className="w-72   sm:w-full bg-white  sm:p-10 hover:scale-105   transition duration-300 ease-in-out sm:rounded-none  rounded-xl p-2 shadow "
+                    className="w-72   sm:w-full bg-white dark:bg-gray-700 sm:p-10 hover:scale-105   transition duration-300 ease-in-out sm:rounded-none  rounded-xl p-2 shadow "
                   >
                     <div className="relative overflow-clip  h-40 ">
                       <img
@@ -398,11 +398,11 @@ const ArticleList = () => {
                         {post?.timestamp.toDate().toDateString()} at{" "}
                         {formatTime(post?.timestamp.toDate())}
                       </p>
-                      <h2 className="Aceh text-l py-2 text-black ">
+                      <h2 className="Aceh text-l py-2 text-black dark:text-white  ">
                         {excerpt(post.postTitle, 50)}
                       </h2>
                       <div className="">
-                        <p className=" text-gray-500 ">
+                        <p className=" text-gray-500  dark:text-gray-200 ">
                           {excerpt(post.postDescription, 100)}
                         </p>
                       </div>
@@ -446,7 +446,7 @@ const ArticleList = () => {
                 >
                   <div
                     key={post.id}
-                    className="w-96 sm:w-full sm:flex sm:w-full bg-white  sm:p-2    transition duration-300 ease-in-out sm:rounded-none  rounded-xl p-2 shadow "
+                    className="w-96 sm:w-full sm:flex sm:w-full bg-white  dark:bg-gray-700  sm:p-2    transition duration-300 ease-in-out sm:rounded-none  rounded-xl p-2 shadow "
                   >
                     <div className="relative overflow-clip  h-40  w-40 my-auto flex ">
                       <img
@@ -463,15 +463,15 @@ const ArticleList = () => {
                         {post?.timestamp.toDate().toDateString()} at{" "}
                         {formatTime(post?.timestamp.toDate())}
                       </p>
-                      <h2 className="Aceh text-md py-2 text-black ">
+                      <h2 className="Aceh text-md py-2 text-black dark:text-white ">
                         {post.postTitle}
                       </h2>
                       <div className="">
-                        <p className=" text-gray-500 hidden ">
+                        <p className=" text-gray-500 dark:text-gray-300 ">
                           {excerpt(post.postDescription, 100)}
                         </p>
                       </div>
-                      <span className="text-xl flex gap-5 ">
+                      <span className="text-l flex gap-5 ">
                         <FontAwesomeIcon
                           icon={faComment}
                           className="text-gray-500 my-auto "
@@ -506,12 +506,12 @@ const ArticleList = () => {
             paginate={paginate}
             currentPage={currentPage}
           />
-          <div className="bg-white p-4  my-2">
+          <div className="bg-white dark:bg-gray-700 p-4  my-2">
           <h2 className="text-xl Aceh text-red-500">Tags</h2>
             <hr></hr>
             {tags?.map((tag) => (
               <div
-                className="badge bg-white   m-1 p-4 hvr-bounce-in"
+                className="badge bg-white    m-1 p-4 hvr-bounce-in"
                 key={tag.id}
               >
                 <NavLink
@@ -524,14 +524,14 @@ const ArticleList = () => {
               </div>
             ))}
           </div>
-          <div className="bg-white p-4">
+          <div className="bg-white dark:bg-gray-700 p-4">
             <h2 className="text-xl Aceh text-red-500 my-4">Categories</h2>
             <hr></hr>
             <br></br>
 
             {category?.map((category) => (
               <div
-                className="badge bg-white   m-1 p-4 hvr-bounce-in"
+                className="badge bg-white dark:bg-gray-700   m-1 p-4 hvr-bounce-in"
                 key={category.id}
               >
                 <NavLink
@@ -545,7 +545,7 @@ const ArticleList = () => {
             ))}
           </div>
         </div>
-        <div className="tags p-5  ml-4 bg-white  w-96  sm:w-full sm:m-0 sm:my-10 ">
+        <div className="tags p-5  ml-4 bg-white  dark:bg-gray-700    w-96  sm:w-full sm:m-0 sm:my-10 ">
           <div key={trendingPost.id}>
             <h2 className="text-xl Aceh text-black">Trending Posts</h2>
             <hr></hr>
@@ -570,11 +570,11 @@ const ArticleList = () => {
                       {post?.timestamp.toDate().toDateString()} at{" "}
                       {formatTime(post?.timestamp.toDate())}
                     </p>
-                    <p className="Aceh text-black text-l">{excerpt(post.postTitle, 50)}</p>
-                    <p className=" text-gray-500  ">
+                    <p className="Aceh text-black text-l dark:text-white">{excerpt(post.postTitle, 50)}</p>
+                    <p className=" text-gray-500 dark:text-gray-300 ">
                           {excerpt(post.postDescription, 100)}
                         </p>
-                    <span className="text-l flex gap-5  text-gray-800 ">
+                    <span className="text-l flex gap-5  text-gray-800 dark:text-red-500 ">
                       <FontAwesomeIcon
                         icon={faComment}
                         className="text-gray-200 my-auto "

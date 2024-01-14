@@ -614,7 +614,7 @@ const ReadMore = () => {
             datePublished: `${post.timestamp?.toDate()?.toDateString()}`, */}
         </script>
       </Helmet>
-      <div className="flex mt-40 w-screen px-30 sm:flex-col sm:px-5 ">
+      <div className="flex mt-32 w-screen  py-10 px-30 sm:flex-col sm:px-5 dark:bg-gray-800 ">
         <div
           className="  px-40 lg:px-20 sm:px-0  sm:mt-30 flex flex-col m-auto justify-center"
           key={post.id}
@@ -623,7 +623,7 @@ const ReadMore = () => {
             {post.category}
           </div>
 
-          <h1 className="text-black text-4xl sm:text-3xl py-5">
+          <h1 className="text-black dark:text-white text-4xl sm:text-3xl py-5">
             {" "}
             {post.postTitle}
           </h1>
@@ -641,7 +641,7 @@ const ReadMore = () => {
               <p className="my-auto">By</p>
               <img
                 src={profileData?.photoURL}
-                className="rounded-full h-8 w-8 my-auto mx-2"
+                className="rounded-full h-8 w-8 my-auto mx-2 text-black"
               />{" "}
               {profileData?.displayName}
             </p>
@@ -704,6 +704,7 @@ const ReadMore = () => {
             <br></br>
             <MDEditor.Markdown
               source={post.content}
+              className="dark:bg-gray-800"
               style={{ whiteSpace: "pre-wrap" }}
             />
 
@@ -803,7 +804,7 @@ const ReadMore = () => {
           </div>
         </div>
 
-        <div className=" bg-white  border ">
+        <div className=" bg-white  dark:bg-gray-700    ">
           <p className="text-black text-xl sm:my-2 my-5  text-center Aceh text-md">
             Related Publications
           </p>

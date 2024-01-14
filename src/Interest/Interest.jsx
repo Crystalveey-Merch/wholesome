@@ -249,64 +249,64 @@ const Interest = () => {
                 postsData.map((post) => {
                   return (
                     <NavLink
-                      to={`/readmore/${post.id}`}
-                      onClick={handleReadMoreClick}
-                      key={post.id}
-                      className="hover:border p-5 hover:bg-red-100/50 hover:rounded-xl transition duration-300 ease-in-out"
-                    >
-                      <div
-                        key={post.id}
-                        className="w-80 bg-white   rounded-xl p-2 shadow "
-                      >
-                        <div className="relative overflow-clip  h-40 sm:w-40">
-                          <img
-                            src={post.imgUrl}
-                            height={200}
-                            className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out "
-                          />
-                        </div>
-                        <div className="px-5 sm:p-0">
-                          <p className="badge bg-red-500 p-4 my-2  top-5 text-gray-100  sm:hidden border-none ">
-                            {post.category}
-                          </p>
-                          <p className="mt-1 text-sm leading-5 text-red-300 border-b Aceh">
-                            {post.timestamp.toDate().toDateString()} at{" "}
-                            {formatTime(post.timestamp.toDate())}
-                          </p>
-                          <h2 className="Aceh text-xl py-2 text-black ">
-                            {post.postTitle}
-                          </h2>
-
-                          <p className="h-14 text-gray-800 sm:hidden">
-                            {excerpt(post.postDescription, 50)}
-                          </p>
-                          <span className="text-xl flex gap-5 ">
-                            <FontAwesomeIcon
-                              icon={faComment}
-                              className="text-gray-500 my-auto "
-                            />{" "}
-                            {post.comments.length}
-                            <FontAwesomeIcon
-                              icon={faThumbsUp}
-                              className="text-gray-500 my-auto "
-                            />{" "}
-                            {post.likes.length}
-                            <FontAwesomeIcon
-                              icon={faEye}
-                              className="text-gray-500 my-auto "
-                            />{" "}
-                            {post.views ? post.views.length : 0}
-                            {/* <FontAwesomeIcon
-                      onClick={handleAddBookmark}
-                      icon={faBookmark}
-                      style={buttonStyle}
-                      className="my-auto "
-                    />{" "}
-                    {bookmarkCount} */}
-                          </span>
-                        </div>
+                  to={`/readmore/${post.id}`}
+                  onClick={() => handleReadMoreClick(post)}
+                  key={post.id}
+                  className="hover:border sm:hover:border-none p-8 sm:p-0  hover:rounded-xl transition duration-300  sm:m-0 ease-in-out "
+                >
+                  <div
+                    key={post.id}
+                    className="w-72   sm:w-full bg-white  sm:p-10 hover:scale-105   transition duration-300 ease-in-out sm:rounded-none  rounded-xl p-2 shadow "
+                  >
+                    <div className="relative overflow-clip  h-40 ">
+                      <img
+                        src={post.imgUrl}
+                        height={200}
+                        className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out "
+                      />
+                    </div>
+                    <div className="px-5 sm:p-0 ">
+                      <p className="badge  bg-gradient-to-r from-orange-400 to-rose-400 p-4 my-5  top-5 text-gray-100   border-none ">
+                        {post.category}
+                      </p>
+                      <p className="mt-1 text-sm leading-5 text-red-300 border-b Aceh">
+                        {post?.timestamp.toDate().toDateString()} at{" "}
+                        {formatTime(post?.timestamp.toDate())}
+                      </p>
+                      <h2 className="Aceh text-l py-2 text-black ">
+                        {excerpt(post.postTitle, 50)}
+                      </h2>
+                      <div className="">
+                        <p className=" text-gray-500 ">
+                          {excerpt(post.postDescription, 100)}
+                        </p>
                       </div>
-                    </NavLink>
+                      <span className="text-l flex gap-5 ">
+                        <FontAwesomeIcon
+                          icon={faComment}
+                          className="text-gray-500 my-auto "
+                        />{" "}
+                        {post.comments.length}
+                        <FontAwesomeIcon
+                          icon={faThumbsUp}
+                          className="text-gray-500 my-auto "
+                        />{" "}
+                        {post.likes.length}
+                        <FontAwesomeIcon
+                          icon={faEye}
+                          className="text-gray-500 my-auto "
+                        />{" "}
+                        {post.views ? post.views.length : 0}
+                        <FontAwesomeIcon
+                          icon={faBookmark}
+                          // style={}
+                          className="my-auto   "
+                        />
+                        {post.count}
+                      </span>
+                    </div>
+                  </div>
+                </NavLink>
                   );
                 })
               ) : (
