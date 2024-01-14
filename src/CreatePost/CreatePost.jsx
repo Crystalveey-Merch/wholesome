@@ -315,7 +315,7 @@ const CreatePost = () => {
     <>
       <Helmet>
         <title>Create a Post</title>
-        <meta name="description" content="Create Post on Wholesome" />
+        <meta name="description" content="Create Post on Wholesquare" />
         <link rel="canonical" href="/createpost" />
       </Helmet>
       <div className="pt-24  flex m-auto  justify-center w-screen ">
@@ -325,7 +325,7 @@ const CreatePost = () => {
         >
           <div className="   bg-white ">
             <h3 className=" font-bold text-center my-10 text-4xl">
-              {id ? "Edit Post" : "Create Post on Wholesome"}
+              {id ? "Edit Post" : "Create Post on Wholesquare"}
             </h3>
             <form className="form-control" onSubmit={handleAddPost}>
               {id ? (

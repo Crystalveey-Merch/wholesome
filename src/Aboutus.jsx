@@ -21,10 +21,10 @@ const Aboutus = () => {
   return (
     <>
       <Helmet>
-        <title>About Wholesome</title>
+        <title>About Wholesquare</title>
         <meta
           name="description"
-          content="Wholesome helps foster connections with like-minds that transcends borders and also share your experiences, knowledge and creativity"
+          content="Wholesquare helps foster connections with like-minds that transcends borders and also share your experiences, knowledge and creativity"
         />
         <link rel="canonical" href="/aboutus" />
       </Helmet>

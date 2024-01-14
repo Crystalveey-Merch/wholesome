@@ -48,6 +48,20 @@ const Login = () => {
         setError(err.message);
       });
   };
+
+  const changePassword =  async () => {
+    try {
+      await firebase.auth().sendPasswordResetEmail(email);
+      toast.success('Password reset email sent successfully!');
+      setError("");
+
+    } catch (error) {
+      setError(error.message);
+      toast.error('An error occurred. Please try again.');
+    }
+  };
+
+
   return (
     <div>
       <Helmet>
@@ -106,10 +120,10 @@ const Login = () => {
                             )}
                           </div>
                         </span>
-
+<p onClick={changePassword} className="text-sm text-red-500 underline cursor-pointer">Forgot Password 😭  </p>
                         <button
                           type="submit"
-                          className="w-full text-center py-3 rounded bg-green-500 text-white hover:bg-green-dark focus:outline-none my-1"
+                          className="w-full text-center py-3 rounded bg-green-500 text-white hover:bg-green-dark focus:outline-none my-1 cursor-pointer"
                         >
                           Login
                         </button>

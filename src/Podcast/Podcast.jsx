@@ -70,10 +70,10 @@ const Podcast = () => {
   return (
     <>
       <Helmet>
-        <title>Wholesome Podcast</title>
+        <title>Wholesquare Podcast</title>
         <meta
           name="description"
-          content="Wholesome is creating a digital nation where Africans and the diaspora can build abundant lives. On the Wholesome Podcast, we continue the African tradition of oral storytelling to preserve our history, knowledge, and achievements. "
+          content="Wholesquare is creating a digital nation where Africans and the diaspora can build abundant lives. On the Wholesquare Podcast, we continue the African tradition of oral storytelling to preserve our history, knowledge, and achievements. "
         />
         <link rel="canonical" href="/podcast" />
       </Helmet>
@@ -82,7 +82,7 @@ const Podcast = () => {
           <img src="/Images/modern-microphone.jpeg" className="sm:w-full"></img>
           <div className=" absolute sm:relative sm:top-0 sm:px-5 top-40 px-20 flex flex-col gap-5 sm:gap-2">
             <h1 className="text-white sm:text-black sm:w-full text-8xl w-40 sm:text-center sm:text-5xl">
-              THE WHOLESOME PODCAST
+              THE WHOLESQUARE PODCAST
             </h1>
             <p className="text-2xl text-gray-500 Aceh sm:text-xl sm:text-center">
               Hosted By:
@@ -108,22 +108,22 @@ const Podcast = () => {
           </div>
           <div className="py-20 bg-gradient-to-b from-gray-900 to-gray-600 bg-gradient-to-r">
             <h1 className="text-4xl text-center text-white">
-              Why Wholesome Podcast?
+              Why Wholesquare Podcast?
             </h1>
             <p className="px-60 sm:px-5 py-10 text-xl text-center text-gray-200">
-              Wholesome is creating a digital nation where Africans and the
-              diaspora can build abundant lives. On the Wholesome Podcast, we
+              Wholesquare is creating a digital nation where Africans and the
+              diaspora can build abundant lives. On the Wholesquare Podcast, we
               continue the African tradition of oral storytelling to preserve
               our history, knowledge, and achievements. We extract blueprints of
-              fearlessness and innovation from Wholesome citizens building the
+              fearlessness and innovation from Wholesquare citizens building the
               future of a bold and progressive nation. Through in-depth
-              interviews with Wholesome citizens, we delve into their stories,
+              interviews with Wholesquare citizens, we delve into their stories,
               their struggles, and their triumphs. We explore the challenges
               they have faced and the solutions they have found to overcome
               them. Our goal is to inspire and empower Afropolitans to reclaim
               their abundance and build the future they want to see. Join us as
               we challenge the status quo, question the norm, and create a new
-              narrative for the Wholesome. Listen to the Wholesome Podcast and
+              narrative for the Wholesquare. Listen to the Wholesquare Podcast and
               be a part of building the future of a bold and progressive nation.
             </p>
           </div>

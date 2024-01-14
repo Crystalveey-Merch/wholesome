@@ -268,7 +268,7 @@ const EventList = () => {
             </div>
           </div>
         </div>
-        <div className="flex  flex-wrap justify-center  text-4xl sm:text-2xl m-auto py-5 gap-20 sm:gap-3 px-20 sm:px-5  mt-10 overflow-x-auto">
+        <div className="flex  flex-wrap justify-center  text-2xl sm:text-2xl m-auto py-5 gap-20 sm:gap-3 px-20 sm:px-5  mt-10 overflow-x-auto">
           <span className="">
             <FontAwesomeIcon
               icon={faHand}
@@ -355,7 +355,7 @@ const EventList = () => {
               return (
                 <div
                   key={event.id}
-                  className="w-80 bg-white    shadow  dark:border-gray-700"
+                  className="w-72 bg-white    shadow  dark:border-gray-700"
                 >
                   <NavLink to={`/upcomingevents/${event.id}`}>
                     <img

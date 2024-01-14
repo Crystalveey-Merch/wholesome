@@ -56,7 +56,7 @@ const Section1 = () => {
         ) : (
           <NavLink to="/signup">
             <button className="text-xl btn   p-auto sm:text-sm hover:text-white  hover:bg-red-500  flex w-60 sm:w-40  bg-white  text-red-500 text-center ">
-              JOIN WHOLESOME
+              JOIN WHOLESQUARE
             </button>
           </NavLink>
         )}

@@ -128,7 +128,7 @@ const Section2new = () => {
     opacity: isBookmarked ? "100%" : "50%",
     // Add any other button styles as needed
   };
-  const limitedPosts = posts.slice(0, 3);
+  const limitedPosts = posts.slice(0, 4);
 
   return (
     <div className="p-5 sm:p-5 bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 w-screen"  >
@@ -140,9 +140,9 @@ const Section2new = () => {
             to={`/readmore/${post.id}`}
             onClick={handleReadMoreClick}
             key={post.id}
-            className="hover:border p-5    hover:bg-red-100/50 hover:rounded-xl transition duration-300 ease-in-out"
+            className="hover:border p-2    hover:bg-red-100/50 hover:rounded-xl transition duration-300 ease-in-out"
           >
-            <div key={post.id} className="w-96 sm:w-78 bg-white   rounded-xl p-5 shadow ">
+            <div key={post.id} className="w-72 sm:w-78 bg-white   rounded-xl p-2 shadow ">
               <div className="relative overflow-clip  h-40 sm:w-full" >
                 <img src={post.imgUrl}  height={200} className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out m-auto " />
               
@@ -155,14 +155,15 @@ const Section2new = () => {
                   {post.timestamp.toDate().toDateString()} at{" "}
                   {formatTime(post.timestamp.toDate())}
                 </p>
-                <h2 className="Aceh text-xl py-2 text-red-500 ">
-                  {post.postTitle}   
+                <h2 className="Aceh text-l py-2 text-red-500 ">
+                  {/* {post.postTitle}    */}
+                  {excerpt(post.postTitle, 30)}
                 </h2>
-                <p className="h-14 text-gray-800 ">
+                <p className=" text-gray-800 ">
                 {/* {post.postDescription} */}
                   {excerpt(post.postDescription, 80)}
                 </p>
-                <span className="text-xl flex gap-5 ">
+                <span className="text-l flex gap-5 ">
                   <FontAwesomeIcon
                     icon={faComment}
                     className="text-gray-500 my-auto "

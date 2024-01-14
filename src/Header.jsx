@@ -131,7 +131,7 @@ const Header = () => {
                 className="text-center py-5 Aceh  normal-case text-2xl "
               >
                 {" "}
-                <div>Wholesome</div>
+                <div>Wholesquare</div>
                 <hr></hr>
               </NavLink>
               <Menu>
@@ -354,7 +354,7 @@ const Header = () => {
         <NavLink to="/">
           {" "}
           <div>
-            <a className=" Aceh  normal-case text-2xl  ">Wholesome</a>
+            <a className=" Aceh  normal-case text-2xl  ">Wholesquare</a>
           </div>
         </NavLink>
         <div className=" w-full flex justify-center m-auto text-2xl sm:hidden ">

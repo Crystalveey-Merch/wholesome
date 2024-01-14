@@ -137,13 +137,13 @@ const EventsInterest = () => {
   }
 
   return (
-    <div className=' flex gap-5 flex-wrap justify-center m-auto  w-full my-40 sm:my-20'>
+    <div className=' flex gap-5 flex-wrap justify-center m-auto  w-full my-20 sm:my-20'>
 
           {interestEvents.map((event) => (
             
               <div
                 key={event.id}
-                className="w-80 bg-sky-100    shadow  dark:border-gray-700"
+                className="w-72 bg-sky-100    shadow  dark:border-gray-700"
               >
                 <NavLink to={`/upcomingevents/${event.id}`}>
                 <div className="relative overflow-clip  h-40 sm:w-40" >
@@ -160,11 +160,11 @@ const EventsInterest = () => {
                     <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 Aceh">
                       {event.eventName}
                     </h5>
-                    <p className="text-red-500 Aceh text-xl flex gap-4 m-2">
+                    <p className="text-red-500 Aceh text-l flex gap-4 m-2">
               <FontAwesomeIcon icon={faCalendar} />
            {Moment(event.StartDateTime).format("DD-MM-YYYY")} - {Moment(event.EndDateTime).format("DD-MM-YYYY")}
         </p>
-        <p className="text-gray-800 text-xl flex gap-4 m-2">
+        <p className="text-gray-800 text-l flex gap-4 m-2">
               <FontAwesomeIcon icon={faClock} />{Moment(event.StartDateTime).format("HH:MM a")}- {Moment(event.EndDateTime).format("HH:MM a")}
         </p>
                     <p className="mb-3 font-normal text-md  text-gray-500 ">

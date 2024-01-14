@@ -2,22 +2,12 @@ import { useEffect, useState } from "react";
 import {
   addDoc,
   collection,
-  DocumentSnapshot,
-  endAt,
-  endBefore,
   getDocs,
   setDoc,
   doc,
   getDoc,
   updateDoc,
-  limit,
-  limitToLast,
-  orderBy,
-  query,
-  startAfter,
-  deleteField,
-  where,
-  increment,
+
 } from "firebase/firestore";
 import { auth, db } from "../firebase/auth.js";
 // import { useParams } from 'react-router';
@@ -328,7 +318,7 @@ const ArticleList = () => {
                     </figure>
                     <div className="card-body">
                       <div className="m-auto flex flex-col justify-center ">
-                        <h2 className="Aceh text-3xl py-5 text-black  card-title">
+                        <h2 className="Aceh text-2xl py-5 text-black  card-title">
                           {post.postTitle}
                         </h2>
                         <p className="mt-1 text-sm leading-5 text-red-500 border-b Aceh">
@@ -391,7 +381,7 @@ const ArticleList = () => {
                 >
                   <div
                     key={post.id}
-                    className="w-96   sm:w-full bg-white  sm:p-10 hover:scale-105   transition duration-300 ease-in-out sm:rounded-none  rounded-xl p-2 shadow "
+                    className="w-72   sm:w-full bg-white  sm:p-10 hover:scale-105   transition duration-300 ease-in-out sm:rounded-none  rounded-xl p-2 shadow "
                   >
                     <div className="relative overflow-clip  h-40 ">
                       <img
@@ -408,15 +398,15 @@ const ArticleList = () => {
                         {post?.timestamp.toDate().toDateString()} at{" "}
                         {formatTime(post?.timestamp.toDate())}
                       </p>
-                      <h2 className="Aceh text-xl py-2 text-black ">
-                        {post.postTitle}
+                      <h2 className="Aceh text-l py-2 text-black ">
+                        {excerpt(post.postTitle, 50)}
                       </h2>
                       <div className="">
-                        <p className=" text-gray-800 ">
+                        <p className=" text-gray-500 ">
                           {excerpt(post.postDescription, 100)}
                         </p>
                       </div>
-                      <span className="text-xl flex gap-5 ">
+                      <span className="text-l flex gap-5 ">
                         <FontAwesomeIcon
                           icon={faComment}
                           className="text-gray-500 my-auto "
@@ -477,7 +467,7 @@ const ArticleList = () => {
                         {post.postTitle}
                       </h2>
                       <div className="">
-                        <p className=" text-gray-800 hidden ">
+                        <p className=" text-gray-500 hidden ">
                           {excerpt(post.postDescription, 100)}
                         </p>
                       </div>
@@ -516,10 +506,48 @@ const ArticleList = () => {
             paginate={paginate}
             currentPage={currentPage}
           />
+          <div className="bg-white p-4  my-2">
+          <h2 className="text-xl Aceh text-red-500">Tags</h2>
+            <hr></hr>
+            {tags?.map((tag) => (
+              <div
+                className="badge bg-white   m-1 p-4 hvr-bounce-in"
+                key={tag.id}
+              >
+                <NavLink
+                  to={`/articletag/${tag}`}
+                  className="text-green-800 Aceh"
+                  style={{ textDecoration: "none" }}
+                >
+                  {tag}
+                </NavLink>
+              </div>
+            ))}
+          </div>
+          <div className="bg-white p-4">
+            <h2 className="text-xl Aceh text-red-500 my-4">Categories</h2>
+            <hr></hr>
+            <br></br>
+
+            {category?.map((category) => (
+              <div
+                className="badge bg-white   m-1 p-4 hvr-bounce-in"
+                key={category.id}
+              >
+                <NavLink
+                  to={`/articlecategory/${category}`}
+                  className="text-sky-500 Aceh"
+                  style={{ textDecoration: "none" }}
+                >
+                  {category}
+                </NavLink>
+              </div>
+            ))}
+          </div>
         </div>
-        <div className="tags p-5  ml-4 bg-gradient-to-r from-orange-400 to-rose-400 w-96  sm:w-full sm:m-0 sm:my-10 ">
+        <div className="tags p-5  ml-4 bg-white  w-96  sm:w-full sm:m-0 sm:my-10 ">
           <div key={trendingPost.id}>
-            <h2 className="text-xl Aceh text-white">Trending Posts</h2>
+            <h2 className="text-xl Aceh text-black">Trending Posts</h2>
             <hr></hr>
             <br></br>
             <div className="flex flex-col gap-5">
@@ -528,7 +556,7 @@ const ArticleList = () => {
                   to={`/readmore/${post.id}`}
                   onClick={() => handleReadMoreClick(post)}
                   key={post.id}
-                  className="flex flex-col gap-5 hover:bg-white/50 p-5 bg-black rounded-xl  transition duration-300   ease-in-out  "
+                  className="flex flex-col gap-5 hover:bg-gradient-to-l from-orange-400 to-rose-400  p-5  rounded-xl  transition duration-300   ease-in-out  "
                 >
                   <div className="relative overflow-clip  h-20 ">
                     <img
@@ -538,12 +566,15 @@ const ArticleList = () => {
                     />
                   </div>
                   <div key={post.id}>
-                    <p className="mt-1 text-sm leading-5 text-gray-200 border-b Aceh">
+                    <p className="mt-1 text-sm leading-5 text-gray-700 border-b Aceh">
                       {post?.timestamp.toDate().toDateString()} at{" "}
                       {formatTime(post?.timestamp.toDate())}
                     </p>
-                    <p className="Aceh text-white text-xl">{post.postTitle}</p>
-                    <span className="text-xl flex gap-5  text-white ">
+                    <p className="Aceh text-black text-l">{excerpt(post.postTitle, 50)}</p>
+                    <p className=" text-gray-500  ">
+                          {excerpt(post.postDescription, 100)}
+                        </p>
+                    <span className="text-l flex gap-5  text-gray-800 ">
                       <FontAwesomeIcon
                         icon={faComment}
                         className="text-gray-200 my-auto "
@@ -569,43 +600,9 @@ const ArticleList = () => {
                 </NavLink>
               ))}
             </div>
-            <h2 className="text-xl Aceh text-white">Tags</h2>
-            <hr></hr>
-            {tags?.map((tag) => (
-              <div
-                className="badge bg-white   m-1 p-4 hvr-bounce-in"
-                key={tag.id}
-              >
-                <NavLink
-                  to={`/articletag/${tag}`}
-                  className="text-green-800 Aceh"
-                  style={{ textDecoration: "none" }}
-                >
-                  {tag}
-                </NavLink>
-              </div>
-            ))}
+            
           </div>
-          <div>
-            <h2 className="text-xl Aceh text-white my-4">Categories</h2>
-            <hr></hr>
-            <br></br>
-
-            {category?.map((category) => (
-              <div
-                className="badge bg-white   m-1 p-4 hvr-bounce-in"
-                key={category.id}
-              >
-                <NavLink
-                  to={`/articlecategory/${category}`}
-                  className="text-sky-500 Aceh"
-                  style={{ textDecoration: "none" }}
-                >
-                  {category}
-                </NavLink>
-              </div>
-            ))}
-          </div>
+     
         </div>
       </div>
     </>

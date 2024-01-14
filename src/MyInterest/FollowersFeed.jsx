@@ -23,6 +23,8 @@ import {
 export const FollowersFeed = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isBookmarked, setIsBookmarked] = useState(false);
+  const [bookmarkCount, setBookmarkCount] = useState(0);
 
 
   const userId = auth.currentUser.uid;
@@ -100,8 +102,43 @@ export const FollowersFeed = () => {
       console.error("Error updating post document:", error);
     }
   };
+  useEffect(() => {
+    const checkBookmarkStatus = async () => {
+      try {
+        if (userId && posts.id) {
+          const bookmarkDocRef = doc(db, "bookmarks", userId);
+          const bookmarkDocSnapshot = await getDoc(bookmarkDocRef);
+          const blogRef = doc(db, "posts",  posts.id);
 
+          if (bookmarkDocSnapshot.exists()) {
+            const bookmarks = bookmarkDocSnapshot.data();
+            const isBookmarked =  posts.id in bookmarks;
+            setIsBookmarked(isBookmarked);
 
+            console.log(bookmarks.length);
+          } else {
+            setIsBookmarked(false); // Document doesn't exist, so it's not bookmarked
+          }
+          const blogSnapshot = await getDoc(blogRef);
+          if (blogSnapshot.exists()) {
+            const blogData = blogSnapshot.data();
+            console.log(blogData);
+            setBookmarkCount(blogData.count);
+          }
+        }
+      } catch (error) {
+        console.error("Error checking bookmark status: ", error);
+      }
+    };
+
+    checkBookmarkStatus();
+  }, [userId, posts.id]);
+
+  const buttonStyle = {
+    color: isBookmarked ? "gold" : "gray",
+    opacity: isBookmarked ? "100%" : "75%",
+    // Add any other button styles as needed
+  };
   const formatTime = (date) => {
     return date.toLocaleTimeString("en-US", {
       hour: "numeric",
@@ -116,69 +153,74 @@ console.log(posts.id)
             <p className="text-center text-2xl my-10">Based on Users you Follow</p>
 
    
-    <div className="flex  flex-wrap px-10 sm:px-0 my-10 sm:my-5 m-auto justify-center gap-10 sm:gap-2">
+    <div className="flex  flex-wrap px-5 sm:px-0 my-10 sm:my-5 m-auto justify-center gap-4 sm:gap-2">
     {posts.length > 0 ? (
         posts.map((post) => {
 
             return (
 
-          <NavLink
-            to={`/readmore/${post.id}`}
-            onClick={handleReadMoreClick}
-            key={post.id}
-            className="hover:border p-5 hover:bg-red-100/50 hover:rounded-xl transition duration-300 ease-in-out"
-          >
-            <div key={post.id} className="w-96 bg-white   rounded-xl p-2 shadow ">
-              <div className="relative overflow-clip  h-40 sm:w-40" >
-                <img src={post.imgUrl}  height={200} className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out " />
-              
-              </div>
-              <div className="px-5 sm:p-0">
-              <p className="badge bg-gray-100 p-4  top-5 text-gray-600  sm:hidden border-none ">
-                  {post.category}
-                </p>
-                <p className="mt-1 text-sm leading-5 text-red-300 border-b Aceh">
-                  {post.timestamp.toDate().toDateString()} at{" "}
-                  {formatTime(post.timestamp.toDate())}
-                </p>
-                <h2 className="Aceh text-xl py-2 text-black ">
-                  {post.postTitle}   
-                </h2>
-               
-
-                <p className="h-14 text-gray-800 sm:hidden">
-                  {excerpt(post.postDescription, 50)}
-                </p>
-                <span className="text-xl flex gap-5 ">
-                  <FontAwesomeIcon
-                    icon={faComment}
-                    className="text-gray-500 my-auto "
-                  />{" "}
-                  {post.comments.length}
-                  <FontAwesomeIcon
-                    icon={faThumbsUp}
-                    className="text-gray-500 my-auto "
-                  />{" "}
-                  {post.likes.length}
-                  <FontAwesomeIcon
-                    icon={faEye}
-                    className="text-gray-500 my-auto "
-                  />{" "}
-                  {post.views ? post.views.length : 0}
-                  {/* <FontAwesomeIcon
-                    onClick={handleAddBookmark}
-                    icon={faBookmark}
-                    style={buttonStyle}
-                    className="my-auto "
-                  />{" "}
-                  {bookmarkCount} */}
-                </span>
-              </div>
-            </div>
-          </NavLink>
+              <NavLink
+                  to={`/readmore/${post.id}`}
+                  onClick={() => handleReadMoreClick(post)}
+                  key={post.id}
+                  className="hover:border sm:hover:border-none p-4 sm:p-0  hover:rounded-xl transition duration-300  sm:m-0 ease-in-out "
+                >
+                  <div
+                    key={post.id}
+                    className="w-72   sm:w-full bg-white  sm:p-10 hover:scale-105   transition duration-300 ease-in-out sm:rounded-none  rounded-xl p-2 shadow "
+                  >
+                    <div className="relative overflow-clip  h-40 ">
+                      <img
+                        src={post.imgUrl}
+                        height={200}
+                        className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out "
+                      />
+                    </div>
+                    <div className="px-5 sm:p-0 ">
+                      <p className="badge  bg-gradient-to-r from-orange-400 to-rose-400 p-4 my-5  top-5 text-gray-100   border-none ">
+                        {post.category}
+                      </p>
+                      <p className="mt-1 text-sm leading-5 text-red-300 border-b Aceh">
+                        {post?.timestamp.toDate().toDateString()} at{" "}
+                        {formatTime(post?.timestamp.toDate())}
+                      </p>
+                      <h2 className="Aceh text-l py-2 text-black ">
+                        {excerpt(post.postTitle, 50)}
+                      </h2>
+                      <div className="">
+                        <p className=" text-gray-500 ">
+                          {excerpt(post.postDescription, 100)}
+                        </p>
+                      </div>
+                      <span className="text-l flex gap-5 ">
+                        <FontAwesomeIcon
+                          icon={faComment}
+                          className="text-gray-500 my-auto "
+                        />{" "}
+                        {post.comments.length}
+                        <FontAwesomeIcon
+                          icon={faThumbsUp}
+                          className="text-gray-500 my-auto "
+                        />{" "}
+                        {post.likes.length}
+                        <FontAwesomeIcon
+                          icon={faEye}
+                          className="text-gray-500 my-auto "
+                        />{" "}
+                        {post.views ? post.views.length : 0}
+                        <FontAwesomeIcon
+                          icon={faBookmark}
+                          style={buttonStyle}
+                          className="my-auto   "
+                        />
+                        {post.count}
+                      </span>
+                    </div>
+                  </div>
+                </NavLink>
         )})) : (
   <div className="text-center text-2xl font-bold text-gray-500 mt-4 h-48">
-    No events found matching your search.
+    You have not followed 
   </div>
 )}
         </div>

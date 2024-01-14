@@ -233,29 +233,29 @@ const ArticleInterest = () => {
         />{" "}
         <meta
           name="url"
-          content="https://wholesome.crystaleey.com/myinterest/articles"
+          content="https://wholesquare.crystaleey.com/myinterest/articles"
         />
         <meta name="robots" content="index, follow" />
         <meta property="og:type" content="article" />
         <link
           rel="canonical"
-          href="https://wholesome.crystaleey.com/myinterest/articles"
+          href="https://wholesquare.crystaleey.com/myinterest/articles"
         />
         <meta property="og:title" content="Article Interest" />
         <meta
           property="og:url"
-          content="https://wholesome.crystaleey.com/myinterest/articles"
+          content="https://wholesquare.crystaleey.com/myinterest/articles"
         />
         <meta property="og:image" content="" />
         <meta
           name="og:description"
           content="List of Articles based on your Interest"
         />
-        <meta name="og:site_name" content="Wholesome" />
+        <meta name="og:site_name" content="wholesquare" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           name="twitter:url"
-          content="https://wholesome.crystaleey.com/myinterest/articles"
+          content="https://wholesquare.crystaleey.com/myinterest/articles"
         />
         <meta name="twitter:title" content="Article Interest" />
         <meta
@@ -269,16 +269,16 @@ const ArticleInterest = () => {
             "@context": "https://schema.org",
             "@type": "website",
             headline: "Article Interest",
-            url: "https://wholesome.crystaleey.com/myinterest/articles",
+            url: "https://wholesquare.crystaleey.com/myinterest/articles",
 
             image: "",
             author: {
               "@type": "Person",
-              name: "Wholesome",
+              name: "Wholesquare",
             },
             publisher: {
               "@type": "Organization",
-              name: "Wholesome",
+              name: "Wholesquare",
               logo: {
                 "@type": "ImageObject",
                 url: "",
@@ -307,7 +307,7 @@ const ArticleInterest = () => {
                     >
                       <div
                         key={post.id}
-                        className="w-96 sm:w-80 bg-white hover:bg-gradient-to-r hover:scale-105  hover:from-orange-400 hover:to-rose-400 transition duration-300 ease-in-out  rounded-xl p-2 shadow "
+                        className="w-72 sm:w-80 bg-white hover:bg-gradient-to-r hover:scale-105  hover:from-orange-400 hover:to-rose-400 transition duration-300 ease-in-out  rounded-xl p-2 shadow "
                       >
                         <div className="relative overflow-clip  h-40 sm:w-40">
                           <img
@@ -325,7 +325,7 @@ const ArticleInterest = () => {
                             {formatTime(post.timestamp.toDate())}
                           </p>
                           <h2 className="Aceh text-xl py-2 text-black ">
-                            {post.postTitle}
+                          {excerpt(post.postTitle, 50)}
                           </h2>
 
                           <p className=" text-gray-800 ">

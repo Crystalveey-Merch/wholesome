@@ -60,8 +60,6 @@ import { Helmet } from "react-helmet-async";
 import { BlogPosting } from "schema-dts";
 import { jsonLdScriptProps } from "react-schemaorg";
 
-
-
 const ReadMore = () => {
   const url = window.location.href;
 
@@ -497,7 +495,6 @@ const ReadMore = () => {
             setClaps(updatedClaps);
             toast.success("Clap updated");
           }
-
         }
       } catch (error) {
         console.error("Error updating Claps:", error);
@@ -521,7 +518,10 @@ const ReadMore = () => {
         />
         <meta name="robots" content="index, follow" />
         <meta property="og:type" content="article" />
-        <link rel="canonical" href={`http://wholesome.crystaleey.com/readmore/${id}`} />
+        <link
+          rel="canonical"
+          href={`http://wholesome.crystaleey.com/readmore/${id}`}
+        />
         <meta property="og:title" content={post.postTitle} />
         <meta
           property="og:url"
@@ -537,7 +537,7 @@ const ReadMore = () => {
         />
         <meta name="twitter:title" content={post.postTitle} />
         <meta name="twitter:description" content={post.postDescription} />
-        <meta name="twitter:image"  content={post.imgUrl} />
+        <meta name="twitter:image" content={post.imgUrl} />
         <meta name="twitter:creator" content={profileData?.displayName} />
         <meta name="twitter:site" content="@wholesome" />
         <meta name="twitter:image:alt" content={post.postTitle} />
@@ -563,7 +563,7 @@ const ReadMore = () => {
           rel="canonical"
           href={`https://wholesome.crystaleey.com/readmore/${id}`}
         />
-      <script type="application/ld+json">
+        <script type="application/ld+json">
           {`
           {
             "@context": "https://schema.org",
@@ -619,7 +619,7 @@ const ReadMore = () => {
           className="  px-40 lg:px-20 sm:px-0  sm:mt-30 flex flex-col m-auto justify-center"
           key={post.id}
         >
-          <div className="badge bg-red-500 text-white sm:text-sm text-xl Aceh p-4">
+          <div className="badge bg-red-500 text-white sm:text-sm text-l Aceh p-4">
             {post.category}
           </div>
 
@@ -633,11 +633,18 @@ const ReadMore = () => {
           </div>
           <div className=" my-20 sm:mx-5 sm:my-10">
             <h1 className="text-red-500 text-xl">{post.date}</h1>
-            <p className="mt-1 text-xl sm:text-sm leading-5 text-red-400 Aceh pb-2">
+            <p className="mt-1 text-l sm:text-sm leading-5 text-red-400 Aceh pb-1">
               Posted on {post.timestamp?.toDate()?.toDateString()} at{" "}
               {formatTime(post.timestamp?.toDate())}
             </p>
-            <p className="py-5 Aceh">By {profileData?.displayName}</p>
+            <p className="py-1 Aceh flex m-auto">
+              <p className="my-auto">By</p>
+              <img
+                src={profileData?.photoURL}
+                className="rounded-full h-8 w-8 my-auto mx-2"
+              />{" "}
+              {profileData?.displayName}
+            </p>
             <p
               className="py-5 underline cursor-pointer  gap-2"
               onClick={handleAddBookmark}
@@ -650,7 +657,7 @@ const ReadMore = () => {
               />{" "}
               ({bookmarkCount})
             </p>
-            <span className="text-xl flex text-gray-100 p-2 rounded-full sticky top-24  bg-black m-auto justify-center">
+            <span className="text-l flex text-gray-100 p-2 rounded-full sticky top-24  bg-black m-auto justify-center">
               <div className="flex gap-2   m-auto">
                 <Like handleLike={handleLike} likes={likes} userId={userId} />
                 <FontAwesomeIcon
@@ -716,14 +723,17 @@ const ReadMore = () => {
             </ul>
           </div>
           <div>
-            <div className="flex flex-col m-auto my-5 bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400   rounded-xl p-5">
-              <img
+            <div className="flex flex-col m-auto my-5 bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400   rounded-xl p-5 ">
+           <p>About Author</p> 
+           <div className="flex">
+           <img
                 src={profileData?.photoURL}
-                className="rounded-full h-20 w-20 m-auto"
+                className="rounded-full h-20 w-20 my-auto "
               />
-              <h1 className="text-xl m-auto text-black py-5">
+              <div className="mx-5">
+              <h1 className="text-xl m-auto text-black ">
                 {" "}
-                Author: {profileData?.displayName}
+                 {profileData?.displayName}
               </h1>
               <h1 className="text-sm text-gray-600 py-1 m-auto">
                 Bio: {profileData?.shortBio}
@@ -731,8 +741,10 @@ const ReadMore = () => {
               <h1 className="text-sm text-gray-600 py-1 m-auto">
                 Email: {profileData?.email}
               </h1>
+              </div></div>
+              
               <NavLink to={`/profile/${profileId}`}>
-                <button className="btn w-40 flex hover:bg-black m-auto my-2  bg-gradient-to-r from-orange-400 to-rose-400 text-white ">
+                <button className="btn w-32 flex hover:bg-black m-auto my-2  bg-gradient-to-r from-orange-400 to-rose-400 text-white ">
                   View Profile
                 </button>
               </NavLink>
@@ -791,11 +803,11 @@ const ReadMore = () => {
           </div>
         </div>
 
-        <div className=" bg-gradient-to-l from-orange-400 to-rose-400  ">
-          <p className="text-white text-2xl sm:my-2 my-5 text-center Aceh text-md">
+        <div className=" bg-white  border ">
+          <p className="text-black text-xl sm:my-2 my-5  text-center Aceh text-md">
             Related Publications
           </p>
-          <div className="flex  flex-wrap px-5 sm:p-5 my-20 sm:my-5 m-auto justify-center gap-5 sm:gap-2">
+          <div className="flex  flex-wrap px-5 sm:p-5 my-10 sm:my-5 m-auto justify-center gap-5 sm:gap-2">
             {relatedPost?.map((post, index) => {
               return (
                 <NavLink
@@ -804,30 +816,32 @@ const ReadMore = () => {
                   key={index}
                   className=" p-5 sm:p-0 sm:px-5 m-auto flex  flex-col  transition duration-300 ease-in-out"
                 >
-                  <div className="w-72  bg-white hover:bg-gray-100/50   rounded-xl p-2 shadow ">
-                    <div className="relative overflow-clip  h-40 sm:w-40">
-                      <img
-                        src={post.data.imgUrl}
-                        height={200}
-                        className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out m-auto "
-                      />
-                    </div>
+                  <div className="w-72  bg-white hover:border rounded-lg hover:bg-gradient-to-l from-orange-400 to-rose-400  ">
+          
+                  <div className="relative overflow-clip  h-20 ">
+                    <img
+                      src={post.data.imgUrl}
+                      height={200}
+                      className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out "
+                    />
+                  </div>
                     <div className="px-5 sm:p-0">
-                      <p className="badge bg-gray-100 p-4  top-5 text-gray-600  sm:hidden border-none ">
+                      {/* <p className="badge bg-gray-100 p-4  top-5 text-gray-600  sm:hidden border-none ">
                         {post.data.category}
-                      </p>
+                      </p> */}
                       <p className="mt-1 text-sm leading-5 text-red-300 border-b Aceh">
                         {post.data.timestamp?.toDate().toDateString()} at{" "}
                         {formatTime(post.data.timestamp?.toDate())}
                       </p>
-                      <h2 className="Aceh text-xl py-2 text-black ">
-                        {post.data.postTitle}
+                      <h2 className="Aceh text-l py-2 text-black ">
+                      
+                        {excerpt(post.data.postTitle, 50)}
                       </h2>
 
-                      <p className="h-14 text-gray-800 sm:hidden">
-                        {excerpt(post.data.postDescription, 50)}
+                      <p className=" text-gray-500 ">
+                        {excerpt(post.data.postDescription, 100)}
                       </p>
-                      <span className="text-xl flex gap-5 ">
+                      <span className="text-l flex gap-5 ">
                         <FontAwesomeIcon
                           icon={faComment}
                           className="text-gray-500 my-auto "

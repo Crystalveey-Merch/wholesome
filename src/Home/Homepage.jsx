@@ -11,33 +11,33 @@ const Homepage = () => {
   return (
     <>
       <Helmet>
-        <title>Wholesome</title>
+        <title>Wholesquare</title>
         <meta
           name="description"
-          content="Wholesome helps foster connections with like-minds that transcends borders and also share your experiences, knowledge and creativity"
+          content="Wholesquare helps foster connections with like-minds that transcends borders and also share your experiences, knowledge and creativity"
         />
-        <link rel="canonical" href="https://wholesome.crystalveey.com/" />
+        <link rel="canonical" href="https://Wholesquare.crystalveey.com/" />
         <meta
           name="keywords"
-          content="Wholesome, Crystalveey,
+          content="Wholesquare, Crystalveey,
          , Blog article, Blog, writing, Business, marketing, Technology, Fashion, Nutrition, Food, Art, Travel and Adventure, Game and sports, Book club, Environmental and Sustainability"
         />
         <meta name="robots" content="index, follow" />
-        <meta property="og:title" content="Wholesome" />
-        <meta property="og:url" content="https://wholesome.crystaleey.com" />
+        <meta property="og:title" content="Wholesquare" />
+        <meta property="og:url" content="https://Wholesquare.org" />
         {/* <meta property="og:image" content={posts} /> */}
         <meta
           name="og:description"
-          content="Wholesome helps foster connections with like-minds that transcends borders and also share your experiences, knowledge and creativity"
+          content="Wholesquare helps foster connections with like-minds that transcends borders and also share your experiences, knowledge and creativity"
         />
-        <meta name="og:site_name" content="Wholesome" />
+        <meta name="og:site_name" content="Wholesquare" />
         <meta name="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:url" content="https://wholesome.crystaleey.com" />
+        <meta name="twitter:url" content="https://Wholesquare.org" />
         <meta name="twitter:title" content="Article List" />
         <meta
           name="twitter:description"
-          content="Wholesome helps foster connections with like-minds that transcends borders and also share your experiences, knowledge and creativity"
+          content="Wholesquare helps foster connections with like-minds that transcends borders and also share your experiences, knowledge and creativity"
         />
         {/* <meta name="twitter:image" content="../../public/20231116_210104-removebg-preview.png" /> */}
 
@@ -47,13 +47,13 @@ const Homepage = () => {
             "@context": "https://schema.org",
             "@type": "BlogPosting",
             headline: "Article List",
-            url: "https://wholesome.crystaleey.com",
+            url: "https://Wholesquare.org",
 
             // "image": {posts.imgUrl},
 
             publisher: {
               "@type": "Organization",
-              name: "Wholesome",
+              name: "Wholesquare",
               logo: {
                 "@type": "ImageObject",
                 url: "",
