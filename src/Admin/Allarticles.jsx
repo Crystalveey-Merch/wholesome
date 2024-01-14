@@ -52,15 +52,12 @@ const Allarticles = () => {
         );
 
         // Set the postId state with the collected post IDs
-        setPostId(postIds);
+        // setPostId(postIds);
         setPosts([...postData]);
-        setTags([...new Set(tags)]);
-        setCategory(categories);
+        // setTags([...new Set(tags)]);
+        // setCategory(categories);
 
-        const randomIndex = Math.floor(Math.random() * postData.length);
-        if (postData[randomIndex]) {
-          setRandomPost([postData[randomIndex]]);
-        }
+        
 
         // setLoading(false)
       } catch (error) {

@@ -10,7 +10,7 @@ const Account = () => {
                 <div className="pt-34  m-auto bg-gradient-to-r from-teal-200 to-lime-200  pb-20 ">
                     <div className=" h-full w-full flex sm:flex-col rounded rounded-lg  pt-36  ">
                         <div className='w-1/2 sm:w-full text-lg  '>
-                            <h1 className='w-98 text-left ml-40 sm:ml-0 text-3xl sm:p-5 sm:text-center text-black'>Wholesome helps foster connections with like-minds
+                            <h1 className='w-98 text-left ml-40 sm:ml-0 text-3xl sm:p-5 sm:text-center text-black'>Wholesquare helps foster connections with like-minds
                                 that transcends borders and also share your
                                 experiences, knowledge and creativity</h1>
                             <ul className='text-left ml-40 my-10 sm:ml-0 sm:p-5 sm:text-center text-sky-600'>
@@ -21,7 +21,7 @@ const Account = () => {
                         </div>
                         <div className='w-1/2 sm:m-auto '>
                             <h2 className="text-2xl text-center Aceh   text-red-500 sm:text-xl mx-aluto">
-                                Wholesome
+                                Wholesquare
                             </h2>
                             <p className='text-green-500'>Get on board Today</p>
 
@@ -45,7 +45,7 @@ const Account = () => {
 </div>
                         <p className='text-md py-4 text-red-500'>Join Awesome communities </p>
                         <hr></hr>
-                        <p className='text-sm py-4 text-gray-400'>Wholesome helps foster connections with like-minds
+                        <p className='text-sm py-4 text-gray-400'>Wholesquare helps foster connections with like-minds
                             that transcends borders and also share your
                             experiences, knowledge and creativity</p>
                     </div>

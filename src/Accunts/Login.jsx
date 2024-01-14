@@ -15,6 +15,7 @@ import "firebase/auth";
 import { db } from "../firebase/auth";
 import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { Helmet } from "react-helmet-async";
+import { getAuth, sendPasswordResetEmail,  fetchSignInMethodsForEmail } from "firebase/auth";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -44,37 +45,61 @@ const Login = () => {
         navigate("/dashboard/profile");
       })
       .catch((err) => {
-        toast.error(err.message);
+        toast.error("Login error. Check email and password" );
         setError(err.message);
       });
   };
 
-  const changePassword =  async () => {
-    try {
-      await firebase.auth().sendPasswordResetEmail(email);
-      toast.success('Password reset email sent successfully!');
-      setError("");
 
+ 
+  const auth = getAuth();
+
+// sendPasswordResetEmail(auth, email)
+//   .then(() => {
+//     // Email sent successfully
+//     console.log("Password reset email sent");
+//     // Display a success message to the user
+//   })
+//   .catch((error) => {
+//     // Handle any errors
+//     console.error("Error sending password reset email:", error);
+//     // Display an error message to the user
+//   });
+  const changePassword =  async () => {
+    try {  
+      if (!email) {
+        toast.error("Input your Email in the email box");
+        
+        return;
+      }
+
+      sendPasswordResetEmail(auth, email)
+        .then(() => {
+          toast.success("Password reset email sent successfully")          ;
+        })
+        .catch((error) => {
+          toast.error("Error sending password reset email", error);
+        });
     } catch (error) {
-      setError(error.message);
-      toast.error('An error occurred. Please try again.');
+      if (error.code === "auth/user-not-found") {
+        toast.error("Email not found in Wholesquare");
+      }
     }
   };
-
 
   return (
     <div>
       <Helmet>
-        <title>Login to Wholesome</title>
-        <meta name="description" content="Login to Wholesome" />
+        <title>Login to wholesquare</title>
+        <meta name="description" content="Login to wholesquare" />
         <link rel="canonical" href="/login" />
       </Helmet>
-      <div className="  pt-40 bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 text-black w-screen h-screen ">
+      <div className="   bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 text-black w-screen h-screen ">
         <div className="text-center text-2xl">
           <div className="pt-34  m-auto   ">
             <div className=" h-full w-full flex rounded rounded-lg    ">
               <div className="w-2/5 m-auto  mt-36 sm:mt-20 sm:w-full sm:h-full mb-44 rounded">
-                <div className="bg-white/50 p-5 flex flex-col text-xl rounded-2xl  shadow">
+                <div className="bg-white/75 p-5 flex flex-col text-xl rounded-2xl  shadow">
                   <div className="  flex flex-col items-center justify-center px-10 sm:px-2 ">
                     <div className="  p-10  text-black w-full">
                       <h1 className="mb-8 text-xl text-center text-red-500">

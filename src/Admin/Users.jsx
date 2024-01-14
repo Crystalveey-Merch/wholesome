@@ -19,6 +19,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
 import Pagination from "../components/pagination.jsx";
+import { updateProfile } from 'firebase/auth';
 
 const Users = () => {
   // eslint-disable-next-line no-undef
@@ -62,29 +63,31 @@ const Users = () => {
     fetchPosts();
   }, []);
 
-  const deleteUser = async (user) => {
-    if (
-      window.confirm(
-        `Are you sure you want to delete '${user.name}'?. This user will no longer have  access to Wholesome `
-      )
-    ) {
-      try {
-        // Delete the document from Firestore
-        await auth.deleteUser(user.id);
-
-        await deleteDoc(doc(db, "users", user.id));
-        toast.success("User deleted successfully");
-        // Update the state after successful deletion
-        const updatedUsers = users.filter((user) => user.id !== user.id);
-        setUsers(updatedUsers);
-
-        toast.success("User deleted successfully");
-      } catch (error) {
-        console.error("Error deleting User:", error);
-        toast.error("An error occurred while deleting the user");
-      }
-    }
-  };
+  // const deleteUser = async (user) => {
+  //   if (
+  //     window.confirm(
+  //       `Are you sure you want to delete '${user.name}'? This user will no longer have access to Wholesome.`
+  //     )
+  //   ) {
+  //     try {
+  //       // Delete the Firestore document first
+  //       await deleteDoc(doc(db, "users", user.id));
+  
+  //       // Then delete the user from Authentication
+  //       await updateProfile(auth.user, {
+  //         disabled: true, // Add a 'disabled' field to your user profile
+  //       });
+  
+  //       // Update the state correctly
+  //       setUsers(users.filter((u) => u.id !== user.id));
+  
+  //       toast.success("User deleted successfully"); // Display only once
+  //     } catch (error) {
+  //       console.error("Error deleting User:", error);
+  //       toast.error("An error occurred while deleting the user");
+  //     }
+  //   }
+  // };
 
   const handleSearch = () => {
     if (search.trim() === "") {
@@ -162,9 +165,9 @@ const Users = () => {
               <th scope="col" className="px-6 py-3">
                 <span className="sr-only">Edit</span>
               </th>
-              <th scope="col" className="px-6 py-3">
+              {/* <th scope="col" className="px-6 py-3">
                 Action
-              </th>
+              </th> */}
             </tr>
           </thead>
           {currentPosts?.map((user) => (
@@ -197,7 +200,7 @@ const Users = () => {
                     <button className="btn">Profile</button>
                   </NavLink>
                 </td>
-                <td className="px-6 py-4 text-right">
+                {/* <td className="px-6 py-4 text-right">
                   <button
                     type="button"
                     onClick={() => deleteUser(user)}
@@ -205,7 +208,7 @@ const Users = () => {
                   >
                     Delete User
                   </button>
-                </td>
+                </td> */}
               </tr>
             </tbody>
           ))}

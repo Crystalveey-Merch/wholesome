@@ -109,9 +109,9 @@ const Signip = () => {
         <meta name='description' content='Signup on Wholesome' />
         <link rel="canonical" href='/signup' />
       </Helmet>
-      <div className="  py-20 bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 text-black w-screen h-screen ">
+      <div className="   bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 text-black w-screen h-full ">
         <div className="text-center text-2xl">
-          <div className="  m-auto   ">
+          <div className="p-32 sm:p-2 sm:pt-8  m-auto   ">
             <div className=" h-full w-full flex rounded rounded-lg    ">
 
               <div className="w-2/5 m-auto  sm:w-full sm:h-full ">
@@ -128,7 +128,7 @@ const Signip = () => {
                           type="text"
                           value={name}
                           onChange={(e) => setName(e.target.value)}
-                          className="block border-gray-100  bg-gray-100/50 w-full p-3 rounded mb-2 text-xl"
+                          className="block border-gray-100  bg-gray-100/75 w-full p-3 rounded mb-2 text-xl"
                           name="fullname"
                           placeholder="Full Name"
                         />
@@ -138,7 +138,7 @@ const Signip = () => {
                           onChange={(e) => setEmail(e.target.value)}
                           type="email"
                           required
-                          className="block border-gray-100 bg-gray-100/50 w-full p-3 rounded mb-2"
+                          className="block border-gray-100 bg-gray-100/75 w-full p-3 rounded mb-2"
                           name="email"
                           placeholder="Email"
                         />
@@ -152,7 +152,7 @@ const Signip = () => {
                           onRemove={handleRemove}
                           onSearch={function noRefCheck() { }}
                           onSelect={handleSelect}
-                          className="mb-2 bg-gray-100/50"
+                          className="mb-2 bg-gray-100/75"
                           options={[
                             {
                               key: "Lifestyle and Fashion",
@@ -189,13 +189,13 @@ const Signip = () => {
 
 
 
-                        <span className="flex  gap-2 mb-4 border-grey-light bg-gray-100/50 w-full  rounded">
+                        <span className="flex  gap-2 mb-4 border-grey-light bg-gray-100/75 w-full  rounded">
                           <input
                             value={password}
                             type={showPassword ? "text" : "password"}
                             id="password"
                             required
-                            className="block  bg-gray-100/50 border-gray-100 w-full p-3"
+                            className="block  bg-gray-100/75 border-gray-100 w-full p-3"
                             name="password"
                             placeholder="Password"
                             onChange={passwordChangeHandler}
@@ -228,7 +228,7 @@ const Signip = () => {
                           value={confirmPassword}
                           onChange={confirmPasswordChangeHandler}
                           onBlur={handlePasswordValidation}
-                          className="block border border-grey-100 bg-gray-100/50 w-full p-3 rounded "
+                          className="block border border-grey-100 bg-gray-100/75 w-full p-3 rounded "
                           name="confirm_password"
                           placeholder="Confirm Password"
                         />

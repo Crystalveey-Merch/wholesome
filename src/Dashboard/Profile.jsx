@@ -42,10 +42,12 @@ const Profile = () => {
     setSelectedOptions(updatedOptions);
   };
   const navigate = useNavigate();
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setIsEmailVerified(user.emailVerified);
+        console.log(user.emailVerified)
       }
     });
 
@@ -194,6 +196,7 @@ const Profile = () => {
         });
     }
   };
+ 
 
   return (
     <>

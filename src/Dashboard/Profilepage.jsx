@@ -142,7 +142,12 @@ const Profilepage = () => {
       console.error("Error updating post document:", error);
     }
   };
-
+  const excerpt = (str, count) => {
+    if (str && str.length > count) {
+      str = str.substring(0, count) + " ... ";
+    }
+    return str;
+  };
   return (
     <div className="py-40 sm:py-10 h-full w-screen mx-auto flex flex-col  bg-gradient-to-r from-rose-100 to-teal-100">
       <Helmet>
@@ -213,7 +218,7 @@ const Profilepage = () => {
             className="w-96 h-96  my-auto  rounded-full"
           ></img>
           <div className="px-5 bg-gradient-to-r from-rose-700 to-pink-600 text-white  w-96 p-10 sm:w-full">
-            <h1 className="sm:text-center">{profileData?.displayName}</h1>
+            <p className="sm:text-center text-2xl Aceh">{profileData?.displayName}</p>
             <h2 className="sm:text-center text-gray-200 text-xl">
               {profileData?.shortBio}
             </h2>
@@ -287,54 +292,69 @@ const Profilepage = () => {
           </div>
         </div>
       </div>
-      <div className="h-97 bg-gradient-to-r from-rose-100 to-teal-100">
+      <div className="h-97 bg-gray-100">
         <p className="text-center text-2xl p-10 Aceh">User Posts</p>
         <ul className="flex flex-wrap justify-center gap-5 sm:px-10 ">
           {userPosts.map((post) => (
-            <li key={post.id} className="w-96 border bg-black/25 rounded-xl">
-              <NavLink
-                to={`/readmore/${post.id}`}
-                onClick={() => handleReadMoreClick(post)}
-                key={post.id}
-                className="flex flex-col gap-5 hover:bg-black/50 p-5 rounded-xl  transition duration-300   ease-in-out  "
-              >
-                <div className="relative overflow-clip  h-40 sm:w-full">
-                  <img
-                    src={post.imgUrl}
-                    height={200}
-                    className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out m-auto "
-                  />
-                </div>
-                <div key={post.id}>
-                  <p className="mt-1 text-sm leading-5 text-gray-200 border-b Aceh">
-                    {post?.timestamp.toDate().toDateString()} at{" "}
-                    {formatTime(post?.timestamp.toDate())}
-                  </p>
-                  <p className="Aceh text-white text-xl">{post.postTitle}</p>
-                  <span className="text-xl flex gap-5  text-white ">
-                    <FontAwesomeIcon
-                      icon={faComment}
-                      className="text-gray-800 my-auto "
-                    />{" "}
-                    {post.comments.length}
-                    <FontAwesomeIcon
-                      icon={faThumbsUp}
-                      className="text-gray-800 my-auto "
-                    />{" "}
-                    {post.likes.length}
-                    <FontAwesomeIcon
-                      icon={faEye}
-                      className="text-gray-800 my-auto "
-                    />{" "}
-                    {post.views ? post.views.length : 0}
-                    <FontAwesomeIcon
-                      icon={faBookmark}
-                      className="my-auto  text-gray-800 "
-                    />
-                    {post.count}
-                  </span>
-                </div>
-              </NavLink>
+            <li key={post.id} className=" border rounded-xl">
+            <NavLink
+                  to={`/readmore/${post.id}`}
+                  onClick={() => handleReadMoreClick(post)}
+                  key={post.id}
+                  className="hover:border sm:hover:border-none p-8 sm:p-0  hover:rounded-xl transition duration-300  sm:m-0 ease-in-out "
+                >
+                  <div
+                    key={post.id}
+                    className="w-72   sm:w-full bg-white  sm:p-10 hover:scale-105   transition duration-300 ease-in-out sm:rounded-none  rounded-xl p-2 shadow "
+                  >
+                    <div className="relative overflow-clip  h-40 ">
+                      <img
+                        src={post.imgUrl}
+                        height={200}
+                        className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out "
+                      />
+                    </div>
+                    <div className="px-5 sm:p-0 ">
+                      <p className="badge  bg-gradient-to-r from-orange-400 to-rose-400 p-4 my-5  top-5 text-gray-100   border-none ">
+                        {post.category}
+                      </p>
+                      <p className="mt-1 text-sm leading-5 text-red-300 border-b Aceh">
+                        {post?.timestamp.toDate().toDateString()} at{" "}
+                        {formatTime(post?.timestamp.toDate())}
+                      </p>
+                      <h2 className="Aceh text-l py-2 text-black ">
+                        {excerpt(post.postTitle, 50)}
+                      </h2>
+                      <div className="">
+                        <p className=" text-gray-500 ">
+                          {excerpt(post.postDescription, 100)}
+                        </p>
+                      </div>
+                      <span className="text-l flex gap-5 ">
+                        <FontAwesomeIcon
+                          icon={faComment}
+                          className="text-gray-500 my-auto "
+                        />{" "}
+                        {post.comments.length}
+                        <FontAwesomeIcon
+                          icon={faThumbsUp}
+                          className="text-gray-500 my-auto "
+                        />{" "}
+                        {post.likes.length}
+                        <FontAwesomeIcon
+                          icon={faEye}
+                          className="text-gray-500 my-auto "
+                        />{" "}
+                        {post.views ? post.views.length : 0}
+                        <FontAwesomeIcon
+                          icon={faBookmark}
+                          className="my-auto  text-gray-500 "
+                        />
+                        {post.count}
+                      </span>
+                    </div>
+                  </div>
+                </NavLink>
             </li>
           ))}
         </ul>
