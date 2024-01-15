@@ -643,7 +643,7 @@ const ReadMore = () => {
                 src={profileData?.photoURL}
                 className="rounded-full h-8 w-8 my-auto mx-2 text-black"
               />{" "}
-              {profileData?.displayName}
+              {profileData?.name}
             </p>
             <p
               className="py-5 underline cursor-pointer  gap-2"
@@ -734,7 +734,7 @@ const ReadMore = () => {
               <div className="mx-5">
               <h1 className="text-xl m-auto text-black ">
                 {" "}
-                 {profileData?.displayName}
+                 {profileData?.name}
               </h1>
               <h1 className="text-sm text-gray-600 py-1 m-auto">
                 Bio: {profileData?.shortBio}

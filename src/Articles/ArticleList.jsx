@@ -298,7 +298,7 @@ const ArticleList = () => {
           })}
         />
       </Helmet>
-      <div className="  py-20 sm:px-2 px-8  w-screen  flex sm:flex-col  m-auto  justify-center bg-gray-800  relative">
+      <div className="  py-20 sm:px-2 px-8  w-screen  flex sm:flex-col  m-auto  justify-center bg-gray-200 dark:bg-gray-800  relative">
         <div className="w-full">
           <div className="flex m-auto my-10 justify-center ">
             {Array.isArray(randomPost) &&
@@ -377,7 +377,7 @@ const ArticleList = () => {
                   to={`/readmore/${post.id}`}
                   onClick={() => handleReadMoreClick(post)}
                   key={post.id}
-                  className="hover:border sm:hover:border-none p-8 sm:p-0  hover:rounded-xl transition duration-300  sm:m-0 ease-in-out "
+                  className=" sm:hover:border-none p-8 sm:p-0  hover:rounded-xl transition duration-300  sm:m-0 ease-in-out "
                 >
                   <div
                     key={post.id}
@@ -437,16 +437,16 @@ const ArticleList = () => {
           </div>
           <div className="flex hidden sm:block w-full  flex-wrap m-auto justify-center gap-5 sm:gap-0">
             {currentPosts.map((post) => (
-              <div className="border my-2 " key={post.id}>
+              <div className=" my-2 " key={post.id}>
                 <NavLink
                   to={`/readmore/${post.id}`}
                   onClick={() => handleReadMoreClick(post)}
                   key={post.id}
-                  className="hover:border sm:hover:border-none p-8 sm:p-0  hover:rounded-xl transition duration-300  sm:my-2 ease-in-out "
+                  className="  p-8 sm:p-0  hover:rounded-xl transition duration-300  sm:my-2 ease-in-out "
                 >
                   <div
                     key={post.id}
-                    className="w-96 sm:w-full sm:flex sm:w-full bg-white  dark:bg-gray-700  sm:p-2    transition duration-300 ease-in-out sm:rounded-none  rounded-xl p-2 shadow "
+                    className="w-96 sm:w-full sm:flex sm:w-full bg-white  dark:bg-gray-700  sm:p-2    transition duration-300 ease-in-out   rounded-xl p-2 shadow "
                   >
                     <div className="relative overflow-clip  h-40  w-40 my-auto flex ">
                       <img

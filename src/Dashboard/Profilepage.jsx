@@ -218,7 +218,7 @@ const Profilepage = () => {
             className="w-96 h-96  my-auto  rounded-full"
           ></img>
           <div className="px-5 bg-gradient-to-r from-rose-700 to-pink-600 text-white  w-96 p-10 sm:w-full">
-            <p className="sm:text-center text-2xl Aceh">{profileData?.displayName}</p>
+            <p className="sm:text-center text-2xl Aceh">{profileData?.name}</p>
             <h2 className="sm:text-center text-gray-200 text-xl">
               {profileData?.shortBio}
             </h2>
