@@ -61,13 +61,13 @@ const AllActivity = () => {
     if (window.confirm("Are you sure you want to delete this Activity?")) {
       try {
         // Delete the document from Firestore
-        await deleteDoc(doc(db, "posts", activity.id));
+        await deleteDoc(doc(db, "activities", activity.id));
 
         // Update the state after successful deletion
-        const updatedPosts = activity.filter(
-          (post) => post.postId !== activity.id
-        );
-        setActivity(updatedPosts);
+       
+        setActivity((prevPosts) =>
+        prevPosts.filter((post) => post.id !== activity.id)
+      );
 
         toast.success("Post deleted successfully");
       } catch (error) {
@@ -103,7 +103,8 @@ const AllActivity = () => {
     <div>
       {" "}
       <div className="py-10 sm:px-2 w-full ">
-        <p className="text-center text-xl Aceh py-10">Activity Data</p>
+        <p className="text-center text-2xl Aceh py-10 text-gray-500">Activity Data</p>
+        <div className="btn btn-success text-3xl py-10">{currentPosts.length} Activities</div>
 
         <div className="relative overflow-x-auto sm:w-screen shadow-md sm:rounded-lg  py-5">
           <label htmlFor="table-search" className="sr-only">
@@ -183,7 +184,7 @@ const AllActivity = () => {
                   <td className="px-6 py-4 text-right">
                     <button
                       type="button"
-                      onClick={() => deleteActivity(activity.id)}
+                      onClick={() => deleteActivity(activity)}
                       className=" block font-medium text-blue-600 dark:text-blue-500 hover:underline"
                     >
                       Delete activity

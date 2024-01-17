@@ -57,14 +57,16 @@ const Podcasts = () => {
     if (window.confirm("Are you sure you want to delete this Podcast?")) {
       try {
         // Delete the document from Firestore
-        await deleteDoc(doc(db, "posts", podcast.id));
+        await deleteDoc(doc(db, "podcast", podcast.id));
 
         // Update the state after successful deletion
-        const updatedPosts = podcast.filter(
-          (post) => post.postId !== podcast.id
-        );
-        setPodcasts(updatedPosts);
-
+        // const updatedPosts = podcast.filter(
+        //   (podcast) => podcast.postId !== podcast.id
+        // );
+        // setPodcasts(updatedPosts);
+        setPodcasts((prevPosts) =>
+        prevPosts.filter((podcasts) => podcasts.id !== podcast.id)
+      );
         toast.success("Podcast deleted successfully");
       } catch (error) {
         console.error("Error deleting Podcast:", error);
@@ -77,7 +79,8 @@ const Podcasts = () => {
     <div>
       {" "}
       <div className="py-10 sm:px-2 px-8 w-full ">
-        <p className="text-center text-xl Aceh py-10">Podcasts Data</p>
+        <p className="text-center text-2xl Aceh py-10 text-gray-500">Podcasts Data</p>
+        <div className="btn btn-success text-3xl py-10">{podcasts.length} Podcasts</div>
 
         <div className="relative overflow-x-auto sm:w-screen shadow-md sm:rounded-lg">
           <label htmlFor="table-search" className="sr-only">

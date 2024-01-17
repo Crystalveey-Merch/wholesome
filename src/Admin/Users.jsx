@@ -111,8 +111,8 @@ const Users = () => {
 
   return (
     <div className="py-10 sm:px-2 px-8 w-full ">
-      <p className="text-center text-xl Aceh py-10">Users Data</p>
-
+      <p className="text-center text-2xl Aceh py-10  text-gray-600">Users Data</p>
+<div className="btn btn-success text-3xl py-10">{currentPosts.length} Users</div>
       <div className="relative overflow-x-auto sm:w-screen shadow-md sm:rounded-lg py-8">
         <label htmlFor="table-search" className="sr-only">
           Search

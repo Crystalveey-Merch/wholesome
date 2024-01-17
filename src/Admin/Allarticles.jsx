@@ -97,8 +97,9 @@ const Allarticles = () => {
         await deleteDoc(doc(db, "posts", postId));
 
         // Update the state after successful deletion
-        const updatedPosts = posts.filter((post) => post.postId !== postId);
-        setPosts(updatedPosts);
+        setPosts((prevPosts) =>
+        prevPosts.filter((post) => post.id !== postId)
+      );
 
         toast.success("Post deleted successfully");
       } catch (error) {
@@ -110,7 +111,9 @@ const Allarticles = () => {
 
   return (
     <div className="py-20 sm:px-2 px-8 w-full">
-      <p className="text-center text-xl Aceh py-10">All Articles</p>
+      <p className="text-center text-2xl Aceh py-10 text-gray-500">All Articles</p>
+      <div className="btn btn-success text-3xl py-10">{posts.length} Articles</div>
+
       <label htmlFor="table-search" className="sr-only">
         Search
       </label>
