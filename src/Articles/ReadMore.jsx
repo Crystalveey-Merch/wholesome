@@ -184,7 +184,7 @@ const ReadMore = () => {
       }
     };
     fetchSelectedPost();
-  }, [id]);
+  }, [id, post]);
 
   useEffect(() => {
     const checkBookmarkStatus = async () => {
