@@ -315,7 +315,7 @@ const ReadMore = () => {
       createdAt: timestamp,
       userId,
       commentId,
-      name: userData?.displayName,
+      name: userData?.name,
       body: userComment,
       imgUrl: userData?.photoURL,
       claps: [],
