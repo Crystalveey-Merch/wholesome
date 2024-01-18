@@ -29,7 +29,7 @@ import { Helmet } from "react-helmet-async";
 import Moment from "moment";
 
 const ActivityList = () => {
-  const { eventName } = useParams();
+//   const { eventName } = useParams();
   const [searchInput, setSearchInput] = useState("");
 
   const [events, setEvents] = useState([]);
@@ -88,15 +88,14 @@ const ActivityList = () => {
 
     fetchPosts();
   }, []);
-  console.log(events);
 
   if (loading) {
     return <Spinner />;
   }
 
-  const collectionProduct = () => {
-    return events.filter((event) => event.name === eventName);
-  };
+//   const collectionProduct = () => {
+//     return events.filter((event) => event.name === eventName);
+//   };
 
   const handleSearchInputChange = (e) => {
     setSearchInput(e.target.value);
@@ -248,10 +247,10 @@ const ActivityList = () => {
             Where Moments Become Memories: A Showcase of Wholesquare Activities."
             </p>
             <div className="m-auto flex flex-col gap-2  justify-center py-5">
-              <p className="m-auto text-xl text-gray-100 AcehLight">
+              <p className="m-auto text-xl text-white AcehLight">
                 Search activity by name, tags and location
               </p>
-              <p className=" m-auto text-gray-300   ">
+              <p className=" m-auto text-gray-100   ">
                 <FontAwesomeIcon icon={faAnglesDown} />
               </p>
               <input
@@ -327,7 +326,7 @@ const ActivityList = () => {
               onClick={filterEnvironmental}
               className="border rounded-full p-4 cursor-pointer m-auto flex   shadow text-green-900	"
             />
-            <p className="text-sm text-center text-gray-400 ">Environment</p>
+            <p className="text-sm text-center text-gray-400 ">Nature</p>
           </span>
           <span className="">
             <FontAwesomeIcon

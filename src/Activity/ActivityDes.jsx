@@ -34,7 +34,6 @@ const Activity = () => {
   const [claps, setClaps] = useState(0);
   const { id } = useParams();
 
-  console.log(activity);
 
   useEffect(() => {
     const listen = onAuthStateChanged(auth, (user) => {
@@ -104,7 +103,6 @@ const Activity = () => {
         const postDoc = await getDoc(postDocRef);
         if (postDoc.exists()) {
           const clapCount = postDoc.data().claps;
-          console.log("Clap count:", clapCount);
           setClaps(clapCount);
 
           return clapCount;
