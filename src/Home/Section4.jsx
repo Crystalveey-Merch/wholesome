@@ -139,7 +139,7 @@ const Section4 = () => {
                     >
                       <div className="relative overflow-clip  h-40 sm:w-full">
                         <img
-                          className="rounded-t-lg"
+                          className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out m-auto"
                           src={event.imgUrl}
                           alt={event.eventName}
                         />

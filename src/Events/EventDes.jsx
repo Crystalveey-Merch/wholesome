@@ -11,17 +11,90 @@ import {
   getDocs,
   doc,
   getDoc,
+  updateDoc,
+  arrayUnion,
 } from "firebase/firestore";
 import { db } from "../firebase/auth.js";
 import "add-to-calendar-button";
 import { Helmet } from "react-helmet-async";
 import Moment from "moment";
 import { NavLink } from "react-router-dom";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth,  } from "../firebase/auth.js";
+import { toast } from "react-toastify";
 
 const EventDes = () => {
   const [event, setEvent] = useState(null);
   const [relatedEvents, setRelatedEvents] = useState([]);
+  const [authUser, setAuthUser] = useState(null);
+  const [profileData, setProfileData] = useState(null);
+  const [totalAttendees, setTotalAttendees] = useState(0);
+  const [isUserRegistered, setIsUserRegistered] = useState(false);
 
+  useEffect(() => {
+    const listen = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setAuthUser(user);
+      } else {
+        setAuthUser(null);
+      }
+    });
+
+    return () => {
+      listen();
+    };
+  }, []);
+  const userId = authUser?.uid;
+  useEffect(() => {
+    const fetchProfileData = async () => {
+      try {
+        const profileDocRef = doc(db, "users", userId); // Assuming you have a "users" collection in Firebase
+        const profileDocSnapshot = await getDoc(profileDocRef);
+        setProfileData(profileDocSnapshot.data());
+      } catch (error) {
+        console.error("Error fetching profile data: ", error);
+      }
+    };
+    // console.log(!profileData.photoURL);
+    if (userId) {
+      fetchProfileData();
+    }
+  }, [userId, profileData]);
+  useEffect(() => {
+    const fetchTotalAttendees = async () => {
+      try {
+        const eventDocRef = doc(db, "events", id);
+        const eventDocSnapshot = await getDoc(eventDocRef);
+
+        if (eventDocSnapshot.exists()) {
+          const attendees = eventDocSnapshot.data()?.attendees || [];
+          setTotalAttendees(attendees.length);
+        }
+      } catch (error) {
+        console.error("Error fetching total attendees:", error);
+      }
+    };})
+  
+    useEffect(() => {
+      const checkUserRegistration = async () => {
+        try {
+          if (authUser) {
+            const eventDocRef = doc(db, "events", id);
+            const eventDocSnapshot = await getDoc(eventDocRef);
+  
+            if (eventDocSnapshot.exists()) {
+              const attendees = eventDocSnapshot.data()?.attendees || [];
+              const isRegistered = attendees.some(attendee => attendee.userId === authUser.uid);
+              setIsUserRegistered(isRegistered);
+            }
+          }
+        } catch (error) {
+          console.error("Error checking user registration:", error);
+        }
+      };
+  
+      checkUserRegistration();
+    }, [id, authUser]);
   const { id } = useParams();
   useEffect(() => {
     const fetchPosts = async () => {
@@ -94,6 +167,32 @@ const EventDes = () => {
   };
   const startDateTime = separateDateTime(startDateTimeString);
   const endDateTime = separateDateTime(endDateTimeString);
+
+
+  const handleAttend = async () => {
+    try {
+      // Check if the user is authenticated
+      if (authUser) {
+        // Update the event document with the attendee's information
+        const eventDocRef = doc(db, "events", id);
+  
+        // Use arrayUnion to add the attendee's ID to the 'attendees' field
+        await updateDoc(eventDocRef, {
+          attendees: arrayUnion({
+            userId: authUser.uid,
+            userName: profileData.name,
+          }),
+        });
+        toast.success('Registration Succesful')
+        console.log("Attendee added successfully!");
+      } else {
+        console.log("User not authenticated");
+        toast.error('Login to Attend Event ')
+      }
+    } catch (error) {
+      console.error("Error attending event:", error);
+    }
+  };
 
   return (
     <>
@@ -172,10 +271,17 @@ const EventDes = () => {
                 size="5"
                 lightMode="bodyScheme"
               ></add-to-calendar-button>
-              <div className="btn">
+              <p> {totalAttendees} Attending</p>
+              {isUserRegistered ? <div className="btn bg-green-600 text-white">
+              <p>Already Registered</p>
+              
+              </div>:<div className="btn bg-rose-900 text-white" onClick={handleAttend}>
               <p>Attend</p>
-              <p>attending</p>
-              </div>
+              
+              </div>}
+              
+              <p>{isUserRegistered ? 'Already Registered' : 'Attend'}</p>
+
             </span>
             <h1 className="text-red-500 text-xl mt-4 ">
               {/* {dateTime.toDateString()} */}

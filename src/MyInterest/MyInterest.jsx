@@ -1,26 +1,5 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import {
-  addDoc,
-  collection,
-  DocumentSnapshot,
-  updateDoc,
-  serverTimestamp,
-  Timestamp,
-  doc,
-  getDoc,
-  endAt,
-  endBefore,
-  arrayRemove,
-  arrayUnion,
-  getDocs,
-  limit,
-  limitToLast,
-  orderBy,
-  query,
-  startAfter,
-  where,
-} from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "../firebase/auth.js";
 import { NavLink, Outlet } from "react-router-dom";
