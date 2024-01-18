@@ -4,6 +4,7 @@ import { useParams } from "react-router";
 import { isEmpty } from "lodash";
 import { useEffect, useState } from "react";
 import Spinner from "../components/Spinner.tsx";
+import { Link as ScrollLink } from "react-scroll";
 
 import {
   addDoc,
@@ -614,51 +615,54 @@ const ReadMore = () => {
             datePublished: `${post.timestamp?.toDate()?.toDateString()}`, */}
         </script>
       </Helmet>
-      <span className="text-xl hidden sm:block  text-gray-100 p-1 rounded-full fixed top-60  bg-black/75 m-auto justify-center">
-              <div className="flex flex-col gap-2   m-auto">
-                <Like handleLike={handleLike} likes={likes} userId={userId} />
-                <div>
-                <FontAwesomeIcon
-                  icon={faComment}
-                  className="text-gray-100  "
-                />{" "}
-                {post.comments.length}</div>
-              </div>
-              <div className="flex-col flex gap-3 m-auto  text-2xl">
-                <LinkedinShareButton url={url} title={post?.postTitle}>
-                  <FontAwesomeIcon
-                    icon={faLinkedin}
-                    className="fab fa-linkedin text-sky-500 "
-                  />
-                </LinkedinShareButton>
-                <FacebookShareButton url={url} title={post?.postTitle}>
-                  <FontAwesomeIcon
-                    icon={faFacebook}
-                    className="fab fa-facebook text-sky-500 "
-                  />
-                </FacebookShareButton>
-                <TwitterShareButton url={url} title={post?.postTitle}>
-                  <FontAwesomeIcon
-                    icon={faTwitter}
-                    className="fab fa-twitter text-sky-500 "
-                  />
-                </TwitterShareButton>
-                <WhatsappShareButton url={url} title={post?.postTitle}>
-                  <FontAwesomeIcon
-                    icon={faWhatsapp}
-                    className="fab fa-whatsapp text-green-500 "
-                  />
-                </WhatsappShareButton>
-                <span onClick={copyText} className="flex">
-                  <FontAwesomeIcon
-                    icon={faCopy}
-                    className="fas fa-link text-xl text-white m-auto"
-                  />
-                </span>
-              </div>
-            </span>
-      <div className="flex mt-32 w-screen  py-10 px-30 sm:flex-col sm:px-5 dark:bg-gray-800 ">
-      
+      <span className="text-xl hidden sm:block  text-gray-100 p-1  rounded-full fixed top-60 right-0  bg-black/50 m-auto justify-center">
+        <div className="flex flex-col gap-2   m-auto">
+          <Like handleLike={handleLike} likes={likes} userId={userId} />
+          <div>
+            <ScrollLink
+              to="comment" // the ID of the target section you want to scroll to
+              smooth={true}
+              duration={500} // the duration of the scroll animation in milliseconds
+            >
+              <FontAwesomeIcon icon={faComment} className="text-gray-100  " />{" "}
+              {post.comments.length}{" "}
+            </ScrollLink>
+          </div>
+        </div>
+        <div className="flex-col flex gap-3 m-auto  text-2xl">
+          <LinkedinShareButton url={url} title={post?.postTitle}>
+            <FontAwesomeIcon
+              icon={faLinkedin}
+              className="fab fa-linkedin text-sky-500 "
+            />
+          </LinkedinShareButton>
+          <FacebookShareButton url={url} title={post?.postTitle}>
+            <FontAwesomeIcon
+              icon={faFacebook}
+              className="fab fa-facebook text-sky-500 "
+            />
+          </FacebookShareButton>
+          <TwitterShareButton url={url} title={post?.postTitle}>
+            <FontAwesomeIcon
+              icon={faTwitter}
+              className="fab fa-twitter text-sky-500 "
+            />
+          </TwitterShareButton>
+          <WhatsappShareButton url={url} title={post?.postTitle}>
+            <FontAwesomeIcon
+              icon={faWhatsapp}
+              className="fab fa-whatsapp text-green-500 "
+            />
+          </WhatsappShareButton>
+          <span onClick={copyText} className="flex">
+            <FontAwesomeIcon
+              icon={faCopy}
+              className="fas fa-link text-xl text-white m-auto"
+            />
+          </span>
+        </div>
+      </span>
+      <div className="flex mt-32 w-screen sm:mr-2  py-10 px-30 sm:flex-col sm:px-5 dark:bg-gray-800 ">
         <div
           className="  px-40 lg:px-20 sm:px-0  sm:mt-30 flex flex-col m-auto justify-center"
           key={post.id}
@@ -701,7 +705,7 @@ const ReadMore = () => {
               />{" "}
               ({bookmarkCount})
             </p>
-            
+
             <span className="text-l  sm:hidden  flex text-gray-100 p-2 rounded-full sticky top-24  bg-black m-auto justify-center">
               <div className="flex gap-2   m-auto">
                 <Like handleLike={handleLike} likes={likes} userId={userId} />
@@ -749,7 +753,7 @@ const ReadMore = () => {
             <br></br>
             <MDEditor.Markdown
               source={post.content}
-              className="dark:bg-gray-800"
+              className="dark:bg-gray-800 sm:mr-2"
               style={{ whiteSpace: "pre-wrap" }}
             />
 
@@ -768,9 +772,11 @@ const ReadMore = () => {
               )}
             </ul>
           </div>
-          <div>
-           
-            <div className=" bg-gray-200 border rounded-xl text-base-200 p-5 sm:p-2 ">
+          <div id="comment">
+            <div
+              className=" bg-gray-200 border rounded-xl text-base-200 p-5 sm:p-2 "
+              
+            >
               <div className="scroll">
                 <h4 className="small-title Aceh text-red-500 ">
                   {post.comments?.length} Comment
@@ -822,25 +828,26 @@ const ReadMore = () => {
               />
             </div>
             <div className="flex flex-col m-auto my-5 bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400   rounded-xl p-5 ">
-           <p>About Author</p> 
-           <div className="flex">
-           <img
-                src={profileData?.photoURL}
-                className="rounded-full h-20 w-20 my-auto "
-              />
-              <div className="mx-5">
-              <h1 className="text-xl m-auto text-black ">
-                {" "}
-                 {profileData?.name}
-              </h1>
-              <h1 className="text-sm text-gray-600 py-1 m-auto">
-                Bio: {profileData?.shortBio}
-              </h1>
-              <h1 className="text-sm text-gray-600 py-1 m-auto">
-                Email: {profileData?.email}
-              </h1>
-              </div></div>
-              
+              <p>About Author</p>
+              <div className="flex">
+                <img
+                  src={profileData?.photoURL}
+                  className="rounded-full h-20 w-20 my-auto "
+                />
+                <div className="mx-5">
+                  <h1 className="text-xl m-auto text-black ">
+                    {" "}
+                    {profileData?.name}
+                  </h1>
+                  <h1 className="text-sm text-gray-600 py-1 m-auto">
+                    Bio: {profileData?.shortBio}
+                  </h1>
+                  <h1 className="text-sm text-gray-600 py-1 m-auto">
+                    Email: {profileData?.email}
+                  </h1>
+                </div>
+              </div>
+
               <NavLink to={`/profile/${profileId}`}>
                 <button className="btn w-32 flex hover:bg-black m-auto my-2  bg-gradient-to-r from-orange-400 to-rose-400 text-white ">
                   View Profile
@@ -864,14 +871,13 @@ const ReadMore = () => {
                   className=" p-5 sm:p-0 sm:px-5 m-auto flex  flex-col  transition duration-300 ease-in-out"
                 >
                   <div className="w-72  bg-white hover:border rounded-lg hover:bg-gradient-to-l from-orange-400 to-rose-400  ">
-          
-                  <div className="relative overflow-clip  h-20 ">
-                    <img
-                      src={post.data.imgUrl}
-                      height={200}
-                      className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out "
-                    />
-                  </div>
+                    <div className="relative overflow-clip  h-20 ">
+                      <img
+                        src={post.data.imgUrl}
+                        height={200}
+                        className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out "
+                      />
+                    </div>
                     <div className="px-5 sm:p-0">
                       {/* <p className="badge bg-gray-100 p-4  top-5 text-gray-600  sm:hidden border-none ">
                         {post.data.category}
@@ -881,7 +887,6 @@ const ReadMore = () => {
                         {formatTime(post.data.timestamp?.toDate())}
                       </p>
                       <h2 className="Aceh text-l py-2 text-black ">
-                      
                         {excerpt(post.data.postTitle, 50)}
                       </h2>
 
