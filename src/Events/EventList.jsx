@@ -329,12 +329,13 @@ const EventList = () => {
                   className="w-72 bg-white    shadow  dark:border-gray-700"
                 >
                   <NavLink to={`/upcomingevents/${event.id}`}>
+                  <div className="relative overflow-clip   h-40 sm:w-full">
                     <img
-                      className="rounded-t-lg"
+                      className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out m-auto"
                       src={event.imgUrl}
                       alt={event.eventName}
                     />
-
+                </div>
                     <div className="p-5">
                       <div className="badge">{event.category}</div>
                       <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 Aceh">

@@ -154,7 +154,7 @@ const EventDes = () => {
       </Helmet>
       <div className="pt-40  sm:pt-10 sm:mt-18 flex sm:flex-col gap-10  m-auto justify-center bg-stone-100 w-screen">
         <div className=" w-1/2 sm:w-full">
-          <div className="m-auto sm:w-full">
+          <div className="m-auto sm:w-full ">
             <img src={event.imgUrl} alt={event.eventName} />
           </div>
 
@@ -241,11 +241,12 @@ const EventDes = () => {
                       key={related.id}
                       className="border bg-sky-600 rounded-2xl w-72 m-auto shadow  cursor-pointer "
                     >
+                    <div >
                       <img
                         src={related.imgUrl}
                         alt={related.eventName}
                         className=""
-                      />
+                      /></div>
                       <h3 className="text-xl text-white Aceh p-5">
                         {related.eventName}
                       </h3>

@@ -102,9 +102,9 @@ const ActivityList = () => {
     const searchText = e.target.value.toLowerCase();
     const filtered = events.filter((event) => {
       return (
-        event.eventName.toLowerCase().includes(searchText) ||
-        event.address.toLowerCase().includes(searchText) ||
-        event.tags.some((tag) => tag.toLowerCase().includes(searchText))
+        event.eventName?.toLowerCase().includes(searchText) ||
+        event.address?.toLowerCase().includes(searchText) ||
+        event.tags.some((tag) => tag?.toLowerCase().includes(searchText))
       );
     });
     setFilteredEvents(filtered);
@@ -354,7 +354,7 @@ const ActivityList = () => {
                 >
                   <NavLink to={`/activity/${activity.id}`}>
                   <div className="relative w-94  bg-gray-100 rounded-xl  shadow-xl  image-full p-2">
-                      <div className="relative overflow-clip  h-40 sm:w-full">
+                      <div className="relative overflow-clip   h-40 sm:w-full">
                         <img
                           src={activity.imgUrl}
                           height={200}

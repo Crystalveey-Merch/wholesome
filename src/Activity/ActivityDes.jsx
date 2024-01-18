@@ -1,12 +1,8 @@
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination, Navigation } from "swiper";
 import { useParams } from "react-router";
 import { useEffect, useState } from "react";
-import { activities } from "../data/activity";
-import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCalendar,
@@ -15,7 +11,6 @@ import {
   faHands,
 } from "@fortawesome/free-solid-svg-icons";
 import {
-  addDoc,
   collection,
   getDocs,
   doc,
