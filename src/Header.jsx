@@ -503,7 +503,6 @@ const Header = () => {
           </ul>
         </div>
         <div className="justify-end flex gap-10">
-          <FontAwesomeIcon icon={faMagnifyingGlass} />
           {authUser ? (
             <div className="flex">
               {profileData ? (
