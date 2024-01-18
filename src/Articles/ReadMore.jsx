@@ -614,7 +614,51 @@ const ReadMore = () => {
             datePublished: `${post.timestamp?.toDate()?.toDateString()}`, */}
         </script>
       </Helmet>
+      <span className="text-xl hidden sm:block  text-gray-100 p-1 rounded-full fixed top-60  bg-black/75 m-auto justify-center">
+              <div className="flex flex-col gap-2   m-auto">
+                <Like handleLike={handleLike} likes={likes} userId={userId} />
+                <div>
+                <FontAwesomeIcon
+                  icon={faComment}
+                  className="text-gray-100  "
+                />{" "}
+                {post.comments.length}</div>
+              </div>
+              <div className="flex-col flex gap-3 m-auto  text-2xl">
+                <LinkedinShareButton url={url} title={post?.postTitle}>
+                  <FontAwesomeIcon
+                    icon={faLinkedin}
+                    className="fab fa-linkedin text-sky-500 "
+                  />
+                </LinkedinShareButton>
+                <FacebookShareButton url={url} title={post?.postTitle}>
+                  <FontAwesomeIcon
+                    icon={faFacebook}
+                    className="fab fa-facebook text-sky-500 "
+                  />
+                </FacebookShareButton>
+                <TwitterShareButton url={url} title={post?.postTitle}>
+                  <FontAwesomeIcon
+                    icon={faTwitter}
+                    className="fab fa-twitter text-sky-500 "
+                  />
+                </TwitterShareButton>
+                <WhatsappShareButton url={url} title={post?.postTitle}>
+                  <FontAwesomeIcon
+                    icon={faWhatsapp}
+                    className="fab fa-whatsapp text-green-500 "
+                  />
+                </WhatsappShareButton>
+                <span onClick={copyText} className="flex">
+                  <FontAwesomeIcon
+                    icon={faCopy}
+                    className="fas fa-link text-xl text-white m-auto"
+                  />
+                </span>
+              </div>
+            </span>
       <div className="flex mt-32 w-screen  py-10 px-30 sm:flex-col sm:px-5 dark:bg-gray-800 ">
+      
         <div
           className="  px-40 lg:px-20 sm:px-0  sm:mt-30 flex flex-col m-auto justify-center"
           key={post.id}
@@ -657,7 +701,8 @@ const ReadMore = () => {
               />{" "}
               ({bookmarkCount})
             </p>
-            <span className="text-l flex text-gray-100 p-2 rounded-full sticky top-24  bg-black m-auto justify-center">
+            
+            <span className="text-l  sm:hidden  flex text-gray-100 p-2 rounded-full sticky top-24  bg-black m-auto justify-center">
               <div className="flex gap-2   m-auto">
                 <Like handleLike={handleLike} likes={likes} userId={userId} />
                 <FontAwesomeIcon
@@ -713,7 +758,7 @@ const ReadMore = () => {
                 post.tags.map((tag, index) => (
                   <li
                     key={index}
-                    className="badge bg-green-800 p-3 text-white Aceh my-10 mx-2"
+                    className="badge bg-green-800 p-3 text-white Aceh my-2 mx-2 sm:mx-1"
                   >
                     {tag}
                   </li>
@@ -724,32 +769,7 @@ const ReadMore = () => {
             </ul>
           </div>
           <div>
-            <div className="flex flex-col m-auto my-5 bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400   rounded-xl p-5 ">
-           <p>About Author</p> 
-           <div className="flex">
-           <img
-                src={profileData?.photoURL}
-                className="rounded-full h-20 w-20 my-auto "
-              />
-              <div className="mx-5">
-              <h1 className="text-xl m-auto text-black ">
-                {" "}
-                 {profileData?.name}
-              </h1>
-              <h1 className="text-sm text-gray-600 py-1 m-auto">
-                Bio: {profileData?.shortBio}
-              </h1>
-              <h1 className="text-sm text-gray-600 py-1 m-auto">
-                Email: {profileData?.email}
-              </h1>
-              </div></div>
-              
-              <NavLink to={`/profile/${profileId}`}>
-                <button className="btn w-32 flex hover:bg-black m-auto my-2  bg-gradient-to-r from-orange-400 to-rose-400 text-white ">
-                  View Profile
-                </button>
-              </NavLink>
-            </div>
+           
             <div className=" bg-gray-200 border rounded-xl text-base-200 p-5 sm:p-2 ">
               <div className="scroll">
                 <h4 className="small-title Aceh text-red-500 ">
@@ -800,6 +820,32 @@ const ReadMore = () => {
                 handleComment={handleComment}
                 imgUrl={userData?.photoURL}
               />
+            </div>
+            <div className="flex flex-col m-auto my-5 bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400   rounded-xl p-5 ">
+           <p>About Author</p> 
+           <div className="flex">
+           <img
+                src={profileData?.photoURL}
+                className="rounded-full h-20 w-20 my-auto "
+              />
+              <div className="mx-5">
+              <h1 className="text-xl m-auto text-black ">
+                {" "}
+                 {profileData?.name}
+              </h1>
+              <h1 className="text-sm text-gray-600 py-1 m-auto">
+                Bio: {profileData?.shortBio}
+              </h1>
+              <h1 className="text-sm text-gray-600 py-1 m-auto">
+                Email: {profileData?.email}
+              </h1>
+              </div></div>
+              
+              <NavLink to={`/profile/${profileId}`}>
+                <button className="btn w-32 flex hover:bg-black m-auto my-2  bg-gradient-to-r from-orange-400 to-rose-400 text-white ">
+                  View Profile
+                </button>
+              </NavLink>
             </div>
           </div>
         </div>

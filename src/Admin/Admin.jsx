@@ -1,27 +1,17 @@
 import { Outlet } from "react-router";
 import { greetings } from "../components/greeting";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import { auth, db } from "../firebase/auth";
-import {
-  Dialog,
-  Disclosure,
-  Popover,
-  Transition,
-  Menu,
-} from "@headlessui/react";
+import { auth } from "../firebase/auth";
+
 import { useNavigate } from "react-router";
 
 import { useEffect, useState } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faBookmark,
   faMicrophone,
-  faMicroscope,
   faRunning,
-  faSave,
-  faSignOut,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 

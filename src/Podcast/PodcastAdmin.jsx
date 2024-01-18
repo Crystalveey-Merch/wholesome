@@ -1,13 +1,10 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+/* eslint-disable react/no-unescaped-entities */
 import { useState, useEffect } from "react";
 import { TagsInput } from "react-tag-input-component";
 import {
   addDoc,
   collection,
-  doc,
-  getDoc,
   serverTimestamp,
-  updateDoc,
 } from "firebase/firestore";
 import { db, storage } from "../firebase/auth";
 

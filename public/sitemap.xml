@@ -1,117 +1,117 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://wholesome.crystalveey.com/</loc>
+    <loc>https://wholesqare.org/</loc>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://wholesome.crystalveey.com/aboutus</loc>
+    <loc>https://wholesqare.org/aboutus</loc>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://wholesome.crystalveey.com/interest</loc>
+    <loc>https://wholesqare.org/interest</loc>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
     <url>
-        <loc>https://wholesome.crystalveey.com/myinterest/articles</loc>
+        <loc>https://wholesqare.org/myinterest/articles</loc>
         <changefreq>daily</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://wholesome.crystalveey.com/myinterest/podcast</loc>
+        <loc>https://wholesqare.org/myinterest/podcast</loc>
         <changefreq>daily</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://wholesome.crystalveey.com/myinterest/activities</loc>
+        <loc>https://wholesqare.org/myinterest/activities</loc>
         <changefreq>daily</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://wholesome.crystalveey.com/myinterest/events</loc>
+        <loc>https://wholesqare.org/myinterest/events</loc>
         <changefreq>daily</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://wholesome.crystalveey.com/myinterest/feeds</loc>
+        <loc>https://wholesqare.org/myinterest/feeds</loc>
         <changefreq>daily</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://wholesome.crystalveey.com/upcomingevents</loc>
+        <loc>https://wholesqare.org/upcomingevents</loc>
         <changefreq>daily</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://wholesome.crystalveey.com/hostevent</loc>
+        <loc>https://wholesqare.org/hostevent</loc>
         <changefreq>daily</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://wholesome.crystalveey.com/podcast</loc>
+        <loc>https://wholesqare.org/podcast</loc>
         <changefreq>daily</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://wholesome.crystalveey.com/createpost</loc>
+        <loc>https://wholesqare.org/createpost</loc>
         <changefreq>daily</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://wholesome.crystalveey.com/articlelist</loc>
+        <loc>https://wholesqare.org/articlelist</loc>
         <changefreq>daily</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://wholesome.crystalveey.com/readmore/:id</loc>
+        <loc>https://wholesqare.org/readmore/:id</loc>
         <changefreq>daily</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-            <loc>https://wholesome.crystalveey.com/profile/:profileId</loc>
+            <loc>https://wholesqare.org/profile/:profileId</loc>
             <changefreq>daily</changefreq>
             <priority>0.9</priority>
      </url>
         <url>
-                <loc>https://wholesome.crystalveey.com/dashboard/profile</loc>
+                <loc>https://wholesqare.org/dashboard/profile</loc>
                 <changefreq>daily</changefreq>
                 <priority>0.9</priority>
         </url>
         <url>
-                <loc>https://wholesome.crystalveey.com/dashboard/myposts</loc>
+                <loc>https://wholesqare.org/dashboard/myposts</loc>
                 <changefreq>daily</changefreq>
                 <priority>0.9</priority>
         </url>   
          <url>
-                <loc>https://wholesome.crystalveey.com/dashboard/statistics</loc>
+                <loc>https://wholesqare.org/dashboard/statistics</loc>
                 <changefreq>daily</changefreq>
                 <priority>0.9</priority>
         </url>    
          <url>
-                <loc>https://wholesome.crystalveey.com/dashboard/draft</loc>
+                <loc>https://wholesqare.org/dashboard/draft</loc>
                 <changefreq>daily</changefreq>
                 <priority>0.9</priority>
         </url>      
          <url>
-                <loc>https://wholesome.crystalveey.com/dashboard/bookmarks</loc>
+                <loc>https://wholesqare.org/dashboard/bookmarks</loc>
                 <changefreq>daily</changefreq>
                 <priority>0.9</priority>
         </url>    
          <url>
-                <loc>https://wholesome.crystalveey.com/dashboard/settings</loc>
+                <loc>https://wholesqare.org/dashboard/settings</loc>
                 <changefreq>daily</changefreq>
                 <priority>0.9</priority>
         </url>    
          <url>
-                <loc>https://wholesome.crystalveey.com/articletag/:tag</loc>
+                <loc>https://wholesqare.org/articletag/:tag</loc>
                 <changefreq>daily</changefreq>
                 <priority>0.9</priority>
         </url>  
           <url>
-                <loc>https://wholesome.crystalveey.com/articlecategory/:category</loc>
+                <loc>https://wholesqare.org/articlecategory/:category</loc>
                 <changefreq>daily</changefreq>
                 <priority>0.9</priority>
         </url>    

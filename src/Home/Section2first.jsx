@@ -10,9 +10,11 @@ import { collection, getDocs, limit, query } from "firebase/firestore";
 import { useState, useEffect } from "react";
 import { auth, db } from "../firebase/auth.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendar, faHands, faLocationPin } from "@fortawesome/free-solid-svg-icons";
-
-
+import {
+  faCalendar,
+  faHands,
+  faLocationPin,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Section2first = () => {
   const [activityId, setActivityId] = useState([]);
@@ -26,37 +28,42 @@ const Section2first = () => {
 
   useEffect(() => {
     const fetchEvents = async () => {
-        // setLoading(true);
+      // setLoading(true);
 
-        try {
-            const q = query(collection(db, "activities"), limit(10)); // Limit to 10 events
-            const querySnapshot = await getDocs(q);
-            const activityData = [];
+      try {
+        const q = query(collection(db, "activities"), limit(10)); // Limit to 10 events
+        const querySnapshot = await getDocs(q);
+        const activityData = [];
 
-            querySnapshot.forEach((doc) => {
-                const activity = doc.data();
-                activity.id = doc.id;
-                activityData.push(activity);
-                setActivityId(activity.id);
+        querySnapshot.forEach((doc) => {
+          const activity = doc.data();
+          activity.id = doc.id;
+          activityData.push(activity);
+          setActivityId(activity.id);
+        });
 
-            });
-
-            setActivity(activityData);
-            // setLoading(false);
-        } catch (error) {
-            console.error("Error fetching events:", error);
-            setActivity([]);
-        }
+        setActivity(activityData);
+        // setLoading(false);
+      } catch (error) {
+        console.error("Error fetching events:", error);
+        setActivity([]);
+      }
     };
 
     fetchEvents();
-}, []);
+  }, []);
+
+  const excerpt = (str, count) => {
+    if (str && str.length > count) {
+      str = str.substring(0, count) + " ... ";
+    }
+    return str;
+  };
 
   const breakpoints = {
     300: {
       slidesPerView: 1,
       spaceBetween: 10,
-
     },
     639: {
       slidesPerView: 3,
@@ -70,24 +77,23 @@ const Section2first = () => {
       slidesPerView: 4,
       spaceBetween: 40,
       centeredSlides: true,
-
     },
-
   };
-    const formatTime = (date) => {
+  const formatTime = (date) => {
     if (date instanceof Date) {
       return date.toLocaleTimeString("en-US", {
         hour: "numeric",
         minute: "2-digit",
         hour12: true,
       });
-    }};
-    const formatDate = (date) => {
-      if (date instanceof Date) {
-        return date.toLocaleDateString("en-US");
-      }
-      return ""; // Return an empty string if date is not a valid Date object
-    };
+    }
+  };
+  const formatDate = (date) => {
+    if (date instanceof Date) {
+      return date.toLocaleDateString("en-US");
+    }
+    return ""; // Return an empty string if date is not a valid Date object
+  };
   return (
     <div className="py-20  sm:py-5 bg-gradient-to-r from-rose-100 to-teal-100">
       <h1 className="text-black text-2xl   text-center Aceh text-md">
@@ -118,24 +124,52 @@ const Section2first = () => {
             activity.map((activity) => {
               return (
                 <SwiperSlide key={activity.id}>
-                  <NavLink to={`/activity/${activity.id}`} style={{ height: "32rem" }}>
-                  <div className="relative w-94  bg-gray-800 rounded-xl  shadow-xl  image-full">
-                  <div className="relative overflow-clip  h-40 sm:w-40" >
+                  <NavLink
+                    to={`/activity/${activity.id}`}
+                    style={{ height: "32rem" }}
+                  >
+                    <div className="relative w-94  bg-gray-100 rounded-xl  shadow-xl  image-full p-2">
+                      <div className="relative overflow-clip  h-40 sm:w-full">
+                        <img
+                          src={activity.imgUrl}
+                          height={200}
+                          className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out m-auto "
+                        />
+                      </div>
 
-              <figure>
-                <img src={activity.imgUrl} />
-              </figure>
-              </div>
-
-              <div className='p-5 bg-base-500'>
-              <p className="text-gray-100 flex  gap-4"><FontAwesomeIcon icon={faLocationPin}/>{activity.location} </p>
-                <p className="text-gray-100 flex  gap-4  "><FontAwesomeIcon icon={faHands} className="p-2 rounded-full border"/> {activity.claps} Claps</p>
-              <div className="badge text-gray-200 bg-gray-600 p-4 my-3 ">   <FontAwesomeIcon icon={faCalendar} />{" "} {formatDate(activity.DateTime instanceof Date ? activity.DateTime : new Date(activity.DateTime))} {formatTime(activity.DateTime instanceof Date ? activity.DateTime : new Date(activity.DateTime))}</div>
-                <h1 className="text-2xl py-2 text-gray-200"> {activity.activityName}</h1>
-              </div>
-            </div>
-
-
+                      <div className="p-2 text-x text-gray-800">
+                        <FontAwesomeIcon icon={faCalendar} />{" "}
+                        {formatDate(
+                          activity.DateTime instanceof Date
+                            ? activity.DateTime
+                            : new Date(activity.DateTime)
+                        )}{" "}
+                        {formatTime(
+                          activity.DateTime instanceof Date
+                            ? activity.DateTime
+                            : new Date(activity.DateTime)
+                        )}
+                      </div>
+                      <hr></hr>
+                      <span className="text-sky-600">{activity.category}</span>
+                      <h1 className="text-xl py-2 text-green-800">
+                        {activity.activityName}
+                      </h1>
+                      <p className="p-3 text-gray-500">{excerpt(activity.writeup, 80)}</p>
+                      <div className="flex m-auto">
+                        <p className="text-gray-800 flex  gap-2 m-auto">
+                          <FontAwesomeIcon icon={faLocationPin} />
+                          <p className="m-auto"> {activity.location} </p>
+                        </p>
+                        <p className="text-gray-800 flex  gap-4 n-auto ">
+                          <FontAwesomeIcon
+                            icon={faHands}
+                            className="p-2 rounded-full border text-violet-400"
+                          />{" "}
+                          <p className="m-auto"> {activity.claps} Claps</p>
+                        </p>
+                      </div>
+                    </div>
                   </NavLink>
                 </SwiperSlide>
               );
@@ -145,8 +179,6 @@ const Section2first = () => {
               No events found matching your search.
             </div>
           )}
-
-
         </Swiper>
       </div>
     </div>

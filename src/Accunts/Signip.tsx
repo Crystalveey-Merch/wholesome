@@ -39,6 +39,8 @@ const Signip = () => {
     setPassword(event.target.value);
   };
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setshowConfirmPassword] = useState(false);
+
   const confirmPasswordChangeHandler = (e) => {
     setConfirmPassword(e.target.value);
   };
@@ -64,6 +66,10 @@ const Signip = () => {
   const handleTogglePassword = (e) => {
     e.preventDefault();
     setShowPassword(!showPassword);
+  };
+  const handleTogglePassword2 = (e) => {
+    e.preventDefault();
+    setshowConfirmPassword(!showConfirmPassword);
   };
   console.log(selectedOptions.map((option) => option.key));
 
@@ -118,7 +124,7 @@ const Signip = () => {
                 <div className="bg-grey-500  flex flex-col text-xl">
                   <div className="container max-w-xl mx-auto flex-1 flex flex-col items-center justify-center px-2">
                     <div className=" px-6 py-8  text-black w-full">
-                      <h1 className="mb-8 text-xl text-center text-red-500">
+                      <h1 className="mb-8 text-2xl text-center text-red-500">
                         Sign up
                       </h1>
 
@@ -138,11 +144,11 @@ const Signip = () => {
                           onChange={(e) => setEmail(e.target.value)}
                           type="email"
                           required
-                          className="block border-gray-100 bg-gray-100/75 w-full p-3 rounded mb-2"
+                          className="block border-gray-100 bg-gray-100/75 w-full p-3 rounded mb-4"
                           name="email"
                           placeholder="Email"
                         />
-                        <label className="text-sm text-gray-100">
+                        <label className="text-l badge text-gray-100">
                           Select at least 2 interests
                         </label>
                         <Multiselect
@@ -208,36 +214,54 @@ const Signip = () => {
                             {showPassword ? (
                               <FontAwesomeIcon
                                 icon={faEye}
-                                className="text-red-500 text-sm"
+                                className="text-red-500 text-sm cursor-pointer"
                               />
                             ) : (
                               <FontAwesomeIcon
                                 icon={faEyeSlash}
-                                className="text-red-500 text-sm"
+                                className="text-red-500 text-sm cursor-pointer"
                               />
                             )}
                           </div>
                         </span>
                         <PasswordStrengthBar
                           password={password}
-                          className="mt-5"
+                          className="mt-5 text-white text-xl"
+                          
                         />
-
+                      <span className="flex  gap-2 mb-4 border-grey-light bg-gray-100/75 w-full  rounded">
                         <input
-                          type="password"
-                          value={confirmPassword}
+                          type={showConfirmPassword ? "text" :  "password"}
+                          value={confirmPassword }
                           onChange={confirmPasswordChangeHandler}
                           onBlur={handlePasswordValidation}
                           className="block border border-grey-100 bg-gray-100/75 w-full p-3 rounded "
                           name="confirm_password"
                           placeholder="Confirm Password"
                         />
+                        <div
+                            onClick={handleTogglePassword2}
+                            className="bg-transparent centre m-auto p-2 border-none"
+                          >
+                            {showConfirmPassword ? (
+                              <FontAwesomeIcon
+                                icon={faEye}
+                                className="text-red-500 text-sm cursor-pointer"
+                              />
+                            ) : (
+                              <FontAwesomeIcon
+                                icon={faEyeSlash}
+                                className="text-red-500 text-sm cursor-pointer"
+                              />
+                            )}
+                          </div>
+                        </span>
                         {passwordMatch ? (
-                          <div className="text-gray-100 text-left text-md">
+                          <div className="text-green-500 badge text-left text-md">
                             Passwords match
                           </div>
                         ) : (
-                          <div className="text-gray-100 text-left text-md">
+                          <div className="text-red-100 badge text-left text-md">
                             Passwords do not match
                           </div>
                         )}

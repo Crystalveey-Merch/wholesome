@@ -158,7 +158,10 @@ const Interest = () => {
       hour12: true,
     });
   };
-
+  const formatDate = (date) => {
+    if (date instanceof Date) {
+      return date.toLocaleDateString("en-US");
+    }}
   return (
     <>
       <Helmet>
@@ -402,36 +405,50 @@ const Interest = () => {
               activitiesData.map((activity) => {
                 return (
                   <SwiperSlide key={activity.id}>
-                    <NavLink to={`/activity/${activity.id}`}>
-                      <div className="relative w-72  bg-gray-800 rounded-xl  shadow-xl  image-full">
-                        <figure>
-                          <img src={activity.imgUrl} />
-                        </figure>
-                        <div className="p-5 bg-base-500">
-                          <p className="text-gray-100 flex  gap-4">
-                            <FontAwesomeIcon icon={faLocationPin} />
-                            {activity.location}{" "}
-                          </p>
-                          <p className="text-gray-100 flex  gap-4  ">
-                            <FontAwesomeIcon
-                              icon={faHands}
-                              className="p-2 rounded-full border"
-                            />{" "}
-                            {activity.claps} Claps
-                          </p>
-                          <div className="badge text-gray-200 bg-gray-600 p-4 my-3 flex gap-4 ">
-                            {" "}
-                            <FontAwesomeIcon icon={faCalendar} />{" "}
-                            {Moment(activity.DateTime).format("DD-MM-YYYY")} -{" "}
-                            {Moment(activity.DateTime).format(" hh:mm a")}
-                          </div>
-                          <h1 className="text-2xl py-2 text-gray-200">
-                            {" "}
-                            {activity.activityName}
-                          </h1>
-                        </div>
+                  <NavLink to={`/activity/${activity.id}`}>
+                  <div className="relative w-94  bg-gray-100 rounded-xl  shadow-xl  image-full p-2">
+                      <div className="relative overflow-clip  h-40 sm:w-full">
+                        <img
+                          src={activity.imgUrl}
+                          height={200}
+                          className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out m-auto "
+                        />
                       </div>
-                    </NavLink>
+
+                      <div className="p-2 text-x text-gray-800">
+                        <FontAwesomeIcon icon={faCalendar} />{" "}
+                        {formatDate(
+                          activity.DateTime instanceof Date
+                            ? activity.DateTime
+                            : new Date(activity.DateTime)
+                        )}{" "}
+                        {formatTime(
+                          activity.DateTime instanceof Date
+                            ? activity.DateTime
+                            : new Date(activity.DateTime)
+                        )}
+                      </div>
+                      <hr></hr>
+                      <span className="text-sky-600">{activity.category}</span>
+                      <h1 className="text-xl py-2 text-green-800">
+                        {activity.activityName}
+                      </h1>
+                      <p className="p-3 text-gray-500">{excerpt(activity.writeup, 80)}</p>
+                      <div className="flex m-auto">
+                        <p className="text-gray-800 flex  gap-2 m-auto">
+                          <FontAwesomeIcon icon={faLocationPin} />
+                          <p className="m-auto"> {activity.location} </p>
+                        </p>
+                        <p className="text-gray-800 flex  gap-4 n-auto ">
+                          <FontAwesomeIcon
+                            icon={faHands}
+                            className="p-2 rounded-full border text-violet-400"
+                          />{" "}
+                          <p className="m-auto"> {activity.claps} Claps</p>
+                        </p>
+                      </div>
+                    </div>
+                  </NavLink>
                   </SwiperSlide>
                 );
               })

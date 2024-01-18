@@ -1,8 +1,6 @@
 import React from "react";
 import {
   signInWithEmailAndPassword,
-  GoogleAuthProvider,
-  signInWithPopup,
 } from "firebase/auth";
 import { useState } from "react";
 // import {au } from "../../node_modules/firebase/auth";
@@ -10,12 +8,9 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { auth } from "../firebase/auth.js";
 import "firebase/auth";
-import { db } from "../firebase/auth";
-import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { Helmet } from "react-helmet-async";
-import { getAuth, sendPasswordResetEmail,  fetchSignInMethodsForEmail } from "firebase/auth";
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 
 const Login = () => {
   const navigate = useNavigate();

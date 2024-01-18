@@ -47,6 +47,7 @@ import Podcasts from "./Admin/Podcasts";
 import AllActivity from "./Admin/AllActivity";
 import PodcastInterest from "./MyInterest/PodcastInterest";
 import MyEvents from "./Dashboard/MyEvents";
+import ActivityList from "./Activity/ActivityList";
 
 // import "@fortawesome/fontawesome-free"
 
@@ -75,6 +76,8 @@ function App() {
          />
 
         <Route path="/article/:articleName" element={<Articles />} />
+        <Route path="/activities" element={<ActivityList />} />
+
         <Route path="/activity/:id" element={<Activity />} />
         <Route path="/activity/adminform" element={<ActivityForm />} />
 

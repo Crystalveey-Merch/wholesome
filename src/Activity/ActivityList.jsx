@@ -15,17 +15,20 @@ import {
   faFirstAid,
   faGamepad,
   faHand,
+  faHands,
   faMoneyBillTrendUp,
   faPalette,
   faPlane,
   faTree,
+  faLocationPin,
+
 } from "@fortawesome/free-solid-svg-icons";
 import { db } from "../firebase/auth.js";
 import Spinner from "../components/Spinner";
 import { Helmet } from "react-helmet-async";
 import Moment from "moment";
 
-const EventList = () => {
+const ActivityList = () => {
   const { eventName } = useParams();
   const [searchInput, setSearchInput] = useState("");
 
@@ -33,12 +36,34 @@ const EventList = () => {
   const [loading, setLoading] = useState(false);
   const [eventId, setEventId] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
+
+  const formatDate = (date) => {
+    if (date instanceof Date) {
+      return date.toLocaleDateString("en-US");
+    }
+    return ""; // Return an empty string if date is not a valid Date object
+  };
+  const formatTime = (date) => {
+    if (date instanceof Date) {
+      return date.toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+      });
+    }
+  };
+  const excerpt = (str, count) => {
+    if (str && str.length > count) {
+      str = str.substring(0, count) + " ... ";
+    }
+    return str;
+  };
   useEffect(() => {
     const fetchPosts = async () => {
       // setLoading(true);
 
       try {
-        const querySnapshot = await getDocs(collection(db, "events"));
+        const querySnapshot = await getDocs(collection(db, "activities"));
         const postData = [];
         querySnapshot.forEach((doc) => {
           // Extract the data from each document
@@ -161,27 +186,27 @@ const EventList = () => {
         <meta name="description" content="See upcoming Events Around You" />
         <link
           rel="canonical"
-          href="https://wholesome.crystaleey.com/upcomingevents/"
+          href="https://wholesquare.org/upcomingevents/"
         />
         <meta
           name="keywords"
-          content="`Wholesome, Crystalveey,
+          content="`Wholesquare, Crystalveey,
          , Events,  Attend, Calender, Create Events, Host Events, Search Events, City , Location, Time, Venue, schedule, event listings , event calendar , upcoming events, activities, city events, Art, Travel and Adventure"
         />
         <meta name="robots" content="index, follow" />
         <meta property="og:title" content="Event List" />
         <meta
           property="og:url"
-          content="https://wholesome.crystaleey.com/upcomingevents/"
+          content="https://wholesquare.org/upcomingevents/"
         />
         {/* <meta property="og:image" content={posts} /> */}
         <meta name="og:description" content="See upcoming Events Around You" />
-        <meta name="og:site_name" content="Wholesome" />
+        <meta name="og:site_name" content="Wholesquare" />
         <meta name="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           name="twitter:url"
-          content="https://wholesome.crystaleey.com/upcomingevents/"
+          content="https://wholesquare.org/upcomingevents/"
         />
         <meta name="twitter:title" content="Article List" />
         <meta
@@ -196,13 +221,13 @@ const EventList = () => {
             "@context": "https://schema.org",
             "@type": "BlogPosting",
             headline: "Events List",
-            url: "https://wholesome.crystaleey.com/upcomingevents",
+            url: "https://wholesquare.org/upcomingevents",
 
             // "image": {posts.imgUrl},
 
             publisher: {
               "@type": "Organization",
-              name: "Wholesome",
+              name: "Wholesquare",
               logo: {
                 "@type": "ImageObject",
                 url: "",
@@ -214,17 +239,17 @@ const EventList = () => {
       </Helmet>
       <div className="py-20 w-screen  sm:pt-18">
         <div className="">
-          <div className="h-full bg-gradient-to-r from-fuchsia-600 to-pink-600 sm:p-10">
-            <h1 className="text-white text-center sm:text-4xl pt-24 sm:pt-14">
-              See upcoming Events Around You
+          <div className="h-full bg-gradient-to-r from-blue-400 to-emerald-400 sm:p-10">
+            <h1 className="text-white  text-center sm:text-4xl pt-24 sm:pt-14">
+            Explore Wholesquare Activities
             </h1>
             <hr className="w-64 m-auto my-5"></hr>
-            <p className="text-base-100 bg-black/50 py-2  text-center text-xl font-bolder Aceh text-white">
-              Discover, Explore, Attend: Your Event Search Starts Here
+            <p className="text-white py-2  text-center text-xl font-bolder Aceh">
+            Where Moments Become Memories: A Showcase of Wholesquare Activities."
             </p>
             <div className="m-auto flex flex-col gap-2  justify-center py-5">
-              <p className="m-auto text-gray-300 Aceh">
-                Search event by name, tags and location
+              <p className="m-auto text-xl text-gray-100 AcehLight">
+                Search activity by name, tags and location
               </p>
               <p className=" m-auto text-gray-300   ">
                 <FontAwesomeIcon icon={faAnglesDown} />
@@ -322,40 +347,54 @@ const EventList = () => {
 
         <div className="flex m-auto justify-center gap-10 m-10 flex-wrap px-20 sm:p-2 ">
           {filteredEvents.length > 0 ? (
-            filteredEvents.map((event) => {
+            filteredEvents.map((activity) => {
               return (
                 <div
                   key={event.id}
                   className="w-72 bg-white    shadow  dark:border-gray-700"
                 >
-                  <NavLink to={`/upcomingevents/${event.id}`}>
-                    <img
-                      className="rounded-t-lg"
-                      src={event.imgUrl}
-                      alt={event.eventName}
-                    />
+                  <NavLink to={`/activity/${activity.id}`}>
+                  <div className="relative w-94  bg-gray-100 rounded-xl  shadow-xl  image-full p-2">
+                      <div className="relative overflow-clip  h-40 sm:w-full">
+                        <img
+                          src={activity.imgUrl}
+                          height={200}
+                          className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out m-auto "
+                        />
+                      </div>
 
-                    <div className="p-5">
-                      <div className="badge">{event.category}</div>
-                      <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 Aceh">
-                        {event.eventName}
-                      </h5>
-
-                      <badge className="badge p-2 bg-yellow-400 mb-2 text-xl tracking-tight text-gray-900 ">
+                      <div className="p-2 text-x text-gray-800">
+                        <FontAwesomeIcon icon={faCalendar} />{" "}
+                        {formatDate(
+                          activity.DateTime instanceof Date
+                            ? activity.DateTime
+                            : new Date(activity.DateTime)
+                        )}{" "}
+                        {formatTime(
+                          activity.DateTime instanceof Date
+                            ? activity.DateTime
+                            : new Date(activity.DateTime)
+                        )}
+                      </div>
+                      <hr></hr>
+                      <span className="text-sky-600">{activity.category}</span>
+                      <h1 className="text-xl py-2 text-green-800">
+                        {activity.activityName}
+                      </h1>
+                      <p className="p-3 text-gray-500">{excerpt(activity.writeup, 80)}</p>
+                      <div className="flex m-auto">
+                        <p className="text-gray-800 flex  gap-2 m-auto">
+                          <FontAwesomeIcon icon={faLocationPin} />
+                          <p className="m-auto"> {activity.location} </p>
+                        </p>
+                        <p className="text-gray-800 flex  gap-4 n-auto ">
                           <FontAwesomeIcon
-                            icon={faCalendar}
-                            className="text-sm mr-2"
+                            icon={faHands}
+                            className="p-2 rounded-full border text-violet-400"
                           />{" "}
-                          {Moment(event.StartDateTime).format("DD-MM-YYYY")}{" "}
-                          {", "}
-                          {Moment(event.StartDateTime).format("HH:MM a")}
-                        </badge>
-                      <p className="mb-3 font-normal text-md  text-gray-500 ">
-                        {event.address}
-                      </p>
-                      <p className=" font-normal Aceh text-md text-black">
-                        {event.organizerName}
-                      </p>
+                          <p className="m-auto"> {activity.claps} Claps</p>
+                        </p>
+                      </div>
                     </div>
                   </NavLink>
                 </div>
@@ -363,7 +402,7 @@ const EventList = () => {
             })
           ) : (
             <div className="text-center text-2xl font-bold text-gray-500 mt-4 h-48">
-              No events found matching your search.
+              No Actiivity found matching your search.
             </div>
           )}
         </div>
@@ -373,4 +412,4 @@ const EventList = () => {
   );
 };
 
-export default EventList;
+export default ActivityList;

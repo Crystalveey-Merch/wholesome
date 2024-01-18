@@ -168,33 +168,34 @@ const Activity = () => {
   return (
     <div className="mt-20 sm:mt-18  m-auto justify-center  w-screen">
       <div>
-        <h1 className="bg-gradient-to-r from-teal-200 to-lime-200 text-center p-10 text-3xl sm:text-2xl">
+        <h1 className="bg-gradient-to-r from-teal-200 to-lime-200 text-center p-10 text-3xl sm:text-2xl text-black">
           Community Activity
         </h1>
       </div>
-      <div className="flex m-auto justify-center">
+      <div className="flex sm:flex-col m-auto justify-center">
       <div className="w-1/2 sm:w-full">
         <div className="  m-auto">
-           <div className="badge p-4 m-2 text-xl bg-green-600 text-white">{activity.category}</div>
+           <div className="badge p-4 m-2 text-lg bg-green-600 text-white">{activity.category}</div>
           <div className="m-auto sm:w-full py-5">
             <img src={activity.imgUrl} alt={activity.name} width={700} />
           </div>
+        
+          </div>
+          <div className="mx-20 my-10 sm:mx-5 sm:my-10">
           <div className="flex m-auto gap-5 ">
               <FontAwesomeIcon
                 onClick={() => handleClaps(activity.id)}
                 icon={faHands}
-                className="border p-4 text-gray-400 rounded-full text-xl hover:scale-110  hover:text-black active:scale-100 active:text-red-500 cursor-pointer"
+                className="border p-4 text-violet-700 rounded-full text-xl hover:scale-110  hover:text-black active:scale-100 active:text-red-500 cursor-pointer"
               />
-             <p className="my-auto"> {claps} {" "}
+             <p className="my-auto text-gray-800 text-lg"> {claps} {" "}
               Claps
               </p>
             </div>
-          </div>
-          <div className="mx-20 my-10 sm:mx-5 sm:my-10">
-            <p className="text-gray-500 py-4">
+            <p className="text-gray-500 py-4 text-lg">
               <FontAwesomeIcon icon={faLocationPin} /> {activity.location}
             </p>
-            <p className="text-gray-500 py-4 flex gap-2">
+            <p className="text-gray-500 py-4 flex gap-2 text-lg">
               <FontAwesomeIcon icon={faCalendar} /> {formatDate(activity.DateTime instanceof Date ? activity.DateTime : new Date(activity.DateTime))}
               <p>at {formatTime(activity.DateTime instanceof Date ? activity.DateTime : new Date(activity.DateTime))}</p>
             </p>

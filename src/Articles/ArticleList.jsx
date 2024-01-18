@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import {
-  addDoc,
   collection,
   getDocs,
-  setDoc,
   doc,
   getDoc,
   updateDoc,
@@ -14,9 +12,7 @@ import { auth, db } from "../firebase/auth.js";
 import { NavLink } from "react-router-dom";
 import Spinner from "../components/Spinner.tsx";
 import { onAuthStateChanged } from "firebase/auth";
-import { toast } from "react-toastify";
 
-import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBookmark,
@@ -27,8 +23,6 @@ import {
 // import ReactPaginate from 'react-paginate';
 import Pagination from "../components/pagination.jsx";
 import { Helmet } from "react-helmet-async";
-import { jsonLdScriptProps } from "react-schemaorg";
-import { BlogPosting } from "schema-dts";
 
 const ArticleList = () => {
   const [authUser, setAuthUser] = useState(null);

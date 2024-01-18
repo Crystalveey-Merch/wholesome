@@ -320,7 +320,15 @@ const Header = () => {
                   </Menu.Item>
                 </Menu.Items>
               </Menu>
-
+              <li>
+                <NavLink
+                  to="/activities"
+                  onClick={closeDrawer}
+                  className="flex  text-gray-200 rounded-lg dark:text-white hover:bg-gray-100  group"
+                >
+                  <span className=" whitespace-nowrap">Activities</span>
+                </NavLink>
+              </li>
               <li>
                 <NavLink
                   to="/podcast"
@@ -465,6 +473,14 @@ const Header = () => {
                 className=" text-black bg-white border-none capitalize btn m-1 hover:bg-gray-100"
               >
                 Podcast
+              </label>
+            </NavLink>
+            <NavLink to="/activities">
+              <label
+                tabIndex={0}
+                className=" text-black bg-white border-none capitalize btn m-1 hover:bg-gray-100"
+              >
+                Activities
               </label>
             </NavLink>
             <NavLink to="/createpost">

@@ -1,29 +1,13 @@
 import { faSpotify, faYoutube } from "@fortawesome/free-brands-svg-icons";
-import { faMicrophone, faPodcast } from "@fortawesome/free-solid-svg-icons";
+import { faPodcast } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import {
-  addDoc,
   collection,
-  DocumentSnapshot,
-  endAt,
-  endBefore,
   getDocs,
-  setDoc,
-  doc,
-  getDoc,
-  updateDoc,
-  limit,
-  limitToLast,
-  orderBy,
-  query,
-  startAfter,
-  deleteField,
-  where,
-  increment,
 } from "firebase/firestore";
 import Spinner from "../components/Spinner.tsx";
-import { auth, db } from "../firebase/auth.js";
+import { db } from "../firebase/auth.js";
 import { Helmet } from "react-helmet-async";
 
 const Podcast = () => {
