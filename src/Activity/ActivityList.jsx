@@ -327,7 +327,7 @@ const ActivityList = () => {
               onClick={filterEnvironmental}
               className="border rounded-full p-4 cursor-pointer m-auto flex   shadow text-green-900	"
             />
-            <p className="text-sm text-center text-gray-400 ">Environmental</p>
+            <p className="text-sm text-center text-gray-400 ">Environment</p>
           </span>
           <span className="">
             <FontAwesomeIcon
@@ -402,7 +402,7 @@ const ActivityList = () => {
             })
           ) : (
             <div className="text-center text-2xl font-bold text-gray-500 mt-4 h-48">
-              No Actiivity found matching your search.
+              No Activity found matching your search.
             </div>
           )}
         </div>
