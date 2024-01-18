@@ -19,6 +19,7 @@ import {
   faBookmark,
   faSave,
   faSignOut,
+  faUserAlt,
 } from "@fortawesome/free-solid-svg-icons";
 
 const Dashboard = () => {
@@ -59,20 +60,10 @@ const Dashboard = () => {
           <ul className="menu  text-white menu-horizontal bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 dark:text-slate-200 m-auto justify-between  rounded-box  w-full">
             <li>
               <NavLink to="profile" className="tooltip" data-tip="Home">
-                <svg
-                  xmlns="https://www.w3.org/2000/svg"
-                  className="h-5 w-5 text-white"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-                  />
-                </svg>
+             
+                <FontAwesomeIcon icon={faUserAlt} className="text-white"/>
+            
+               
               </NavLink>
             </li>
             <li>
@@ -130,16 +121,7 @@ const Dashboard = () => {
               </NavLink>
             </li>
 
-            <li>
-              <Link
-                to="#"
-                className="tooltip text-white"
-                data-tip="Log-out"
-                onClick={userSignout}
-              >
-                <FontAwesomeIcon icon={faSignOut} />
-              </Link>
-            </li>
+          
           </ul>
         </div>
         <div className="drawer drawer-open">

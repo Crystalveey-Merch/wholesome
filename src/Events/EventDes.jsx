@@ -1,34 +1,18 @@
 import { useParams } from "react-router";
 import { useEffect, useState } from "react";
-import { events } from "../data/events";
 import {
   faCalendar,
   faClock,
   faLocationPin,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import gapi from "gapi-client";
 import {
-  addDoc,
   collection,
-  DocumentSnapshot,
-  endAt,
-  endBefore,
   getDocs,
-  setDoc,
   doc,
   getDoc,
-  updateDoc,
-  limit,
-  limitToLast,
-  orderBy,
-  query,
-  startAfter,
-  deleteField,
-  where,
-  increment,
 } from "firebase/firestore";
-import { auth, db } from "../firebase/auth.js";
+import { db } from "../firebase/auth.js";
 import "add-to-calendar-button";
 import { Helmet } from "react-helmet-async";
 import Moment from "moment";
@@ -175,7 +159,7 @@ const EventDes = () => {
           </div>
 
           <div className="mx-10 my-20 sm:mx-5 sm:my-10">
-            <span className="py-20 relative">
+            <span className="py-20 relative flex gap-10">
               <add-to-calendar-button
                 name={event.eventName}
                 startDate={startDateTime.date}
@@ -188,6 +172,10 @@ const EventDes = () => {
                 size="5"
                 lightMode="bodyScheme"
               ></add-to-calendar-button>
+              <div className="btn">
+              <p>Attend</p>
+              <p>attending</p>
+              </div>
             </span>
             <h1 className="text-red-500 text-xl mt-4 ">
               {/* {dateTime.toDateString()} */}
