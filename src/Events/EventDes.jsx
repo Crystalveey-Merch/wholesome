@@ -185,6 +185,7 @@ const EventDes = () => {
           attendees: arrayUnion({
             userId: authUser.uid,
             userName: profileData.name,
+            email: profileData.email,
           }),
         });
       
@@ -257,7 +258,7 @@ const EventDes = () => {
           })}
         />
       </Helmet>
-      <div className="pt-32 px-20 sm:pt-10 sm:mt-20 flex sm:flex-col gap-10  m-auto justify-center bg-stone-100 w-screen">
+      <div className="pt-32 px-20 sm:px-2 sm:pt-10 sm:mt-20 flex sm:flex-col gap-10  m-auto justify-center bg-stone-100 w-screen">
         <div className="  sm:w-full">
           <div className="m-auto sm:w-full flex ">
             <img src={event.imgUrl} alt={event.eventName} className="m-auto" />
@@ -266,7 +267,7 @@ const EventDes = () => {
           <div className="mx-10 my-10 sm:mx-5 sm:my-10">
           <p className=" text-white text-xl  badge p-4 bg-rose-800   "> {totalAttendees} Attending</p>
 
-            <span className="pb-20 relative flex gap-10 justify-between">
+            <span className="pb-10 relative flex sm:flex-col gap-10 justify-between">
               <add-to-calendar-button
                 name={event.eventName}
                 startDate={startDateTime.date}
@@ -289,9 +290,7 @@ const EventDes = () => {
               </div>}</div>
               
             </span>
-            <h1 className="text-red-500 text-xl mt-4 ">
-              {/* {dateTime.toDateString()} */}
-            </h1>
+            
             <h1 className="text-black text-4xl"> {event.eventName}</h1>
             <p className="text-green-500 text-xl ">{event.theme}</p>
             <p className="text-gray-600 py-5 text-xl">
@@ -336,48 +335,43 @@ const EventDes = () => {
             </div>
           </div>
         </div>
-        <div className="w-1/4 sm:w-full h-screen bg-sky-100">
+        <div className="w-1/4 sm:w-full h-full bg-sky-100">
           {relatedEvents.length > 0 && (
-            <div className="">
+            <div className="w-72">
               <h3 className="text-red-500 text-2xl text-center p-10 Aceh">
                 Related Events
               </h3>
               <ul className="p-5 ">
                 {relatedEvents.map((related) => (
-                  <NavLink
-                    to={`/upcomingevents/${related.id}`}
-                    className=""
-                    key={related.id}
-                  >
-                    <li
-                      key={related.id}
-                      className="border bg-sky-600 rounded-2xl w-72 m-auto shadow  cursor-pointer "
-                    >
-                    <div >
+                  <><NavLink to={`/upcomingevents/${related.id}`} key={related.id} className="w-72 bg-white  sm:w-full hover:shadow  shadow  dark:border-gray-700">
+                    <div className="relative overflow-clip   h-40 sm:w-full">
                       <img
+                        className="absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out m-auto"
                         src={related.imgUrl}
-                        alt={related.eventName}
-                        className=""
-                      /></div>
-                      <h3 className="text-xl text-white Aceh p-5">
+                        alt={related.eventName} />
+                    </div>
+                    <div className="p-2">
+                      <div className="badge">{related.category}</div>
+                      <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 Aceh">
                         {related.eventName}
-                      </h3>
-                      <p className="text-gray-200 text-xl p-3">
-                        <FontAwesomeIcon icon={faLocationPin} /> {event.address}
+                      </h5>
+
+                      <badge className="badge bg-yellow-400 mb-2 text-sm tracking-tight text-gray-900 ">
+                        <FontAwesomeIcon
+                          icon={faCalendar}
+                          className="text-sm mr-2" />{" "}
+                        {Moment(related.StartDateTime).format("DD-MM-YYYY")}{" "}
+                        {", "}
+                        {Moment(related.StartDateTime).format("HH:MM a")}
+                      </badge>
+                      <p className="mb-3 font-normal text-md  text-gray-500 ">
+                        {related.address}
                       </p>
-                      <p className="text-gray-100 text-xl flex gap-4 m-2">
-                        <FontAwesomeIcon icon={faCalendar} />
-                        {Moment(related.StartDateTime).format(
-                          "DD-MM-YYYY"
-                        )} - {Moment(related.EndDateTime).format("DD-MM-YYYY")}
+                      <p className=" font-normal Aceh text-md text-black">
+                        {related.organizerName}
                       </p>
-                      <p className="text-gray-100 text-xl flex gap-4 m-2">
-                        <FontAwesomeIcon icon={faClock} />
-                        {Moment(related.StartDateTime).format("HH:MM a")}-{" "}
-                        {Moment(related.EndDateTime).format("HH:MM a")}
-                      </p>
-                    </li>
-                  </NavLink>
+                    </div>
+                  </NavLink><hr></hr></>
                 ))}
               </ul>
             </div>
