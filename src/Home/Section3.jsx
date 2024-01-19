@@ -2,7 +2,8 @@ import React from 'react'
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Navigation } from 'swiper';
+import { Autoplay, Navigation ,Pagination} from 'swiper';
+
 import { useEffect, useState } from "react";
 import {
     addDoc,
@@ -50,7 +51,6 @@ const Section3 = () => {
             });
     
             setUsers(userData);
-    console.log(userData);
 
     const randomIndex = Math.floor(Math.random() * userData.length);
 
@@ -120,8 +120,8 @@ const Section3 = () => {
         className="mySwiper w-full  px-4 sm:px-10 lg:px-10"
         >
         {
-            Array.isArray(randomUser) &&
-            randomUser.map((user) => (
+            
+            users.map((user) => (
 <SwiperSlide key={user.id}>
 <div className=' flex w-auto sm:flex-col gap-4  p-10 m-auto justify-center' >
                 <div className="avatar sm:m-auto">
@@ -130,10 +130,10 @@ const Section3 = () => {
                     </div>
                 </div>
                 <div className='h-full flex flex-col  gap-2'>
-                    <h1 className='text-black text-xl sm:text-center'>{user.displayName}</h1>
-                    <p className='text-black w-64 text-red-500 sm:text-center'>{user.occupation}</p>
+                    <h1 className='text-black text-xl sm:text-center'>{user.name}</h1>
+                    <p className='text-black w-64 text-red-500 sm:text-center'>Occupation : {user.occupation}</p>
 
-                    <p className='text-black w-64 text-red-500 sm:text-center'>{user.shortBio}</p>
+                    <p className='text-black w-64 text-red-500 sm:text-center'> Bio:  {user.shortBio}</p>
                     <NavLink to={`/profile/${user.id}`}>
               <button className="btn w-40 flex hover:bg-black m-auto my-2  bg-gradient-to-r from-orange-400 to-rose-400 text-white ">
                 View Profile

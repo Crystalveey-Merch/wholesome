@@ -75,7 +75,9 @@ const EventDes = () => {
       } catch (error) {
         console.error("Error fetching total attendees:", error);
       }
-    };})
+    };
+    fetchTotalAttendees()
+  },[id])
   
     useEffect(() => {
       const checkUserRegistration = async () => {
@@ -86,7 +88,7 @@ const EventDes = () => {
   
             if (eventDocSnapshot.exists()) {
               const attendees = eventDocSnapshot.data()?.attendees || [];
-              const isRegistered = attendees.some(attendee => attendee.userId === authUser.uid);
+              const isRegistered = attendees.some(attendee => attendee.userId === userId);
               setIsUserRegistered(isRegistered);
             }
           }
@@ -96,7 +98,8 @@ const EventDes = () => {
       };
   
       checkUserRegistration();
-    }, [id, authUser]);
+    }, [id, authUser, userId]);
+
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -184,6 +187,8 @@ const EventDes = () => {
             userName: profileData.name,
           }),
         });
+      
+
         toast.success('Registration Succesful')
         console.log("Attendee added successfully!");
       } else {
@@ -252,14 +257,16 @@ const EventDes = () => {
           })}
         />
       </Helmet>
-      <div className="pt-40  sm:pt-10 sm:mt-18 flex sm:flex-col gap-10  m-auto justify-center bg-stone-100 w-screen">
-        <div className=" w-1/2 sm:w-full">
-          <div className="m-auto sm:w-full ">
-            <img src={event.imgUrl} alt={event.eventName} />
+      <div className="pt-32 px-20 sm:pt-10 sm:mt-20 flex sm:flex-col gap-10  m-auto justify-center bg-stone-100 w-screen">
+        <div className="  sm:w-full">
+          <div className="m-auto sm:w-full flex ">
+            <img src={event.imgUrl} alt={event.eventName} className="m-auto" />
           </div>
 
-          <div className="mx-10 my-20 sm:mx-5 sm:my-10">
-            <span className="py-20 relative flex gap-10">
+          <div className="mx-10 my-10 sm:mx-5 sm:my-10">
+          <p className=" text-white text-xl  badge p-4 bg-rose-800   "> {totalAttendees} Attending</p>
+
+            <span className="pb-20 relative flex gap-10 justify-between">
               <add-to-calendar-button
                 name={event.eventName}
                 startDate={startDateTime.date}
@@ -272,17 +279,15 @@ const EventDes = () => {
                 size="5"
                 lightMode="bodyScheme"
               ></add-to-calendar-button>
-              <p> {totalAttendees} Attending</p>
-              {isUserRegistered ? <div className="btn bg-green-600 text-white">
-              <p>Already Registered</p>
+              <div >
+              {isUserRegistered ? <div className=" text-white">
+              <p className="btn bg-green-800 text-white Aceh">Already Registered</p>
               
               </div>:<div className="btn bg-rose-900 text-white" onClick={handleAttend}>
               <p>Attend</p>
               
-              </div>}
+              </div>}</div>
               
-              <p>{isUserRegistered ? 'Already Registered' : 'Attend'}</p>
-
             </span>
             <h1 className="text-red-500 text-xl mt-4 ">
               {/* {dateTime.toDateString()} */}
@@ -323,8 +328,8 @@ const EventDes = () => {
               })}
             </div>
             <div className="rounded-xl border shadow bg-gray-200 p-5 my-5">
-              <h1 className="text-gray-800 text-2xl py-4">Organizer</h1>
-              <p className="text-xl">{event.organizerName}</p>
+              <h1 className="text-gray-500 text-sm py-4">Organizer</h1>
+              <p className="text-xl text-blue-600 Aceh">{event.organizerName}</p>
               <a href={`http://${event.website}`}>
                 <p className="text-xl">{event.website}</p>
               </a>

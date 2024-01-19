@@ -302,7 +302,7 @@ const EventList = () => {
               onClick={filterEnvironmental}
               className="border rounded-full p-4 cursor-pointer m-auto flex   shadow text-green-900	"
             />
-            <p className="text-sm text-center text-gray-400 ">Environmental</p>
+            <p className="text-sm text-center text-gray-400 ">Nature</p>
           </span>
           <span className="">
             <FontAwesomeIcon

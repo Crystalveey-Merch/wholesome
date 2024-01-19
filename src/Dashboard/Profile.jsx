@@ -373,7 +373,7 @@ const Profile = () => {
                     <h2 className="py-5 Aceh text-red-500">Social Profile</h2>
                     <hr></hr>
                     <label className=" flex flex-col  m-auto gap-4 pt-5 justify-center">
-                      <div className=" Aceh text-black">Facebook:</div>
+                      <div className=" Aceh text-black">Facebook Profile Link:</div>
                       <input
                         type="url"
                         className="p-2 border rounded-full  text-slate-600 enabled:hover:border-gray-400 "
@@ -384,25 +384,25 @@ const Profile = () => {
                       />
                     </label>
                     <label className="flex flex-col  gap-4 justify-center">
-                      <div className="Aceh text-black">Twitter:</div>
+                      <div className="Aceh text-black">Twitter Profile Link:</div>
 
                       <input
                         type="url"
                         className="p-2 border rounded-full  text-slate-600 enabled:hover:border-gray-400 "
                         // style={{ width: "40rem" }}
                         value={twitterLink}
-                        // pattern="https://.*"
+                        pattern="https://.*"
                         onChange={(e) => {
                           let url = e.target.value;
-                          if (!url.match(/^(https?|ftp):\/\//)) {
-                            url = "https://" + url;
-                          }
+                          // if (!url.match(/^(https?|ftp):\/\//)) {
+                          //   url = "https://www.twitter.com/" + url;
+                          // }
                           setTwitterLink(url);
                         }}
                       />
                     </label>
                     <label className="flex flex-col  gap-4 justify-center">
-                      <div className="Aceh text-black">Instagram:</div>
+                      <div className="Aceh text-black">Instagram Profile Link:</div>
 
                       <input
                         type="url"
@@ -410,12 +410,12 @@ const Profile = () => {
                         // style={{ width: "40rem" }}
                         value={instagramLink}
                         pattern="https://.*"
-                        onChange={(e) => setTwitterLink(e.target.value)}
+                        onChange={(e) => setInstagramLink(e.target.value)}
                       />
                     </label>
 
                     <label className="flex  flex-col gap-4 justify-center">
-                      <div className=" Aceh text-black">Linkedin:</div>
+                      <div className=" Aceh text-black">Linkedin Profile Link:</div>
 
                       <input
                         type="url"
