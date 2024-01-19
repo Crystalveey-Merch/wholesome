@@ -1,25 +1,13 @@
 import { useEffect, useState } from "react";
 import {
-  addDoc,
   collection,
   getDocs,
-  doc,
-  deleteDoc,
 } from "firebase/firestore";
-import { deleteUser as deleteAuthUser } from "firebase/auth";
 import "flowbite";
 import { getAuth } from "firebase/auth";
-import { auth, db } from "../firebase/auth.js";
+import { db } from "../firebase/auth.js";
 import { NavLink } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBiohazard,
-  faInfo,
-  faWarning,
-} from "@fortawesome/free-solid-svg-icons";
-import { toast } from "react-toastify";
 import Pagination from "../components/pagination.jsx";
-import { updateProfile } from 'firebase/auth';
 
 const Users = () => {
   // eslint-disable-next-line no-undef

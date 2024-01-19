@@ -31,6 +31,8 @@ const EventDes = () => {
   const [totalAttendees, setTotalAttendees] = useState(0);
   const [isUserRegistered, setIsUserRegistered] = useState(false);
 
+  const { id } = useParams();
+
   useEffect(() => {
     const listen = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -95,7 +97,6 @@ const EventDes = () => {
   
       checkUserRegistration();
     }, [id, authUser]);
-  const { id } = useParams();
   useEffect(() => {
     const fetchPosts = async () => {
       try {
