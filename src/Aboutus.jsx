@@ -8,8 +8,14 @@ import {
   faHandsHoldingChild,
   faQuestion,
   faUserGroup,
+  faMaskFace,
+  faMask,
+  faMasksTheater,
+  faThumbtack,
+  faThumbsUp,
 } from "@fortawesome/free-solid-svg-icons";
 import { Helmet } from "react-helmet-async";
+import { faConnectdevelop } from "@fortawesome/free-brands-svg-icons";
 
 const Aboutus = () => {
   document.addEventListener("DOMContentLoaded", function () {
@@ -54,13 +60,14 @@ const Aboutus = () => {
               <hr className="mb-5"></hr>
 
               <p className="text-black text-xl sm:text-center ">
-                Community Corporation of Santa Monica fosters a more inclusive,
-                caring, and environmentally sustainable city where each person
-                has a home in which to live and thrive with dignity. We improve
-                lives and neighborhoods by restoring, building, and managing
-                affordable housing for people of modest means. We work to
-                advance the values that Santa Monica residents share and to
-                enrich the community for all.
+                Empowering Connections, Inspiring Conversations: We're dedicated
+                to building a vibrant online community that fosters personal and
+                professional growth. Our platform celebrates diversity and
+                positive engagement, offering a range of interest groups
+                including Health and Wellness, Travel & Events, Lifestyle &
+                Fashion, and more. Join us in this social network designed for
+                relaxation, enjoyment, and insight, as we connect, collaborate,
+                and explore together!
               </p>
             </div>
             <img src="/Images/friends1.jpg" width={400} className="p-5" />
@@ -73,43 +80,33 @@ const Aboutus = () => {
           </div>
           <ul className="text-black text-md gap-4 flex flex-wrap m-auto justify-center mb-10 ">
             <li className="mb-2 border  rounded-lg text-center text-white p-4 w-72 shadow shadow-xl bg-red-500">
-              <div className="Aceh text-lg">Inclusiveness:</div>
+              <div className="Aceh text-lg">Integrity:</div>
               <div>
-                <FontAwesomeIcon
-                  icon={faPeoplePulling}
-                  className="text-6xl p-5"
-                />
+                <FontAwesomeIcon icon={faThumbsUp} className="text-6xl p-5" />
               </div>
-              Inclusiveness: We work to make Santa Monica a more inclusive and
-              vibrant place to live, contributing to the City’s distinct
-              character.
+              Maintaining sincerity and openness in all dealings and
+              correspondence.
             </li>
 
             <li className="mb-2 border  rounded-lg text-center text-white p-4 w-72 shadow shadow-xl bg-green-600">
-              <div className="Aceh text-lg">Sustainability:</div>
+              <div className="Aceh text-lg">Inclusivity:</div>
               <div>
                 <FontAwesomeIcon icon={faSeedling} className="text-6xl p-5" />
               </div>
-              Since our founding, Community Corp. has been focused on helping to
-              create environmentally sustainable communities. We build green,
-              affordable housing properties that bring together the latest
-              sustainable building practices and living features. These
-              properties allow families to live in neighborhoods near their
-              schools and workplaces—limiting commutes and reducing carbon
-              emissions.
+              Promoting an environment that is inclusive, diverse, and values
+              and respects each individual.
             </li>
 
             <li className="mb-2 brder text-white  rounded-lg text-center p-4 w-72 shadow-xl bg-amber-600 ">
-              <div className="Aceh text-lg"> Opportunity:</div>
+              <div className="Aceh text-lg"> Innovation:</div>
               <div>
                 <FontAwesomeIcon
                   icon={faHandHoldingHand}
                   className="text-6xl p-5"
                 />
               </div>
-              We create opportunities for families of modest means to build
-              brighter futures by providing access to homes where they can
-              flourish.
+              Fostering imagination, progressive thinking, and ongoing
+              development.
             </li>
             <li className="mb-2 brder text-white  rounded-lg text-center p-4 w-72 shadow-xl bg-gray-500 ">
               <div className="Aceh text-lg"> Community:</div>
@@ -119,11 +116,29 @@ const Aboutus = () => {
                   className="text-6xl p-5"
                 />
               </div>
-              We preserve historically significant structures and replace
-              underutilized properties with innovative affordable buildings that
-              capture the essence of their neighborhoods. By preserving the past
-              and innovating the future, we strive to contribute to Santa
-              Monica’s unique architectural character and community.
+              Putting our users' relationships and general well-being first.
+            </li>
+            <li className="mb-2 brder text-white  rounded-lg text-center p-4 w-72 shadow-xl bg-teal-700 ">
+              <div className="Aceh text-lg"> Opportunity:</div>
+              <div>
+                <FontAwesomeIcon
+                  icon={faConnectdevelop}
+                  className="text-6xl p-5"
+                />
+              </div>
+              Fostering an atmosphere that acknowledges and supports chances for
+              both professional and personal development, giving people the
+              ability to reach their full potential and discover new paths.
+            </li>
+            <li className="mb-2 brder text-white  rounded-lg text-center p-4 w-72 shadow-xl bg-sky-500 ">
+              <div className="Aceh text-lg"> Fun:</div>
+              <div>
+                <FontAwesomeIcon
+                  icon={faMasksTheater}
+                  className="text-6xl p-5"
+                />
+              </div>
+              Including a joyful and upbeat component into user experience
             </li>
           </ul>
 
@@ -133,7 +148,7 @@ const Aboutus = () => {
             </h2>
             <hr></hr>
 
-            <div className="flex  sm:block px-40 mb-20 sm:px-5 py-14">
+            <div className="flex  sm:block px-10 mb-20 sm:px-5 py-14">
               <div className="flex sm:flex-col gap-6  sm:w-full">
                 <div className="flex gap-4 text-xl">
                   <FontAwesomeIcon
@@ -141,11 +156,14 @@ const Aboutus = () => {
                     className="text-3xl border rounded-full p-4 w-10 h-10 text-gray-500"
                   />
                   <span>
-                    <h1 className="text-xl text-gray-800 ">MENTORSHIP</h1>
+                    <h1 className="text-xl text-gray-800 ">
+                      Facilitate Connections:
+                    </h1>
                     <p className="text-gray-600">
-                      Because this is a MAJOR pain point for our community. I
-                      know how to find a mentor and I'm giving you the cheat
-                      codes so you can get one.
+                      Our engaging web-based forum unites individuals across
+                      diverse interest groups, fostering profound connections
+                      and meaningful exchanges in areas like Health and
+                      Wellness, Travel & Events, Lifestyle & Fashion, and more.
                     </p>
                   </span>
                 </div>
@@ -155,10 +173,13 @@ const Aboutus = () => {
                     className="text-3xl border rounded-full p-4 w-10 h-10 text-gray-500"
                   />
                   <span>
-                    <h1 className="text-xl text-gray-800">RESOURCE HUB</h1>
+                    <h1 className="text-xl text-gray-800">
+                      Encourage Diversity:
+                    </h1>
                     <p className="text-gray-600">
-                      with challenges, courses and downloadables to help you
-                      level up professionally and personally
+                      We create a welcoming space on our platform for a spectrum
+                      of conversations and viewpoints within these interest
+                      groups, promoting inclusivity.
                     </p>
                   </span>
                 </div>
@@ -168,11 +189,14 @@ const Aboutus = () => {
                     className="text-3xl border rounded-full p-4 w-10 h-10 text-gray-500"
                   />
                   <span>
-                    <h1 className="text-xl text-gray-800">A DOPE COMMUNITY</h1>
+                    <h1 className="text-xl text-gray-800">
+                      Empowerment and Growth:
+                    </h1>
                     <p className="text-gray-600">
-                      to build a squad with (Are you a Truth Teller or Bridge
-                      Builder or Heart Helper or Mind Molder? - Find your
-                      people.)
+                      Through cutting-edge functionality and user-centric
+                      design, we empower our community to thrive individually
+                      and collectively, exploring a broad range of interest
+                      groups for personal and professional development.
                     </p>
                   </span>
                 </div>

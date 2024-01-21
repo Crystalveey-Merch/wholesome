@@ -14,9 +14,10 @@ const Account = () => {
                                 that transcends borders and also share your
                                 experiences, knowledge and creativity</h1>
                             <ul className='text-left ml-40 my-10 sm:ml-0 sm:p-5 sm:text-center text-sky-600'>
-                                <li>Create a map of your travels</li>
-                                <li>Get advice from the community</li>
-                                <li>Blog about your adventures</li>
+                                <li>Becoming a member of a group or community gives you a
+                place to ask for and give assistance.</li>
+                <li>Through shared content, users can explore and find new interests or hobbies.</li>
+                                
                             </ul>
                         </div>
                         <div className='w-1/2 sm:m-auto '>
