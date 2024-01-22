@@ -203,9 +203,9 @@ const Header = () => {
                       <NavLink
                         onClick={closeDrawer}
                         className={`${active && "bg-blue-500"}`}
-                        to="/interest/Travel and events"
+                        to="/interest/Travel and Exploration"
                       >
-                        Travel & events
+                        Travel & Exploration
                       </NavLink>
                     )}
                   </Menu.Item>
@@ -284,6 +284,17 @@ const Header = () => {
                         to="/interest/Book club"
                       >
                         Book club
+                      </NavLink>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <NavLink
+                        onClick={closeDrawer}
+                        className={`${active && "bg-blue-500"}`}
+                        to="/interest/Music"
+                      >
+                        Music
                       </NavLink>
                     )}
                   </Menu.Item>
@@ -409,8 +420,8 @@ const Header = () => {
                     </NavLink>
                   </li>
                   <li>
-                    <NavLink to={`/interest/Travel and Adventure`}>
-                      Travel & Adventure
+                    <NavLink to={`/interest/Travel and Exploration`}>
+                      Travel & Exploration
                     </NavLink>
                   </li>
                   <li>
@@ -441,6 +452,9 @@ const Header = () => {
                   </li>
                   <li>
                     <NavLink to={`/interest/Book club`}>Book club</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to={`/interest/Music`}>Music</NavLink>
                   </li>
                 </ul>
               </ul>

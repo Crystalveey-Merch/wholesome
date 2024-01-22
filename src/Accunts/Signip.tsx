@@ -167,7 +167,7 @@ const Signip = () => {
                               key: "Health and wellness",
                             },
                             {
-                              key: "Travel and Adventure",
+                              key: "Travel and Exploration",
                             },
                             {
                               key: "Volunteer and Philanthropy",
@@ -186,6 +186,9 @@ const Signip = () => {
                             },
                             {
                               key: "Book club",
+                            },
+                            {
+                              key: "Music",
                             },
                           ]}
 

@@ -37,13 +37,14 @@ const initialState = {
 const categoryOption = [
   "Lifestyle and Fashion",
   "Health and wellness",
-  "Travel and Adventure",
+  "Travel and Exploration",
   "Volunteer and Philanthropy",
   "Business and Finance",
   "Games & Sports",
   "Art & crafts",
   "Environmental & Sustainability",
   "Book club",
+  "Music",
 ];
 
 // import "./tagsInput.css"
