@@ -209,7 +209,7 @@ const Signip = () => {
                               key: "Comedy & entertainment",
                             },
                             {
-                              key: "Nightlife",
+                              key: "Night life",
                             },
                           ]}
 

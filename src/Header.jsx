@@ -353,6 +353,28 @@ const Header = () => {
                       </NavLink>
                     )}
                   </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <NavLink
+                        onClick={closeDrawer}
+                        className={`${active && "bg-blue-500"}`}
+                        to="/interest/Night life"
+                      >
+                        Night life
+                      </NavLink>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <NavLink
+                        onClick={closeDrawer}
+                        className={`${active && "bg-blue-500"}`}
+                        to="/interest/Comedy & entertainment"
+                      >
+                         Comedy & entertainment
+                      </NavLink>
+                    )}
+                  </Menu.Item>
                 </Menu.Items>
               </Menu>
 

@@ -50,6 +50,9 @@ const categoryOption = [
   "Tech",
   "Books",
   "Games & Sports",
+  "Comedy & entertainment",
+  "Night life",
+
 ];
 
 // import "./tagsInput.css"
