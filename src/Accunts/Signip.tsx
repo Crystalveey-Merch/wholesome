@@ -161,34 +161,55 @@ const Signip = () => {
                           className="mb-2 bg-gray-100/75"
                           options={[
                             {
-                              key: "Lifestyle and Fashion",
+                              key: "Fitnes",
                             },
                             {
-                              key: "Health and wellness",
+                              key: "Photography",
                             },
                             {
-                              key: "Travel and Exploration",
+                              key: "Travel",
                             },
                             {
-                              key: "Volunteer and Philanthropy",
+                              key: "Exploration",
                             },
                             {
-                              key: "Business and Finance",
+                              key: "Lifestyle",
                             },
                             {
-                              key: "Games and Sports",
-                            },
-                            {
-                              key: "Art and crafts",
-                            },
-                            {
-                              key: "Environmental and Sustainability",
-                            },
-                            {
-                              key: "Book club",
+                              key: "Fashion",
                             },
                             {
                               key: "Music",
+                            },
+                            {
+                              key: "Health & Wellness",
+                            },
+                            {
+                              key: "Art & craft",
+                            },
+                            {
+                              key: "Volunteering & Philanthropy",
+                            },
+                            {
+                              key: "Food",
+                            },
+                            {
+                              key: "Business & Finance",
+                            },
+                            {
+                              key: "Tech",
+                            },
+                            {
+                              key: "Books",
+                            },
+                            {
+                              key: "Games & Sports",
+                            },
+                            {
+                              key: "Comedy & entertainment",
+                            },
+                            {
+                              key: "Nightlife",
                             },
                           ]}
 

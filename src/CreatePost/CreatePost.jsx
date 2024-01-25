@@ -35,16 +35,21 @@ const initialState = {
   bookmarks: [],
 };
 const categoryOption = [
-  "Lifestyle and Fashion",
-  "Health and wellness",
-  "Travel and Exploration",
-  "Volunteer and Philanthropy",
-  "Business and Finance",
-  "Games & Sports",
-  "Art & crafts",
-  "Environmental & Sustainability",
-  "Book club",
+  "Fitnes",
+  "Photography",
+  "Travel",
+  "Exploration",
+  "Lifestyle",
+  "Fashion",
   "Music",
+  "Health & Wellness",
+  "Art & craft",
+  "Volunteering & Philanthropy",
+  "Food",
+  "Business & Finance",
+  "Tech",
+  "Books",
+  "Games & Sports",
 ];
 
 // import "./tagsInput.css"
