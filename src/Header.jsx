@@ -23,6 +23,7 @@ import { events } from "./data/events";
 import { useParams } from "react-router";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
+import { Navbar } from "flowbite-react";
 
 const Header = () => {
   const { interestName } = useParams();
@@ -160,7 +161,7 @@ const closeModal = () => {
 };
 
   return (
-    <div className="fixed  w-screen z-30 top-0   flex   flex-col gap-0 sm:m-0  w-full items-center justify-between xl:px-8 sm:px-0 ">
+    <div className="fixed   z-50 top-0   flex   flex-col gap-0 sm:m-0  w-full items-center justify-between xl:px-8 sm:px-0 ">
       <div className="navbar   text-black bg-white flex gap-5  justify-evenly px-10 sm:px-5 w-full ">
         <div className="drawer  sm:block hidden w-5 flex left-0">
           <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
@@ -689,12 +690,7 @@ const closeModal = () => {
             </NavLink>
           </ul>
         </div>
-        {/* <button
-              className=" flex text-center  bg-white "
-              onClick={openModal}
-            ><FontAwesomeIcon icon={faSearch} className=" text-black"></FontAwesomeIcon>
-             
-            </button> */}
+       
             {/* <dialog id="my_modal_4"   className={`modal ${isModalOpen ? 'open' : ''}`}> */}
 
                 
@@ -703,30 +699,15 @@ const closeModal = () => {
               </form> */}
             {/* </dialog> */}
 
-        <div className="justify-end sm:justify-middle  sm:w-60 flex gap-10 rounded-full border">
-        <div className="my-1 w-full Aceh sm:hidden ">
-                  <ReactSearchAutocomplete
-                    items={users}
-                    onSearch={handleOnSearch}
-                    onHover={handleOnHover}
-                    onSelect={handleOnSelect}
-                    onFocus={handleOnFocus}
-                    
-                    styling={{
-                      borderRadius: "none",
-                      boxShadow: "none",
-                      border: "none",
-                      fontSize: "13px",
-                      fontFamily: "Quicksand",
-                      padding: "2px",
+        <div className="justify-end sm:justify-middle  sm:w-full flex gap-10 rounded-full ">
+        <button
 
-                    }}
-                    placeholder="Input search"
-                    autoFocus
-                    className=" sm:w-full search  text-sm w-60"
-                    formatResult={formatResult}
-                  />
-                </div>
+              className="btn flex text-center  bg-white  border-0 "
+            >
+                    <Link to="/searchuser">
+<FontAwesomeIcon icon={faSearch} className=""></FontAwesomeIcon>
+             </Link>
+            </button>
           {authUser ? (
             <div className="flex">
               {profileData ? (
@@ -770,17 +751,7 @@ const closeModal = () => {
                     </div>
                   </ul>
                 </div>
-              ) : (
-                <label tabIndex={0} className="  flex-row ">
-                    <div className="w-10 h-10  m-1 bg-white border rounded-full overflow-hidden">
-                      <img
-                        src={profileData?.photoURL}
-                        alt="Photo"
-                        className="rounded-full m-auto"
-                      />
-                    </div>
-                  </label>
-              )}
+              ):("") }
             </div>
           ) : (
             <NavLink to="/account">
@@ -790,32 +761,7 @@ const closeModal = () => {
           )}
         </div>
       </div>
-      <div className="my-1 w-full Aceh  ">
-                  <ReactSearchAutocomplete
-                    items={users}
-                    onSearch={handleOnSearch}
-                    onHover={handleOnHover}
-                    onSelect={handleOnSelect}
-                    onFocus={handleOnFocus}
-                    
-                    styling={{
-                      // borderRadius: "none",
-                      boxShadow: "none",
-                      border: "none",
-                      fontSize: "13px",
-                      // fontFamily: "A",
-                      padding: "2px",
-                      background: "rgba(0, 151, 19, 0.1)",
-                      borderRadius:"30p%"
-                      
-
-                    }}
-                    placeholder="Input search"
-                    autoFocus
-                    className=" sm:w-full bg-white/50 search Aceh border mx-60  text-sm "
-                    formatResult={formatResult}
-                  />
-                </div>
+      
     </div>
   );
 };

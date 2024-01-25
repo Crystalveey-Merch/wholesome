@@ -48,7 +48,7 @@ import AllActivity from "./Admin/AllActivity";
 import PodcastInterest from "./MyInterest/PodcastInterest";
 import MyEvents from "./Dashboard/MyEvents";
 import ActivityList from "./Activity/ActivityList";
-
+import SerchUser from "./Userpage/SerchUser";
 // import "@fortawesome/fontawesome-free"
 
 function App() {
@@ -66,6 +66,7 @@ function App() {
 
         <Route path="/account" element={<Account />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/searchuser" element={<SerchUser />} />
 
         <Route path="/signup" element={<Signip />} />
         <Route path="/upcomingevents" element={<EventList />} />
