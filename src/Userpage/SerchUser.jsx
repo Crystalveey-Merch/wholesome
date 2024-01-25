@@ -1,12 +1,12 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faSearch, faStar, faUser } from "@fortawesome/free-solid-svg-icons";
 import { Link, NavLink } from "react-router-dom";
 import { Fragment, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "../firebase/auth";
 import { signOut } from "firebase/auth";
-import { doc, getDoc, collection, getDocs } from "firebase/firestore";
+import { doc, getDoc, collection, getDocs , query, orderBy, limit } from "firebase/firestore";
 import { useNavigate } from "react-router";
 import { ReactSearchAutocomplete } from "react-search-autocomplete";
 
@@ -28,6 +28,7 @@ const SerchUser = () => {
   const [profileData, setProfileData] = useState(null);
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [topUsers, setTopUsers] = useState([]);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -49,6 +50,28 @@ const SerchUser = () => {
 
     fetchUsers();
   }, []);
+  useEffect(() => {
+    const fetchTopUsers = async () => {
+      try {
+        const q = query(collection(db, "users"), orderBy("followers", "desc"), limit(20));
+        const querySnapshot = await getDocs(q);
+        const topUsersData = [];
+        querySnapshot.forEach((doc) => {
+          // Extract the data from each document
+          const user = doc.data();
+          user.id = doc.id;
+          topUsersData.push(user);
+        });
+        setTopUsers(topUsersData);
+      } catch (error) {
+        console.error("Error fetching top users:", error);
+        setTopUsers([]);
+      }
+    };
+    fetchTopUsers();
+  }, []);
+
+
 
   const handleOnSelect = (user) => {
     // Construct the target URL
@@ -83,7 +106,7 @@ const SerchUser = () => {
     );
   };
   return (
-    <div className="pt-40 h-screen bg-gradient-to-r from-blue-600 to-violet-600">
+    <div className="pt-40 h-full w-screen bg-gradient-to-r from-blue-600 to-violet-600">
     <div className="text-center Aceh py-20 text-white text-2xl">
         Seach 🔍  and connect with Users of WHOLESQUARE 
     </div>
@@ -108,6 +131,26 @@ const SerchUser = () => {
         className=" sm:w-full  Aceh  mx-60 z-0   text-sm sm:m-0"
         formatResult={formatResult}
       />
+      <div className="px-20 sm:px-5 py-10">
+        <h1 className="text-2xl text-center py-5">Trending Users</h1>
+        <div className="flex flex-wrap gap-5 justify-between">
+            {topUsers.map((user) =>(
+                <NavLink to={`/profile/${user.id}`} key={user.id}>
+
+                <div key={user.id}  >
+                <img src={user.photoURL}  className="rounded-full w-20 h-20 m-auto"></img>
+                <p className="Aceh text-center text-white">{user.name}</p>
+                <p className="text-yellow-400 text-xl"><FontAwesomeIcon icon={faStar}></FontAwesomeIcon>{user.followers.length} followers</p>
+
+                </div>
+                </NavLink>
+
+            )
+
+            )}
+        </div>
+      </div>
+
     </div>
   );
 };
