@@ -1,13 +1,17 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faSearch, faUser } from "@fortawesome/free-solid-svg-icons";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { Link, NavLink } from "react-router-dom";
 import { Fragment, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "./firebase/auth.js";
 import { signOut } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc,collection,
+  
+  getDocs, } from "firebase/firestore";
 import { useNavigate } from "react-router";
+import { ReactSearchAutocomplete } from "react-search-autocomplete";
+
 import {
   Dialog,
   Disclosure,
@@ -22,10 +26,12 @@ import { toast } from "react-toastify";
 
 const Header = () => {
   const { interestName } = useParams();
+  const [users, setUsers] = useState([]);
 
   const [authUser, setAuthUser] = useState(null);
   const [profileData, setProfileData] = useState(null);
   const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const listen = onAuthStateChanged(auth, (user) => {
@@ -41,6 +47,27 @@ const Header = () => {
     };
   }, []);
   const userId = authUser?.uid;
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "users"));
+        const postData = [];
+        querySnapshot.forEach((doc) => {
+          // Extract the data from each document
+          const post = doc.data();
+          post.id = doc.id;
+          postData.push(post);
+        });
+        setUsers(postData);
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+        setUsers([]);
+      }
+    };
+  
+    fetchUsers
+    ();
+  }, []);
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -88,9 +115,53 @@ const Header = () => {
     }
   };
 
+  const handleOnSelect = (user) => {
+    // Construct the target URL
+    const targetUrl = `/profile/${user.id}`;
+
+
+    // Use history.push() to navigate to the target URL
+    navigate(targetUrl);
+    setIsModalOpen(false);
+  };
+  const handleOnSearch = (string, results) => {
+    // onSearch will have as the first callback parameter
+    // the string searched and for the second the results.
+    console.log(string, results);
+  };
+
+  const handleOnHover = (result) => {
+    // the item hovered
+    console.log(result);
+  }
+  const handleOnFocus = () => {
+    console.log("Focused");
+  };
+  const formatResult = (item) => {
+    return (
+      <>
+        <div className="flex  w-60  gap-1" id={item.id}>
+          <img src={item.photoURL} className="w-10" />
+          
+             <h1  className="text-sm">{item.name}</h1> 
+            
+          
+        </div>
+      </>
+    );
+  };
+  const openModal = () => {
+    setIsModalOpen(true);
+};
+
+// Function to close the modal
+const closeModal = () => {
+    setIsModalOpen(false);
+};
+
   return (
     <div className="fixed  w-screen z-30 top-0   flex   flex-col gap-0 sm:m-0  w-full items-center justify-between xl:px-8 sm:px-0 ">
-      <div className="navbar   text-black bg-white flex gap-20  justify-evenly px-10 sm:px-5 w-full ">
+      <div className="navbar   text-black bg-white flex gap-5  justify-evenly px-10 sm:px-5 w-full ">
         <div className="drawer  sm:block hidden w-5 flex left-0">
           <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
 
@@ -454,7 +525,7 @@ const Header = () => {
           </div>
         </NavLink>
         <div className=" w-full flex justify-center m-auto text-2xl sm:hidden ">
-          <ul className="menu menu-horizontal text-2xl px-1 m-auto text-black">
+          <ul className="menu menu-horizontal gap-2 text-2xl px-1 m-auto text-black">
             <div className="dropdown dropdown-bottom ">
               <NavLink to="/aboutus">
                 {" "}
@@ -618,7 +689,44 @@ const Header = () => {
             </NavLink>
           </ul>
         </div>
-        <div className="justify-end flex gap-10">
+        {/* <button
+              className=" flex text-center  bg-white "
+              onClick={openModal}
+            ><FontAwesomeIcon icon={faSearch} className=" text-black"></FontAwesomeIcon>
+             
+            </button> */}
+            {/* <dialog id="my_modal_4"   className={`modal ${isModalOpen ? 'open' : ''}`}> */}
+
+                
+              {/* <form method="dialog"onClick={closeModal} className="modal-backdrop">
+                <button>close</button>
+              </form> */}
+            {/* </dialog> */}
+
+        <div className="justify-end sm:justify-middle  sm:w-60 flex gap-10 rounded-full border">
+        <div className="my-1 w-full Aceh sm:hidden ">
+                  <ReactSearchAutocomplete
+                    items={users}
+                    onSearch={handleOnSearch}
+                    onHover={handleOnHover}
+                    onSelect={handleOnSelect}
+                    onFocus={handleOnFocus}
+                    
+                    styling={{
+                      borderRadius: "none",
+                      boxShadow: "none",
+                      border: "none",
+                      fontSize: "13px",
+                      fontFamily: "Quicksand",
+                      padding: "2px",
+
+                    }}
+                    placeholder="Input search"
+                    autoFocus
+                    className=" sm:w-full search  text-sm w-60"
+                    formatResult={formatResult}
+                  />
+                </div>
           {authUser ? (
             <div className="flex">
               {profileData ? (
@@ -626,7 +734,7 @@ const Header = () => {
                   <label tabIndex={0} className="btn-primary   flex-row ">
                     <div className="w-10 h-10  m-1 bg-white border rounded-full overflow-hidden">
                       <img
-                        src={profileData.photoURL}
+                        src={profileData?.photoURL}
                         alt="Photo"
                         className="rounded-full m-auto"
                       />
@@ -639,7 +747,7 @@ const Header = () => {
                   >
                     <li>
                       <p className="lowercase  left text-m ">
-                        {profileData.email}
+                        {profileData?.email}
                       </p>
                     </li>
 
@@ -663,7 +771,15 @@ const Header = () => {
                   </ul>
                 </div>
               ) : (
-                <></>
+                <label tabIndex={0} className="  flex-row ">
+                    <div className="w-10 h-10  m-1 bg-white border rounded-full overflow-hidden">
+                      <img
+                        src={profileData?.photoURL}
+                        alt="Photo"
+                        className="rounded-full m-auto"
+                      />
+                    </div>
+                  </label>
               )}
             </div>
           ) : (
@@ -674,6 +790,32 @@ const Header = () => {
           )}
         </div>
       </div>
+      <div className="my-1 w-full Aceh  ">
+                  <ReactSearchAutocomplete
+                    items={users}
+                    onSearch={handleOnSearch}
+                    onHover={handleOnHover}
+                    onSelect={handleOnSelect}
+                    onFocus={handleOnFocus}
+                    
+                    styling={{
+                      // borderRadius: "none",
+                      boxShadow: "none",
+                      border: "none",
+                      fontSize: "13px",
+                      // fontFamily: "A",
+                      padding: "2px",
+                      background: "rgba(0, 151, 19, 0.1)",
+                      borderRadius:"30p%"
+                      
+
+                    }}
+                    placeholder="Input search"
+                    autoFocus
+                    className=" sm:w-full bg-white/50 search Aceh border mx-60  text-sm "
+                    formatResult={formatResult}
+                  />
+                </div>
     </div>
   );
 };
