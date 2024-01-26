@@ -6,7 +6,6 @@ import { Route, Routes } from "react-router";
 import Account from "./Account";
 import Aboutus from "./Aboutus";
 import Whatwedo from "./Whatwedo";
-import { useEffect } from "react";
 import Login from "./Accunts/Login";
 import Signip from "./Accunts/Signip";
 import EventList from "./Events/EventList";

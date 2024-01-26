@@ -1,25 +1,15 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch, faStar, faUser } from "@fortawesome/free-solid-svg-icons";
-import { Link, NavLink } from "react-router-dom";
-import { Fragment, useState } from "react";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth, db } from "../firebase/auth";
-import { signOut } from "firebase/auth";
-import { doc, getDoc, collection, getDocs , query, orderBy, limit } from "firebase/firestore";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { NavLink } from "react-router-dom";
+import { useState } from "react";
+import { db } from "../firebase/auth";
+import { collection, getDocs , query, orderBy, limit } from "firebase/firestore";
 import { useNavigate } from "react-router";
 import { ReactSearchAutocomplete } from "react-search-autocomplete";
 
-import {
-  Dialog,
-  Disclosure,
-  Popover,
-  Transition,
-  Menu,
-} from "@headlessui/react";
 import { useParams } from "react-router";
 import { useEffect } from "react";
-import { toast } from "react-toastify";
 const SerchUser = () => {
   const { interestName } = useParams();
   const [users, setUsers] = useState([]);
