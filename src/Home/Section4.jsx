@@ -11,6 +11,7 @@ import { auth, db } from "../firebase/auth.js";
 import Spinner from "../components/Spinner.tsx";
 import Moment from "moment";
 import {
+  faAddressCard,
   faCalendar,
   faClock,
   faLocationPin,
@@ -102,7 +103,7 @@ const Section4 = () => {
   };
   return (
     <div className="  py-10  sm:py-5 bg-red-100/50">
-      <h1 className="text-black text-2xl text-red-500  my-5 text-center Aceh text-md">
+      <h1 className=" text-xl text-red-500  my-5 text-center Aceh text-md">
         FEATURED EVENTS
       </h1>
       <div className="  m-auto justify-center flex auto">
@@ -149,10 +150,10 @@ const Section4 = () => {
                         <p className="mb-3 font-bold  Aceh text-xl text-black Aceh">
                           {event.eventName}
                         </p>
-                        <badge className="badge p-2 bg-yellow-400 mb-2 text-xl tracking-tight text-gray-900 ">
+                        <badge className="  mb-2 text-md tracking-tight text-gray-500 ">
                           <FontAwesomeIcon
                             icon={faCalendar}
-                            className="text-sm mr-2"
+                            className="text-sm mr-2 text-blue-500"
                           />{" "}
                           {Moment(event.StartDateTime).format("DD-MM-YYYY")}{" "}
                           {", "}
@@ -162,9 +163,13 @@ const Section4 = () => {
                         <p className="mb-1 font-normal text-md Aceh text-red-500 dark:text-red-500">
                           {event.date}
                         </p>
-                        <p className="mb-3 font-normal text-md  text-gray-500 ">
+                        <div className="flex m-auto gap-2">
+                        <FontAwesomeIcon icon={faAddressCard} className=""></FontAwesomeIcon>
+                         <p className="mb-3 font-normal text-md my-auto text-gray-500 ">
                           {event.address}
                         </p>
+                        </div>
+                       
 
                         <p className="mb-3 font-normal Aceh text-md text-gray-500">
                           Organised by: {event.organizerName}

@@ -49,14 +49,14 @@ const Section1 = () => {
         <hr></hr>
         {userId ? (
           <NavLink to="/myinterest">
-            <button className="text-xl btn   p-auto sm:text-sm hover:text-white  hover:bg-red-500  flex w-60 sm:w-40  bg-white  text-red-500 text-center ">
-              My Interest
+            <button className="text-2xl btn   p-auto sm:text-sm hover:text-white  hover:bg-red-500  flex w-60 sm:w-40  bg-white  text-red-500 text-center ">
+            <p className="text-xl">    My Interest</p> 
             </button>
           </NavLink>
         ) : (
           <NavLink to="/signup">
-            <button className="text-xl btn   p-auto sm:text-sm hover:text-white  hover:bg-red-500  flex w-60 sm:w-40  bg-white  text-red-500 text-center ">
-              JOIN WHOLESQUARE
+            <button className=" btn Aceh   p-auto sm:text-sm hover:text-white  hover:bg-red-500  flex w-60 sm:w-40  bg-white  text-red-500 text-center ">
+           <p className="text-xl">  JOIN </p> 
             </button>
           </NavLink>
         )}

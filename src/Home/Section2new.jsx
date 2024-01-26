@@ -21,6 +21,12 @@ import {
   faEye,
   faThumbsUp,
 } from "@fortawesome/free-solid-svg-icons";
+import "swiper/css/effect-fade";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Navigation, Pagination } from "swiper";
 
 const Section2new = () => {
     const [authUser, setAuthUser] = useState(null);
@@ -128,29 +134,68 @@ const Section2new = () => {
     opacity: isBookmarked ? "100%" : "50%",
     // Add any other button styles as needed
   };
-  const limitedPosts = posts.slice(0, 4);
+  const limitedPosts = posts.slice(0, 10);
 
+
+  const breakpoints = {
+    300: {
+      slidesPerView: 1,
+      spaceBetween: 10,
+    },
+    639: {
+      slidesPerView: 2,
+      spaceBetween: 30,
+    },
+    768: {
+      slidesPerView: 2,
+      spaceBetween: 30,
+    },
+    1024: {
+      slidesPerView: 4,
+      spaceBetween: 40,
+      centeredSlides: true,
+    },
+  };
   return (
     <div className="p-5 sm:p-5 bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 w-screen"  >
-      <h1 className='text-black text-2xl  sm:my-2 my-5 text-center Aceh text-md'>MUST READS</h1>
+      <h1 className='text-black text-xl  sm:my-2 my-5 text-center Aceh text-md'>MUST READS</h1>
       <hr></hr>
-<div className="flex  flex-wrap px-1 sm:p-5 my-20 sm:my-5 m-auto justify-center gap-2 sm:gap-2">
+      <Swiper
+          slidesPerView={"auto"}
+          centeredSlides={true}
+          watchSlidesProgress
+          navigation={true}
+          grabCursor={true}
+          spaceBetween={30}
+          loop={true}
+          breakpoints={breakpoints}
+          pagination={{
+            clickable: true,
+          }}
+          autoplay={{
+            delay: 6000,
+            disableOnInteraction: false,
+          }}
+          modules={[Autoplay, Pagination, Navigation]}
+          className="mySwiper w-full  px-20 sm:mx-0  lg:px-10"
+        >
         {limitedPosts.map((post) => (
+          <SwiperSlide key={post._id} className="transition duration-500 hover:scale-90  ease-in-out">
           <NavLink
             to={`/readmore/${post.id}`}
             onClick={handleReadMoreClick}
             key={post.id}
-            className="hover:border p-2    hover:bg-red-100/50 hover:rounded-xl transition duration-300 ease-in-out"
+            className=" p-2  "
           >
-            <div key={post.id} className="w-72 sm:w-78 bg-white   rounded-xl p-2 shadow ">
+            <div key={post.id} className="w-72 sm:w-full bg-white   rounded-xl p-2 shadow ">
               <div className="relative overflow-clip   h-40 sm:w-full" >
                 <img src={post.imgUrl}  height={200} className="p-2 absolute hover:scale-125 transition duration-300 ease-in-out m-auto " />
-              
-              </div>
-              <div className="px-5 sm:p-0 my-6"  >
-              <p className="badge bg-red-500 py-4  top-5 text-white sm:hidden border-none ">
+                <p className="text-black z-0 top-1 absolute sm:hidden  ">
                   {post.category}
                 </p>
+              </div>
+              <div className="px-5 sm:p-0 my-6 relative"  >
+              
                 <p className="mt-1 text-sm leading-5 text-gray-500 border-b Aceh">
                   {post.timestamp.toDate().toDateString()} at{" "}
                   {formatTime(post.timestamp.toDate())}
@@ -190,9 +235,12 @@ const Section2new = () => {
               </div>
             </div>
           </NavLink>
+          </SwiperSlide>
         ))}
+        </Swiper>
+
        
-      </div>
+      
      <NavLink to='articlelist'><button  className="btn bg-black flex m-auto Aceh text-white"> See More</button></NavLink> 
     </div>
   )

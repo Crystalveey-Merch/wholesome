@@ -99,7 +99,7 @@ const Section3 = () => {
       };
     return (
         <div className='bg-white'>
-                    <h1 className=' text-2xl  py-5 text-center text-red-500 Aceh text-md'>COMMUNITY SPOTLIGHT</h1>
+                    <h1 className=' text-xl  py-5 text-center text-red-500 Aceh text-md'>COMMUNITY SPOTLIGHT</h1>
 <hr></hr>
            <Swiper
             slidesPerView={'auto'}

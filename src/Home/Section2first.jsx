@@ -96,7 +96,7 @@ const Section2first = () => {
   };
   return (
     <div className="py-20  sm:py-5 bg-gradient-to-r from-rose-100 to-teal-100">
-      <h1 className="text-black text-2xl   text-center Aceh text-md">
+      <h1 className="text-black text-xl   text-center Aceh text-md">
         COMMUNITY ACTIVITY
       </h1>
 
@@ -128,7 +128,7 @@ const Section2first = () => {
                     to={`/activity/${activity.id}`}
                     style={{ height: "32rem" }}
                   >
-                    <div className="relative w-94  bg-gray-100 rounded-xl  shadow-xl  image-full p-2">
+                    <div className="relative w-94  bg-white rounded-xl  shadow-xl  image-full p-2">
                       <div className="relative overflow-clip  h-40 sm:w-full">
                         <img
                           src={activity.imgUrl}
@@ -137,8 +137,8 @@ const Section2first = () => {
                         />
                       </div>
 
-                      <div className="p-2 text-x text-gray-800">
-                        <FontAwesomeIcon icon={faCalendar} />{" "}
+                      <div className="p-2 text-x text-gray-700">
+                        <FontAwesomeIcon icon={faCalendar} className="text-red-500"/>{" "}
                         {formatDate(
                           activity.DateTime instanceof Date
                             ? activity.DateTime
@@ -152,21 +152,21 @@ const Section2first = () => {
                       </div>
                       <hr></hr>
                       <span className="text-sky-600">{activity.category}</span>
-                      <h1 className="text-xl py-2 text-green-800">
+                     <div className="p-2"> <h1 className="text-xl py-2 text-black">
                         {activity.activityName}
                       </h1>
-                      <p className="p-3 text-gray-500">{excerpt(activity.writeup, 80)}</p>
-                      <div className="flex m-auto">
-                        <p className="text-gray-800 flex  gap-2 m-auto">
-                          <FontAwesomeIcon icon={faLocationPin} />
+                      <p className=" text-gray-500">{excerpt(activity.writeup, 80)}</p></div>
+                      <div className="flex ">
+                        <p className="text-gray-800 flex  gap-2 ">
+                          <FontAwesomeIcon icon={faLocationPin} className="my-auto" />
                           <p className="m-auto"> {activity.location} </p>
                         </p>
-                        <p className="text-gray-800 flex  gap-4 n-auto ">
+                        <p className="text-gray-800 flex   text-left ">
                           <FontAwesomeIcon
                             icon={faHands}
-                            className="p-2 rounded-full border text-violet-400"
+                            className="p-2  text-violet-400"
                           />{" "}
-                          <p className="m-auto"> {activity.claps} Claps</p>
+                          <p className="m-auto"> {activity.claps} </p>
                         </p>
                       </div>
                     </div>
