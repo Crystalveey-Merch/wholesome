@@ -23,7 +23,6 @@ import { events } from "./data/events";
 import { useParams } from "react-router";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
-import { Navbar } from "flowbite-react";
 
 const Header = () => {
   const { interestName } = useParams();
