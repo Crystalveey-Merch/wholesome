@@ -342,10 +342,10 @@ const EventList = () => {
                         {event.eventName}
                       </h5>
 
-                      <badge className="badge p-2 bg-yellow-400 mb-2 text-xl tracking-tight text-gray-900 ">
+                      <badge className=" p-2  mb-2 text-md tracking-tight text-gray-600 ">
                           <FontAwesomeIcon
                             icon={faCalendar}
-                            className="text-sm mr-2"
+                            className="text-md"
                           />{" "}
                           {Moment(event.StartDateTime).format("DD-MM-YYYY")}{" "}
                           {", "}

@@ -105,11 +105,11 @@ const MyInterest = () => {
           </h1>
           <hr></hr>
 
-          <ul className="flex flex-wrap text-sm m-auto justify-center Aceh sticky top-24 z-10 sm:top-16 font-medium text-center text-white  bg-gradient-to-r from-red-500 to-orange-500 border-b border-gray-200 ">
+          <ul className="flex flex-wrap gap-6 sm:gap-2 p-1 text-sm m-auto justify-center Aceh sticky top-24 z-10 sm:top-16 font-medium text-center text-white  bg-gradient-to-r from-red-500 to-orange-500 border-b border-gray-200 ">
             <li className="">
               <NavLink
                 to="articles"
-                className="inline-block p-4  text-white hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300"
+                className="inline-block btn p-4  text-white hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300"
               >
                 <FontAwesomeIcon icon={faBook} className="mx-2" />
                 Articles
@@ -118,7 +118,7 @@ const MyInterest = () => {
             <li className="">
               <NavLink
                 to="events"
-                className="inline-block p-4 text-white  hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300"
+                className="inline-block btn p-4 text-white  hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300"
               >
                 <FontAwesomeIcon icon={faCalendar} className="mx-2" />
                 Events
@@ -127,7 +127,7 @@ const MyInterest = () => {
             <li className="">
               <NavLink
                 to="activities"
-                className="inline-block p-4 text-white  hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300"
+                className="inline-block btn p-4 text-white  hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300"
               >
                 <FontAwesomeIcon icon={faRunning} className="mx-2" />
                 Activities
@@ -137,7 +137,7 @@ const MyInterest = () => {
             <li className="">
               <NavLink
                 to="podcast"
-                className="inline-block p-4 text-white hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300"
+                className="inline-block btn p-4 text-white hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300"
               >
                 <FontAwesomeIcon icon={faMicrophone} className="mx-2" />
                 Podcasts
@@ -146,7 +146,7 @@ const MyInterest = () => {
             <li className="">
               <NavLink
                 to="feeds"
-                className="inline-block p-4 text-white hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300"
+                className="inline-block btn p-4 text-white hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300"
               >
                 <FontAwesomeIcon icon={faFeed} className="mx-2" />
                 Feeds

@@ -236,7 +236,7 @@ const ActivityList = () => {
           })}
         />
       </Helmet>
-      <div className="py-20 w-screen  sm:pt-18">
+      <div className="py-20 w-screen  sm:pt-18 bg-gray-100">
         <div className="">
           <div className="h-full bg-gradient-to-r from-blue-400 to-emerald-400 sm:p-10">
             <h1 className="text-white  text-center sm:text-4xl pt-24 sm:pt-14">
@@ -344,17 +344,21 @@ const ActivityList = () => {
           X Clear Filters
         </span>
 
-        <div className="flex m-auto justify-center gap-10 m-10 flex-wrap px-20 sm:p-2 ">
+        <div className="flex m-auto justify-center gap-10 m-10 flex-wrap px-20 sm:p-2  my-20">
           {filteredEvents.length > 0 ? (
             filteredEvents.map((activity) => {
               return (
                 <div
-                  key={event.id}
+                  key={activity.id}
                   className="w-72 bg-white    shadow  dark:border-gray-700"
                 >
-                  <NavLink to={`/activity/${activity.id}`}>
-                  <div className="relative w-94  bg-gray-100 rounded-xl  shadow-xl  image-full p-2">
-                      <div className="relative overflow-clip   h-40 sm:w-full">
+                          <NavLink
+                    to={`/activity/${activity.id}`}
+                    style={{ height: "32rem" }}
+
+                    className="w-94"
+                  >
+                      <div className="relative overflow-clip  h-40 sm:w-fulll">
                         <img
                           src={activity.imgUrl}
                           height={200}
@@ -362,8 +366,8 @@ const ActivityList = () => {
                         />
                       </div>
 
-                      <div className="p-2 text-x text-gray-800">
-                        <FontAwesomeIcon icon={faCalendar} />{" "}
+                      <div className="p-5 text-x text-gray-700">
+                        <FontAwesomeIcon icon={faCalendar} className="text-red-500"/>{" "}
                         {formatDate(
                           activity.DateTime instanceof Date
                             ? activity.DateTime
@@ -376,25 +380,26 @@ const ActivityList = () => {
                         )}
                       </div>
                       <hr></hr>
+                      <div className="p-5">
                       <span className="text-sky-600">{activity.category}</span>
-                      <h1 className="text-xl py-2 text-green-800">
+                     <div className="p-2"> <h1 className="text-xl py-2 text-black">
                         {activity.activityName}
                       </h1>
-                      <p className="p-3 text-gray-500">{excerpt(activity.writeup, 80)}</p>
-                      <div className="flex m-auto">
-                        <p className="text-gray-800 flex  gap-2 m-auto">
-                          <FontAwesomeIcon icon={faLocationPin} />
+                      <p className=" text-gray-500">{excerpt(activity.writeup, 80)}</p>
+                      </div>
+                      <div className="flex ">
+                        <p className="text-gray-800 flex  gap-2 ">
+                          <FontAwesomeIcon icon={faLocationPin} className="my-auto" />
                           <p className="m-auto"> {activity.location} </p>
                         </p>
-                        <p className="text-gray-800 flex  gap-4 n-auto ">
+                        <p className="text-gray-800 flex   text-left ">
                           <FontAwesomeIcon
                             icon={faHands}
-                            className="p-2 rounded-full border text-violet-400"
+                            className="p-2  text-violet-400"
                           />{" "}
-                          <p className="m-auto"> {activity.claps} Claps</p>
+                          <p className="m-auto"> {activity.claps} </p>
                         </p>
-                      </div>
-                    </div>
+                      </div></div>
                   </NavLink>
                 </div>
               );

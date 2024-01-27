@@ -146,10 +146,10 @@ const EventsInterest = () => {
                 className="w-72 bg-sky-100    shadow  dark:border-gray-700"
               >
                 <NavLink to={`/upcomingevents/${event.id}`}>
-                <div className="relative overflow-clip  h-40 sm:w-40" >
+                <div className="relative overflow-clip  h-40 sm:w-full " >
 
                   <img
-                    className="rounded-t-lg"
+                    className="rounded-t-lg w-full"
                     src={event.imgUrl}
                     alt={event.eventName}
                   />

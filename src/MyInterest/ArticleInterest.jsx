@@ -309,11 +309,11 @@ const ArticleInterest = () => {
                         key={post.id}
                         className="w-72 sm:w-80 bg-white hover:bg-gradient-to-r hover:scale-105  hover:from-orange-400 hover:to-rose-400 transition duration-300 ease-in-out  rounded-xl p-2 shadow "
                       >
-                        <div className="relative overflow-clip  h-40 sm:w-40">
+                        <div className="relative overflow-clip  h-40 sm:w-full">
                           <img
                             src={post.imgUrl}
                             height={200}
-                            className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out "
+                            className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out m-auto "
                           />
                         </div>
                         <div className="px-5 sm:p-0 ">

@@ -1,4 +1,4 @@
-export const events = [
+upcexport const events = [
   {
     id: 1,
     name: "Google Developers Meetup",
