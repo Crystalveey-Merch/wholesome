@@ -6,9 +6,7 @@ import { Fragment, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "./firebase/auth.js";
 import { signOut } from "firebase/auth";
-import { doc, getDoc,collection,
-  
-  getDocs, } from "firebase/firestore";
+import { doc, getDoc, collection, getDocs } from "firebase/firestore";
 import { useNavigate } from "react-router";
 import { ReactSearchAutocomplete } from "react-search-autocomplete";
 
@@ -64,9 +62,8 @@ const Header = () => {
         setUsers([]);
       }
     };
-  
-    fetchUsers
-    ();
+
+    fetchUsers();
   }, []);
 
   useEffect(() => {
@@ -119,7 +116,6 @@ const Header = () => {
     // Construct the target URL
     const targetUrl = `/profile/${user.id}`;
 
-
     // Use history.push() to navigate to the target URL
     navigate(targetUrl);
     setIsModalOpen(false);
@@ -133,7 +129,7 @@ const Header = () => {
   const handleOnHover = (result) => {
     // the item hovered
     console.log(result);
-  }
+  };
   const handleOnFocus = () => {
     console.log("Focused");
   };
@@ -142,22 +138,20 @@ const Header = () => {
       <>
         <div className="flex  w-60  gap-1" id={item.id}>
           <img src={item.photoURL} className="w-10" />
-          
-             <h1  className="text-sm">{item.name}</h1> 
-            
-          
+
+          <h1 className="text-sm">{item.name}</h1>
         </div>
       </>
     );
   };
   const openModal = () => {
     setIsModalOpen(true);
-};
+  };
 
-// Function to close the modal
-const closeModal = () => {
+  // Function to close the modal
+  const closeModal = () => {
     setIsModalOpen(false);
-};
+  };
 
   return (
     <div className="fixed   z-50 top-0   flex   flex-col gap-0 sm:m-0  w-full items-center justify-between xl:px-8 sm:px-0 ">
@@ -442,7 +436,7 @@ const closeModal = () => {
                         className={`${active && "bg-blue-500"}`}
                         to="/interest/Comedy & entertainment"
                       >
-                         Comedy & entertainment
+                        Comedy & entertainment
                       </NavLink>
                     )}
                   </Menu.Item>
@@ -521,7 +515,9 @@ const closeModal = () => {
         <NavLink to="/">
           {" "}
           <div>
-            <a className=" Aceh  normal-case text-2xl  ">Wholesquare</a>
+            <a className=" Aceh  normal-case text-2xl sm:text-xl  ">
+              Wholesquare
+            </a>
           </div>
         </NavLink>
         <div className=" w-full flex justify-center m-auto text-2xl sm:hidden ">
@@ -558,29 +554,19 @@ const closeModal = () => {
                     ""
                   )}
                   <li>
-                    <NavLink to={`/interest/Fitness`}>
-                      Fitness
-                    </NavLink>
+                    <NavLink to={`/interest/Fitness`}>Fitness</NavLink>
                   </li>
                   <li>
-                    <NavLink to={`/interest/Photography`}>
-                      Photography
-                    </NavLink>
+                    <NavLink to={`/interest/Photography`}>Photography</NavLink>
                   </li>
                   <li>
-                    <NavLink to={`/interest/Exploration`}>
-                      Exploration
-                    </NavLink>
+                    <NavLink to={`/interest/Exploration`}>Exploration</NavLink>
                   </li>
                   <li>
-                    <NavLink to={`/interest/Exploration`}>
-                      Tech
-                    </NavLink>
+                    <NavLink to={`/interest/Exploration`}>Tech</NavLink>
                   </li>
                   <li>
-                    <NavLink to={`/interest/Exploration`}>
-                      Food
-                    </NavLink>
+                    <NavLink to={`/interest/Exploration`}>Food</NavLink>
                   </li>
                   <li>
                     <NavLink to={`/interest/Health and Wellness`}>
@@ -593,14 +579,10 @@ const closeModal = () => {
                     </NavLink>
                   </li>
                   <li>
-                    <NavLink to={`/interest/Travel`}>
-                      Travel
-                    </NavLink>
+                    <NavLink to={`/interest/Travel`}>Travel</NavLink>
                   </li>
                   <li>
-                    <NavLink to={`/interest/Lifestyle`}>
-                      Lifestyle
-                    </NavLink>
+                    <NavLink to={`/interest/Lifestyle`}>Lifestyle</NavLink>
                   </li>
 
                   <li>
@@ -689,24 +671,20 @@ const closeModal = () => {
             </NavLink>
           </ul>
         </div>
-       
-            {/* <dialog id="my_modal_4"   className={`modal ${isModalOpen ? 'open' : ''}`}> */}
 
-                
-              {/* <form method="dialog"onClick={closeModal} className="modal-backdrop">
+        {/* <dialog id="my_modal_4"   className={`modal ${isModalOpen ? 'open' : ''}`}> */}
+
+        {/* <form method="dialog"onClick={closeModal} className="modal-backdrop">
                 <button>close</button>
               </form> */}
-            {/* </dialog> */}
+        {/* </dialog> */}
 
-        <div className="justify-end sm:justify-middle  sm:w-full flex gap-10 rounded-full ">
-        <button
-
-              className="btn flex text-center  bg-white  border-0 "
-            >
-                    <Link to="/searchuser">
-<FontAwesomeIcon icon={faSearch} className=""></FontAwesomeIcon>
-             </Link>
-            </button>
+        <div className="justify-end sm:justify-middle  sm:w-full flex gap-2 rounded-full ">
+          <button className="btn flex text-center  bg-white  border-0 ">
+            <Link to="/searchuser">
+              <FontAwesomeIcon icon={faSearch} className=""></FontAwesomeIcon>
+            </Link>
+          </button>
           {authUser ? (
             <div className="flex">
               {profileData ? (
@@ -750,7 +728,9 @@ const closeModal = () => {
                     </div>
                   </ul>
                 </div>
-              ):("") }
+              ) : (
+                ""
+              )}
             </div>
           ) : (
             <NavLink to="/account">
@@ -760,7 +740,6 @@ const closeModal = () => {
           )}
         </div>
       </div>
-      
     </div>
   );
 };
