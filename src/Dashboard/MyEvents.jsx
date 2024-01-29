@@ -26,11 +26,21 @@ import {
   faTrashAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { Helmet } from "react-helmet-async";
+import {
+  Badge,
+  Button,
+  Dialog,
+  DialogBody,
+  DialogFooter,
+  DialogHeader,
+  Typography,
+} from "@material-tailwind/react";
 const MyEvents = () => {
   const [userPosts, setUserPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [authUser, setAuthUser] = useState(null);
   const [postId, setPostId] = useState([]);
+  const [openDialogs, setOpenDialogs] = useState({});
 
   useEffect(() => {
     const listen = onAuthStateChanged(auth, (user) => {
@@ -113,6 +123,19 @@ const MyEvents = () => {
   const startDateTime = separateDateTime(startDateTimeString);
   const endDateTime = separateDateTime(endDateTimeString);
 
+  const handleOpen = (eventId) => {
+    setOpenDialogs((prevOpenDialogs) => ({
+      ...prevOpenDialogs,
+      [eventId]: true, // Set the dialog for the specified event to open
+    }));
+  };
+
+  const handleClose = (eventId) => {
+    setOpenDialogs((prevOpenDialogs) => ({
+      ...prevOpenDialogs,
+      [eventId]: false, // Set the dialog for the specified event to close
+    }));
+  };
   return (
     <div>
       <Helmet>
@@ -167,6 +190,42 @@ const MyEvents = () => {
                         </div>
                       </div>
                     </NavLink>
+                   
+                    <div className="indicator">
+                    <button
+                      className="btn"
+                      onClick={() => document.getElementById(`dialog-${item.id}`).showModal()}
+
+                    >
+                      Attendees
+                    </button>
+                    <span className="indicator-item badge badge-primary ">{item.attendees?.length}</span> 
+
+                    </div>
+                    
+                    <dialog id={`dialog-${item.id}`} className="modal" key={`dialog-${item.id}`}>
+                      <div className="modal-box w-11/12 max-w-5xl">
+                        <h3 className="font-bold  Aceh text-xl">{item.eventName}</h3>
+                        <ul id={`dialog-${item.id}`} className="" >
+                          {item.attendees?.map((attendee, index) => (
+                            <li
+                              key={index}
+                              className="flex gap-6 border-b text-white"
+                            >
+                              <span>{attendee?.userName}</span>
+                              <span>{attendee?.email}</span>
+                            </li>
+                          ))}
+                        </ul>
+                                                <div className="modal-action">
+                          <form method="dialog">
+                            {/* if there is a button, it will close the modal */}
+                            <button className="btn">Close</button>
+                          </form>
+                        </div>
+                      </div>
+                    </dialog>
+
                     <div className="card-actions py-5 relative">
                       {authUser && authUser.uid === user && (
                         <>

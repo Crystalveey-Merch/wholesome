@@ -19,6 +19,7 @@
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
     "@iconify/react": "^4.1.1",
+    "@material-tailwind/react": "^2.1.8",
     "@mui/lab": "^5.0.0-alpha.153",
     "@mui/material": "^5.14.18",
     "@uiw/react-md-editor": "^3.24.1",

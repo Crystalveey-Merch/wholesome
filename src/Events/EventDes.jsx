@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import {
   faCalendar,
   faClock,
+  faCopy,
   faLocationPin,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -22,7 +23,18 @@ import { NavLink } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth,  } from "../firebase/auth.js";
 import { toast } from "react-toastify";
-
+import {
+  FacebookShareButton,
+  LinkedinShareButton,
+  TwitterShareButton,
+  WhatsappShareButton,
+} from "react-share";
+import {
+  faFacebook,
+  faLinkedin,
+  faTwitter,
+  faWhatsapp,
+} from "@fortawesome/free-brands-svg-icons";
 const EventDes = () => {
   const [event, setEvent] = useState(null);
   const [relatedEvents, setRelatedEvents] = useState([]);
@@ -30,9 +42,17 @@ const EventDes = () => {
   const [profileData, setProfileData] = useState(null);
   const [totalAttendees, setTotalAttendees] = useState(0);
   const [isUserRegistered, setIsUserRegistered] = useState(false);
+  const url = window.location.href;
 
   const { id } = useParams();
-
+  function copyText() {
+    /* Copy text into clipboard */
+    navigator.clipboard.writeText(
+      // eslint-disable-next-line no-unexpected-multiline
+      url
+    );
+    toast.success("Link copied successfully");
+  }
   useEffect(() => {
     const listen = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -290,7 +310,38 @@ const EventDes = () => {
               </div>}</div>
               
             </span>
-            
+            <div className="flex gap-3 m-auto  text-2xl">
+          <LinkedinShareButton url={url} title={event.eventName}>
+            <FontAwesomeIcon
+              icon={faLinkedin}
+              className="fab fa-linkedin text-sky-500 "
+            />
+          </LinkedinShareButton>
+          <FacebookShareButton url={url} title={event.eventName}>
+            <FontAwesomeIcon
+              icon={faFacebook}
+              className="fab fa-facebook text-sky-500 "
+            />
+          </FacebookShareButton>
+          <TwitterShareButton url={url} title={event.eventName}>
+            <FontAwesomeIcon
+              icon={faTwitter}
+              className="fab fa-twitter text-sky-500 "
+            />
+          </TwitterShareButton>
+          <WhatsappShareButton url={url} title={event.eventName}>
+            <FontAwesomeIcon
+              icon={faWhatsapp}
+              className="fab fa-whatsapp text-green-500 "
+            />
+          </WhatsappShareButton>
+          <span onClick={copyText} className="flex">
+            <FontAwesomeIcon
+              icon={faCopy}
+              className="fas fa-link text-xl text-purple-800 m-auto"
+            />
+          </span>
+        </div>
             <h1 className="text-black text-4xl"> {event.eventName}</h1>
             <p className="text-green-500 text-xl ">{event.theme}</p>
             <p className="text-gray-600 py-5 text-xl">
@@ -337,13 +388,13 @@ const EventDes = () => {
         </div>
         <div className="w-1/4 sm:w-full h-full bg-sky-100">
           {relatedEvents.length > 0 && (
-            <div className="w-72">
+            <div className="w-72 sm:w-full">
               <h3 className="text-red-500 text-2xl text-center p-10 Aceh">
                 Related Events
               </h3>
-              <ul className="p-5 ">
+              <ul className="p-5 flex gap-4 flex-col">
                 {relatedEvents.map((related) => (
-                  <><NavLink to={`/upcomingevents/${related.id}`} key={related.id} className="w-72 bg-white  sm:w-full hover:shadow  shadow  dark:border-gray-700">
+                  <><NavLink to={`/upcomingevents/${related.id}`} key={related.id} className="w-72 bg-white card sm:w-full hover:shadow  shadow  dark:border-gray-700">
                     <div className="relative overflow-clip   h-40 sm:w-full">
                       <img
                         className="absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out m-auto"
