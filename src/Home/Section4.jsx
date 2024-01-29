@@ -132,7 +132,7 @@ const Section4 = () => {
                 <SwiperSlide key={event.id} className=" transition duration-500 hover:scale-90  ease-in-out">
                   <div
                     className="  bg-white     shadow  dark:border-gray-700"
-                    style={{ height: "28rem" }}
+                    style={{ height: "25rem" }}
                   >
                     <NavLink
                       to={`/upcomingevents/${event.id}`}
