@@ -170,18 +170,26 @@ const Activity = () => {
       <div className="flex sm:flex-col m-auto justify-center  px-32 sm:px-0">
         <div className=" sm:w-full">
           <div className="  m-auto">
-            <div className="badge  m-2 text-lg bg-green-600 text-white">
+            <div className="badge  m-2 text-lg bg-green-600 text-white border-0">
               {activity.category}
             </div>
             <div className="m-auto sm:w-full py-5 flex">
-              <img src={activity.imgUrl} alt={activity.name} width={700} className="m-auto" />
+              <img
+                src={activity.imgUrl}
+                alt={activity.name}
+                width={700}
+                className="m-auto"
+              />
             </div>
           </div>
           <div className="mx-20 my-10 sm:mx-5 sm:my-10">
-            <div className="flex text-xl gap-2">
-              <FontAwesomeIcon icon={faMoneyBill} className="text-red-600" />{" "}
-              <p className="Aceh text-red-600 my-auto">N{activity.fee}</p>
-            </div>
+            {activity.fee && (
+              <div className="flex text-xl gap-2">
+                <FontAwesomeIcon icon={faMoneyBill} className="text-red-600" />{" "}
+                <p className="Aceh text-red-600 my-auto">₦{activity.fee}</p>
+              </div>
+            )}
+
             <h1 className="text-black text-3xl sm:flex-col py-5 flex m-auto">
               {" "}
               {activity.activityName}{" "}
@@ -216,7 +224,7 @@ const Activity = () => {
               </p>
             </p>
             {activity.exploreLink && (
-              <Link to={activity.exploreLink}>
+              <Link to={activity.exploreLink} target="_blank">
                 <button className="btn text-white border-0 bg-red-600 Aceh">
                   Make Payment
                 </button>

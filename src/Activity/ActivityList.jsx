@@ -110,6 +110,12 @@ const ActivityList = () => {
     setFilteredEvents(filtered);
   };
 
+  const filterHandler = (category)=>{
+    const categoryFilter = events.filter(
+    (event) => event.category === category
+    )
+    setFilteredEvents(categoryFilter)
+  }
   const filterBusinessHandler = () => {
     // Filter products with a data collection called "Tech"
     const businessFilter = events.filter(
@@ -276,8 +282,7 @@ const ActivityList = () => {
             <FontAwesomeIcon
               icon={faFirstAid}
               className="border rounded-full p-4 cursor-pointer m-auto flex  text-green-300  shadow"
-              onClick={filterHealthandler}
-            />
+              onClick={() => filterHandler("Health & wellness")}            />
             <p className="text-sm text-center text-gray-400 ">Health</p>
           </span>
           <span className="">
@@ -331,7 +336,7 @@ const ActivityList = () => {
           <span className="">
             <FontAwesomeIcon
               icon={faBagShopping}
-              onClick={filterLifestyle}
+              onClick={() => filterHandler("Lifestyle and Fashion")}            
               className="border rounded-full p-4 cursor-pointer	m-auto flex  shadow text-pink-500"
             />
             <p className="text-sm text-center text-gray-400 ">Lifestyle</p>
