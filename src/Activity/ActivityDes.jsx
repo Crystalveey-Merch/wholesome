@@ -20,6 +20,8 @@ import {
 import { auth, db } from "../firebase/auth.js";
 import { onAuthStateChanged } from "firebase/auth";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
+import { Button } from "@material-tailwind/react";
 
 const Activity = () => {
   const [activity, setActivity] = useState("");
@@ -28,7 +30,6 @@ const Activity = () => {
 
   const [claps, setClaps] = useState(0);
   const { id } = useParams();
-
 
   useEffect(() => {
     const listen = onAuthStateChanged(auth, (user) => {
@@ -62,7 +63,7 @@ const Activity = () => {
         console.error("Error fetching activity:", error);
       }
     };
-  
+
     const fetchOtherEventsInSameCategory = async () => {
       if (activity && activity.category) {
         try {
@@ -89,7 +90,7 @@ const Activity = () => {
     };
     fetchActivity();
     fetchOtherEventsInSameCategory;
-  },[activity, id]);
+  }, [activity, id]);
 
   useEffect(() => {
     const fetchClapCount = async () => {
@@ -123,7 +124,7 @@ const Activity = () => {
       const postDoc = await getDoc(postDocRef);
       if (postDoc.exists()) {
         let updatedClaps;
-        setClaps(prevClaps => prevClaps + 1)
+        setClaps((prevClaps) => prevClaps + 1);
 
         if (userId) {
           // If userId exists, add 1 to the claps count
@@ -156,7 +157,6 @@ const Activity = () => {
     }
     return ""; // Return an empty string if date is not a valid Date object
   };
-  
 
   return (
     <div className="mt-20 sm:mt-18  m-auto justify-center  w-screen">
@@ -166,42 +166,62 @@ const Activity = () => {
         </h1>
       </div>
       <div className="flex sm:flex-col m-auto justify-center">
-      <div className="w-1/2 sm:w-full">
-        <div className="  m-auto">
-           <div className="badge p-4 m-2 text-lg bg-green-600 text-white">{activity.category}</div>
-          <div className="m-auto sm:w-full py-5">
-            <img src={activity.imgUrl} alt={activity.name} width={700} />
-          </div>
-        
+        <div className="w-1/2 sm:w-full">
+          <div className="  m-auto">
+            <div className="badge  m-2 text-lg bg-green-600 text-white">
+              {activity.category}
+            </div>
+            <div className="m-auto sm:w-full py-5">
+              <img src={activity.imgUrl} alt={activity.name} width={700} />
+            </div>
           </div>
           <div className="mx-20 my-10 sm:mx-5 sm:my-10">
-          <div className="flex m-auto gap-5 ">
-              <FontAwesomeIcon
-                onClick={() => handleClaps(activity.id)}
-                icon={faHands}
-                className="border p-4 text-violet-700 rounded-full text-xl hover:scale-110  hover:text-black active:scale-100 active:text-red-500 cursor-pointer"
-              />
-             <p className="my-auto text-gray-800 text-lg"> {claps} {" "}
-              Claps
-              </p>
-            </div>
+            <p>N{activity.fee}</p>
+            <h1 className="text-black text-3xl py-5 flex m-auto">
+              {" "}
+              {activity.activityName}{" "}
+              <div className="flex m-auto gap-2 ">
+                <FontAwesomeIcon
+                  onClick={() => handleClaps(activity.id)}
+                  icon={faHands}
+                  className="border p-4 text-violet-700 rounded-full text-xl hover:scale-110  hover:text-black active:scale-100 active:text-red-500 cursor-pointer"
+                />
+                <p className="my-auto text-gray-800 text-lg"> {claps} Claps</p>
+              </div>
+            </h1>
+            <p className="text-gray-500 text-xl ">{activity.theme}</p>
+
             <p className="text-gray-500 py-4 text-lg">
               <FontAwesomeIcon icon={faLocationPin} /> {activity.location}
             </p>
             <p className="text-gray-500 py-4 flex gap-2 text-lg">
-              <FontAwesomeIcon icon={faCalendar} /> {formatDate(activity.DateTime instanceof Date ? activity.DateTime : new Date(activity.DateTime))}
-              <p>at {formatTime(activity.DateTime instanceof Date ? activity.DateTime : new Date(activity.DateTime))}</p>
+              <FontAwesomeIcon icon={faCalendar} />{" "}
+              {formatDate(
+                activity.DateTime instanceof Date
+                  ? activity.DateTime
+                  : new Date(activity.DateTime)
+              )}
+              <p>
+                at{" "}
+                {formatTime(
+                  activity.DateTime instanceof Date
+                    ? activity.DateTime
+                    : new Date(activity.DateTime)
+                )}
+              </p>
             </p>
-            <h1 className="text-black text-4xl py-5">
-              {" "}
-              {activity.activityName}
-            </h1>
-            <p className="text-green-500 text-xl ">{activity.theme}</p>
+            {activity.exploreLink && (
+              <Link to={activity.exploreLink}>
+                <Button>Make Payments</Button>
+              </Link>
+            )}
             <p className="text-gray-600 py-5 text-xl">{activity.writeup}</p>
           </div>
         </div>
         <div className="w-1/4 sm:w-full h-screen bg-sky-200">
-        <p className="text-center Aceh  text-xl p-5 text-black">Related Events</p>
+          <p className="text-center Aceh  text-xl p-5 text-black">
+            Related Events
+          </p>
           {relatedActivity.length > 0 && (
             <div>
               <h3 className="text-red-500 text-2xl text-center p-10 Aceh">

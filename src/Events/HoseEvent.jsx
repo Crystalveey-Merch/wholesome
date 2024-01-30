@@ -54,15 +54,23 @@ const HostEvent = () => {
     aboutOrganizer: "",
   });
   const categoryOption = [
-    "Lifestyle and Fashion",
-    "Health and wellness",
-    "Travel and Adventure",
-    "Volunteer and Philanthropy",
-    "Business and Finance",
+    "Fitnes",
+    "Photography",
+    "Travel",
+    "Exploration",
+    "Lifestyle",
+    "Fashion",
+    "Music",
+    "Health & Wellness",
+    "Art & craft",
+    "Volunteering & Philanthropy",
+    "Food",
+    "Business & Finance",
+    "Tech",
+    "Books",
     "Games & Sports",
-    "Art & crafts",
-    "Environmental & Sustainability",
-    "Book club",
+    "Comedy & entertainment",
+    "Night life",
   ];
   const handleTags = (tags = []) => {
     setForm({ ...form, tags });

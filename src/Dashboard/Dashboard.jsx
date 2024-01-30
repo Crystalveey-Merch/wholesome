@@ -17,6 +17,7 @@ import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBookmark,
+  faCalendar,
   faSave,
   faSignOut,
   faUserAlt,
@@ -118,6 +119,15 @@ const Dashboard = () => {
                 data-tip="Bookmarks"
               >
                 <FontAwesomeIcon icon={faBookmark} />
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="events"
+                className="tooltip text-white"
+                data-tip="Events"
+              >
+                <FontAwesomeIcon icon={faCalendar} />
               </NavLink>
             </li>
 
