@@ -9,6 +9,8 @@ import {
   faClock,
   faLocationPin,
   faHands,
+  faTag,
+  faMoneyBill,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   collection,
@@ -176,7 +178,10 @@ const Activity = () => {
             </div>
           </div>
           <div className="mx-20 my-10 sm:mx-5 sm:my-10">
-            <p>N{activity.fee}</p>
+            <div className="flex text-xl gap-2">
+              <FontAwesomeIcon icon={faMoneyBill} className="text-red-600" />{" "}
+              <p className="Aceh text-red-600 my-auto">N{activity.fee}</p>
+            </div>
             <h1 className="text-black text-3xl py-5 flex m-auto">
               {" "}
               {activity.activityName}{" "}
@@ -212,7 +217,9 @@ const Activity = () => {
             </p>
             {activity.exploreLink && (
               <Link to={activity.exploreLink}>
-                <Button>Make Payments</Button>
+                <button className="btn text-white border-0 bg-red-600 Aceh">
+                  Make Payment
+                </button>
               </Link>
             )}
             <p className="text-gray-600 py-5 text-xl">{activity.writeup}</p>
