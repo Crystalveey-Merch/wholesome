@@ -109,7 +109,7 @@ const MyInterest = () => {
             <li className="">
               <NavLink
                 to="articles"
-                className="inline-block btn p-4  text-white hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300"
+                className="inline-block btn p-4   text-white hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300 bg-black"
               >
                 <FontAwesomeIcon icon={faBook} className="mx-2" />
                 Articles
@@ -118,7 +118,7 @@ const MyInterest = () => {
             <li className="">
               <NavLink
                 to="events"
-                className="inline-block btn p-4 text-white  hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300"
+                className="inline-block btn  bg-black p-4 text-white  hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300"
               >
                 <FontAwesomeIcon icon={faCalendar} className="mx-2" />
                 Events
@@ -127,7 +127,7 @@ const MyInterest = () => {
             <li className="">
               <NavLink
                 to="activities"
-                className="inline-block btn p-4 text-white  hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300"
+                className="inline-block btn  bg-black p-4 text-white  hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300"
               >
                 <FontAwesomeIcon icon={faRunning} className="mx-2" />
                 Activities
@@ -137,7 +137,7 @@ const MyInterest = () => {
             <li className="">
               <NavLink
                 to="podcast"
-                className="inline-block btn p-4 text-white hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300"
+                className="inline-block btn   bg-black  p-4 text-white hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300"
               >
                 <FontAwesomeIcon icon={faMicrophone} className="mx-2" />
                 Podcasts
@@ -146,7 +146,7 @@ const MyInterest = () => {
             <li className="">
               <NavLink
                 to="feeds"
-                className="inline-block btn p-4 text-white hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300"
+                className="inline-block btn  bg-black p-4 text-white hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300"
               >
                 <FontAwesomeIcon icon={faFeed} className="mx-2" />
                 Feeds

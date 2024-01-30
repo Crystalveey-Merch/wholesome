@@ -330,7 +330,7 @@ const CreatePost = () => {
       <div className="pt-24  flex m-auto  justify-center w-screen ">
         <div
           style={{}}
-          className="bg-white mx-40 sm:mx-0 px-40 sm:px-5 dark:text-white  w-full  "
+          className="bg-white mx-40  xl:mx-10 xl:px-10 sm:mx-0 px-40 sm:px-5 dark:text-white  w-full  "
         >
           <div className="   bg-white ">
             <h3 className=" font-bold text-center my-10 text-4xl">

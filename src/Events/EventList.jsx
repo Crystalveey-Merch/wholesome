@@ -239,7 +239,7 @@ const EventList = () => {
             </div>
           </div>
         </div>
-        <div className="flex  flex-wrap justify-center  text-2xl sm:text-2xl m-auto py-5 gap-20 sm:gap-3 px-20 sm:px-5  mt-10 overflow-x-auto">
+        <div className="flex  flex-wrap justify-center  text-2xl sm:text-2xl xl:gap-5 m-auto py-5 gap-20 sm:gap-3 px-20 xl:px-5 sm:px-5  mt-10 overflow-x-auto">
           <span className="">
             <FontAwesomeIcon
               icon={faHand}

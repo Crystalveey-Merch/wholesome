@@ -313,7 +313,7 @@ const HostEvent = () => {
               </div>
             </div>
           </div>
-          <div className="mx-40 px-40 sm:mx-5 sm:px-5">
+          <div className="mx-40 xl:mx-10 xl:px10 px-40 sm:mx-5 sm:px-5">
             <h1 className="text-center text-black py-10 text-2xl ">
               Fill Event/Meetup Details
             </h1>
