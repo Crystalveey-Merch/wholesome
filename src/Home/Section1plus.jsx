@@ -19,16 +19,19 @@ const Section1plus = () => {
   const breakpoints = {
     300: {
       slidesPerView: 1,
-      spaceBetween: 20,
-    },
+      spaceBetween: 40,
+      loop: true,
+      centeredSlides: false,    },
     639: {
-      slidesPerView: 3,
-      spaceBetween: 10,
-    },
+      slidesPerView: 1,
+      spaceBetween: 40,
+      loop: true,
+      centeredSlides: false,    },
     768: {
-      slidesPerView: 3,
-      spaceBetween: 10,
-    },
+      slidesPerView: 1,
+      spaceBetween: 40,
+      loop: true,
+      centeredSlides: false,    },
     1024: {
       slidesPerView: 1,
       spaceBetween: 40,
@@ -60,13 +63,13 @@ const Section1plus = () => {
         className="mySwiper z-0 swiper-h   w-full  h-1/2 justify-center "
       >
         <SwiperSlide>
-          <div className=" flex  sm:flex-col px-60 sm:px-0 gap-20 sm:gap-5 ">
-            <div className="avatar m-auto ">
-              <div className=" w-60 sm:w-40  rounded-full">
+          <div className=" flex  sm:flex-col px-60 xl:px-5 xl:gap-10 sm:px-0 gap-20 sm:gap-5 ">
+            <div className="avatar  ">
+              <div className=" w-60 sm:w-40   xl:w-40   rounded-full">
                 <img src="/Images/whats-in -store/9372532.jpg" width={50} />
               </div>
             </div>
-            <div className="h-full flex flex-col  gap-4 m-auto px-20 sm:px-5">
+            <div className="h-full flex flex-col  gap-4 m-auto px-20 sm:px-5 xl:px-10">
               <h1 className="text-purple-500 text-2xl sm:text-2xl sm:text-center ">
                 Social Connections
               </h1>
@@ -79,14 +82,14 @@ const Section1plus = () => {
           </div>
         </SwiperSlide>
         <SwiperSlide>
-          <div className="flex  sm:flex-col px-60 sm:px-0 gap-20 sm:gap-5  ">
+        <div className=" flex  sm:flex-col px-60 xl:px-5 xl:gap-10 sm:px-0 gap-20 sm:gap-5 ">
             <div className="avatar m-auto">
-              <div className=" w-60 sm:w-40  rounded-full">
+              <div className=" w-60 sm:w-40   xl:w-40 rounded-full">
                 <img src="/Images/whats-in -store/32594.jpg" width={50} />
               </div>
             </div>
-            <div className="h-full flex flex-col  gap-4 m-auto px-20 sm:px-5">
-              <h1 className="text-yellow-500 text-2xl sm:text-center  sm:text-2xl">
+            <div className="h-full flex flex-col  gap-4 m-auto px-20 sm:px-5 xl:px-5">
+              <h1 className="text-yellow-500 text-2xl xl:text-xl  sm:text-center  sm:text-2xl">
                 Networking Opportunities/ Opportunity for Business Ideas
               </h1>
               <hr></hr>
@@ -98,9 +101,9 @@ const Section1plus = () => {
           </div>
         </SwiperSlide>
         <SwiperSlide>
-          <div className="flex  sm:flex-col px-60 sm:px-0 gap-20 sm:gap-5">
+        <div className=" flex  sm:flex-col px-60 xl:px-5 xl:gap-10 sm:px-0 gap-20 sm:gap-5 ">
             <div className="avatar m-auto">
-              <div className=" w-60 sm:w-40 rounded-full">
+              <div className=" w-60 sm:w-40   xl:w-40rounded-full">
                 <img src="/Images/whats-in -store/19197307.jpg" width={50} />
               </div>
             </div>
@@ -117,13 +120,13 @@ const Section1plus = () => {
           </div>
         </SwiperSlide>
         <SwiperSlide>
-          <div className=" flex  sm:flex-col px-60 sm:px-0 gap-20 sm:gap-5">
+        <div className=" flex  sm:flex-col px-60 xl:px-5 xl:gap-10 sm:px-0 gap-20 sm:gap-5 ">
             <div className="avatar m-auto">
-              <div className=" w-60  sm:w-40  rounded-full">
+              <div className=" w-60  sm:w-40   xl:w-40 rounded-full">
                 <img src="/Images/whats-in -store/home_party.jpg" width={50} />
               </div>
             </div>
-            <div className="h-full flex flex-col  gap-4 m-auto px-20 sm:px-5">
+            <div className="h-full flex flex-col  gap-4 m-auto px-20 sm:px-5 xl:gap-10">
               <h1 className="text-red-500 text-2xl sm:text-2xl sm:text-center ">
                 Entertainment
               </h1>
@@ -136,9 +139,9 @@ const Section1plus = () => {
           </div>
         </SwiperSlide>
         <SwiperSlide>
-          <div className=" flex  sm:flex-col px-60 sm:px-0 gap-20 sm:gap-5">
+        <div className=" flex  sm:flex-col px-60 xl:px-5 xl:gap-10 sm:px-0 gap-20 sm:gap-5 ">
             <div className="avatar m-auto">
-              <div className=" w-60 sm:w-40  rounded-full">
+              <div className=" w-60 sm:w-40   xl:w-40 rounded-full">
                 <img src="/Images/whats-in -store/56829.jpg" width={50} />
               </div>
             </div>
@@ -155,9 +158,9 @@ const Section1plus = () => {
           </div>
         </SwiperSlide>
         <SwiperSlide>
-          <div className=" flex  sm:flex-col px-60 sm:px-0 gap-20 sm:gap-5">
+        <div className=" flex  sm:flex-col px-60 xl:px-5 xl:gap-10 sm:px-0 gap-20 sm:gap-5 ">
             <div className="avatar m-auto">
-              <div className=" w-60 sm:w-40  rounded-full">
+              <div className=" w-60 sm:w-40   xl:w-40 rounded-full">
                 <img src="/Images/whats-in -store/2530832.jpg" width={50} />
               </div>
             </div>
@@ -174,9 +177,9 @@ const Section1plus = () => {
           </div>
         </SwiperSlide>
         <SwiperSlide>
-          <div className=" flex  sm:flex-col px-60 sm:px-0 gap-20 sm:gap-5">
+        <div className=" flex  sm:flex-col px-60 xl:px-5 xl:gap-10 sm:px-0 gap-20 sm:gap-5 ">
             <div className="avatar m-auto">
-              <div className=" w-60 sm:w-40  rounded-full">
+              <div className=" w-60 sm:w-40   xl:w-40 rounded-full">
                 <img src="/Images/whats-in -store/5437683.jpg" width={50} />
               </div>
             </div>
@@ -193,9 +196,9 @@ const Section1plus = () => {
           </div>
         </SwiperSlide>
         <SwiperSlide>
-          <div className=" flex  sm:flex-col px-60 sm:px-0 gap-20 sm:gap-5">
+        <div className=" flex  sm:flex-col px-60 xl:px-5 xl:gap-10 sm:px-0 gap-20 sm:gap-5 ">
             <div className="avatar m-auto">
-              <div className=" w-60 sm:w-40  rounded-full">
+              <div className=" w-60 sm:w-40   xl:w-40 rounded-full">
                 <img src="/Images/whats-in -store/cal.jpg" width={50} />
               </div>
             </div>
@@ -212,9 +215,9 @@ const Section1plus = () => {
           </div>
         </SwiperSlide>
         <SwiperSlide>
-          <div className=" flex  sm:flex-col px-60 sm:px-0 gap-20 sm:gap-5">
+        <div className=" flex  sm:flex-col px-60 xl:px-5 xl:gap-10 sm:px-0 gap-20 sm:gap-5 ">
             <div className="avatar m-auto">
-              <div className=" w-60 sm:w-40  rounded-full">
+              <div className=" w-60 sm:w-40   xl:w-40    rounded-full">
                 <img src="/Images/whats-in -store/afr.jpeg" width={50} />
               </div>
             </div>
@@ -231,13 +234,13 @@ const Section1plus = () => {
           </div>
         </SwiperSlide>
         <SwiperSlide>
-          <div className=" flex  sm:flex-col px-60 sm:px-0 gap-20 sm:gap-5">
+        <div className=" flex  sm:flex-col px-60 xl:px-5 xl:gap-10 sm:px-0 gap-20 sm:gap-5 ">
             <div className="avatar m-auto">
-              <div className=" w-60  sm:w-40 rounded-full">
+              <div className=" w-60  sm:w-40   xl:w-40  rounded-full">
                 <img src="/Images/whats-in -store/3249754.jpg" width={50} />
               </div>
             </div>
-            <div className="h-full flex flex-col  gap-4 m-auto px-20 sm:px-5">
+            <div className="h-full flex flex-col  gap-4 m-auto px-20 sm:px-5 xl:gap-10">
               <h1 className="text-sky-500 text-2xl sm:text-2xl sm:text-center ">
                 Feedback and Validation
               </h1>

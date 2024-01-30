@@ -23,12 +23,16 @@ const Sectiom2 = () => {
 
     },
     639: {
-      slidesPerView: 3,
+      slidesPerView: 4,
       spaceBetween: 10,
+      centeredSlides: true,
+
     },
     768: {
-      slidesPerView: 3,
+      slidesPerView: 4,
       spaceBetween: 10,
+      centeredSlides: true,
+
     },
     1024: {
       slidesPerView: 4,

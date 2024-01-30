@@ -154,9 +154,9 @@ const Header = () => {
   };
 
   return (
-    <div className="fixed   z-50 top-0   flex   flex-col gap-0 sm:m-0  w-full items-center justify-between xl:px-8 sm:px-0 ">
-      <div className="navbar   text-black bg-white flex gap-5  justify-evenly px-10 sm:px-5 w-full ">
-        <div className="drawer  sm:block hidden w-5 flex left-0">
+    <div className="fixed   z-50 top-0 w-screen  flex   flex-col gap-0 sm:m-0  w-full items-center justify-between  sm:px-0 ">
+      <div className="navbar   text-black bg-white flex gap-5  justify-evenly px-10 xl:px-0 sm:px-5 w-full ">
+        <div className="drawer xl:block   sm:block hidden w-5  left-0">
           <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
 
           {/* Navbar */}
@@ -515,13 +515,13 @@ const Header = () => {
         <NavLink to="/">
           {" "}
           <div>
-            <a className=" Aceh  normal-case text-2xl sm:text-xl  ">
+            <a className=" Aceh  normal-case text-2xl sm:text-xl xl:text-xl  ">
               Wholesquare
             </a>
           </div>
         </NavLink>
-        <div className=" w-full flex justify-center m-auto text-2xl sm:hidden ">
-          <ul className="menu menu-horizontal gap-2 text-2xl px-1 m-auto text-black">
+        <div className=" w-full flex justify-center m-auto text-2xl sm:hidden  ">
+          <ul className="menu menu-horizontal xl:flex-nowrap gap-2 text-2xl px-1 xl:gap-0 m-auto text-black">
             <div className="dropdown dropdown-bottom ">
               <NavLink to="/aboutus">
                 {" "}
@@ -703,11 +703,11 @@ const Header = () => {
                     tabIndex={0}
                     className="menu menu-compact dropdown-content mt-3 p-4 shadow bg-white rounded-box w-60"
                   >
-                    <li>
+                    {/* <li>
                       <p className="lowercase  left text-m ">
                         {profileData?.email}
                       </p>
-                    </li>
+                    </li> */}
 
                     <li className="">
                       <NavLink
