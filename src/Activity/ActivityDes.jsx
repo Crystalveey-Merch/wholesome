@@ -167,14 +167,14 @@ const Activity = () => {
           Community Activity
         </h1>
       </div>
-      <div className="flex sm:flex-col m-auto justify-center">
-        <div className="w-1/2 sm:w-full">
+      <div className="flex sm:flex-col m-auto justify-center  px-32 sm:px-0">
+        <div className=" sm:w-full">
           <div className="  m-auto">
             <div className="badge  m-2 text-lg bg-green-600 text-white">
               {activity.category}
             </div>
-            <div className="m-auto sm:w-full py-5">
-              <img src={activity.imgUrl} alt={activity.name} width={700} />
+            <div className="m-auto sm:w-full py-5 flex">
+              <img src={activity.imgUrl} alt={activity.name} width={700} className="m-auto" />
             </div>
           </div>
           <div className="mx-20 my-10 sm:mx-5 sm:my-10">
@@ -182,7 +182,7 @@ const Activity = () => {
               <FontAwesomeIcon icon={faMoneyBill} className="text-red-600" />{" "}
               <p className="Aceh text-red-600 my-auto">N{activity.fee}</p>
             </div>
-            <h1 className="text-black text-3xl py-5 flex m-auto">
+            <h1 className="text-black text-3xl sm:flex-col py-5 flex m-auto">
               {" "}
               {activity.activityName}{" "}
               <div className="flex m-auto gap-2 ">
@@ -225,7 +225,7 @@ const Activity = () => {
             <p className="text-gray-600 py-5 text-xl">{activity.writeup}</p>
           </div>
         </div>
-        <div className="w-1/4 sm:w-full h-screen bg-sky-200">
+        <div className="w-96 sm:w-full h-screen bg-sky-200">
           <p className="text-center Aceh  text-xl p-5 text-black">
             Related Events
           </p>
