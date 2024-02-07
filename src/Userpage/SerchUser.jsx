@@ -130,7 +130,7 @@ const SerchUser = () => {
                 <div key={user.id}  >
                 <img src={user.photoURL}  className="rounded-full w-20 h-20 m-auto"></img>
                 <p className="Aceh text-center text-white">{user.name}</p>
-                <p className="text-yellow-400 text-xl"><FontAwesomeIcon icon={faStar}></FontAwesomeIcon>{user.followers.length} followers</p>
+                <p className="text-yellow-400 text-sm text-center">{user.followers.length} followers <FontAwesomeIcon icon={faStar}></FontAwesomeIcon></p>
 
                 </div>
                 </NavLink>
