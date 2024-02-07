@@ -3,11 +3,9 @@ import { useParams } from "react-router";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect } from "react";
+import { collection, getDocs } from "firebase/firestore";
 import {
-  collection,
-  getDocs,
-} from "firebase/firestore";
-import {
+  faAddressCard,
   faAnglesDown,
   faBagShopping,
   faBook,
@@ -15,6 +13,7 @@ import {
   faFirstAid,
   faGamepad,
   faHand,
+  faLocation,
   faMoneyBillTrendUp,
   faPalette,
   faPlane,
@@ -24,6 +23,7 @@ import { db } from "../firebase/auth.js";
 import Spinner from "../components/Spinner";
 import { Helmet } from "react-helmet-async";
 import Moment from "moment";
+import Pagination from "../components/pagination.jsx";
 
 const EventList = () => {
   const { eventName } = useParams();
@@ -33,6 +33,9 @@ const EventList = () => {
   const [loading, setLoading] = useState(false);
   const [eventId, setEventId] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
+  const [postPerPage] = useState(9);
+  const [currentPage, setCurrentPage] = useState(1);
+
   useEffect(() => {
     const fetchPosts = async () => {
       // setLoading(true);
@@ -154,6 +157,12 @@ const EventList = () => {
   const clearFilteredEvents = () => {
     setFilteredEvents(events);
   };
+  const indexOfLastPage = currentPage * postPerPage;
+  const indexOfFirstPage = indexOfLastPage - postPerPage;
+  const currentPosts = filteredEvents.slice(indexOfFirstPage, indexOfLastPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <>
       <Helmet>
@@ -212,7 +221,7 @@ const EventList = () => {
           })}
         />
       </Helmet>
-      <div className="py-20 w-screen  sm:pt-18">
+      <div className="py-20 w-screen  sm:pt-18  dark:bg-gray-800">
         <div className="">
           <div className="h-full bg-gradient-to-r from-fuchsia-600 to-pink-600 sm:p-10">
             <h1 className="text-white text-center sm:text-4xl pt-24 sm:pt-14">
@@ -321,21 +330,21 @@ const EventList = () => {
         </span>
 
         <div className="flex m-auto justify-center gap-10 m-10 flex-wrap px-20 sm:p-2 ">
-          {filteredEvents.length > 0 ? (
-            filteredEvents.map((event) => {
+          {currentPosts?.length > 0 ? (
+            currentPosts?.map((event) => {
               return (
                 <div
                   key={event.id}
                   className="w-72 bg-white    shadow  dark:border-gray-700"
                 >
                   <NavLink to={`/upcomingevents/${event.id}`}>
-                  <div className="relative overflow-clip   h-40 sm:w-full">
-                    <img
-                      className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out m-auto"
-                      src={event.imgUrl}
-                      alt={event.eventName}
-                    />
-                </div>
+                    <div className="relative overflow-clip   h-40 sm:w-full">
+                      <img
+                        className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out m-auto"
+                        src={event.imgUrl}
+                        alt={event.eventName}
+                      />
+                    </div>
                     <div className="p-5">
                       <div className="badge">{event.category}</div>
                       <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 Aceh">
@@ -343,17 +352,24 @@ const EventList = () => {
                       </h5>
 
                       <badge className=" p-2  mb-2 text-md tracking-tight text-gray-600 ">
-                          <FontAwesomeIcon
-                            icon={faCalendar}
-                            className="text-md"
-                          />{" "}
-                          {Moment(event.StartDateTime).format("DD-MM-YYYY")}{" "}
-                          {", "}
-                          {Moment(event.StartDateTime).format("HH:MM a")}
-                        </badge>
-                      <p className="mb-3 font-normal text-md  text-gray-500 ">
-                        {event.address}
-                      </p>
+                        <FontAwesomeIcon
+                          icon={faCalendar}
+                          className="text-md"
+                        />{" "}
+                        {Moment(event.StartDateTime).format("DD-MM-YYYY")}{" "}
+                        {", "}
+                        {Moment(event.StartDateTime).format("HH:MM a")}
+                      </badge>
+                      <div className="flex p-2 ">
+                        <FontAwesomeIcon
+                          icon={faAddressCard}
+                          className="text-md"
+                        />{" "}
+                        <p className="mb-3 font-normal text-md px-2 text-gray-500 ">
+                          {event.address}
+                        </p>
+                      </div>
+
                       <p className=" font-normal Aceh text-md text-black">
                         {event.organizerName}
                       </p>
@@ -368,6 +384,13 @@ const EventList = () => {
             </div>
           )}
         </div>
+        <Pagination
+          postPerPage={postPerPage}
+          totalPosts={filteredEvents.length}
+          paginate={paginate}
+          currentPage={currentPage}
+        />
+
         <div></div>
       </div>
     </>

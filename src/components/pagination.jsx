@@ -31,14 +31,14 @@ const Pagination = ({ postPerPage, totalPosts, paginate, currentPage }) => {
 
     return (
         <div>
-            <nav className="mt-4 flex justify-center">
+            <nav className="mt-4 flex justify-center my-5">
                 
                 <ul className="pagination flex">
                 <li className="px-2">
             <a
               onClick={handlePrevious}
-              href="#"
-              className="bg-blue-500 hover:bg-blue-700  btn text-white hover:text-white font-bold py-2 px-4 rounded-full"
+              // href="#"
+              className=" bg-transparent dark:text-white hover:bg-transparent  btn text-gray-900 hover:text-gray-400 font-bold py-2 px-4 rounded-full border-none "
             >
               <FontAwesomeIcon icon={faArrowLeftLong}/>
             </a>
@@ -51,10 +51,10 @@ const Pagination = ({ postPerPage, totalPosts, paginate, currentPage }) => {
                                     paginate(number);
                                     setActivePage(number);
                                 }}
-                                href="#"
+                                // href="#"
                                 className={`${activePage === number
-                                    ? "bg-blue-700 text-white  btn"
-                                    : "bg-gray-400 hover:bg-blue-700 btn hover:scale-110 text-white hover:text-white"
+                                    ? "bg-transparent dark:text-white text-gray-900 p-2  btn border-red-500 w-12 h-10"
+                                    : "bg-gray-700 opacity-70 hover:bg-red-500 btn hover:scale-110 text-white w-12 hover:text-white"
                                     } font-bold py-2 px-4 rounded-full`}            >
                                 {number}
                             </a>
@@ -63,8 +63,8 @@ const Pagination = ({ postPerPage, totalPosts, paginate, currentPage }) => {
                     <li className="px-2">
             <a
               onClick={handleNext}
-              href="#"
-              className="bg-blue-500 hover:bg-blue-700 btn text-white hover:text-white font-bold py-2 px-4 rounded-full"
+              // href="#"
+              className=" bg-transparent hover:bg-transparent dark:text-white  btn text-gray-900 hover:text-gray-400 font-bold py-2 px-4 rounded-full border-none "
             >
                             <FontAwesomeIcon icon={faArrowRightLong}/>
 

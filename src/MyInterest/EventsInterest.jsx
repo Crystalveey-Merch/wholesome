@@ -28,6 +28,7 @@ import { auth, db } from "../firebase/auth.js";
 import { NavLink, Outlet } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faAddressCard,
     faBook,
   faCalendar,
   faClock,
@@ -38,6 +39,7 @@ import {
   faThumbsUp,
 } from "@fortawesome/free-solid-svg-icons";
 import Spinner from "../components/Spinner.tsx";
+import Pagination from '../components/pagination.jsx';
 
 
 const EventsInterest = () => {
@@ -45,6 +47,8 @@ const EventsInterest = () => {
 
   const [interestEvents, setInterestEvents] = useState([]);
   const [authUser, setAuthUser] = useState(null);
+  const [postPerPage] = useState(6);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const listen = onAuthStateChanged(auth, (user) => {
@@ -136,53 +140,69 @@ const EventsInterest = () => {
     return <Spinner />;
   }
 
+  const indexOfLastPage = currentPage * postPerPage;
+  const indexOfFirstPage = indexOfLastPage - postPerPage;
+  const currentPosts = interestEvents.slice(indexOfFirstPage, indexOfLastPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  
   return (
-    <div className=' flex gap-5 flex-wrap justify-center m-auto  w-full my-20 sm:my-20'>
+    <><div className=' flex  gap-5 flex-wrap justify-center m-auto  w-full my-20 sm:my-20'>
 
-          {interestEvents.map((event) => (
-            
-              <div
-                key={event.id}
-                className="w-72 bg-sky-100    shadow  dark:border-gray-700"
+      {currentPosts.map((event) => (
+
+        <div
+          key={event.id}
+          className="w-72 bg-sky-100    shadow  dark:border-gray-700"
+        >
+          <NavLink to={`/upcomingevents/${event.id}`}>
+            <div className="relative overflow-clip  h-40 sm:w-full ">
+
+              <img
+                className="rounded-t-lg w-full"
+                src={event.imgUrl}
+                alt={event.eventName} />
+            </div>
+
+            <div className="p-5">
+            <div className="badge">{event.category}</div>
+              <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 Aceh">
+                {event.eventName}
+              </h5>
+              <p className="text-red-500 Aceh text-l flex gap-4 m-2">
+                <FontAwesomeIcon icon={faCalendar} />
+                {Moment(event.StartDateTime).format("DD-MM-YYYY")} - {Moment(event.EndDateTime).format("DD-MM-YYYY")}
+              </p>
+              <p className="text-gray-800 text-l flex gap-4 m-2">
+                <FontAwesomeIcon icon={faClock} />{Moment(event.StartDateTime).format("HH:MM a")}- {Moment(event.EndDateTime).format("HH:MM a")}
+              </p>
+              <div className="flex p-2 ">
+                        <FontAwesomeIcon
+                          icon={faAddressCard}
+                          className="text-md"
+                        />{" "}
+                        <p className="mb-3 font-normal text-md px-2 text-gray-500 ">
+                          {event.address}
+                        </p>
+                      </div>
+              <p
+                className=" font-normal Aceh text-md text-black"
               >
-                <NavLink to={`/upcomingevents/${event.id}`}>
-                <div className="relative overflow-clip  h-40 sm:w-full " >
+                {event.organizerName}
+              </p>
+            </div>
+          </NavLink>
 
-                  <img
-                    className="rounded-t-lg w-full"
-                    src={event.imgUrl}
-                    alt={event.eventName}
-                  />
-              </div>
+        </div>
 
-                  <div className="p-5">
-                    <div className="badge bg-sky-800 p-4 text-white">{event.category}</div>
-                    <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 Aceh">
-                      {event.eventName}
-                    </h5>
-                    <p className="text-red-500 Aceh text-l flex gap-4 m-2">
-              <FontAwesomeIcon icon={faCalendar} />
-           {Moment(event.StartDateTime).format("DD-MM-YYYY")} - {Moment(event.EndDateTime).format("DD-MM-YYYY")}
-        </p>
-        <p className="text-gray-800 text-l flex gap-4 m-2">
-              <FontAwesomeIcon icon={faClock} />{Moment(event.StartDateTime).format("HH:MM a")}- {Moment(event.EndDateTime).format("HH:MM a")}
-        </p>
-                    <p className="mb-3 font-normal text-md  text-gray-500 ">
-                      {event.address}
-                    </p>
-                      <p
-                        className=" font-normal Aceh text-md text-black"
-                      >
-                        {event.organizerName}
-                      </p>
-                  </div>
-                </NavLink>
-                
-              </div>
-        
-          ))}
-        
-    </div>
+      ))}
+
+    </div><Pagination
+        postPerPage={postPerPage}
+        totalPosts={interestEvents.length}
+        paginate={paginate}
+        currentPage={currentPage} /></>
   )
 }
 

@@ -36,6 +36,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Spinner from "../components/Spinner.tsx";
 import { Helmet } from "react-helmet-async";
+import Pagination from "../components/pagination.jsx";
 
 // eslint-disable-next-line react/display-name
 const ArticleInterest = () => {
@@ -43,6 +44,8 @@ const ArticleInterest = () => {
   const [interestPosts, setInterestPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [authUser, setAuthUser] = useState(null);
+  const [postPerPage] = useState(6);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const listen = onAuthStateChanged(auth, (user) => {
@@ -60,63 +63,7 @@ const ArticleInterest = () => {
   const userId = authUser?.uid;
   const [postId, setPostId] = useState([]);
 
-  // const fetchData = async () => {
-  //   try {
-  //     setLoading(true); // Set loading to true before fetching data
-
-  //     // 1. Retrieve the user's selected interests from Firestore
-  //     const userRef = doc(db, "users", userId);
-  //     const userDoc = await getDoc(userRef);
-
-  //     if (userDoc.exists()) {
-  //       const userData = userDoc.data();
-  //       setUserInterests(userData.selectedOptions);
-
-  //       // 2. Query the posts collection based on user interests
-  //       const postsRef = collection(db, "posts");
-
-  //       // Create an array of query objects
-  //       const queries = userInterests.map((interest) =>
-  //         query(postsRef, where("category", "==", interest.key))
-  //       );
-
-  //       // Create a Promise for each query
-  //       const queryPromises = queries.map((query) => getDocs(query));
-
-  //       // Wait for all queries to complete
-  //       const querySnapshots = await Promise.all(queryPromises);
-
-  //       const postData = [];
-
-  //       // Process each query result
-  //       querySnapshots.forEach((querySnapshot) => {
-  //         querySnapshot.forEach((doc) => {
-  //           const post = doc.data();
-  //           post.id = doc.id;
-  //           setPostId(post.id);
-  //           postData.push(post);
-  //         });
-  //       });
-  //       console.log("Query Snapshots:", querySnapshots);
-
-  //       setInterestPosts(postData);
-  //       console.log(postData)
-  //     } else {
-  //       console.log("User document not found.");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching data:", error);
-  //   } finally {
-  //     setLoading(false); // Set loading to false in the finally block
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (userId) {
-  //     fetchData();
-  //   }
-  // }, [ userId]);
-
+ 
   useEffect(() => {
     // Fetch user interests when the component mounts
     const fetchUserInterests = async () => {
@@ -217,7 +164,11 @@ const ArticleInterest = () => {
       }
     }
   };
-  console.log(userInterests);
+  const indexOfLastPage = currentPage * postPerPage;
+  const indexOfFirstPage = indexOfLastPage - postPerPage;
+  const currentPosts = interestPosts.slice(indexOfFirstPage, indexOfLastPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
   return (
     <div>
       <Helmet>
@@ -296,7 +247,7 @@ const ArticleInterest = () => {
                 {interest.key}
               </h2>
               <div className="flex flex-wrap gap-2">
-                {interestPosts
+                {currentPosts
                   .filter((post) => post.category === interest.key)
                   .map((post) => (
                     <NavLink
@@ -317,7 +268,7 @@ const ArticleInterest = () => {
                           />
                         </div>
                         <div className="px-5 sm:p-0 ">
-                          <p className="badge  bg-gradient-to-r from-orange-400 to-rose-400 p-4 my-5  top-5 text-gray-100   border-none ">
+                          <p className="badge   ">
                             {post.category}
                           </p>
                           <p className="mt-1 text-sm leading-5 text-red-300 border-b Aceh">
@@ -360,6 +311,12 @@ const ArticleInterest = () => {
                     </NavLink>
                   ))}
               </div>
+              <Pagination
+          postPerPage={postPerPage}
+          totalPosts={interestPosts.length}
+          paginate={paginate}
+          currentPage={currentPage}
+        />
             </div>
           ))}
         </div>

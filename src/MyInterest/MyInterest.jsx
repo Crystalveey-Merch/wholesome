@@ -98,7 +98,7 @@ const MyInterest = () => {
           })}
         />
       </Helmet>
-      <div className="pt-40 sm:pt-16 w-screen px-10 sm:px-0 relative  bg-gray-100">
+      <div className="pt-40 sm:pt-16 w-screen px-10 sm:px-0 relative  bg-gray-100 dark:bg-gray-800">
         <div>
           <h1 className="text-red-500 text-3xl my-5 text-center AcehLight sm:text-xl">
             Filtered Based on your Interests{" "}

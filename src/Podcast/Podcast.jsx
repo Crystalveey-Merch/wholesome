@@ -9,10 +9,13 @@ import {
 import Spinner from "../components/Spinner.tsx";
 import { db } from "../firebase/auth.js";
 import { Helmet } from "react-helmet-async";
+import Pagination from "../components/pagination.jsx";
 
 const Podcast = () => {
   const [loading, setLoading] = useState(false);
   const [podcast, setPodcast] = useState([]);
+  const [postPerPage] = useState(9);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const fetchPodcast = async () => {
@@ -51,6 +54,13 @@ const Podcast = () => {
   if (loading) {
     return <Spinner />;
   }
+
+  const indexOfLastPage = currentPage * postPerPage;
+  const indexOfFirstPage = indexOfLastPage - postPerPage;
+  const currentPosts = podcast.slice(indexOfFirstPage, indexOfLastPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <>
       <Helmet>
@@ -111,16 +121,16 @@ const Podcast = () => {
               be a part of building the future of a bold and progressive nation.
             </p>
           </div>
-          <div className="bg-gray-100">
-            <h1 className="text-4xl text-center py-5 text-black ">
+          <div className="bg-gray-100 dark:bg-gray-800 py-5">
+            <h1 className="text-4xl text-center py-5 text-black dark:text-white ">
               Our recent Episodes
             </h1>
 
             <div className="py-5  flex flex-wrap px-20 sm:w-full sm:px-5  gap-4  justify-center">
-              {podcast?.map((item) => (
+              {currentPosts?.map((item) => (
                 <div
                   key={item.key}
-                  className="flex flex-col gap-4 bg-gray-800 h-56 "
+                  className="flex flex-col gap-4 bg-gray-800 dark:bg-gray-500 h-56 "
                 >
                   <div
                     key={item.id}
@@ -164,6 +174,12 @@ const Podcast = () => {
                 </div>
               ))}
             </div>
+            <Pagination
+          postPerPage={postPerPage}
+          totalPosts={podcast.length}
+          paginate={paginate}
+          currentPage={currentPage}
+        />
           </div>
         </div>
       </div>

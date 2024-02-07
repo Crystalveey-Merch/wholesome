@@ -19,12 +19,15 @@ import {
     faEye,
     faThumbsUp,
   } from "@fortawesome/free-solid-svg-icons";
+import Pagination from "../components/pagination.jsx";
 
 export const FollowersFeed = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [bookmarkCount, setBookmarkCount] = useState(0);
+  const [postPerPage] = useState(9);
+  const [currentPage, setCurrentPage] = useState(1);
 
 
   const userId = auth.currentUser.uid;
@@ -146,7 +149,11 @@ export const FollowersFeed = () => {
       hour12: true,
     });
   };
-console.log(posts.id)
+  const indexOfLastPage = currentPage * postPerPage;
+  const indexOfFirstPage = indexOfLastPage - postPerPage;
+  const currentPosts = posts.slice(indexOfFirstPage, indexOfLastPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <div>
@@ -154,7 +161,7 @@ console.log(posts.id)
 
    
     <div className="flex  flex-wrap px-5 sm:px-0 my-10 sm:my-5 m-auto justify-center gap-4 sm:gap-2">
-    {posts.length > 0 ? (
+    {currentPosts.length > 0 ? (
         posts.map((post) => {
 
             return (
@@ -224,6 +231,12 @@ console.log(posts.id)
   </div>
 )}
         </div>
+        <Pagination
+          postPerPage={postPerPage}
+          totalPosts={posts.length}
+          paginate={paginate}
+          currentPage={currentPage}
+        />
       </div>
   )
 };

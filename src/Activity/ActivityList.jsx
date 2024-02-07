@@ -27,6 +27,7 @@ import { db } from "../firebase/auth.js";
 import Spinner from "../components/Spinner";
 import { Helmet } from "react-helmet-async";
 import Moment from "moment";
+import Pagination from "../components/pagination.jsx";
 
 const ActivityList = () => {
 //   const { eventName } = useParams();
@@ -36,6 +37,8 @@ const ActivityList = () => {
   const [loading, setLoading] = useState(false);
   const [eventId, setEventId] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
+  const [postPerPage] = useState(9);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const formatDate = (date) => {
     if (date instanceof Date) {
@@ -184,6 +187,13 @@ const ActivityList = () => {
   const clearFilteredEvents = () => {
     setFilteredEvents(events);
   };
+
+  const indexOfLastPage = currentPage * postPerPage;
+  const indexOfFirstPage = indexOfLastPage - postPerPage;
+  const currentPosts = filteredEvents.slice(indexOfFirstPage, indexOfLastPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <>
       <Helmet>
@@ -242,7 +252,7 @@ const ActivityList = () => {
           })}
         />
       </Helmet>
-      <div className="py-20 w-screen  sm:pt-18 bg-gray-100">
+      <div className="py-20 w-screen  sm:pt-18 bg-gray-100 dark:bg-gray-800">
         <div className="">
           <div className="h-full bg-gradient-to-r from-blue-400 to-emerald-400 sm:p-10">
             <h1 className="text-white  text-center sm:text-4xl pt-24 sm:pt-14">
@@ -350,8 +360,8 @@ const ActivityList = () => {
         </span>
 
         <div className="flex m-auto justify-center gap-10 m-10 flex-wrap px-20 sm:p-2  my-20">
-          {filteredEvents.length > 0 ? (
-            filteredEvents.map((activity) => {
+          {currentPosts.length > 0 ? (
+            currentPosts.map((activity) => {
               return (
                 <div
                   key={activity.id}
@@ -414,9 +424,16 @@ const ActivityList = () => {
               No Activity found matching your search.
             </div>
           )}
+
         </div>
-        <div></div>
-      </div>
+        <Pagination
+           postPerPage={postPerPage}
+            totalPosts={filteredEvents.length}
+            paginate={paginate}
+            currentPage={currentPage}
+        />
+        </div>
+        
     </>
   );
 };

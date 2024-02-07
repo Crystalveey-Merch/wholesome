@@ -37,12 +37,15 @@ import {
 import Spinner from "../components/Spinner.tsx";
 import { faSpotify, faYoutube } from "@fortawesome/free-brands-svg-icons";
 import { Helmet } from "react-helmet-async";
+import Pagination from "../components/pagination.jsx";
 
 const PodcastInterest = () => {
   const [userInterests, setUserInterests] = useState([]);
   const [interestPosts, setInterestPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [authUser, setAuthUser] = useState(null);
+  const [postPerPage] = useState(9);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const listen = onAuthStateChanged(auth, (user) => {
@@ -120,8 +123,14 @@ const PodcastInterest = () => {
     fetchInterestPosts();
   }, [userInterests]);
 
+  const indexOfLastPage = currentPage * postPerPage;
+  const indexOfFirstPage = indexOfLastPage - postPerPage;
+  const currentPosts = interestPosts.slice(indexOfFirstPage, indexOfLastPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
-    <div>
+    <div className="py-5">
       <Helmet>
         <title>Podcast Interest</title>
         <meta
@@ -198,8 +207,8 @@ const PodcastInterest = () => {
           })}
         />
       </Helmet>
-      <div className="py-32  flex flex-wrap px-20 sm:w-full sm:px-5  gap-4  justify-center">
-        {interestPosts?.map((item) => (
+      <div className="pt-32  flex flex-wrap px-20 sm:w-full sm:px-5  gap-4  justify-center">
+        {currentPosts?.map((item) => (
           <div key={item.key} className="flex flex-col gap-4 bg-gray-800 h-56 ">
             <div
               key={item.id}
@@ -239,6 +248,12 @@ const PodcastInterest = () => {
           </div>
         ))}
       </div>
+      <Pagination
+          postPerPage={postPerPage}
+          totalPosts={interestPosts.length}
+          paginate={paginate}
+          currentPage={currentPage}
+        />
     </div>
   );
 };
