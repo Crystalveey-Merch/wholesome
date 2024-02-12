@@ -1,14 +1,10 @@
+/* eslint-disable react/prop-types */
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper";
-import { activities } from "../data/activity";
-import { useParams } from "react-router";
 import { NavLink } from "react-router-dom";
-import { collection, getDocs, limit, query } from "firebase/firestore";
-import { useState, useEffect } from "react";
-import { auth, db } from "../firebase/auth.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCalendar,
@@ -16,42 +12,12 @@ import {
   faLocationPin,
 } from "@fortawesome/free-solid-svg-icons";
 
-const Section2first = () => {
-  const [activityId, setActivityId] = useState([]);
-  const [activity, setActivity] = useState([]);
+const Section2first = ({ activities }) => {
+  // const { activityName } = useParams();
 
-  const { activityName } = useParams();
-
-  const ArticleName = () => {
-    return activities.filter((activity) => activity.title === activityName);
-  };
-
-  useEffect(() => {
-    const fetchEvents = async () => {
-      // setLoading(true);
-
-      try {
-        const q = query(collection(db, "activities"), limit(10)); // Limit to 10 events
-        const querySnapshot = await getDocs(q);
-        const activityData = [];
-
-        querySnapshot.forEach((doc) => {
-          const activity = doc.data();
-          activity.id = doc.id;
-          activityData.push(activity);
-          setActivityId(activity.id);
-        });
-
-        setActivity(activityData);
-        // setLoading(false);
-      } catch (error) {
-        console.error("Error fetching events:", error);
-        setActivity([]);
-      }
-    };
-
-    fetchEvents();
-  }, []);
+  // const ArticleName = () => {
+  //   return activities.filter((activity) => activity.title === activityName);
+  // };
 
   const excerpt = (str, count) => {
     if (str && str.length > count) {
@@ -60,25 +26,6 @@ const Section2first = () => {
     return str;
   };
 
-  const breakpoints = {
-    300: {
-      slidesPerView: 1,
-      spaceBetween: 10,
-    },
-    639: {
-      slidesPerView: 3,
-      spaceBetween: 10,
-    },
-    768: {
-      slidesPerView: 3,
-      spaceBetween: 10,
-    },
-    1024: {
-      slidesPerView: 4,
-      spaceBetween: 40,
-      centeredSlides: true,
-    },
-  };
   const formatTime = (date) => {
     if (date instanceof Date) {
       return date.toLocaleTimeString("en-US", {
@@ -103,6 +50,93 @@ const Section2first = () => {
       <div className="  m-auto justify-center flex auto">
         <Swiper
           slidesPerView={"auto"}
+          watchSlidesProgress
+          navigation={true}
+          loop={true}
+          pagination={{
+            clickable: true,
+          }}
+          autoplay={{
+            delay: 3000,
+            disableOnInteraction: false,
+          }}
+          modules={[Pagination, Autoplay, Navigation]}
+          className="mySwiper w-[calc(100vw-40px)] px-10"
+        >
+          {activities.length > 0 ? (
+            activities.map((activity) => {
+              return (
+                <SwiperSlide key={activity.id} className="w-max sm:h-max">
+                  <div className="p-1.5 px-5 sm:px-1.5">
+                    <NavLink
+                      to={`/activity/${activity.id}`}
+                      className="max-w-[380px] flex flex-col  bg-white rounded-xl h-[390px] shadow-xl image-full p-2 px-4"
+                    >
+                      <div className="overflow-clip  h-40 sm:w-full">
+                        <img
+                          src={activity.imgUrl}
+                          height={200}
+                          className="p-2 overflow-hidden hover:scale-125 transition duration-300 ease-in-out m-auto "
+                        />
+                      </div>
+
+                      <div className="p-2 text-x text-gray-700">
+                        <FontAwesomeIcon
+                          icon={faCalendar}
+                          className="text-red-500"
+                        />{" "}
+                        {formatDate(
+                          activity.DateTime instanceof Date
+                            ? activity.DateTime
+                            : new Date(activity.DateTime)
+                        )}{" "}
+                        {formatTime(
+                          activity.DateTime instanceof Date
+                            ? activity.DateTime
+                            : new Date(activity.DateTime)
+                        )}
+                      </div>
+                      <hr></hr>
+                      <span className="text-sky-600">{activity.category}</span>
+                      <div className="p-2">
+                        {" "}
+                        <h1 className="text-xl py-2 text-black">
+                          {activity.activityName}
+                        </h1>
+                        <p className=" text-gray-500">
+                          {excerpt(activity.writeup, 80)}
+                        </p>
+                      </div>
+                      <div className="flex ">
+                        <p className="text-gray-800 flex  gap-2 ">
+                          <FontAwesomeIcon
+                            icon={faLocationPin}
+                            className="my-auto"
+                          />
+                          <p className="m-auto"> {activity.location} </p>
+                        </p>
+                        <p className="text-gray-800 flex   text-left ">
+                          <FontAwesomeIcon
+                            icon={faHands}
+                            className="p-2  text-violet-400"
+                          />{" "}
+                          <p className="m-auto"> {activity.claps} </p>
+                        </p>
+                      </div>
+                    </NavLink>
+                  </div>
+                </SwiperSlide>
+              );
+            })
+          ) : (
+            <div className="text-center text-2xl font-bold text-gray-500 mt-4 h-48">
+              No events found matching your search.
+            </div>
+          )}
+        </Swiper>
+
+        {/* <Swiper
+          slidesPerView={"auto"}
           centeredSlides={true}
           watchSlidesProgress
           navigation={true}
@@ -120,8 +154,8 @@ const Section2first = () => {
           modules={[Autoplay, Pagination, Navigation]}
           className="mySwiper w-full  mx-20 sm:mx-0  lg:px-10"
         >
-          {activity.length > 0 ? (
-            activity.map((activity) => {
+          {activities.length > 0 ? (
+            activities.map((activity) => {
               return (
                 <SwiperSlide key={activity.id}>
                   <NavLink
@@ -138,7 +172,10 @@ const Section2first = () => {
                       </div>
 
                       <div className="p-2 text-x text-gray-700">
-                        <FontAwesomeIcon icon={faCalendar} className="text-red-500"/>{" "}
+                        <FontAwesomeIcon
+                          icon={faCalendar}
+                          className="text-red-500"
+                        />{" "}
                         {formatDate(
                           activity.DateTime instanceof Date
                             ? activity.DateTime
@@ -152,13 +189,21 @@ const Section2first = () => {
                       </div>
                       <hr></hr>
                       <span className="text-sky-600">{activity.category}</span>
-                     <div className="p-2"> <h1 className="text-xl py-2 text-black">
-                        {activity.activityName}
-                      </h1>
-                      <p className=" text-gray-500">{excerpt(activity.writeup, 80)}</p></div>
+                      <div className="p-2">
+                        {" "}
+                        <h1 className="text-xl py-2 text-black">
+                          {activity.activityName}
+                        </h1>
+                        <p className=" text-gray-500">
+                          {excerpt(activity.writeup, 80)}
+                        </p>
+                      </div>
                       <div className="flex ">
                         <p className="text-gray-800 flex  gap-2 ">
-                          <FontAwesomeIcon icon={faLocationPin} className="my-auto" />
+                          <FontAwesomeIcon
+                            icon={faLocationPin}
+                            className="my-auto"
+                          />
                           <p className="m-auto"> {activity.location} </p>
                         </p>
                         <p className="text-gray-800 flex   text-left ">
@@ -179,7 +224,7 @@ const Section2first = () => {
               No events found matching your search.
             </div>
           )}
-        </Swiper>
+        </Swiper> */}
       </div>
     </div>
   );

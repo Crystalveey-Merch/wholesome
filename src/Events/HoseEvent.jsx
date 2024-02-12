@@ -1,14 +1,7 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, useEffect } from "react";
 import { TagsInput } from "react-tag-input-component";
-import {
-  addDoc,
-  collection,
-  doc,
-  getDoc,
-  serverTimestamp,
-  updateDoc,
-} from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db, storage } from "../firebase/auth";
 
 import { onAuthStateChanged } from "firebase/auth";
@@ -141,6 +134,22 @@ const HostEvent = () => {
   }, [selectedFile]);
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (
+      form.eventName.trim() === "" ||
+      form.theme.trim() === "" ||
+      form.StartDateTime.trim() === "" ||
+      form.EndDateTime.trim() === "" ||
+      form.category.trim() === "" ||
+      form.address.trim() === "" ||
+      form.eventDescription.trim() === "" ||
+      form.tags.length === 0 ||
+      form.organizerName.trim() === "" ||
+      form.phoneNumber.trim() === "" ||
+      form.aboutOrganizer.trim() === ""
+    ) {
+      return toast.error("All fields are mandatory to fill");
+    }
 
     // Iterate through the keys in the 'form' object
     for (const key in form) {
@@ -305,7 +314,7 @@ const HostEvent = () => {
                     Attendee Discovery
                   </h1>
                   <p className="text-gray-200 ">
-                    Personalised recommendations are tailored to attendees'
+                    Personalised recommendations are tailored to attendees&apos;
                     interests and location, matching them with events they’d be
                     most interested in attending
                   </p>
@@ -438,7 +447,7 @@ const HostEvent = () => {
                 <label className="text-gray-500 Aceh text-sm">
                   Tags
                   <span className="text-sky-500">
-                    (Seperate tags with spacebar or comma "," )
+                    (Seperate tags with spacebar or comma &ldquo;,&ldquo; )
                   </span>
                 </label>
                 <TagsInput

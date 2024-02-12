@@ -1,8 +1,10 @@
 import "./App.css";
+import { useEffect, useState } from "react";
 import Header from "./Header";
 import Homepage from "./Home/Homepage";
 import Footer from "./Footer";
 import { Route, Routes } from "react-router";
+import { db, collection, onSnapshot } from "./firebase/auth.js";
 import Account from "./Account";
 import Aboutus from "./Aboutus";
 import Whatwedo from "./Whatwedo";
@@ -26,7 +28,7 @@ import Dashboard from "./Dashboard/Dashboard";
 import Profile from "./Dashboard/Profile";
 import MyPosts from "./Dashboard/MyPosts";
 import Statistics from "./Dashboard/Statistics";
-import "hover.css"
+import "hover.css";
 import TagPosts from "./Articles/TagPosts";
 import CategoryPosts from "./Articles/CollectionPosts.";
 import Bookmarks from "./Dashboard/Bookmarks";
@@ -48,11 +50,52 @@ import PodcastInterest from "./MyInterest/PodcastInterest";
 import MyEvents from "./Dashboard/MyEvents";
 import ActivityList from "./Activity/ActivityList";
 import SerchUser from "./Userpage/SerchUser";
+import { limit } from "firebase/firestore";
 // import "@fortawesome/fontawesome-free"
 
 function App() {
-    // Scroll to the section based on the hash in the URL
-    
+  const [posts, setPosts] = useState([]);
+  const [postId, setPostId] = useState([]);
+  const [postLoading, setPostLoading] = useState(true);
+  const [events, setEvents] = useState([]);
+  const [eventLoading, setEventLoading] = useState(true);
+  const [activities, setActivities] = useState([]);
+
+  useEffect(() => {
+    const unsuscribPosts = onSnapshot(collection(db, "posts"), (snapshot) => {
+      const postData = [];
+      snapshot.forEach((doc) => {
+        const post = doc.data();
+        post.id = doc.id;
+        setPostId(post.id);
+        postData.push(post);
+      });
+      setPosts(postData);
+      setPostLoading(false);
+    });
+    const unsuscribEvents = onSnapshot(collection(db, "events"), (snapshot) => {
+      const postData = [];
+      snapshot.forEach((doc) => {
+        postData.push({ ...doc.data(), id: doc.id });
+      });
+      setEvents(postData);
+      setEventLoading(false);
+    });
+    const unsuscribActivities = onSnapshot(collection(db, "activities"), (snapshot) => {
+      const postData = [];
+      snapshot.forEach((doc) => {
+        postData.push({ ...doc.data(), id: doc.id });
+      });
+      setActivities(postData);
+    }, limit(10));
+
+    return () => {
+      unsuscribPosts();
+      unsuscribEvents();
+      unsuscribActivities();
+    };
+  }, []);
+
   return (
     <div className="">
       <Header />
@@ -61,19 +104,34 @@ function App() {
 
         <Route path="/whatwedo" element={<Whatwedo />} />
 
-        <Route path="/" element={<Homepage />} />
+        <Route
+          path="/"
+          element={
+            <Homepage
+              posts={posts}
+              postId={postId}
+              postLoading={postLoading}
+              events={events}
+              eventLoading={eventLoading}
+              activities={activities}
+            />
+          }
+        />
 
         <Route path="/account" element={<Account />} />
         <Route path="/login" element={<Login />} />
         <Route path="/searchuser" element={<SerchUser />} />
 
         <Route path="/signup" element={<Signip />} />
-        <Route path="/upcomingevents" element={<EventList />} />
-        <Route path="/hostevent" element={
-        <ProtectedRoute>
-        <HostEvent />
-          </ProtectedRoute>}
-         />
+        <Route path="/upcomingevents" element={<EventList events={events} loading={eventLoading} />} />
+        <Route
+          path="/hostevent"
+          element={
+            <ProtectedRoute>
+              <HostEvent />
+            </ProtectedRoute>
+          }
+        />
 
         <Route path="/article/:articleName" element={<Articles />} />
         <Route path="/activities" element={<ActivityList />} />
@@ -110,17 +168,13 @@ function App() {
 
         <Route path="/readmore/:id" element={<ReadMore />} />
         <Route path="/myinterest" element={<MyInterest />}>
-        <Route path="/myinterest/articles" element={<ArticleInterest/>} />
-        <Route path="/myinterest/events" element={<EventsInterest/>} />
+          <Route path="/myinterest/articles" element={<ArticleInterest />} />
+          <Route path="/myinterest/events" element={<EventsInterest />} />
 
-        <Route path="/myinterest/activities" element={<ActivityInterest/>} />
-        <Route path="/myinterest/feeds" element={<FollowersFeed/>} />
+          <Route path="/myinterest/activities" element={<ActivityInterest />} />
+          <Route path="/myinterest/feeds" element={<FollowersFeed />} />
 
-        <Route path="/myinterest/podcast" element={<PodcastInterest/>} />
-
-
-
-
+          <Route path="/myinterest/podcast" element={<PodcastInterest />} />
         </Route>
         <Route path="/dashboard" element={<Dashboard />} />
         <Route
@@ -138,10 +192,9 @@ function App() {
 
           <Route path="/dashboard/bookmarks" element={<Bookmarks />} />
           <Route path="/dashboard/settings" element={<Settings />} />
-          <Route path="/dashboard/events" element={<MyEvents />} />       
+          <Route path="/dashboard/events" element={<MyEvents />} />
         </Route>
         <Route path="/profile/:profileId" element={<Profilepage />} />
-
 
         <Route
           path="/admin"
@@ -155,19 +208,13 @@ function App() {
           <Route path="/admin/users" element={<Users />} />
           <Route path="/admin/podcasts" element={<Podcasts />} />
           <Route path="/admin/activities" element={<AllActivity />} />
-
-
-
-
         </Route>
       </Routes>
-    
+
       <Footer />
       <ToastContainer />
     </div>
   );
-
-  
 }
 
 export default App;

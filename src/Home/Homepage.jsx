@@ -1,13 +1,21 @@
-import React from "react";
+/* eslint-disable react/prop-types */
 import Section1 from "./Section1";
-import Sectiom2 from "./Sectiom2";
+// import Sectiom2 from "./Sectiom2";
 import Section3 from "./Section3";
 import Section4 from "./Section4";
 import Section1plus from "./Section1plus";
 import Section2first from "./Section2first";
 import Section2new from "./Section2new";
 import { Helmet } from "react-helmet-async";
-const Homepage = () => {
+
+const Homepage = ({
+  posts,
+  postId,
+  postLoading,
+  events,
+  eventLoading,
+  activities,
+}) => {
   return (
     <>
       <Helmet>
@@ -67,10 +75,10 @@ const Homepage = () => {
         <Section1 />
         <Section1plus />
 
-        <Section2new />
-        <Section4 />
+        <Section2new posts={posts} postId={postId} loading={postLoading} />
+        <Section4 events={events} loading={eventLoading} />
 
-        <Section2first />
+        <Section2first activities={activities} />
 
         <Section3 />
       </div>

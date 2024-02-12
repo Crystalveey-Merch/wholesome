@@ -253,3 +253,7 @@ button:focus-visible {
 
    overflow:hidden;
 }
+
+.post-card{
+  width: 288px !important;
+}

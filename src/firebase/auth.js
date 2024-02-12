@@ -28,6 +28,7 @@ import {
   updateDoc,
   serverTimestamp,
   arrayUnion,
+  onSnapshot,
 } from "firebase/firestore";
 import { getStorage } from "firebase/storage"
 // TODO: Add SDKs for Firebase products that you want to use
@@ -80,6 +81,7 @@ export {
   updateDoc,
   serverTimestamp,
   arrayUnion,
+  onSnapshot,
 }
 
 // const analytics = getAnalytics(app);

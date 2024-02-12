@@ -1,12 +1,12 @@
-import {
-  faLightbulb,
-  faMap,
-  faMapLocation,
-  faPen,
-  faPeopleGroup,
-  faUserFriends,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import {
+//   faLightbulb,
+//   faMap,
+//   faMapLocation,
+//   faPen,
+//   faPeopleGroup,
+//   faUserFriends,
+// } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/effect-fade";
@@ -246,7 +246,7 @@ const Section1plus = () => {
               </h1>
               <hr></hr>
               <p className="text-gray-700 text-xl  sm:text-center ">
-                &quot; Users' motivation and confidence might increase when they
+                &quot; Users motivation and confidence might increase when they
                 receive positive feedback and validation. &quot;{" "}
               </p>
             </div>

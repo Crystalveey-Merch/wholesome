@@ -1,9 +1,8 @@
+/* eslint-disable react/prop-types */
 import { NavLink } from "react-router-dom";
-import { useParams } from "react-router";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect } from "react";
-import { collection, getDocs } from "firebase/firestore";
 import {
   faAddressCard,
   faAnglesDown,
@@ -13,68 +12,34 @@ import {
   faFirstAid,
   faGamepad,
   faHand,
-  faLocation,
   faMoneyBillTrendUp,
   faPalette,
   faPlane,
   faTree,
 } from "@fortawesome/free-solid-svg-icons";
-import { db } from "../firebase/auth.js";
 import Spinner from "../components/Spinner";
 import { Helmet } from "react-helmet-async";
 import Moment from "moment";
 import Pagination from "../components/pagination.jsx";
 
-const EventList = () => {
-  const { eventName } = useParams();
+const EventList = ({ events, loading }) => {
   const [searchInput, setSearchInput] = useState("");
 
-  const [events, setEvents] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [eventId, setEventId] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
   const [postPerPage] = useState(9);
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      // setLoading(true);
-
-      try {
-        const querySnapshot = await getDocs(collection(db, "events"));
-        const postData = [];
-        querySnapshot.forEach((doc) => {
-          // Extract the data from each document
-          const event = doc.data();
-          event.id = doc.id;
-          setEventId(event.id);
-
-          postData.push(event);
-        });
-
-        setEvents(postData);
-        setFilteredEvents(postData);
-
-        setLoading(false);
-      } catch (error) {
-        setLoading(false);
-        console.error("Error fetching posts:", error);
-
-        setEvents([]);
-      }
-    };
-
-    fetchPosts();
-  }, []);
-  console.log(events);
+    setFilteredEvents(events);
+  }, [events]);
 
   if (loading) {
     return <Spinner />;
   }
 
-  const collectionProduct = () => {
-    return events.filter((event) => event.name === eventName);
-  };
+  // const collectionProduct = () => {
+  //   return events.filter((event) => event.name === eventName);
+  // };
 
   const handleSearchInputChange = (e) => {
     setSearchInput(e.target.value);
@@ -228,7 +193,7 @@ const EventList = () => {
               See upcoming Events Around You
             </h1>
             <hr className="w-64 m-auto my-5"></hr>
-            <p className="text-base-100 bg-black/50 py-2  text-center text-xl font-bolder Aceh text-white">
+            <p className="bg-black/50 py-2  text-center text-xl font-bolder Aceh text-white">
               Discover, Explore, Attend: Your Event Search Starts Here
             </p>
             <div className="m-auto flex flex-col gap-2  justify-center py-5">
@@ -329,7 +294,7 @@ const EventList = () => {
           X Clear Filters
         </span>
 
-        <div className="flex m-auto justify-center gap-10 m-10 flex-wrap px-20 sm:p-2 ">
+        <div className="flex m-auto justify-center gap-10 flex-wrap px-20 sm:p-2 ">
           {currentPosts?.length > 0 ? (
             currentPosts?.map((event) => {
               return (
