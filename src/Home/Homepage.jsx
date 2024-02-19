@@ -16,6 +16,7 @@ const Homepage = ({
   eventLoading,
   activities,
 }) => {
+  // console.log(posts);
   return (
     <>
       <Helmet>

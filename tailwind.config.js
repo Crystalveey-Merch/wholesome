@@ -1,9 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 const withMT = require("@material-tailwind/react/utils/withMT");
- 
-export default   {
-  content: ["./src/**/*.{js,jsx,ts,tsx}" , 'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}'
-],
+
+export default {
+  content: [
+    "./src/**/*.{js,jsx,ts,tsx}",
+    "node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}",
+  ],
   theme: {
     screens: {
       "2xl": { max: "1535px" },
@@ -24,13 +26,13 @@ export default   {
     extend: {},
   },
   // eslint-disable-next-line no-undef
-  plugins: [require("daisyui")],
+  plugins: [require("daisyui"), require("@tailwindcss/typography")],
   "files.associations": {
-    "*.css": "tailwindcss"
+    "*.css": "tailwindcss",
   },
   "editor.quickSuggestions": {
-    "strings": "on"
-  }
+    strings: "on",
+  },
 };
 
 //bg-pink-300

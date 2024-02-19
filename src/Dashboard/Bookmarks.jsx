@@ -215,7 +215,7 @@ const Bookmarks = () => {
         <div>
           <p className="text-black text-2xl text-center">
             No Bookmarks yet, click{" "}
-            <NavLink to="/articlelist" className="cursor-pointer  text-sky-500">
+            <NavLink to="/feed" className="cursor-pointer  text-sky-500">
               {" "}
               <span>here</span>
             </NavLink>{" "}

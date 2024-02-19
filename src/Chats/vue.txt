@@ -1,0 +1,243 @@
+handleImageUpload(event) {
+      const file = event.target.files[0];
+      const chatId =
+        this.idOne < this.idTwo
+          ? `${this.idOne}-${this.idTwo}`
+          : `${this.idTwo}-${this.idOne}`;
+
+      // Check if a file is selected
+      if (file) {
+        // Create a FileReader to read the image file
+        const reader = new FileReader();
+
+        // Define the FileReader onload event handler
+        reader.onload = (e) => {
+          // Set the image preview source
+          this.imagePreview = e.target.result;
+          this.showImagePreview = true;
+          //this.rows = 6;
+        };
+
+        // Read the file as a data URL
+        reader.readAsDataURL(file);
+
+        // Store the file in a class variable for later use
+        this.uploadingImageFile = file;
+      }
+    },
+
+    openImagePicker() {
+      this.$refs.imageInput.click();
+    },
+
+    cancelImageUpload() {
+      // Clear the image preview and reset the variables
+      this.imagePreview = "";
+      this.showImagePreview = false;
+      this.uploadingImageFile = null;
+      this.imageData = null;
+      //this.rows = 2;
+    },
+
+    handleInput(event) {
+      this.message = event.target.value;
+      const numRows =
+        event.target.value.length > this.maxChars
+          ? Math.ceil(event.target.value.length / this.maxChars)
+          : 2;
+      if (numRows !== this.rows) {
+        this.rows = numRows;
+      }
+    },
+    async sendMessage() {
+      // Check if an image file is being uploaded
+      if (this.uploadingImageFile) {
+        // Save the image in the "messages" collection in Firebase Storage
+        const chatId =
+          this.idOne < this.idTwo
+            ? `${this.idOne}-${this.idTwo}`
+            : `${this.idTwo}-${this.idOne}`;
+        const storageRef = ref(
+          storage,
+          `messages/${chatId}/${this.uploadingImageFile.name}`
+        );
+        const snapshot = await uploadBytes(storageRef, this.uploadingImageFile);
+        const downloadURL = await getDownloadURL(storageRef);
+
+        // Create an imageData object with the downloadURL
+        this.imageData = {
+          imageURL: downloadURL,
+        };
+      }
+
+      if (!this.message && !this.imageData) return;
+      console.log("sendMessage" + this.imageData);
+      const userChatsRef = collection(db, "userChats");
+
+      const chatId =
+        this.idOne < this.idTwo
+          ? `${this.idOne}-${this.idTwo}`
+          : `${this.idTwo}-${this.idOne}`;
+
+      // Check if chat already exists between these two users
+      const chatQuery = query(userChatsRef, where("chatId", "==", chatId));
+      const chatQuerySnapshot = await getDocs(chatQuery);
+
+      let chatDocRef;
+      if (chatQuerySnapshot.empty) {
+        // Chat doesn't exist, create new chat document
+        chatDocRef = doc(userChatsRef);
+        const chatData = {
+          chatId,
+          participants: [this.idOne, this.idTwo],
+        };
+        await setDoc(chatDocRef, chatData);
+      } else {
+        // Chat already exists, use existing chat document
+        chatDocRef = chatQuerySnapshot.docs[0].ref;
+      }
+
+      // Add new message to chat subcollection
+      const chatMessagesRef = collection(chatDocRef, "messages");
+      const senderId = this.loggedInUser.id;
+      const receiverId = this.chatUser.id;
+      const senderName = this.loggedInUser.displayName;
+      const timestamp = serverTimestamp();
+      const messageData = {
+        senderId,
+        receiverId,
+        senderName,
+        text: this.message || null, // Include the message text in the message data
+        imageURL: this.imageData?.imageURL || null,
+        timestamp,
+      };
+      await addDoc(chatMessagesRef, messageData);
+
+      this.message = "";
+      this.displayChat();
+      this.imagePreview = "";
+      this.showImagePreview = false;
+      this.uploadingImageFile = null;
+      this.imageData = null;
+      //this.rows = 2;
+    },
+
+    async displayChat() {
+      const userChatsRef = collection(db, "userChats");
+
+      const chatId =
+        this.idOne < this.idTwo
+          ? `${this.idOne}-${this.idTwo}`
+          : `${this.idTwo}-${this.idOne}`;
+
+      // Check if chat already exists between these two users
+      const chatQuery = query(userChatsRef, where("chatId", "==", chatId));
+      const chatQuerySnapshot = await getDocs(chatQuery);
+
+      let chatDocRef;
+      if (chatQuerySnapshot.empty) {
+        // Chat doesn't exist
+        this.messages = [];
+        return;
+      } else {
+        // Chat exists, get its messages subcollection
+        chatDocRef = chatQuerySnapshot.docs[0].ref;
+        const chatMessagesRef = collection(chatDocRef, "messages");
+
+        // Listen for changes to the messages subcollection
+        onSnapshot(chatMessagesRef, (querySnapshot) => {
+          const newMessages = [];
+          querySnapshot.forEach((doc) => {
+            newMessages.push(doc.data());
+          });
+          // Sort the messages by their timestamp field in ascending order
+          newMessages.sort((a, b) => a.timestamp - b.timestamp);
+          this.messages = newMessages;
+        });
+      }
+    },
+    formatDistanceToNow,
+  },
+
+
+    async getOtherUsers() {
+      const userChatsRef = collection(db, "userChats");
+
+      // Listen for real-time updates to the userChats collection
+      onSnapshot(
+        query(
+          userChatsRef,
+          where("participants", "array-contains", this.loggedInUser.id)
+        ),
+        async (snapshot) => {
+          const otherUsers = [];
+          const promises = snapshot.docs.map(async (doc) => {
+            const participants = doc.data().participants;
+            const otherUserId = participants.find(
+              (userId) => userId !== this.loggedInUser.id
+            );
+            const chatId =
+              this.loggedInUser.id < otherUserId
+                ? `${this.loggedInUser.id}-${otherUserId}`
+                : `${otherUserId}-${this.loggedInUser.id}`;
+
+            const chatMessagesRef = collection(
+              db,
+              `userChats/${doc.id}/messages`
+            );
+
+            // Get the last message from the chatMessages collection
+            const querySnapshot = await getDocs(
+              query(chatMessagesRef, orderBy("timestamp", "desc"), limit(1))
+            );
+            const lastMessage =
+              querySnapshot.docs.length > 0
+                ? querySnapshot.docs[0].data()
+                : null;
+
+            const lastMessageData = lastMessage
+              ? {
+                  senderId: lastMessage.senderId,
+                  text: lastMessage.text,
+                  timestamp: lastMessage.timestamp,
+                }
+              : null;
+
+            return {
+              id: otherUserId,
+              lastMessageData,
+            };
+          });
+
+          const results = await Promise.all(promises);
+          this.otherUsers = results;
+        }
+      );
+    },
+
+
+     otherUsersData() {
+      const otherUsersIds = this.otherUsers.map((user) => user.id);
+      const usersWithLastMessage = this.users
+        .filter((user) => otherUsersIds.includes(user.id))
+        .map((user) => {
+          const lastMessageData = this.otherUsers.reduce((acc, curr) => {
+            if (curr.id === user.id) {
+              acc = curr.lastMessageData;
+            }
+            return acc;
+          }, null);
+          return {
+            ...user,
+            lastMessageData,
+          };
+        })
+        .filter((user) => user.lastMessageData !== null);
+
+      // Sort the array based on the timestamp of the last message
+      return usersWithLastMessage.sort(
+        (a, b) =>
+          b.lastMessageData.timestamp.toMillis() -
+          a.lastMessageData.timestamp.toMillis()
+      );
+    },

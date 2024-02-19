@@ -1,104 +1,50 @@
+/* eslint-disable react/prop-types */
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faUser } from "@fortawesome/free-solid-svg-icons";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+// import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { Link, NavLink } from "react-router-dom";
-import { Fragment, useState } from "react";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth, db } from "./firebase/auth.js";
+// import { useState } from "react";
+// import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebase/auth.js";
 import { signOut } from "firebase/auth";
-import { doc, getDoc, collection, getDocs } from "firebase/firestore";
-import { useNavigate } from "react-router";
-import { ReactSearchAutocomplete } from "react-search-autocomplete";
-
-import {
-  Dialog,
-  Disclosure,
-  Popover,
-  Transition,
-  Menu,
-} from "@headlessui/react";
-import { events } from "./data/events";
-import { useParams } from "react-router";
-import { useEffect } from "react";
+// import { doc, getDoc, collection, getDocs } from "firebase/firestore";
+// import { useNavigate } from "react-router";
+// import { ReactSearchAutocomplete } from "react-search-autocomplete";
+import messageSVG from "./assets/comment-dots-regular.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUser, logout } from "./Features/userSlice.js";
+import { Menu } from "@headlessui/react";
+// import { events } from "./data/events";
+// import { useParams } from "react-router";
+// import { useEffect } from "react";
 import { toast } from "react-toastify";
 
 const Header = () => {
-  const { interestName } = useParams();
-  const [users, setUsers] = useState([]);
+  const dispatch = useDispatch();
+  // const { interestName } = useParams();
+  const user = useSelector(selectUser);
 
-  const [authUser, setAuthUser] = useState(null);
-  const [profileData, setProfileData] = useState(null);
-  const navigate = useNavigate();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // const navigate = useNavigate();
+  // const [isModalOpen, setIsModalOpen] = useState(false);
 
-  useEffect(() => {
-    const listen = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setAuthUser(user);
-      } else {
-        setAuthUser(null);
-      }
-    });
-
-    return () => {
-      listen();
-    };
-  }, []);
-  const userId = authUser?.uid;
-  useEffect(() => {
-    const fetchUsers = async () => {
+  const userSignout = async () => {
+    if (window.confirm("Are you sure you want to log out?")) {
       try {
-        const querySnapshot = await getDocs(collection(db, "users"));
-        const postData = [];
-        querySnapshot.forEach((doc) => {
-          // Extract the data from each document
-          const post = doc.data();
-          post.id = doc.id;
-          postData.push(post);
-        });
-        setUsers(postData);
+        await signOut(auth);
+        dispatch(logout);
+        localStorage.removeItem("user");
+        window.location.href = "/login";
+        toast.success("Logout successful");
       } catch (error) {
-        console.error("Error fetching posts:", error);
-        setUsers([]);
+        alert(error.message);
       }
-    };
-
-    fetchUsers();
-  }, []);
-
-  useEffect(() => {
-    const fetchProfileData = async () => {
-      try {
-        const profileDocRef = doc(db, "users", userId); // Assuming you have a "users" collection in Firestore
-        const profileDocSnapshot = await getDoc(profileDocRef);
-
-        if (profileDocSnapshot.exists()) {
-          const profileData = profileDocSnapshot.data();
-          setProfileData(profileData);
-        } else {
-          // Handle case where the profile document doesn't exist
-        }
-      } catch (error) {
-        // Handle any errors that occur during fetching
-        console.error("Error fetching profile data:", error);
-      }
-    };
-
-    fetchProfileData();
-  }, [userId]);
-
-  const userSignout = () => {
-    signOut(auth)
-      .then(() => {
-        navigate("/login");
-        toast.error("Signout Successful");
-      })
-      .catch((error) => toast.error(error));
+    }
   };
 
-  useEffect(() => {
-    const selectedEvent = events.find((e) => e.interest === interestName);
-  });
+  // useEffect(() => {
+  //   const selectedEvent = events.find((e) => e.interest === interestName);
+  // });
+
   const closeDrawer = () => {
     const drawerToggle = document.getElementById("my-drawer-3");
     if (drawerToggle.checked) {
@@ -112,49 +58,50 @@ const Header = () => {
     }
   };
 
-  const handleOnSelect = (user) => {
-    // Construct the target URL
-    const targetUrl = `/profile/${user.id}`;
+  // const handleOnSelect = (user) => {
+  //   // Construct the target URL
+  //   const targetUrl = `/profile/${user.id}`;
 
-    // Use history.push() to navigate to the target URL
-    navigate(targetUrl);
-    setIsModalOpen(false);
-  };
-  const handleOnSearch = (string, results) => {
-    // onSearch will have as the first callback parameter
-    // the string searched and for the second the results.
-    console.log(string, results);
-  };
+  //   // Use history.push() to navigate to the target URL
+  //   navigate(targetUrl);
+  //   setIsModalOpen(false);
+  // };
 
-  const handleOnHover = (result) => {
-    // the item hovered
-    console.log(result);
-  };
-  const handleOnFocus = () => {
-    console.log("Focused");
-  };
-  const formatResult = (item) => {
-    return (
-      <>
-        <div className="flex  w-60  gap-1" id={item.id}>
-          <img src={item.photoURL} className="w-10" />
+  // const handleOnSearch = (string, results) => {
+  //   // onSearch will have as the first callback parameter
+  //   // the string searched and for the second the results.
+  //   console.log(string, results);
+  // };
 
-          <h1 className="text-sm">{item.name}</h1>
-        </div>
-      </>
-    );
-  };
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
+  // const handleOnHover = (result) => {
+  //   // the item hovered
+  //   console.log(result);
+  // };
+  // const handleOnFocus = () => {
+  //   console.log("Focused");
+  // };
+  // const formatResult = (item) => {
+  //   return (
+  //     <>
+  //       <div className="flex  w-60  gap-1" id={item.id}>
+  //         <img src={item.photoURL} className="w-10" />
 
-  // Function to close the modal
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
+  //         <h1 className="text-sm">{item.name}</h1>
+  //       </div>
+  //     </>
+  //   );
+  // };
+  // const openModal = () => {
+  //   setIsModalOpen(true);
+  // };
+
+  // // Function to close the modal
+  // const closeModal = () => {
+  //   setIsModalOpen(false);
+  // };
 
   return (
-    <div className="fixed   z-50 top-0 w-screen  flex   flex-col gap-0 sm:m-0  w-full items-center justify-between  sm:px-0 ">
+    <div className="fixed  z-50 top-0 w-screen flex flex-col gap-0 sm:m-0 items-center justify-between border-b border-gray-100  sm:px-0 ">
       <div className="navbar   text-black bg-white flex gap-5  justify-evenly px-10 xl:px-0 sm:px-5 w-full ">
         <div className="drawer xl:block   sm:block hidden w-5  left-0">
           <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
@@ -237,7 +184,7 @@ const Header = () => {
                   Interest
                 </Menu.Button>
                 <Menu.Items className="flex flex-col gap-4 text-base px-5">
-                  {authUser ? (
+                  {user ? (
                     <Menu.Item>
                       {({ active }) => (
                         <NavLink
@@ -502,7 +449,7 @@ const Header = () => {
               </li>
               <li>
                 <NavLink
-                  to="/articlelist"
+                  to="/feed"
                   onClick={closeDrawer}
                   className="flex  text-gray-200 rounded-lg dark:text-white hover:bg-gray-100  group"
                 >
@@ -546,7 +493,7 @@ const Header = () => {
                 className="dropdown-content z-[1] menu p-2 shadow bg-black/75  Aceh text-white w-52"
               >
                 <ul className="p-2 text-md">
-                  {authUser ? (
+                  {user ? (
                     <li>
                       <NavLink to="/myinterest/articles">My Interest</NavLink>
                     </li>
@@ -661,7 +608,7 @@ const Header = () => {
               </label>
             </NavLink>
 
-            <NavLink to="/articlelist">
+            <NavLink to="/feed">
               <label
                 tabIndex={0}
                 className=" text-black bg-white border-none capitalize btn m-1 hover:bg-gray-100"
@@ -682,17 +629,33 @@ const Header = () => {
         <div className="justify-end sm:justify-middle  sm:w-full flex gap-2 rounded-full ">
           <button className="btn flex text-center  bg-white  border-0 ">
             <Link to="/searchuser">
-              <FontAwesomeIcon icon={faSearch} className=""></FontAwesomeIcon>
+              <FontAwesomeIcon
+                icon={faSearch}
+                className="h-4 w-4"
+              ></FontAwesomeIcon>
             </Link>
           </button>
-          {authUser ? (
+
+          {/* <Link
+            // to="/messages"
+            to="/"
+            className="btn flex text-center  bg-white  border-0 "
+          >
+            <img
+              src={messageSVG}
+              alt="message"
+              className="h-5 w-5 sm:h-4 sm:w-4"
+            />
+          </Link> */}
+
+          {user ? (
             <div className="flex">
-              {profileData ? (
+              {user ? (
                 <div className="dropdown dropdown-end ">
                   <label tabIndex={0} className="btn-primary   flex-row ">
                     <div className="w-10 h-10  m-1 bg-white border rounded-full overflow-hidden">
                       <img
-                        src={profileData?.photoURL}
+                        src={user?.photoURL}
                         alt="Photo"
                         className="rounded-full m-auto"
                       />
@@ -711,11 +674,16 @@ const Header = () => {
 
                     <li className="">
                       <NavLink
-                        to="dashboard/profile"
+                        to="/dashboard/profile"
                         className="justify-between"
                       >
                         Dashboard
                       </NavLink>
+                    </li>
+                    <li>
+                      {/* <NavLink to="/messages" className="justify-between">
+                        Messages
+                      </NavLink> */}
                     </li>
                     <li>
                       <a>Settings</a>

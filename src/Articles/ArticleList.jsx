@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import {
   collection,
@@ -5,7 +6,6 @@ import {
   doc,
   getDoc,
   updateDoc,
-
 } from "firebase/firestore";
 import { auth, db } from "../firebase/auth.js";
 // import { useParams } from 'react-router';
@@ -24,7 +24,7 @@ import {
 import Pagination from "../components/pagination.jsx";
 import { Helmet } from "react-helmet-async";
 
-const ArticleList = () => {
+const ArticleList = ({ posts, postId, tags, category, loading }) => {
   const [authUser, setAuthUser] = useState(null);
 
   useEffect(() => {
@@ -42,15 +42,15 @@ const ArticleList = () => {
   }, []);
   const userId = authUser?.uid;
 
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(false);
+  // const [posts, setPosts] = useState([]);
+  // const [loading, setLoading] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [bookmarkCount, setBookmarkCount] = useState(0);
 
-  const [postId, setPostId] = useState([]);
+  // const [postId, setPostId] = useState([]);
   const [randomPost, setRandomPost] = useState([]);
-  const [tags, setTags] = useState([]);
-  const [category, setCategory] = useState([]);
+  // const [tags, setTags] = useState([]);
+  // const [category, setCategory] = useState([]);
   const [search, setSearch] = useState("");
   const [postPerPage] = useState(9);
   const [currentPage, setCurrentPage] = useState(1);
@@ -58,55 +58,45 @@ const ArticleList = () => {
 
   useEffect(() => {
     // setLoading(true);
-    const fetchPosts = async () => {
-      try {
-        setLoading(true);
-        const querySnapshot = await getDocs(collection(db, "posts"));
-        const postData = [];
-        const postIds = [];
-        const tags = [];
-        const categories = [];
+    // const fetchPosts = async () => {
+    //   try {
+    // setLoading(true);
+    // const querySnapshot = await getDocs(collection(db, "posts"));
+    // const postData = [];
+    // const postIds = [];
+    // const tags = [];
+    // const categories = [];
 
-        // Parallelize fetching data
-        await Promise.all(
-          querySnapshot.docs.map(async (doc) => {
-            const postDoc = doc.data();
-            postDoc.id = doc.id;
-            postData.push(postDoc);
-            postIds.push(doc.id);
+    // // Parallelize fetching data
+    // await Promise.all(
+    //   querySnapshot.docs.map(async (doc) => {
+    //     const postDoc = doc.data();
+    //     postDoc.id = doc.id;
+    //     postData.push(postDoc);
+    //     postIds.push(doc.id);
 
-            if (Array.isArray(postDoc.tags)) {
-              tags.push(...postDoc.tags);
-            }
+    //     if (Array.isArray(postDoc.tags)) {
+    //       tags.push(...postDoc.tags);
+    //     }
 
-            const category = postDoc.category;
-            if (category) {
-              categories.push(category);
-            }
-          })
-        );
+    //     const category = postDoc.category;
+    //     if (category) {
+    //       categories.push(category);
+    //     }
+    //   })
+    // );
 
-        // Set the postId state with the collected post IDs
-        setPostId(postIds);
-        setPosts([...postData]);
-        setTags([...new Set(tags)]);
-        setCategory(categories);
+    // // Set the postId state with the collected post IDs
+    // setPostId(postIds);
+    // setPosts([...postData]);
+    // setTags([...new Set(tags)]);
+    // setCategory(categories);
 
-        const randomIndex = Math.floor(Math.random() * postData.length);
-        if (postData[randomIndex]) {
-          setRandomPost([postData[randomIndex]]);
-        }
-
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching posts:", error);
-        setPosts([]);
-        // setLoading(false);
-      }
-    };
-
-    fetchPosts();
-  }, []);
+    const randomIndex = Math.floor(Math.random() * posts.length);
+    if (posts[randomIndex]) {
+      setRandomPost([posts[randomIndex]]);
+    }
+  }, [posts]);
 
   useEffect(() => {
     const trendingPost = async () => {
@@ -235,10 +225,7 @@ const ArticleList = () => {
           name="description"
           content="Search and Navigate through posts on Wholesome"
         />
-        <link
-          rel="canonical"
-          href="https://wholesome.crystaleey.com/articlelist/"
-        />
+        <link rel="canonical" href="https://wholesome.crystaleey.com/feed/" />
         <meta
           name="keywords"
           content="`Wholesome, Crystalveey,
@@ -249,7 +236,7 @@ const ArticleList = () => {
         <meta property="og:title" content="Article List" />
         <meta
           property="og:url"
-          content="https://wholesome.crystaleey.com/articlelist/"
+          content="https://wholesome.crystaleey.com/feed/"
         />
         {/* <meta property="og:image" content={posts} /> */}
         <meta
@@ -261,7 +248,7 @@ const ArticleList = () => {
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           name="twitter:url"
-          content="https://wholesome.crystaleey.com/articlelist/"
+          content="https://wholesome.crystaleey.com/feed/"
         />
         <meta name="twitter:title" content="Article List" />
         <meta
@@ -276,7 +263,7 @@ const ArticleList = () => {
             "@context": "https://schema.org",
             "@type": "BlogPosting",
             headline: "Article List",
-            url: "https://wholesome.crystaleey.com/articlelist",
+            url: "https://wholesome.crystaleey.com/feed",
 
             // "image": {posts.imgUrl},
 
@@ -501,7 +488,7 @@ const ArticleList = () => {
             currentPage={currentPage}
           />
           <div className="bg-white dark:bg-gray-700 p-4  my-2">
-          <h2 className="text-xl Aceh text-red-500">Tags</h2>
+            <h2 className="text-xl Aceh text-red-500">Tags</h2>
             <hr></hr>
             {tags?.map((tag) => (
               <div
@@ -564,10 +551,12 @@ const ArticleList = () => {
                       {post?.timestamp.toDate().toDateString()} at{" "}
                       {formatTime(post?.timestamp.toDate())}
                     </p>
-                    <p className="Aceh text-black text-l dark:text-white">{excerpt(post.postTitle, 50)}</p>
+                    <p className="Aceh text-black text-l dark:text-white">
+                      {excerpt(post.postTitle, 50)}
+                    </p>
                     <p className=" text-gray-500 dark:text-gray-300 ">
-                          {excerpt(post.postDescription, 100)}
-                        </p>
+                      {excerpt(post.postDescription, 100)}
+                    </p>
                     <span className="text-l flex gap-5  text-gray-800 dark:text-red-500 ">
                       <FontAwesomeIcon
                         icon={faComment}
@@ -594,9 +583,7 @@ const ArticleList = () => {
                 </NavLink>
               ))}
             </div>
-            
           </div>
-     
         </div>
       </div>
     </>

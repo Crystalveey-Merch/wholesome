@@ -2,57 +2,52 @@ import { Outlet } from "react-router";
 import { greetings } from "../components/greeting";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth, db } from "../firebase/auth";
-import {
-  Dialog,
-  Disclosure,
-  Popover,
-  Transition,
-  Menu,
-} from "@headlessui/react";
 import { useNavigate } from "react-router";
 
 import { useEffect, useState } from "react";
 import { NavLink, Link } from "react-router-dom";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBookmark,
   faCalendar,
   faSave,
-  faSignOut,
   faUserAlt,
 } from "@fortawesome/free-solid-svg-icons";
+import { useSelector } from "react-redux";
+import { selectUser } from "../Features/userSlice";
 
 const Dashboard = () => {
+  const user = useSelector(selectUser);
   const greeting = greetings();
-  const [authUser, setAuthUser] = useState(null);
-  const navigate = useNavigate();
+  // const [authUser, setAuthUser] = useState(null);
+  // const navigate = useNavigate();
 
-  useEffect(() => {
-    const listen = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setAuthUser(user);
-      } else {
-        setAuthUser(null);
-      }
-    });
+  // useEffect(() => {
+  //   const listen = onAuthStateChanged(auth, (user) => {
+  //     if (user) {
+  //       setAuthUser(user);
+  //     } else {
+  //       setAuthUser(null);
+  //     }
+  //   });
 
-    return () => {
-      listen();
-    };
-  }, []);
-  const userId = authUser?.uid;
+  //   return () => {
+  //     listen();
+  //   };
+  // }, []);
+  // const userId = authUser?.uid;
 
-  console.log(authUser);
+  // console.log(authUser);
 
-  const userSignout = () => {
-    signOut(auth)
-      .then(() => {
-        navigate("/login");
-        toast.error("Signout Successful");
-      })
-      .catch((error) => toast.error(error));
-  };
+  // const userSignout = () => {
+  //   signOut(auth)
+  //     .then(() => {
+  //       navigate("/login");
+  //       toast.error("Signout Successful");
+  //     })
+  //     .catch((error) => toast.error(error));
+  // };
 
   return (
     <>
@@ -61,10 +56,7 @@ const Dashboard = () => {
           <ul className="menu  text-white menu-horizontal bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 dark:text-slate-200 m-auto justify-between  rounded-box  w-full">
             <li>
               <NavLink to="profile" className="tooltip" data-tip="Home">
-             
-                <FontAwesomeIcon icon={faUserAlt} className="text-white"/>
-            
-               
+                <FontAwesomeIcon icon={faUserAlt} className="text-white" />
               </NavLink>
             </li>
             <li>
@@ -130,8 +122,6 @@ const Dashboard = () => {
                 <FontAwesomeIcon icon={faCalendar} />
               </NavLink>
             </li>
-
-          
           </ul>
         </div>
         <div className="drawer drawer-open">
@@ -152,7 +142,7 @@ const Dashboard = () => {
                 {" "}
                 {greeting}
                 <br />
-                {authUser?.displayName}
+                {user?.displayName}
               </p>
               {/* Sidebar content here */}
               <li>

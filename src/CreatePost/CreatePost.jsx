@@ -52,7 +52,6 @@ const categoryOption = [
   "Games & Sports",
   "Comedy & entertainment",
   "Night life",
-
 ];
 
 // import "./tagsInput.css"
@@ -233,7 +232,7 @@ const CreatePost = () => {
             userId: authUser.uid,
           });
           toast.success("Post created successfully");
-          navigate("/articlelist");
+          navigate("/feed");
         } catch (err) {
           console.log(err);
         }
@@ -247,7 +246,7 @@ const CreatePost = () => {
               userId: authUser.uid,
             });
             toast.success("Post updated successfully");
-            navigate("/articlelist");
+            navigate("/feed");
           } catch (err) {
             console.log(err);
             toast.error("Click on Publish Draft Instead");
@@ -271,7 +270,7 @@ const CreatePost = () => {
           userId: authUser.uid,
         });
         toast.success("Draft Published");
-        navigate("/articlelist");
+        navigate("/feed");
       } catch (err) {
         console.log(err);
       }

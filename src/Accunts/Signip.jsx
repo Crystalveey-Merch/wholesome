@@ -1,26 +1,14 @@
-import React from "react";
 import { NavLink } from "react-router-dom";
 import PasswordStrengthBar from "react-password-strength-bar";
 import {
   createUserWithEmailAndPassword,
-  GoogleAuthProvider,
   sendEmailVerification,
-  signInWithPopup,
 } from "firebase/auth";
-import { auth, db } from "../firebase/auth";
+import { auth, createUserProfileDocument } from "../firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import {
-  collection,
-  doc,
-  getDocs,
-  query,
-  setDoc,
-  updateDoc,
-  where,
-} from "firebase/firestore";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Multiselect from "multiselect-react-dropdown";
@@ -29,7 +17,7 @@ import { Helmet } from "react-helmet-async";
 const Signip = () => {
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
-  const [error, setError] = useState(null);
+  // const [error, setError] = useState(null);
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -49,7 +37,7 @@ const Signip = () => {
 
   const handleSelect = (selectedOption) => {
     setSelectedOptions(selectedOption);
-    console.log(selectedOptions.map((option) => option.key));
+    // console.log(selectedOptions.map((option) => option.key));
   };
 
   const handleRemove = (removedOption) => {
@@ -71,55 +59,55 @@ const Signip = () => {
     e.preventDefault();
     setshowConfirmPassword(!showConfirmPassword);
   };
-  console.log(selectedOptions.map((option) => option.key));
+
+  // console.log(selectedOptions.map((option) => option.key));
 
   const signup = async (e) => {
     e.preventDefault();
 
-    const userCredential = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
+    if (password !== confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
 
-    const user = userCredential.user;
+    try {
+      const { user } = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      await createUserProfileDocument(user, {
+        displayName: name,
+        name,
+        email,
+        photoURL:
+          "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=1380&t=st=1701420226~exp=1701420826~hmac=2284e7a4b1f4cc634d76e02dc665ad6f93fc816574f3a3a605581318745e20a0",
+        selectedOptions,
+      });
 
-    const userData = {
-      email,
-      password,
-      name,
-      selectedOptions,
-      photoURL: "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=1380&t=st=1701420226~exp=1701420826~hmac=2284e7a4b1f4cc634d76e02dc665ad6f93fc816574f3a3a605581318745e20a0"
-    };
-
-    sendEmailVerification(user);
-
-    toast.success("Verification Link has been sent to your email Address");
-
-    // Use setDoc to add the user data to the "users" collection with the user's UID as the document ID
-    await setDoc(doc(db, "users", user.uid), userData);
-
-    // Display a success message
-    toast.success(<div className="text-black text-sm">Sign-up Successful</div>);
-
-    // Redirect to the login page
-    navigate("/dashboard/profile");
-
-    console.log(userCredential);
+      await sendEmailVerification(user);
+      await toast.success(
+        "Verification Link has been sent to your email Address"
+      );
+      toast.success("Registration successful");
+      await navigate("/dashboard/profile");
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
   };
 
   return (
     <div>
       <Helmet>
         <title>Signup to Wholesome</title>
-        <meta name='description' content='Signup on Wholesome' />
-        <link rel="canonical" href='/signup' />
+        <meta name="description" content="Signup on Wholesome" />
+        <link rel="canonical" href="/signup" />
       </Helmet>
       <div className="   bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 text-black w-screen h-full ">
         <div className="text-center text-2xl">
           <div className="p-32 sm:p-2 sm:pt-8  m-auto   ">
-            <div className=" h-full w-full flex rounded rounded-lg    ">
-
+            <div className=" h-full w-full flex rounded-lg    ">
               <div className="w-2/5 m-auto  sm:w-full sm:h-full ">
                 <div className="bg-grey-500  flex flex-col text-xl">
                   <div className="container max-w-xl mx-auto flex-1 flex flex-col items-center justify-center px-2">
@@ -127,7 +115,6 @@ const Signip = () => {
                       <h1 className="mb-8 text-2xl text-center text-red-500">
                         Sign up
                       </h1>
-
 
                       <form onSubmit={signup} className="form-control">
                         <input
@@ -154,9 +141,9 @@ const Signip = () => {
                         <Multiselect
                           placeholder="Select your Interest"
                           displayValue="key"
-                          onKeyPressFn={function noRefCheck() { }}
+                          onKeyPressFn={function noRefCheck() {}}
                           onRemove={handleRemove}
-                          onSearch={function noRefCheck() { }}
+                          onSearch={function noRefCheck() {}}
                           onSelect={handleSelect}
                           className="mb-2 bg-gray-100/75"
                           options={[
@@ -212,12 +199,8 @@ const Signip = () => {
                               key: "Night life",
                             },
                           ]}
-
                           showCheckbox
                         />
-
-
-
 
                         <span className="flex  gap-2 mb-4 border-grey-light bg-gray-100/75 w-full  rounded">
                           <input
@@ -251,19 +234,18 @@ const Signip = () => {
                         <PasswordStrengthBar
                           password={password}
                           className="mt-5 text-white text-xl"
-                          
                         />
-                      <span className="flex  gap-2 mb-4 border-grey-light bg-gray-100/75 w-full  rounded">
-                        <input
-                          type={showConfirmPassword ? "text" :  "password"}
-                          value={confirmPassword }
-                          onChange={confirmPasswordChangeHandler}
-                          onBlur={handlePasswordValidation}
-                          className="block border border-grey-100 bg-gray-100/75 w-full p-3 rounded "
-                          name="confirm_password"
-                          placeholder="Confirm Password"
-                        />
-                        <div
+                        <span className="flex  gap-2 mb-4 border-grey-light bg-gray-100/75 w-full  rounded">
+                          <input
+                            type={showConfirmPassword ? "text" : "password"}
+                            value={confirmPassword}
+                            onChange={confirmPasswordChangeHandler}
+                            onBlur={handlePasswordValidation}
+                            className="block border border-grey-100 bg-gray-100/75 w-full p-3 rounded "
+                            name="confirm_password"
+                            placeholder="Confirm Password"
+                          />
+                          <div
                             onClick={handleTogglePassword2}
                             className="bg-transparent centre m-auto p-2 border-none"
                           >
@@ -292,7 +274,7 @@ const Signip = () => {
                         <div className="form-control">
                           <label className="label cursor-pointer">
                             <span className="label-text text-gray-100  ">
-                              <p className="text-xl" >Remember me</p>
+                              <p className="text-xl">Remember me</p>
                             </span>
                             <input type="checkbox" className="checkbox" />
                           </label>

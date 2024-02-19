@@ -1,4 +1,4 @@
-import { useEffect,  } from "react";
+import { useEffect, } from "react";
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHands, faThumbTack, faThumbsUp } from "@fortawesome/free-solid-svg-icons";
@@ -13,19 +13,19 @@ const Clap = ({ handleClap2, claps, userId, commentId }) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return claps.find((id) => id === userId) ? (
         <>
-<FontAwesomeIcon icon={faHands} className="text-yellow-500 hover:scale-125 active:text-sky-300 transition duration-150 ease-in-out"/>
+          <FontAwesomeIcon icon={faHands} className="text-yellow-500 hover:scale-125 active:text-sky-300 transition duration-150 ease-in-out" />
           &nbsp;{claps.length}
         </>
       ) : (
         <>
-<FontAwesomeIcon icon={faHands} className="text-gray-800 hover:scale-120 active:text-sky-300 transition duration-150 ease-in-out"/>
+          <FontAwesomeIcon icon={faHands} className="text-gray-800 hover:scale-120 active:text-sky-300 transition duration-150 ease-in-out" />
           &nbsp;{claps.length}
-        </> 
+        </>
       );
     }
     return (
       <>
-<FontAwesomeIcon icon={faHands} className="text-gray-800 hover:scale-125 active:text-sky-300   transition duration-150 ease-in-out"/>
+        <FontAwesomeIcon icon={faHands} className="text-gray-800 hover:scale-125 active:text-sky-300   transition duration-150 ease-in-out" />
         &nbsp;
       </>
     );
@@ -33,7 +33,7 @@ const Clap = ({ handleClap2, claps, userId, commentId }) => {
   return (
     <>
       <span
-        style={{ float: "right", cursor: "pointer"}}
+        style={{ float: "right", cursor: "pointer" }}
         onClick={!userId ? undefined : () => handleClap2(commentId)}
       >
         {!userId ? (
@@ -45,7 +45,7 @@ const Clap = ({ handleClap2, claps, userId, commentId }) => {
             <LikeStatus />
           </div>
         ) : (
-          <div  className="text-black">
+          <div className="text-black">
             <LikeStatus />
           </div>
         )}

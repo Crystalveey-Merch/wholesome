@@ -1,7 +1,4 @@
-import React from "react";
-import {
-  signInWithEmailAndPassword,
-} from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 // import {au } from "../../node_modules/firebase/auth";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -11,10 +8,19 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import "firebase/auth";
 import { Helmet } from "react-helmet-async";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
+import { db, doc, updateDoc } from "../firebase/auth";
+import { useSelector } from "react-redux";
+import { selectUser } from "../Features/userSlice";
 
 const Login = () => {
+  const user = useSelector(selectUser);
   const navigate = useNavigate();
-  const [error, setError] = useState(null);
+
+  if (user) {
+    navigate("/dashboard/profile");
+  }
+
+  // const [error, setError] = useState(null);
   const [email, setEmail] = useState("");
 
   const [password, setPassword] = useState("");
@@ -29,48 +35,56 @@ const Login = () => {
     setShowPassword(!showPassword);
   };
 
-  const loginhandler = (e) => {
+  const loginhandler = async (e) => {
     e.preventDefault();
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        toast.success(
-          <div className="text-black text-sm ">Login Successful</div>
-        );
-
-        navigate("/dashboard/profile");
-      })
-      .catch((err) => {
-        toast.error("Login error. Check email and password" );
-        setError(err.message);
+    // signInWithEmailAndPassword(auth, email, password)
+    //   .then((userCredential) => {
+    //     toast.success(
+    //       <div className="text-black text-sm ">Login Successful</div>
+    //     );
+    //     navigate("/dashboard/profile");
+    //   })
+    //   .catch((err) => {
+    //     toast.error("Login error. Check email and password" );
+    //     setError(err.message);
+    //   });
+    try {
+      const { user } = await signInWithEmailAndPassword(auth, email, password);
+      const userRef = doc(db, "users", user.uid);
+      await updateDoc(userRef, {
+        lastLogin: new Date().toISOString(),
       });
+      navigate("/dashboard/profile");
+      toast.success("Login Successful");
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
-
- 
   const auth = getAuth();
 
-// sendPasswordResetEmail(auth, email)
-//   .then(() => {
-//     // Email sent successfully
-//     console.log("Password reset email sent");
-//     // Display a success message to the user
-//   })
-//   .catch((error) => {
-//     // Handle any errors
-//     console.error("Error sending password reset email:", error);
-//     // Display an error message to the user
-//   });
-  const changePassword =  async () => {
-    try {  
+  // sendPasswordResetEmail(auth, email)
+  //   .then(() => {
+  //     // Email sent successfully
+  //     console.log("Password reset email sent");
+  //     // Display a success message to the user
+  //   })
+  //   .catch((error) => {
+  //     // Handle any errors
+  //     console.error("Error sending password reset email:", error);
+  //     // Display an error message to the user
+  //   });
+  const changePassword = async () => {
+    try {
       if (!email) {
         toast.error("Input your Email in the email box");
-        
+
         return;
       }
 
       sendPasswordResetEmail(auth, email)
         .then(() => {
-          toast.success("Password reset email sent successfully")          ;
+          toast.success("Password reset email sent successfully");
         })
         .catch((error) => {
           toast.error("Error sending password reset email", error);
@@ -92,7 +106,7 @@ const Login = () => {
       <div className="   bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 text-black w-screen h-screen ">
         <div className="text-center text-2xl">
           <div className="pt-34  m-auto   ">
-            <div className=" h-full w-full flex rounded rounded-lg    ">
+            <div className=" h-full w-full flex rounded-lg">
               <div className="w-2/5 m-auto  mt-36 sm:mt-20 sm:w-full sm:h-full mb-44 rounded">
                 <div className="bg-white/75 p-5 flex flex-col text-xl rounded-2xl  shadow">
                   <div className="  flex flex-col items-center justify-center px-10 sm:px-2 ">
@@ -140,7 +154,12 @@ const Login = () => {
                             )}
                           </div>
                         </span>
-<p onClick={changePassword} className="text-sm text-red-500 underline cursor-pointer">Forgot Password 😭  </p>
+                        <p
+                          onClick={changePassword}
+                          className="text-sm text-red-500 underline cursor-pointer"
+                        >
+                          Forgot Password 😭{" "}
+                        </p>
                         <button
                           type="submit"
                           className="w-full text-center py-3 rounded bg-green-500 text-white hover:bg-green-dark focus:outline-none my-1 cursor-pointer"

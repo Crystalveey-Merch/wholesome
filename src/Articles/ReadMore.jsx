@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import React from "react";
 import { useParams } from "react-router";
 import { isEmpty } from "lodash";
@@ -58,14 +58,15 @@ import {
 import { NavLink } from "react-router-dom";
 import { faBookmark, faEye } from "@fortawesome/free-solid-svg-icons";
 import { Helmet } from "react-helmet-async";
-import { BlogPosting } from "schema-dts";
-import { jsonLdScriptProps } from "react-schemaorg";
+import { useSelector } from "react-redux";
+import { selectUser } from "../Features/userSlice.js";
+import { selectUsers } from "../Features/usersSlice.js";
 
-const ReadMore = () => {
+const ReadMore = ({ posts }) => {
   const url = window.location.href;
 
   const { id } = useParams();
-  const [authUser, setAuthUser] = useState(null);
+  // const [authUser, setAuthUser] = useState(null);
   const [post, setPost] = useState(null);
   const [likes, setLikes] = useState([]);
   const [commentLikes, setCommentLikes] = useState("");
@@ -81,111 +82,40 @@ const ReadMore = () => {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [claps, setClaps] = useState([]);
 
-  useEffect(() => {
-    const listen = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setAuthUser(user);
-      } else {
-        setAuthUser(null);
-      }
-    });
+  const authUser = useSelector(selectUser);
+  const users = useSelector(selectUsers);
 
-    return () => {
-      listen();
-    };
-  }, []);
-
-  const userId = authUser?.uid;
-
-  useEffect(() => {
-    const fetchClaps = async () => {
-      try {
-        const postRef = doc(db, "posts", id); // Replace "posts" with the appropriate collection name
-        const postSnapshot = await getDoc(postRef);
-        if (postSnapshot.exists()) {
-          const postData = postSnapshot.data();
-          const comments = postData.comments ? postData.comments : [];
-          const clapsArray = comments.map((comment) =>
-            comment.claps ? comment.claps : []
-          );
-          setClaps(clapsArray);
-        } else {
-          console.error(`Post with id '${id}' not found.`);
-          // Handle the case where the post is not found, e.g., display a 404 page.
-        }
-      } catch (error) {
-        console.error("Error fetching claps:", error);
-        // Handle the error, e.g., display an error message to the user.
-      }
-    };
-
-    fetchClaps();
-  }, [id]);
-
-  useEffect(() => {
-    const fetchProfileData = async () => {
-      try {
-        const profileDocRef = doc(db, "users", post?.userId); // Assuming you have a "users" collection in Firebase
-        const profileDocSnapshot = await getDoc(profileDocRef);
-        setProfileData(profileDocSnapshot.data());
-      } catch (error) {
-        console.error("Error fetching profile data: ", error);
-      }
-    };
-    // console.log(!profileData.photoURL);
-    if (post?.userId) {
-      fetchProfileData();
-    }
-  }, [post?.userId, profileData]);
+  const userId = authUser?.id;
 
   const isAuthUserComment = (comment, authUserId) => {
     // Check if the comment's userId matches the authenticated user's ID
     return comment.userId === authUserId;
   };
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const profileDocRef = doc(db, "users", userId); // Assuming you have a "users" collection in Firebase
-        const profileDocSnapshot = await getDoc(profileDocRef);
-        setUserData(profileDocSnapshot.data());
-      } catch (error) {
-        console.error("Error fetching user data: ", error);
-      }
-    };
-    // console.log(!profileData.photoURL);
-    if (userId) {
-      fetchUserData();
-    }
-  }, [userId, userData]);
   // console.log(claps);
   // console.log(likes)
 
   useEffect(() => {
-    const fetchSelectedPost = async () => {
-      try {
-        const docRef = doc(db, "posts", id); // Replace "posts" with your collection name
-        const docSnapshot = await getDoc(docRef);
-        if (docSnapshot.exists()) {
-          const postData = docSnapshot.data();
-          const comments = postData.comments ? postData.comments : [];
-          const claps = comments.map((comment) =>
-            comment.claps ? comment.claps : []
-          );
-          setComments(comments);
-          setLikes(postData.likes ? postData.likes : []);
-          setPost(postData);
-        } else {
-          console.error(`Post with id '${id}' not found.`);
-          // Handle the case where the post is not found, e.g., display a 404 page.
-        }
-      } catch (error) {
-        console.error("Error fetching the selected post:", error);
-        // Handle the error, e.g., display an error message to the user.
-      }
-    };
-    fetchSelectedPost();
-  }, [id, post]);
+    if (posts.length > 0) {
+      const post = posts.find((post) => post.id === id);
+      const comments = post.comments ? post.comments : [];
+      const claps = comments.map((comment) =>
+        comment.claps ? comment.claps : []
+      );
+      setComments(comments);
+      setLikes(post.likes ? post.likes : []);
+      setPost(post);
+      setClaps(claps);
+    }
+  }, [id, posts]);
+
+  useEffect(() => {
+    if (users.length > 0) {
+      const postAuthor = users.find((user) => user.id === post?.userId);
+      setProfileData(postAuthor);
+      setUserData(authUser);
+    }
+  }, [authUser, post?.userId, users]);
 
   useEffect(() => {
     const checkBookmarkStatus = async () => {
@@ -773,10 +703,7 @@ const ReadMore = () => {
             </ul>
           </div>
           <div id="comment">
-            <div
-              className=" bg-gray-200 border rounded-xl text-base-200 p-5 sm:p-2 "
-              
-            >
+            <div className=" bg-gray-200 border rounded-xl text-base-200 p-5 sm:p-2 ">
               <div className="scroll">
                 <h4 className="small-title Aceh text-red-500 ">
                   {post.comments?.length} Comment

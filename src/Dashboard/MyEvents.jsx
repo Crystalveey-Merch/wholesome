@@ -190,23 +190,33 @@ const MyEvents = () => {
                         </div>
                       </div>
                     </NavLink>
-                   
+
                     <div className="indicator">
-                    <button
-                      className="btn"
-                      onClick={() => document.getElementById(`dialog-${item.id}`).showModal()}
-
-                    >
-                      Attendees
-                    </button>
-                    <span className="indicator-item badge badge-primary ">{item.attendees?.length}</span> 
-
+                      <button
+                        className="btn"
+                        onClick={() =>
+                          document
+                            .getElementById(`dialog-${item.id}`)
+                            .showModal()
+                        }
+                      >
+                        Attendees
+                      </button>
+                      <span className="indicator-item badge badge-primary ">
+                        {item.attendees?.length}
+                      </span>
                     </div>
-                    
-                    <dialog id={`dialog-${item.id}`} className="modal" key={`dialog-${item.id}`}>
+
+                    <dialog
+                      id={`dialog-${item.id}`}
+                      className="modal"
+                      key={`dialog-${item.id}`}
+                    >
                       <div className="modal-box w-11/12 max-w-5xl">
-                        <h3 className="font-bold  Aceh text-xl">{item.eventName}</h3>
-                        <ul id={`dialog-${item.id}`} className="" >
+                        <h3 className="font-bold  Aceh text-xl">
+                          {item.eventName}
+                        </h3>
+                        <ul id={`dialog-${item.id}`} className="">
                           {item.attendees?.map((attendee, index) => (
                             <li
                               key={index}
@@ -217,7 +227,7 @@ const MyEvents = () => {
                             </li>
                           ))}
                         </ul>
-                                                <div className="modal-action">
+                        <div className="modal-action">
                           <form method="dialog">
                             {/* if there is a button, it will close the modal */}
                             <button className="btn">Close</button>
@@ -260,10 +270,7 @@ const MyEvents = () => {
           <div>
             <p className="text-black text-2xl text-center">
               No Drafts yet, click{" "}
-              <NavLink
-                to="/articlelist"
-                className="cursor-pointer  text-sky-500"
-              >
+              <NavLink to="/feed" className="cursor-pointer  text-sky-500">
                 {" "}
                 <span>here</span>
               </NavLink>{" "}

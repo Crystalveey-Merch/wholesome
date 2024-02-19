@@ -155,7 +155,7 @@ const Profilepage = () => {
         <meta name="description" content={profileData?.shortBio} />
         <link
           rel="canonical"
-          href={`https://wholesome.crystaleey.com/articlelist/${profileId}`}
+          href={`https://wholesome.crystaleey.com/feed/${profileId}`}
         />
         <meta
           name="keywords"
@@ -167,7 +167,7 @@ const Profilepage = () => {
         <meta property="og:title" content="Article List" />
         <meta
           property="og:url"
-          content={`https://wholesome.crystaleey.com/articlelist/${profileId}`}
+          content={`https://wholesome.crystaleey.com/feed/${profileId}`}
         />
         {/* <meta property="og:image" content={posts} /> */}
         <meta name="og:description" content={profileData?.shortBio} />
@@ -179,7 +179,7 @@ const Profilepage = () => {
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           name="twitter:url"
-          content={`https://wholesome.crystaleey.com/articlelist/${profileId}`}
+          content={`https://wholesome.crystaleey.com/feed/${profileId}`}
         />
         <meta name="twitter:title" content={profileData?.displayName} />
         <meta name="twitter:description" content={profileData?.shortBio} />
@@ -195,7 +195,7 @@ const Profilepage = () => {
             // birthDate: "1980-01-01",
             // nationality: "United States",
             // occupation: "Software Engineer",
-            website: `https://wholesome.crystaleey.com/articlelist/${profileId}`,
+            website: `https://wholesome.crystaleey.com/feed/${profileId}`,
             email: `${profileData?.email}`,
             followers: `${profileData?.followers}`,
             // phone: "1-800-555-1212",
@@ -213,22 +213,23 @@ const Profilepage = () => {
       </Helmet>
       <div className="">
         <div className=" m-auto gap-20 sm:gap-10 ">
-        <div className="m-auto">  
-        <img
-            src={profileData?.photoURL}
-            className="w-40 h-40  mx-auto  rounded-full shadow-2xl"
-          ></img>         
-         <p className="sm:text-center text-2xl Aceh mt-5 text-black">{profileData?.name}</p>
-         <h2 className="sm:text-center text-red-500 text-xl px-40 sm:px-5">
+          <div className="m-auto">
+            <img
+              src={profileData?.photoURL}
+              className="w-40 h-40  mx-auto  rounded-full shadow-2xl"
+            ></img>
+            <p className="sm:text-center text-2xl Aceh mt-5 text-black">
+              {profileData?.name}
+            </p>
+            <h2 className="sm:text-center text-red-500 text-xl px-40 sm:px-5">
               {profileData?.shortBio}
             </h2>
             <div className=" text-lg Aceh my-2  text-gray-600 flex m-auto text-center">
               <h1 className=" text-lg AcehLight m-auto  ">
-              <FontAwesomeIcon icon={faEnvelope} className="" />
+                <FontAwesomeIcon icon={faEnvelope} className="" />
 
-              {profileData?.email}
-            </h1>
-
+                {profileData?.email}
+              </h1>
             </div>
 
             <div className="flex gap-5 justify-center  text-2xl py-5 text-gray-500">
@@ -249,186 +250,184 @@ const Profilepage = () => {
               className="flex m-auto  my-5 text-gray-500"
               onClick={handleFollowToggle}
             >
-
               <FontAwesomeIcon
                 icon={faPlus}
                 className="m-auto px-2  text-gray-500"
               />{" "}
               {isFollowing ? "Unfollow" : "Follow"}
             </button>
-           
-</div>
-         <div className="bg-white  m-auto text-center  flex  ">
-         <div className="m-auto flex">
-         <p className="m-auto text-gray-600 p-2 flex Aceh text-center ">
-              {profileData?.followers
-                ? `${profileData.followers.length} follower(s)`
-                : "No followers"}
-            </p> 
-            <p className="m-auto text-gray-600 p-2 flex Aceh text-center">
-              {profileData?.following
-                ? `${profileData.following.length} following`
-                : "No following"}
-            </p> 
-            <p className="m-auto text-gray-600 p-2 flex Aceh text-center">
-              {userPosts?.length
-                ? `${userPosts.length} articles`
-                : `${userPosts.length} articles`}
-            </p> 
+          </div>
+          <div className="bg-white  m-auto text-center  flex  ">
+            <div className="m-auto flex">
+              <p className="m-auto text-gray-600 p-2 flex Aceh text-center ">
+                {profileData?.followers
+                  ? `${profileData.followers.length} follower(s)`
+                  : "No followers"}
+              </p>
+              <p className="m-auto text-gray-600 p-2 flex Aceh text-center">
+                {profileData?.following
+                  ? `${profileData.following.length} following`
+                  : "No following"}
+              </p>
+              <p className="m-auto text-gray-600 p-2 flex Aceh text-center">
+                {userPosts?.length
+                  ? `${userPosts.length} articles`
+                  : `${userPosts.length} articles`}
+              </p>
             </div>
-            
-         </div>
+          </div>
           <div className="px-2 bg-gradient-to-r from-rose-700 to-pink-600 text-white   sm:w-full">
-          <div className="flex justify-center m-auto gap-3 flex-wrap sm:gap-3 ">
-          
+            <div className="flex justify-center m-auto gap-3 flex-wrap sm:gap-3 ">
               {profileData?.selectedOptions &&
-            Array.isArray(profileData.selectedOptions) ? (
-              profileData.selectedOptions.map((option) => (
-                <span key={option.id} className=" flex w-fit gap-2  hvr-grow">
-                  <p className="p-2 border my-1  Aceh text-center rounded-full text-sm text-white">
-                    {" "}
-                    {option.key}
-                  </p>
-                </span>
-              ))
-            ) : (
-              <p>No selected Interest available.</p>
-            )}
-            
-          </div></div>
+              Array.isArray(profileData.selectedOptions) ? (
+                profileData.selectedOptions.map((option) => (
+                  <span key={option.id} className=" flex w-fit gap-2  hvr-grow">
+                    <p className="p-2 border my-1  Aceh text-center rounded-full text-sm text-white">
+                      {" "}
+                      {option.key}
+                    </p>
+                  </span>
+                ))
+              ) : (
+                <p>No selected Interest available.</p>
+              )}
+            </div>
+          </div>
         </div>
       </div>
       <div className="h-97 bg-gray-100">
-        <p className="text-center text-2xl p-10 Aceh text-black">{profileData?.name} Posts</p>
+        <p className="text-center text-2xl p-10 Aceh text-black">
+          {profileData?.name} Posts
+        </p>
         <div className="flex sm:hidden  flex-wrap m-auto justify-center gap-5 sm:gap-0">
-            {userPosts.map((post) => (
-              <div className=" " key={post.id}>
-                <NavLink
-                  to={`/readmore/${post.id}`}
-                  onClick={() => handleReadMoreClick(post)}
+          {userPosts.map((post) => (
+            <div className=" " key={post.id}>
+              <NavLink
+                to={`/readmore/${post.id}`}
+                onClick={() => handleReadMoreClick(post)}
+                key={post.id}
+                className=" sm:hover:border-none p-8 sm:p-0  hover:rounded-xl transition duration-300  sm:m-0 ease-in-out "
+              >
+                <div
                   key={post.id}
-                  className=" sm:hover:border-none p-8 sm:p-0  hover:rounded-xl transition duration-300  sm:m-0 ease-in-out "
+                  className="w-72   sm:w-full bg-white dark:bg-gray-700 sm:p-10 hover:scale-105   transition duration-300 ease-in-out sm:rounded-none  rounded-xl p-2 shadow "
                 >
-                  <div
-                    key={post.id}
-                    className="w-72   sm:w-full bg-white dark:bg-gray-700 sm:p-10 hover:scale-105   transition duration-300 ease-in-out sm:rounded-none  rounded-xl p-2 shadow "
-                  >
-                    <div className="relative overflow-clip  h-40 ">
-                      <img
-                        src={post.imgUrl}
-                        height={200}
-                        className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out "
-                      />
-                    </div>
-                    <div className="px-5 sm:p-0 ">
-                      <p className="badge  bg-gradient-to-r from-orange-400 to-rose-400 p-4 my-5  top-5 text-gray-100   border-none ">
-                        {post.category}
-                      </p>
-                      <p className="mt-1 text-sm leading-5 text-red-300 border-b Aceh">
-                        {post?.timestamp.toDate().toDateString()} at{" "}
-                        {formatTime(post?.timestamp.toDate())}
-                      </p>
-                      <h2 className="Aceh text-l py-2 text-black dark:text-white  ">
-                        {excerpt(post.postTitle, 50)}
-                      </h2>
-                      <div className="">
-                        <p className=" text-gray-500  dark:text-gray-200 ">
-                          {excerpt(post.postDescription, 100)}
-                        </p>
-                      </div>
-                      <span className="text-l flex gap-5 ">
-                        <FontAwesomeIcon
-                          icon={faComment}
-                          className="text-gray-500 my-auto "
-                        />{" "}
-                        {post.comments.length}
-                        <FontAwesomeIcon
-                          icon={faThumbsUp}
-                          className="text-gray-500 my-auto "
-                        />{" "}
-                        {post.likes.length}
-                        <FontAwesomeIcon
-                          icon={faEye}
-                          className="text-gray-500 my-auto "
-                        />{" "}
-                        {post.views ? post.views.length : 0}
-                        <FontAwesomeIcon
-                          icon={faBookmark}
-                          // style={buttonStyle}
-                          className="my-auto   "
-                        />
-                        {post.count}
-                      </span>
-                    </div>
+                  <div className="relative overflow-clip  h-40 ">
+                    <img
+                      src={post.imgUrl}
+                      height={200}
+                      className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out "
+                    />
                   </div>
-                </NavLink>
-              </div>
-            ))}
-          </div>
+                  <div className="px-5 sm:p-0 ">
+                    <p className="badge  bg-gradient-to-r from-orange-400 to-rose-400 p-4 my-5  top-5 text-gray-100   border-none ">
+                      {post.category}
+                    </p>
+                    <p className="mt-1 text-sm leading-5 text-red-300 border-b Aceh">
+                      {post?.timestamp.toDate().toDateString()} at{" "}
+                      {formatTime(post?.timestamp.toDate())}
+                    </p>
+                    <h2 className="Aceh text-l py-2 text-black dark:text-white  ">
+                      {excerpt(post.postTitle, 50)}
+                    </h2>
+                    <div className="">
+                      <p className=" text-gray-500  dark:text-gray-200 ">
+                        {excerpt(post.postDescription, 100)}
+                      </p>
+                    </div>
+                    <span className="text-l flex gap-5 ">
+                      <FontAwesomeIcon
+                        icon={faComment}
+                        className="text-gray-500 my-auto "
+                      />{" "}
+                      {post.comments.length}
+                      <FontAwesomeIcon
+                        icon={faThumbsUp}
+                        className="text-gray-500 my-auto "
+                      />{" "}
+                      {post.likes.length}
+                      <FontAwesomeIcon
+                        icon={faEye}
+                        className="text-gray-500 my-auto "
+                      />{" "}
+                      {post.views ? post.views.length : 0}
+                      <FontAwesomeIcon
+                        icon={faBookmark}
+                        // style={buttonStyle}
+                        className="my-auto   "
+                      />
+                      {post.count}
+                    </span>
+                  </div>
+                </div>
+              </NavLink>
+            </div>
+          ))}
+        </div>
         <div className="flex hidden sm:block w-full  flex-wrap m-auto justify-center gap-5 sm:gap-0">
-            {userPosts.map((post) => (
-              <div className=" my-2 " key={post.id}>
-                <NavLink
-                  to={`/readmore/${post.id}`}
-                  onClick={() => handleReadMoreClick(post)}
+          {userPosts.map((post) => (
+            <div className=" my-2 " key={post.id}>
+              <NavLink
+                to={`/readmore/${post.id}`}
+                onClick={() => handleReadMoreClick(post)}
+                key={post.id}
+                className="  p-8 sm:p-0  hover:rounded-xl transition duration-300  sm:my-2 ease-in-out "
+              >
+                <div
                   key={post.id}
-                  className="  p-8 sm:p-0  hover:rounded-xl transition duration-300  sm:my-2 ease-in-out "
+                  className="w-96 sm:w-full sm:flex sm:w-full bg-white  dark:bg-gray-700  sm:p-2    transition duration-300 ease-in-out   rounded-xl p-2 shadow "
                 >
-                  <div
-                    key={post.id}
-                    className="w-96 sm:w-full sm:flex sm:w-full bg-white  dark:bg-gray-700  sm:p-2    transition duration-300 ease-in-out   rounded-xl p-2 shadow "
-                  >
-                    <div className="relative overflow-clip  h-40  w-40 my-auto flex ">
-                      <img
-                        src={post.imgUrl}
-                        height={200}
-                        className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out "
-                      />
-                    </div>
-                    <div className="px-5 sm:p-0 ">
-                      <p className="badge  bg-gradient-to-r from-orange-400 to-rose-400 p-4  top-5 text-gray-100   border-none ">
-                        {post.category}
-                      </p>
-                      <p className="mt-1 text-sm leading-5 text-red-300 border-b Aceh">
-                        {post?.timestamp.toDate().toDateString()} at{" "}
-                        {formatTime(post?.timestamp.toDate())}
-                      </p>
-                      <h2 className="Aceh text-md py-2 text-black dark:text-white ">
-                        {post.postTitle}
-                      </h2>
-                      <div className="">
-                        <p className=" text-gray-500 dark:text-gray-300 ">
-                          {excerpt(post.postDescription, 100)}
-                        </p>
-                      </div>
-                      <span className="text-l flex gap-5 ">
-                        <FontAwesomeIcon
-                          icon={faComment}
-                          className="text-gray-500 my-auto "
-                        />{" "}
-                        {post.comments.length}
-                        <FontAwesomeIcon
-                          icon={faThumbsUp}
-                          className="text-gray-500 my-auto "
-                        />{" "}
-                        {post.likes.length}
-                        <FontAwesomeIcon
-                          icon={faEye}
-                          className="text-gray-500 my-auto "
-                        />{" "}
-                        {post.views ? post.views.length : 0}
-                        <FontAwesomeIcon
-                          icon={faBookmark}
-                          className="my-auto   "
-                        />
-                        {post.count}
-                      </span>
-                    </div>
+                  <div className="relative overflow-clip  h-40  w-40 my-auto flex ">
+                    <img
+                      src={post.imgUrl}
+                      height={200}
+                      className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out "
+                    />
                   </div>
-                </NavLink>
-              </div>
-            ))}
-          </div>
+                  <div className="px-5 sm:p-0 ">
+                    <p className="badge  bg-gradient-to-r from-orange-400 to-rose-400 p-4  top-5 text-gray-100   border-none ">
+                      {post.category}
+                    </p>
+                    <p className="mt-1 text-sm leading-5 text-red-300 border-b Aceh">
+                      {post?.timestamp.toDate().toDateString()} at{" "}
+                      {formatTime(post?.timestamp.toDate())}
+                    </p>
+                    <h2 className="Aceh text-md py-2 text-black dark:text-white ">
+                      {post.postTitle}
+                    </h2>
+                    <div className="">
+                      <p className=" text-gray-500 dark:text-gray-300 ">
+                        {excerpt(post.postDescription, 100)}
+                      </p>
+                    </div>
+                    <span className="text-l flex gap-5 ">
+                      <FontAwesomeIcon
+                        icon={faComment}
+                        className="text-gray-500 my-auto "
+                      />{" "}
+                      {post.comments.length}
+                      <FontAwesomeIcon
+                        icon={faThumbsUp}
+                        className="text-gray-500 my-auto "
+                      />{" "}
+                      {post.likes.length}
+                      <FontAwesomeIcon
+                        icon={faEye}
+                        className="text-gray-500 my-auto "
+                      />{" "}
+                      {post.views ? post.views.length : 0}
+                      <FontAwesomeIcon
+                        icon={faBookmark}
+                        className="my-auto   "
+                      />
+                      {post.count}
+                    </span>
+                  </div>
+                </div>
+              </NavLink>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
