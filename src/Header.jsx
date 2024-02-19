@@ -10,7 +10,7 @@ import { signOut } from "firebase/auth";
 // import { doc, getDoc, collection, getDocs } from "firebase/firestore";
 // import { useNavigate } from "react-router";
 // import { ReactSearchAutocomplete } from "react-search-autocomplete";
-import messageSVG from "./assets/comment-dots-regular.svg";
+// import messageSVG from "./assets/comment-dots-regular.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser, logout } from "./Features/userSlice.js";
 import { Menu } from "@headlessui/react";

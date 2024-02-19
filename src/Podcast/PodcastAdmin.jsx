@@ -1,5 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 import { useState, useEffect } from "react";
+import {useSelector} from "react-redux";
+import { selectUser } from "../Features/userSlice.js";
 import { TagsInput } from "react-tag-input-component";
 import {
   addDoc,
@@ -7,29 +9,13 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 import { db, storage } from "../firebase/auth";
-
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../firebase/auth.js";
 import { toast } from "react-toastify";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { useNavigate } from "react-router";
 
 const PodcastAdmin = () => {
-  const [authUser, setAuthUser] = useState(null);
-  useEffect(() => {
-    const listen = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setAuthUser(user);
-      } else {
-        setAuthUser(null);
-      }
-    });
-
-    return () => {
-      listen();
-    };
-  }, []);
-  const userId = authUser?.uid;
+  const user = useSelector(selectUser);
+  const userId = user.id;
 
   const [selectedFile, setSelectedFile] = useState();
   const [previewUrl, setPreviewUrl] = useState();

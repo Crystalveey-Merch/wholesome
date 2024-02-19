@@ -1,55 +1,27 @@
+/* eslint-disable react/prop-types */
 import { faSpotify, faYoutube } from "@fortawesome/free-brands-svg-icons";
 import { faPodcast } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
-import {
-  collection,
-  getDocs,
-} from "firebase/firestore";
+// import { collection, getDocs } from "firebase/firestore";
 import Spinner from "../components/Spinner.tsx";
-import { db } from "../firebase/auth.js";
+// import { db } from "../firebase/auth.js";
 import { Helmet } from "react-helmet-async";
 import Pagination from "../components/pagination.jsx";
 
-const Podcast = () => {
-  const [loading, setLoading] = useState(false);
+const Podcast = ({ podcasts, loading }) => {
+  // const [loading, setLoading] = useState(false);
   const [podcast, setPodcast] = useState([]);
   const [postPerPage] = useState(9);
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    const fetchPodcast = async () => {
-      setLoading(true);
+    if (podcasts.length > 0) {
+      setPodcast(podcasts);
+    }
+  }, [podcasts]);
 
-      try {
-        const querySnapshot = await getDocs(collection(db, "podcast"));
-        const podcastData = [];
-        const postIds = [];
-        // const postIds = []; // Create an array to store post IDs
-
-        querySnapshot.forEach((doc) => {
-          const post = doc.data();
-          post.id = doc.id;
-          podcastData.push(post);
-          postIds.push(doc.id); // Collect post IDs in the array
-        });
-
-        // Set the postId state with the collected post IDs
-
-        // setPostId(postIds);
-
-        setPodcast(podcastData);
-
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching posts:", error);
-        setPodcast([]);
-      }
-    };
-
-    fetchPodcast();
-  }, []);
-  console.log(podcast);
+  // console.log(podcast);
 
   if (loading) {
     return <Spinner />;
@@ -100,7 +72,7 @@ const Podcast = () => {
               </div>
             </div>
           </div>
-          <div className="py-20 bg-gradient-to-b from-gray-900 to-gray-600 bg-gradient-to-r">
+          <div className="py-20 bg-gradient-tob from-gray-900 to-gray-600 bg-gradient-to-br">
             <h1 className="text-4xl text-center text-white">
               Why Wholesquare Podcast?
             </h1>
@@ -117,8 +89,9 @@ const Podcast = () => {
               them. Our goal is to inspire and empower Afropolitans to reclaim
               their abundance and build the future they want to see. Join us as
               we challenge the status quo, question the norm, and create a new
-              narrative for the Wholesquare. Listen to the Wholesquare Podcast and
-              be a part of building the future of a bold and progressive nation.
+              narrative for the Wholesquare. Listen to the Wholesquare Podcast
+              and be a part of building the future of a bold and progressive
+              nation.
             </p>
           </div>
           <div className="bg-gray-100 dark:bg-gray-800 py-5">
@@ -175,11 +148,11 @@ const Podcast = () => {
               ))}
             </div>
             <Pagination
-          postPerPage={postPerPage}
-          totalPosts={podcast.length}
-          paginate={paginate}
-          currentPage={currentPage}
-        />
+              postPerPage={postPerPage}
+              totalPosts={podcast.length}
+              paginate={paginate}
+              currentPage={currentPage}
+            />
           </div>
         </div>
       </div>

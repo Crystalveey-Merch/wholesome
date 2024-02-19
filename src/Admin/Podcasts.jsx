@@ -1,57 +1,58 @@
-import { useEffect, useState } from "react";
+/* eslint-disable react/prop-types */
+// import { useEffect, useState } from "react";
 import {
-  addDoc,
-  collection,
-  getDocs,
+  // addDoc,
+  // collection,
+  // getDocs,
   doc,
   deleteDoc,
 } from "firebase/firestore";
-import { deleteUser as deleteAuthUser } from "firebase/auth";
+// import { deleteUser as deleteAuthUser } from "firebase/auth";
 import "flowbite";
 
-import { auth, db } from "../firebase/auth.js";
-import { NavLink } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBiohazard,
-  faInfo,
-  faWarning,
-} from "@fortawesome/free-solid-svg-icons";
+import {  db } from "../firebase/auth.js";
+// import { NavLink } from "react-router-dom";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import {
+//   faBiohazard,
+//   faInfo,
+//   faWarning,
+// } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
 
-const Podcasts = () => {
-  const [podcasts, setPodcasts] = useState([]);
+const Podcasts = ({ podcasts, setPodcasts }) => {
+  // const [podcasts, setPodcasts] = useState([]);
 
-  useEffect(() => {
-    // setLoading(true);
-    const fetchPodcasts = async () => {
-      try {
-        // setLoading(true);
-        const querySnapshot = await getDocs(collection(db, "podcast"));
-        const postData = [];
+  // useEffect(() => {
+  //   // setLoading(true);
+  //   const fetchPodcasts = async () => {
+  //     try {
+  //       // setLoading(true);
+  //       const querySnapshot = await getDocs(collection(db, "podcast"));
+  //       const postData = [];
 
-        // Parallelize fetching data
-        await Promise.all(
-          querySnapshot.docs.map(async (doc) => {
-            const postDoc = doc.data();
-            postDoc.id = doc.id;
-            postData.push(postDoc);
-          })
-        );
+  //       // Parallelize fetching data
+  //       await Promise.all(
+  //         querySnapshot.docs.map(async (doc) => {
+  //           const postDoc = doc.data();
+  //           postDoc.id = doc.id;
+  //           postData.push(postDoc);
+  //         })
+  //       );
 
-        // Set the postId state with the collected post IDs
-        setPodcasts([...postData]);
+  //       // Set the postId state with the collected post IDs
+  //       setPodcasts([...postData]);
 
-        // setLoading(false)
-      } catch (error) {
-        console.error("Error fetching posts:", error);
-        setPodcasts([]);
-        // setLoading(false);
-      }
-    };
+  //       // setLoading(false)
+  //     } catch (error) {
+  //       console.error("Error fetching posts:", error);
+  //       setPodcasts([]);
+  //       // setLoading(false);
+  //     }
+  //   };
 
-    fetchPodcasts();
-  }, []);
+  //   fetchPodcasts();
+  // }, []);
 
   const deletepodcast = async (podcast) => {
     if (window.confirm("Are you sure you want to delete this Podcast?")) {
@@ -65,8 +66,8 @@ const Podcasts = () => {
         // );
         // setPodcasts(updatedPosts);
         setPodcasts((prevPosts) =>
-        prevPosts.filter((podcasts) => podcasts.id !== podcast.id)
-      );
+          prevPosts.filter((podcasts) => podcasts.id !== podcast.id)
+        );
         toast.success("Podcast deleted successfully");
       } catch (error) {
         console.error("Error deleting Podcast:", error);
@@ -79,8 +80,12 @@ const Podcasts = () => {
     <div>
       {" "}
       <div className="py-10 sm:px-2 px-8 w-full ">
-        <p className="text-center text-2xl Aceh py-10 text-gray-500">Podcasts Data</p>
-        <div className="btn btn-success text-3xl py-10">{podcasts.length} Podcasts</div>
+        <p className="text-center text-2xl Aceh py-10 text-gray-500">
+          Podcasts Data
+        </p>
+        <div className="btn btn-success text-3xl py-10">
+          {podcasts.length} Podcasts
+        </div>
 
         <div className="relative overflow-x-auto sm:w-screen shadow-md sm:rounded-lg">
           <label htmlFor="table-search" className="sr-only">

@@ -1,5 +1,8 @@
+/* eslint-disable react/prop-types */
 import { useParams } from "react-router";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { selectUser } from "../Features/userSlice.js";
 import {
   faCalendar,
   faClock,
@@ -8,10 +11,10 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  collection,
-  getDocs,
+  // collection,
+  // getDocs,
   doc,
-  getDoc,
+  // getDoc,
   updateDoc,
   arrayUnion,
 } from "firebase/firestore";
@@ -20,8 +23,8 @@ import "add-to-calendar-button";
 import { Helmet } from "react-helmet-async";
 import Moment from "moment";
 import { NavLink } from "react-router-dom";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth,  } from "../firebase/auth.js";
+// import { onAuthStateChanged } from "firebase/auth";
+// import { auth,  } from "../firebase/auth.js";
 import { toast } from "react-toastify";
 import {
   FacebookShareButton,
@@ -35,11 +38,10 @@ import {
   faTwitter,
   faWhatsapp,
 } from "@fortawesome/free-brands-svg-icons";
-const EventDes = () => {
+const EventDes = ({ events }) => {
+  const user = useSelector(selectUser);
   const [event, setEvent] = useState(null);
   const [relatedEvents, setRelatedEvents] = useState([]);
-  const [authUser, setAuthUser] = useState(null);
-  const [profileData, setProfileData] = useState(null);
   const [totalAttendees, setTotalAttendees] = useState(0);
   const [isUserRegistered, setIsUserRegistered] = useState(false);
   const url = window.location.href;
@@ -53,117 +55,54 @@ const EventDes = () => {
     );
     toast.success("Link copied successfully");
   }
-  useEffect(() => {
-    const listen = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setAuthUser(user);
-      } else {
-        setAuthUser(null);
-      }
-    });
 
-    return () => {
-      listen();
-    };
-  }, []);
-  const userId = authUser?.uid;
+  const userId = user.id;
+
   useEffect(() => {
-    const fetchProfileData = async () => {
-      try {
-        const profileDocRef = doc(db, "users", userId); // Assuming you have a "users" collection in Firebase
-        const profileDocSnapshot = await getDoc(profileDocRef);
-        setProfileData(profileDocSnapshot.data());
-      } catch (error) {
-        console.error("Error fetching profile data: ", error);
-      }
-    };
-    // console.log(!profileData.photoURL);
-    if (userId) {
-      fetchProfileData();
+    if (events.length > 0) {
+      const event = events.find((event) => event.id === id);
+      const attendees = event.attendees || [];
+      setTotalAttendees(attendees.length);
+      const isRegistered = attendees.some(
+        (attendee) => attendee.userId === userId
+      );
+      setIsUserRegistered(isRegistered);
+      setEvent(event);
     }
-  }, [userId, profileData]);
-  useEffect(() => {
-    const fetchTotalAttendees = async () => {
-      try {
-        const eventDocRef = doc(db, "events", id);
-        const eventDocSnapshot = await getDoc(eventDocRef);
+  }, [id, events, userId]);
 
-        if (eventDocSnapshot.exists()) {
-          const attendees = eventDocSnapshot.data()?.attendees || [];
-          setTotalAttendees(attendees.length);
-        }
-      } catch (error) {
-        console.error("Error fetching total attendees:", error);
-      }
-    };
-    fetchTotalAttendees()
-  },[id])
-  
-    useEffect(() => {
-      const checkUserRegistration = async () => {
-        try {
-          if (authUser) {
-            const eventDocRef = doc(db, "events", id);
-            const eventDocSnapshot = await getDoc(eventDocRef);
-  
-            if (eventDocSnapshot.exists()) {
-              const attendees = eventDocSnapshot.data()?.attendees || [];
-              const isRegistered = attendees.some(attendee => attendee.userId === userId);
-              setIsUserRegistered(isRegistered);
-            }
-          }
-        } catch (error) {
-          console.error("Error checking user registration:", error);
-        }
-      };
-  
-      checkUserRegistration();
-    }, [id, authUser, userId]);
+  // useEffect(() => {
+  //   const checkUserRegistration = async () => {
+  //     try {
+  //       if (user) {
+  //         const eventDocRef = doc(db, "events", id);
+  //         const eventDocSnapshot = await getDoc(eventDocRef);
+
+  //         if (eventDocSnapshot.exists()) {
+  //           const attendees = eventDocSnapshot.data()?.attendees || [];
+  //           const isRegistered = attendees.some(
+  //             (attendee) => attendee.userId === userId
+  //           );
+  //           setIsUserRegistered(isRegistered);
+  //         }
+  //       }
+  //     } catch (error) {
+  //       console.error("Error checking user registration:", error);
+  //     }
+  //   };
+
+  //   checkUserRegistration();
+  // }, [id, user, userId]);
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const docRef = doc(db, "events", id);
-        const docSnapshot = await getDoc(docRef);
+    if (event) {
+      const otherEvents = events.filter(
+        (eventt) => event.category === eventt.category
+      );
 
-        if (docSnapshot.exists()) {
-          setEvent(docSnapshot.data());
-        }
-
-        // setLoading(false);
-      } catch (error) {
-        console.error("Error fetching posts:", error);
-      }
-    };
-    const fetchOtherEventsInSameCategory = async () => {
-      if (event && event.category) {
-        try {
-          const eventsRef = collection(db, "events");
-          const querySnapshot = await getDocs(eventsRef);
-          const otherEvents = [];
-
-          querySnapshot.forEach((doc) => {
-            const eventData = doc.data();
-            eventData.id = doc.id;
-
-            // Exclude the current event by checking its ID
-            if (eventData.id !== id && eventData.category === event.category) {
-              otherEvents.push(eventData);
-            }
-          });
-
-          setRelatedEvents(otherEvents);
-        } catch (error) {
-          console.error(
-            "Error fetching other events in the same category:",
-            error
-          );
-        }
-      }
-    };
-    fetchPosts();
-    fetchOtherEventsInSameCategory();
-  }, [id, event, relatedEvents]);
+      setRelatedEvents(otherEvents);
+    }
+  }, [event, events]);
 
   if (!event) {
     return <div>Event not found.</div>;
@@ -192,29 +131,27 @@ const EventDes = () => {
   const startDateTime = separateDateTime(startDateTimeString);
   const endDateTime = separateDateTime(endDateTimeString);
 
-
   const handleAttend = async () => {
     try {
       // Check if the user is authenticated
-      if (authUser) {
+      if (user) {
         // Update the event document with the attendee's information
         const eventDocRef = doc(db, "events", id);
-  
+
         // Use arrayUnion to add the attendee's ID to the 'attendees' field
         await updateDoc(eventDocRef, {
           attendees: arrayUnion({
-            userId: authUser.uid,
-            userName: profileData.name,
-            email: profileData.email,
+            userId: user.id,
+            userName: user.name,
+            email: user.email,
           }),
         });
-      
 
-        toast.success('Registration Succesful')
+        toast.success("Registration Succesful");
         console.log("Attendee added successfully!");
       } else {
         console.log("User not authenticated");
-        toast.error('Login to Attend Event ')
+        toast.error("Login to Attend Event ");
       }
     } catch (error) {
       console.error("Error attending event:", error);
@@ -285,7 +222,10 @@ const EventDes = () => {
           </div>
 
           <div className="mx-10 my-10 sm:mx-5 sm:my-10">
-          <p className=" text-white text-xl  badge p-4 bg-rose-800   "> {totalAttendees} Attending</p>
+            <p className=" text-white text-xl  badge p-4 bg-rose-800   ">
+              {" "}
+              {totalAttendees} Attending
+            </p>
 
             <span className="pb-10 relative flex sm:flex-col gap-10 justify-between">
               <add-to-calendar-button
@@ -300,48 +240,55 @@ const EventDes = () => {
                 size="5"
                 lightMode="bodyScheme"
               ></add-to-calendar-button>
-              <div >
-              {isUserRegistered ? <div className=" text-white">
-              <p className="btn bg-green-800 text-white Aceh">Already Registered</p>
-              
-              </div>:<div className="btn bg-rose-900 text-white" onClick={handleAttend}>
-              <p>Attend</p>
-              
-              </div>}</div>
-              
+              <div>
+                {isUserRegistered ? (
+                  <div className=" text-white">
+                    <p className="btn bg-green-800 text-white Aceh">
+                      Already Registered
+                    </p>
+                  </div>
+                ) : (
+                  <div
+                    className="btn bg-rose-900 text-white"
+                    onClick={handleAttend}
+                  >
+                    <p>Attend</p>
+                  </div>
+                )}
+              </div>
             </span>
             <div className="flex gap-3 m-auto  text-2xl">
-          <LinkedinShareButton url={url} title={event.eventName}>
-            <FontAwesomeIcon
-              icon={faLinkedin}
-              className="fab fa-linkedin text-sky-500 "
-            />
-          </LinkedinShareButton>
-          <FacebookShareButton url={url} title={event.eventName}>
-            <FontAwesomeIcon
-              icon={faFacebook}
-              className="fab fa-facebook text-sky-500 "
-            />
-          </FacebookShareButton>
-          <TwitterShareButton url={url} title={event.eventName}>
-            <FontAwesomeIcon
-              icon={faTwitter}
-              className="fab fa-twitter text-sky-500 "
-            />
-          </TwitterShareButton>
-          <WhatsappShareButton url={url} title={event.eventName}>
-            <FontAwesomeIcon
-              icon={faWhatsapp}
-              className="fab fa-whatsapp text-green-500 "
-            />
-          </WhatsappShareButton>
-          <span onClick={copyText} className="flex">
-            <FontAwesomeIcon
-              icon={faCopy}
-              className="fas fa-link text-xl text-purple-800 m-auto"
-            />
-          </span>
-        </div>
+              <LinkedinShareButton url={url} title={event.eventName}>
+                <FontAwesomeIcon
+                  icon={faLinkedin}
+                  className="fab fa-linkedin text-sky-500 "
+                />
+              </LinkedinShareButton>
+              <FacebookShareButton url={url} title={event.eventName}>
+                <FontAwesomeIcon
+                  icon={faFacebook}
+                  className="fab fa-facebook text-sky-500 "
+                />
+              </FacebookShareButton>
+              <TwitterShareButton url={url} title={event.eventName}>
+                <FontAwesomeIcon
+                  icon={faTwitter}
+                  className="fab fa-twitter text-sky-500 "
+                />
+              </TwitterShareButton>
+              <WhatsappShareButton url={url} title={event.eventName}>
+                <FontAwesomeIcon
+                  icon={faWhatsapp}
+                  className="fab fa-whatsapp text-green-500 "
+                />
+              </WhatsappShareButton>
+              <span onClick={copyText} className="flex">
+                <FontAwesomeIcon
+                  icon={faCopy}
+                  className="fas fa-link text-xl text-purple-800 m-auto"
+                />
+              </span>
+            </div>
             <h1 className="text-black text-4xl"> {event.eventName}</h1>
             <p className="text-green-500 text-xl ">{event.theme}</p>
             <p className="text-gray-600 py-5 text-xl">
@@ -379,7 +326,9 @@ const EventDes = () => {
             </div>
             <div className="rounded-xl border shadow bg-gray-200 p-5 my-5">
               <h1 className="text-gray-500 text-sm py-4">Organizer</h1>
-              <p className="text-xl text-blue-600 Aceh">{event.organizerName}</p>
+              <p className="text-xl text-blue-600 Aceh">
+                {event.organizerName}
+              </p>
               <a href={`http://${event.website}`}>
                 <p className="text-xl">{event.website}</p>
               </a>
@@ -394,35 +343,44 @@ const EventDes = () => {
               </h3>
               <ul className="p-5 flex gap-4 flex-col">
                 {relatedEvents.map((related) => (
-                  <><NavLink to={`/upcomingevents/${related.id}`} key={related.id} className="w-72 bg-white card sm:w-full hover:shadow  shadow  dark:border-gray-700">
-                    <div className="relative overflow-clip   h-40 sm:w-full">
-                      <img
-                        className="absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out m-auto"
-                        src={related.imgUrl}
-                        alt={related.eventName} />
-                    </div>
-                    <div className="p-2">
-                      <div className="badge">{related.category}</div>
-                      <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 Aceh">
-                        {related.eventName}
-                      </h5>
+                  <>
+                    <NavLink
+                      to={`/upcomingevents/${related.id}`}
+                      key={related.id}
+                      className="w-72 bg-white card sm:w-full hover:shadow  shadow  dark:border-gray-700"
+                    >
+                      <div className="relative overflow-clip   h-40 sm:w-full">
+                        <img
+                          className="absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out m-auto"
+                          src={related.imgUrl}
+                          alt={related.eventName}
+                        />
+                      </div>
+                      <div className="p-2">
+                        <div className="badge">{related.category}</div>
+                        <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 Aceh">
+                          {related.eventName}
+                        </h5>
 
-                      <badge className="badge bg-yellow-400 mb-2 text-sm tracking-tight text-gray-900 ">
-                        <FontAwesomeIcon
-                          icon={faCalendar}
-                          className="text-sm mr-2" />{" "}
-                        {Moment(related.StartDateTime).format("DD-MM-YYYY")}{" "}
-                        {", "}
-                        {Moment(related.StartDateTime).format("HH:MM a")}
-                      </badge>
-                      <p className="mb-3 font-normal text-md  text-gray-500 ">
-                        {related.address}
-                      </p>
-                      <p className=" font-normal Aceh text-md text-black">
-                        {related.organizerName}
-                      </p>
-                    </div>
-                  </NavLink><hr></hr></>
+                        <badge className="badge bg-yellow-400 mb-2 text-sm tracking-tight text-gray-900 ">
+                          <FontAwesomeIcon
+                            icon={faCalendar}
+                            className="text-sm mr-2"
+                          />{" "}
+                          {Moment(related.StartDateTime).format("DD-MM-YYYY")}{" "}
+                          {", "}
+                          {Moment(related.StartDateTime).format("HH:MM a")}
+                        </badge>
+                        <p className="mb-3 font-normal text-md  text-gray-500 ">
+                          {related.address}
+                        </p>
+                        <p className=" font-normal Aceh text-md text-black">
+                          {related.organizerName}
+                        </p>
+                      </div>
+                    </NavLink>
+                    <hr></hr>
+                  </>
                 ))}
               </ul>
             </div>

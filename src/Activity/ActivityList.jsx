@@ -1,12 +1,10 @@
+/* eslint-disable react/prop-types */
 import { NavLink } from "react-router-dom";
-import { useParams } from "react-router";
+// import { useParams } from "react-router";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect } from "react";
-import {
-  collection,
-  getDocs,
-} from "firebase/firestore";
+// import { collection, getDocs } from "firebase/firestore";
 import {
   faAnglesDown,
   faBagShopping,
@@ -21,21 +19,20 @@ import {
   faPlane,
   faTree,
   faLocationPin,
-
 } from "@fortawesome/free-solid-svg-icons";
-import { db } from "../firebase/auth.js";
+// import { db } from "../firebase/auth.js";
 import Spinner from "../components/Spinner";
 import { Helmet } from "react-helmet-async";
-import Moment from "moment";
+// import Moment from "moment";
 import Pagination from "../components/pagination.jsx";
 
-const ActivityList = () => {
-//   const { eventName } = useParams();
+const ActivityList = ({ activities }) => {
+  //   const { eventName } = useParams();
   const [searchInput, setSearchInput] = useState("");
 
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [eventId, setEventId] = useState([]);
+  // const [eventId, setEventId] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
   const [postPerPage] = useState(9);
   const [currentPage, setCurrentPage] = useState(1);
@@ -61,24 +58,14 @@ const ActivityList = () => {
     }
     return str;
   };
+
   useEffect(() => {
     const fetchPosts = async () => {
       // setLoading(true);
 
       try {
-        const querySnapshot = await getDocs(collection(db, "activities"));
-        const postData = [];
-        querySnapshot.forEach((doc) => {
-          // Extract the data from each document
-          const event = doc.data();
-          event.id = doc.id;
-          setEventId(event.id);
-
-          postData.push(event);
-        });
-
-        setEvents(postData);
-        setFilteredEvents(postData);
+        setEvents(activities);
+        setFilteredEvents(activities);
 
         setLoading(false);
       } catch (error) {
@@ -88,17 +75,18 @@ const ActivityList = () => {
         setEvents([]);
       }
     };
-
-    fetchPosts();
-  }, []);
+    if (activities.length === 0) {
+      fetchPosts();
+    }
+  }, [activities]);
 
   if (loading) {
     return <Spinner />;
   }
 
-//   const collectionProduct = () => {
-//     return events.filter((event) => event.name === eventName);
-//   };
+  //   const collectionProduct = () => {
+  //     return events.filter((event) => event.name === eventName);
+  //   };
 
   const handleSearchInputChange = (e) => {
     setSearchInput(e.target.value);
@@ -113,12 +101,12 @@ const ActivityList = () => {
     setFilteredEvents(filtered);
   };
 
-  const filterHandler = (category)=>{
+  const filterHandler = (category) => {
     const categoryFilter = events.filter(
-    (event) => event.category === category
-    )
-    setFilteredEvents(categoryFilter)
-  }
+      (event) => event.category === category
+    );
+    setFilteredEvents(categoryFilter);
+  };
   const filterBusinessHandler = () => {
     // Filter products with a data collection called "Tech"
     const businessFilter = events.filter(
@@ -199,10 +187,7 @@ const ActivityList = () => {
       <Helmet>
         <title>Events List</title>
         <meta name="description" content="See upcoming Events Around You" />
-        <link
-          rel="canonical"
-          href="https://wholesquare.org/upcomingevents/"
-        />
+        <link rel="canonical" href="https://wholesquare.org/upcomingevents/" />
         <meta
           name="keywords"
           content="`Wholesquare, Crystalveey,
@@ -256,11 +241,12 @@ const ActivityList = () => {
         <div className="">
           <div className="h-full bg-gradient-to-r from-blue-400 to-emerald-400 sm:p-10">
             <h1 className="text-white  text-center sm:text-4xl pt-24 sm:pt-14">
-            Explore Wholesquare Activities
+              Explore Wholesquare Activities
             </h1>
             <hr className="w-64 m-auto my-5"></hr>
             <p className="text-white py-2  text-center text-xl font-bolder Aceh">
-            Where Moments Become Memories: A Showcase of Wholesquare Activities."
+              Where Moments Become Memories: A Showcase of Wholesquare
+              Activities.&rdquo;
             </p>
             <div className="m-auto flex flex-col gap-2  justify-center py-5">
               <p className="m-auto text-xl text-white AcehLight">
@@ -292,7 +278,8 @@ const ActivityList = () => {
             <FontAwesomeIcon
               icon={faFirstAid}
               className="border rounded-full p-4 cursor-pointer m-auto flex  text-green-300  shadow"
-              onClick={() => filterHandler("Health & wellness")}            />
+              onClick={() => filterHandler("Health & wellness")}
+            />
             <p className="text-sm text-center text-gray-400 ">Health</p>
           </span>
           <span className="">
@@ -346,7 +333,7 @@ const ActivityList = () => {
           <span className="">
             <FontAwesomeIcon
               icon={faBagShopping}
-              onClick={() => filterHandler("Lifestyle and Fashion")}            
+              onClick={() => filterHandler("Lifestyle and Fashion")}
               className="border rounded-full p-4 cursor-pointer	m-auto flex  shadow text-pink-500"
             />
             <p className="text-sm text-center text-gray-400 ">Lifestyle</p>
@@ -367,44 +354,53 @@ const ActivityList = () => {
                   key={activity.id}
                   className="w-72 bg-white    shadow  dark:border-gray-700"
                 >
-                          <NavLink
+                  <NavLink
                     to={`/activity/${activity.id}`}
                     style={{ height: "32rem" }}
-
                     className="w-94"
                   >
-                      <div className="relative overflow-clip  h-40 sm:w-fulll">
-                        <img
-                          src={activity.imgUrl}
-                          height={200}
-                          className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out m-auto "
-                        />
-                      </div>
+                    <div className="relative overflow-clip  h-40 sm:w-fulll">
+                      <img
+                        src={activity.imgUrl}
+                        height={200}
+                        className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out m-auto "
+                      />
+                    </div>
 
-                      <div className="p-5 text-x text-gray-700">
-                        <FontAwesomeIcon icon={faCalendar} className="text-red-500"/>{" "}
-                        {formatDate(
-                          activity.DateTime instanceof Date
-                            ? activity.DateTime
-                            : new Date(activity.DateTime)
-                        )}{" "}
-                        {formatTime(
-                          activity.DateTime instanceof Date
-                            ? activity.DateTime
-                            : new Date(activity.DateTime)
-                        )}
-                      </div>
-                      <hr></hr>
-                      <div className="p-5">
+                    <div className="p-5 text-x text-gray-700">
+                      <FontAwesomeIcon
+                        icon={faCalendar}
+                        className="text-red-500"
+                      />{" "}
+                      {formatDate(
+                        activity.DateTime instanceof Date
+                          ? activity.DateTime
+                          : new Date(activity.DateTime)
+                      )}{" "}
+                      {formatTime(
+                        activity.DateTime instanceof Date
+                          ? activity.DateTime
+                          : new Date(activity.DateTime)
+                      )}
+                    </div>
+                    <hr></hr>
+                    <div className="p-5">
                       <span className="text-sky-600">{activity.category}</span>
-                     <div className="p-2"> <h1 className="text-xl py-2 text-black">
-                        {activity.activityName}
-                      </h1>
-                      <p className=" text-gray-500">{excerpt(activity.writeup, 80)}</p>
+                      <div className="p-2">
+                        {" "}
+                        <h1 className="text-xl py-2 text-black">
+                          {activity.activityName}
+                        </h1>
+                        <p className=" text-gray-500">
+                          {excerpt(activity.writeup, 80)}
+                        </p>
                       </div>
                       <div className="flex ">
                         <p className="text-gray-800 flex  gap-2 ">
-                          <FontAwesomeIcon icon={faLocationPin} className="my-auto" />
+                          <FontAwesomeIcon
+                            icon={faLocationPin}
+                            className="my-auto"
+                          />
                           <p className="m-auto"> {activity.location} </p>
                         </p>
                         <p className="text-gray-800 flex   text-left ">
@@ -414,7 +410,8 @@ const ActivityList = () => {
                           />{" "}
                           <p className="m-auto"> {activity.claps} </p>
                         </p>
-                      </div></div>
+                      </div>
+                    </div>
                   </NavLink>
                 </div>
               );
@@ -424,16 +421,14 @@ const ActivityList = () => {
               No Activity found matching your search.
             </div>
           )}
-
         </div>
         <Pagination
-           postPerPage={postPerPage}
-            totalPosts={filteredEvents.length}
-            paginate={paginate}
-            currentPage={currentPage}
+          postPerPage={postPerPage}
+          totalPosts={filteredEvents.length}
+          paginate={paginate}
+          currentPage={currentPage}
         />
-        </div>
-        
+      </div>
     </>
   );
 };

@@ -1,8 +1,8 @@
 import { useParams } from "react-router";
 import { useEffect, useState } from "react";
-import { events } from "../data/events";
-import { articles } from "../data/artucles";
-import { activities } from "../data/activity";
+// import { events } from "../data/events";
+// import { articles } from "../data/artucles";
+// import { activities } from "../data/activity";
 import { NavLink } from "react-router-dom";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -27,18 +27,18 @@ import {
   faComment,
   faEye,
   faHands,
-  faLocation,
+  // faLocation,
   faLocationPin,
   faThumbsUp,
 } from "@fortawesome/free-solid-svg-icons";
 import { Helmet } from "react-helmet-async";
-import Moment from "moment";
+// import Moment from "moment";
 
 const Interest = () => {
   const { interestName } = useParams();
-  const [event, setEvent] = useState(null);
-  const [article, setArticle] = useState(null);
-  const [activity, setActivity] = useState(null);
+  // const [event, setEvent] = useState(null);
+  // const [article, setArticle] = useState(null);
+  // const [activity, setActivity] = useState(null);
 
   const [eventsData, setEventsData] = useState([]);
   const [activitiesData, setActivitiesData] = useState([]);
@@ -161,7 +161,8 @@ const Interest = () => {
   const formatDate = (date) => {
     if (date instanceof Date) {
       return date.toLocaleDateString("en-US");
-    }}
+    }
+  };
   return (
     <>
       <Helmet>
@@ -252,64 +253,64 @@ const Interest = () => {
                 postsData.map((post) => {
                   return (
                     <NavLink
-                  to={`/readmore/${post.id}`}
-                  onClick={() => handleReadMoreClick(post)}
-                  key={post.id}
-                  className="hover:border sm:hover:border-none p-8 sm:p-0  hover:rounded-xl transition duration-300  sm:m-0 ease-in-out "
-                >
-                  <div
-                    key={post.id}
-                    className="w-72   sm:w-full bg-white  sm:p-10 hover:scale-105   transition duration-300 ease-in-out sm:rounded-none  rounded-xl p-2 shadow "
-                  >
-                    <div className="relative overflow-clip  h-40 ">
-                      <img
-                        src={post.imgUrl}
-                        height={200}
-                        className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out "
-                      />
-                    </div>
-                    <div className="px-5 sm:p-0 ">
-                      <p className="badge  bg-gradient-to-r from-orange-400 to-rose-400 p-4 my-5  top-5 text-gray-100   border-none ">
-                        {post.category}
-                      </p>
-                      <p className="mt-1 text-sm leading-5 text-red-300 border-b Aceh">
-                        {post?.timestamp.toDate().toDateString()} at{" "}
-                        {formatTime(post?.timestamp.toDate())}
-                      </p>
-                      <h2 className="Aceh text-l py-2 text-black ">
-                        {excerpt(post.postTitle, 50)}
-                      </h2>
-                      <div className="">
-                        <p className=" text-gray-500 ">
-                          {excerpt(post.postDescription, 100)}
-                        </p>
+                      to={`/readmore/${post.id}`}
+                      onClick={() => handleReadMoreClick(post)}
+                      key={post.id}
+                      className="hover:border sm:hover:border-none p-8 sm:p-0  hover:rounded-xl transition duration-300  sm:m-0 ease-in-out "
+                    >
+                      <div
+                        key={post.id}
+                        className="w-72   sm:w-full bg-white  sm:p-10 hover:scale-105   transition duration-300 ease-in-out sm:rounded-none  rounded-xl p-2 shadow "
+                      >
+                        <div className="relative overflow-clip  h-40 ">
+                          <img
+                            src={post.imgUrl}
+                            height={200}
+                            className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out "
+                          />
+                        </div>
+                        <div className="px-5 sm:p-0 ">
+                          <p className="badge  bg-gradient-to-r from-orange-400 to-rose-400 p-4 my-5  top-5 text-gray-100   border-none ">
+                            {post.category}
+                          </p>
+                          <p className="mt-1 text-sm leading-5 text-red-300 border-b Aceh">
+                            {post?.timestamp.toDate().toDateString()} at{" "}
+                            {formatTime(post?.timestamp.toDate())}
+                          </p>
+                          <h2 className="Aceh text-l py-2 text-black ">
+                            {excerpt(post.postTitle, 50)}
+                          </h2>
+                          <div className="">
+                            <p className=" text-gray-500 ">
+                              {excerpt(post.postDescription, 100)}
+                            </p>
+                          </div>
+                          <span className="text-l flex gap-5 ">
+                            <FontAwesomeIcon
+                              icon={faComment}
+                              className="text-gray-500 my-auto "
+                            />{" "}
+                            {post.comments.length}
+                            <FontAwesomeIcon
+                              icon={faThumbsUp}
+                              className="text-gray-500 my-auto "
+                            />{" "}
+                            {post.likes.length}
+                            <FontAwesomeIcon
+                              icon={faEye}
+                              className="text-gray-500 my-auto "
+                            />{" "}
+                            {post.views ? post.views.length : 0}
+                            <FontAwesomeIcon
+                              icon={faBookmark}
+                              // style={}
+                              className="my-auto   "
+                            />
+                            {post.count}
+                          </span>
+                        </div>
                       </div>
-                      <span className="text-l flex gap-5 ">
-                        <FontAwesomeIcon
-                          icon={faComment}
-                          className="text-gray-500 my-auto "
-                        />{" "}
-                        {post.comments.length}
-                        <FontAwesomeIcon
-                          icon={faThumbsUp}
-                          className="text-gray-500 my-auto "
-                        />{" "}
-                        {post.likes.length}
-                        <FontAwesomeIcon
-                          icon={faEye}
-                          className="text-gray-500 my-auto "
-                        />{" "}
-                        {post.views ? post.views.length : 0}
-                        <FontAwesomeIcon
-                          icon={faBookmark}
-                          // style={}
-                          className="my-auto   "
-                        />
-                        {post.count}
-                      </span>
-                    </div>
-                  </div>
-                </NavLink>
+                    </NavLink>
                   );
                 })
               ) : (
@@ -381,7 +382,7 @@ const Interest = () => {
           </h1>
           <hr></hr>
         </div>
-        <div className="  m-auto justify-center flex m-auto ">
+        <div className="m-auto justify-center flex">
           <Swiper
             slidesPerView={"auto"}
             centeredSlides={true}
@@ -405,50 +406,54 @@ const Interest = () => {
               activitiesData.map((activity) => {
                 return (
                   <SwiperSlide key={activity.id}>
-                  <NavLink to={`/activity/${activity.id}`}>
-                  <div className="relative w-94  bg-gray-100 rounded-xl  shadow-xl  image-full p-2">
-                      <div className="relative overflow-clip  h-40 sm:w-full">
-                        <img
-                          src={activity.imgUrl}
-                          height={200}
-                          className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out m-auto "
-                        />
-                      </div>
+                    <NavLink to={`/activity/${activity.id}`}>
+                      <div className="relative w-94  bg-gray-100 rounded-xl  shadow-xl  image-full p-2">
+                        <div className="relative overflow-clip  h-40 sm:w-full">
+                          <img
+                            src={activity.imgUrl}
+                            height={200}
+                            className="p-2 absolute overflow-hidden hover:scale-125 transition duration-300 ease-in-out m-auto "
+                          />
+                        </div>
 
-                      <div className="p-2 text-x text-gray-800">
-                        <FontAwesomeIcon icon={faCalendar} />{" "}
-                        {formatDate(
-                          activity.DateTime instanceof Date
-                            ? activity.DateTime
-                            : new Date(activity.DateTime)
-                        )}{" "}
-                        {formatTime(
-                          activity.DateTime instanceof Date
-                            ? activity.DateTime
-                            : new Date(activity.DateTime)
-                        )}
-                      </div>
-                      <hr></hr>
-                      <span className="text-sky-600">{activity.category}</span>
-                      <h1 className="text-xl py-2 text-green-800">
-                        {activity.activityName}
-                      </h1>
-                      <p className="p-3 text-gray-500">{excerpt(activity.writeup, 80)}</p>
-                      <div className="flex m-auto">
-                        <p className="text-gray-800 flex  gap-2 m-auto">
-                          <FontAwesomeIcon icon={faLocationPin} />
-                          <p className="m-auto"> {activity.location} </p>
+                        <div className="p-2 text-x text-gray-800">
+                          <FontAwesomeIcon icon={faCalendar} />{" "}
+                          {formatDate(
+                            activity.DateTime instanceof Date
+                              ? activity.DateTime
+                              : new Date(activity.DateTime)
+                          )}{" "}
+                          {formatTime(
+                            activity.DateTime instanceof Date
+                              ? activity.DateTime
+                              : new Date(activity.DateTime)
+                          )}
+                        </div>
+                        <hr></hr>
+                        <span className="text-sky-600">
+                          {activity.category}
+                        </span>
+                        <h1 className="text-xl py-2 text-green-800">
+                          {activity.activityName}
+                        </h1>
+                        <p className="p-3 text-gray-500">
+                          {excerpt(activity.writeup, 80)}
                         </p>
-                        <p className="text-gray-800 flex  gap-4 n-auto ">
-                          <FontAwesomeIcon
-                            icon={faHands}
-                            className="p-2 rounded-full border text-violet-400"
-                          />{" "}
-                          <p className="m-auto"> {activity.claps} Claps</p>
-                        </p>
+                        <div className="flex m-auto">
+                          <p className="text-gray-800 flex  gap-2 m-auto">
+                            <FontAwesomeIcon icon={faLocationPin} />
+                            <p className="m-auto"> {activity.location} </p>
+                          </p>
+                          <p className="text-gray-800 flex  gap-4 n-auto ">
+                            <FontAwesomeIcon
+                              icon={faHands}
+                              className="p-2 rounded-full border text-violet-400"
+                            />{" "}
+                            <p className="m-auto"> {activity.claps} Claps</p>
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  </NavLink>
+                    </NavLink>
                   </SwiperSlide>
                 );
               })

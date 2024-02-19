@@ -1,98 +1,82 @@
+/* eslint-disable react/prop-types */
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { useParams } from "react-router";
 import { useEffect, useState } from "react";
+import { selectUser } from "../Features/userSlice.js";
+import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCalendar,
   faClock,
   faLocationPin,
   faHands,
-  faTag,
+  // faTag,
   faMoneyBill,
 } from "@fortawesome/free-solid-svg-icons";
 import {
-  collection,
-  getDocs,
+  // collection,
+  // getDocs,
   doc,
   getDoc,
   updateDoc,
 } from "firebase/firestore";
-import { auth, db } from "../firebase/auth.js";
-import { onAuthStateChanged } from "firebase/auth";
+import { db } from "../firebase/auth.js";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
-import { Button } from "@material-tailwind/react";
+// import { Button } from "@material-tailwind/react";
 
-const Activity = () => {
+const Activity = ({ activities }) => {
+  const user = useSelector(selectUser);
   const [activity, setActivity] = useState("");
   const [relatedActivity, setRelatedActivity] = useState("");
-  const [authUser, setAuthUser] = useState(null);
 
   const [claps, setClaps] = useState(0);
   const { id } = useParams();
 
-  useEffect(() => {
-    const listen = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setAuthUser(user);
-      } else {
-        setAuthUser(null);
-      }
-    });
-
-    return () => {
-      listen();
-    };
-  }, []);
-
-  const userId = authUser?.uid;
+  const userId = user.id;
 
   useEffect(() => {
-    const fetchActivity = async () => {
-      try {
-        const docRef = doc(db, "activities", id);
-        const docSnapshot = await getDoc(docRef);
-        if (docSnapshot.exists()) {
-          const activityData = docSnapshot.data();
-          setActivity({ ...activityData, id: docSnapshot.id });
-        } else {
-          console.error(`Activity with id '${id}' not found.`);
-          // Handle the case where the activity is not found, e.g., display a 404 page.
-        }
-      } catch (error) {
-        console.error("Error fetching activity:", error);
-      }
-    };
+    if (activities.length > 0) {
+      const activityData = activities.find((activity) => activity.id === id);
 
-    const fetchOtherEventsInSameCategory = async () => {
-      if (activity && activity.category) {
-        try {
-          const eventsRef = collection(db, "activities");
-          const querySnapshot = await getDocs(eventsRef);
-          const otherActivity = [];
+      const otherActivity = activities.filter(
+        (activity) =>
+          activity.id !== id && activity.category === activityData.category
+      );
+      setActivity(activityData);
+      setRelatedActivity(otherActivity);
+    }
+  }, [activities, id]);
 
-          querySnapshot.forEach((doc) => {
-            const eventData = doc.data();
-            // Exclude the current event by checking its ID
-            if (eventData.id !== id && eventData.category === event.category) {
-              otherActivity.push(eventData);
-            }
-          });
+  //   const fetchOtherEventsInSameCategory = async () => {
+  //     if (activity && activity.category) {
+  //       try {
+  //         const eventsRef = collection(db, "activities");
+  //         const querySnapshot = await getDocs(eventsRef);
+  //         const otherActivity = [];
 
-          setRelatedActivity(otherActivity);
-        } catch (error) {
-          console.error(
-            "Error fetching other events in the same category:",
-            error
-          );
-        }
-      }
-    };
-    fetchActivity();
-    fetchOtherEventsInSameCategory;
-  }, [activity, id]);
+  //         querySnapshot.forEach((doc) => {
+  //           const eventData = doc.data();
+  //           // Exclude the current event by checking its ID
+  //           if (eventData.id !== id && eventData.category === event.category) {
+  //             otherActivity.push(eventData);
+  //           }
+  //         });
+
+  //         setRelatedActivity(otherActivity);
+  //       } catch (error) {
+  //         console.error(
+  //           "Error fetching other events in the same category:",
+  //           error
+  //         );
+  //       }
+  //     }
+  //   };
+  //   fetchActivity();
+  //   fetchOtherEventsInSameCategory;
+  // }, [activity, id]);
 
   useEffect(() => {
     const fetchClapCount = async () => {

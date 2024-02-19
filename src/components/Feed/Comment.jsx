@@ -26,7 +26,7 @@ export const Comment = ({
   index,
 }) => {
   const [loading, setLoading] = useState(false);
-//   const users = useSelector(selectUsers);
+  //   const users = useSelector(selectUsers);
   //   console.log(users);
   const postRef = doc(db, "posts", post.id);
   const [firstTierReply, setFirstTierReply] = useState("");
@@ -141,8 +141,8 @@ export const Comment = ({
   };
 
   return (
-    <div className="flex gap-3">
-      <div className="flex flex-col items-center">
+    <div className="flex gap-3 sm:gap-1.5">
+      <div className="flex flex-col items-center h-max w-max">
         <img
           src={
             getProfileDetails(
@@ -151,7 +151,7 @@ export const Comment = ({
             )?.photoURL
           }
           alt="profile"
-          className="h-10 w-10 block min-h-[40px] object-cover mt1 rounded-full md:h-9 md:w-9"
+          className="h-10 w-10 block min-h-[40px] object-cover mt1 rounded-full md:h-[36px] md:w-9 md:min-h-[36px]"
         />
         {/* if index is not last on the list and selectedCommentIndex is not (-1) then show the line */}
         {/* <p
@@ -173,8 +173,10 @@ export const Comment = ({
                   )?.name
                 }
               </h2>
-              <p className="text-slate-500 text-center text-sm md:text-xs">·</p>
-              <p className="text-slate-500 text-sm md:text-xs">
+              <p className="text-slate-500 font-inter text-center text-sm md:text-xs">
+                ·
+              </p>
+              <p className="text-slate-500 font-inter text-sm md:text-xs">
                 {comment.createdAt
                   ? formatTimeAgo(new Date(comment.createdAt.seconds * 1000))
                   : "loading"}
@@ -182,7 +184,9 @@ export const Comment = ({
             </div>
             {/* <button> follow </button> */}
           </div>
-          <p className="text-[rgb(71,85,105)] text-base">{comment.body}</p>
+          <p className="text-[rgb(71,85,105)] text-base font-inter sm:text-[0.95rem]">
+            {comment.body}
+          </p>
         </div>
         <div className="flex gap-2 items-center">
           {comment?.likes?.length < 1 ? (
@@ -242,7 +246,7 @@ export const Comment = ({
                   <div className="cursor-pointer hover:scale50 transition duration-150 ease-in-out">
                     <img src={notClapImg} alt="clap" className="h-6 w-6" />
                   </div>
-                  <p className="text-[rgb(71,85,105)] text-sm font-medium">
+                  <p className="text-[rgb(71,85,105)] text-sm font-inter font-medium">
                     {comment?.likes?.length}
                   </p>
                 </div>
@@ -284,7 +288,10 @@ export const Comment = ({
             <div className="w-full border border-r-gray-200 rounded-md p-3 flex flex-col gap-6 md:gap-3">
               <textarea
                 placeholder={`Replying to ${
-                  getProfileDetails(comment.userId ? comment.userId : comment.commentAuthorId, users)?.name
+                  getProfileDetails(
+                    comment.userId ? comment.userId : comment.commentAuthorId,
+                    users
+                  )?.name
                 }`}
                 value={firstTierReply}
                 ref={FirstTierReplyRef}

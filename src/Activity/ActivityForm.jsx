@@ -1,38 +1,22 @@
-import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, useEffect } from "react";
 import { TagsInput } from "react-tag-input-component";
+import { useSelector } from "react-redux";
+import { selectUser } from "../Features/userSlice";
 import {
   addDoc,
   collection,
-  doc,
-  getDoc,
+  // doc,
+  // getDoc,
   serverTimestamp,
-  updateDoc,
+  // updateDoc,
 } from "firebase/firestore";
 import { db, storage } from "../firebase/auth";
-
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../firebase/auth.js";
 import { toast } from "react-toastify";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
 const ActivityForm = () => {
-  const [authUser, setAuthUser] = useState(null);
-  useEffect(() => {
-    const listen = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setAuthUser(user);
-      } else {
-        setAuthUser(null);
-      }
-    });
-
-    return () => {
-      listen();
-    };
-  }, []);
-  const userId = authUser?.uid;
+  const user = useSelector(selectUser);
+  const userId = user.id;
 
   const [selectedFile, setSelectedFile] = useState();
   const [previewUrl, setPreviewUrl] = useState();
@@ -163,7 +147,7 @@ const ActivityForm = () => {
       <div className="mx-40 px-40 sm:mx-5 sm:px-5">
         <h1 className="text-center text-black py-10 text-2xl ">
           Fill Activity Details
-        </h1> 
+        </h1>
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col gap-2 py-5">
             <label className="text-gray-500 Aceh text-sm"> Activity Name</label>
@@ -253,15 +237,18 @@ const ActivityForm = () => {
             ></textarea>
           </div>
           <div className="flex flex-col gap-2 py-2">
-            <label className="text-gray-500 Aceh text-sm">Tags
-            <span className="text-sky-500">(Seperate tags with spacebar or comma "," )</span>
-</label>
+            <label className="text-gray-500 Aceh text-sm">
+              Tags
+              <span className="text-sky-500">
+                (Seperate tags with spacebar or comma &rdquo;,&rdquo; )
+              </span>
+            </label>
             <TagsInput
               value={form.tags}
               name="Tags"
               onChange={handleTags}
               required
-              separators={[' ', ',']}
+              separators={[" ", ","]}
               editable
               placeHolder="Enter Post Tags"
               classNames="text-black  w-full text-xl rti--container "
@@ -271,7 +258,7 @@ const ActivityForm = () => {
           <button
             className=" btn m-auto flex my-5 p-3 w-40 bg-green-500 text-white border-none "
             type="submit"
-            disabled={progress < 100} 
+            disabled={progress < 100}
           >
             Submit
           </button>

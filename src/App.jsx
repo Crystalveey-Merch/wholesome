@@ -45,13 +45,13 @@ import ArticleInterest from "./MyInterest/ArticleInterest";
 import EventsInterest from "./MyInterest/EventsInterest";
 import PodcastAdmin from "./Podcast/PodcastAdmin";
 import { FollowersFeed } from "./MyInterest/FollowersFeed";
-import Admin from "./Admin/Admin";
-import Allarticles from "./Admin/Allarticles";
-import Users from "./Admin/Users";
+// import Admin from "./Admin/Admin";
+// import Allarticles from "./Admin/Allarticles";
+// import Users from "./Admin/Users";
 import Settings from "./Dashboard/Settings";
 import ActivityInterest from "./MyInterest/ActivityInterest";
-import Podcasts from "./Admin/Podcasts";
-import AllActivity from "./Admin/AllActivity";
+// import Podcasts from "./Admin/Podcasts";
+// import AllActivity from "./Admin/AllActivity";
 import PodcastInterest from "./MyInterest/PodcastInterest";
 import MyEvents from "./Dashboard/MyEvents";
 import ActivityList from "./Activity/ActivityList";
@@ -77,6 +77,8 @@ function App() {
   const [events, setEvents] = useState([]);
   const [eventLoading, setEventLoading] = useState(true);
   const [activities, setActivities] = useState([]);
+  const [podcasts, setPodcasts] = useState([]);
+  const [podcastLoading, setPodcastLoading] = useState(true);
   // const [loggedInUser, setLoggedInUser] = useState([]);
   const [users, setAllUsers] = useState([]);
   // const [messages, setMessages] = useState([]);
@@ -194,11 +196,24 @@ function App() {
       // dispatch(setUsers(users));
     });
 
+    const unsuscribPodcasts = onSnapshot(
+      collection(db, "podcasts"),
+      (snapshot) => {
+        const postData = [];
+        snapshot.forEach((doc) => {
+          postData.push({ ...doc.data(), id: doc.id });
+        });
+        setPodcasts(postData);
+        setPodcastLoading(false);
+      }
+    );
+
     return () => {
       unsuscribPosts();
       unsuscribEvents();
       unsuscribActivities();
       unsuscribUsers();
+      unsuscribPodcasts();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -239,7 +254,7 @@ function App() {
         />
         <Route path="/account" element={<Account />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/searchuser" element={<SerchUser />} />
+        <Route path="/searchuser" element={<SerchUser users={users} />} />
         <Route path="/signup" element={<Signip />} />
         <Route
           path="/upcomingevents"
@@ -253,14 +268,29 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route path="/article/:articleName" element={<Articles />} />
-        <Route path="/activities" element={<ActivityList />} />
-        <Route path="/activity/:id" element={<Activity />} />
+        <Route
+          path="/article/:articleName"
+          element={<Articles users={users} posts={posts} />}
+        />
+        <Route
+          path="/activities"
+          element={<ActivityList activities={activities} />}
+        />
+        <Route
+          path="/activity/:id"
+          element={<Activity activities={activities} />}
+        />
         <Route path="/activity/adminform" element={<ActivityForm />} />
         <Route path="/podcast/adminform" element={<PodcastAdmin />} />
         <Route path="/interest/:interestName" element={<Interest />} />
-        <Route path="/upcomingevents/:id" element={<EventDes />} />
-        <Route path="/podcast" element={<Podcast />} />
+        <Route
+          path="/upcomingevents/:id"
+          element={<EventDes events={events} />}
+        />
+        <Route
+          path="/podcast"
+          element={<Podcast podcasts={podcasts} loading={podcastLoading} />}
+        />
         <Route
           path="/createpost"
           element={
@@ -326,7 +356,7 @@ function App() {
           <Route path="/dashboard/events" element={<MyEvents />} />
         </Route>
         <Route path="/profile/:profileId" element={<Profilepage />} />
-        <Route
+        {/* <Route
           path="/admin"
           element={
             <ProtectedRoute>
@@ -338,7 +368,7 @@ function App() {
           <Route path="/admin/users" element={<Users />} />
           <Route path="/admin/podcasts" element={<Podcasts />} />
           <Route path="/admin/activities" element={<AllActivity />} />
-        </Route>
+        </Route> */}
         {/* <Route
           path="/messages"
           element={

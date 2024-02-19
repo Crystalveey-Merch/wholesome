@@ -181,7 +181,7 @@ export const Content = ({ posts, setPosts, users }) => {
         <meta name="description" content={content.slice(0, 150) + "..."} />
       </Helmet>
       {/* formerly 800px */}
-      <div className="max-w-[850px] w-full px-12 flex flex-col gap-5 border border-gray-200 p-5 rounded-md 2xl:px-10 xl:px-6 xl:w[600px] lg:w[650px] lg:p-4 lg:px-6 md:w-full md:border-none md:shadow-none md:gap-3 sm:px-3">
+      <div className="max-w-[850px] w-full px-12 flex flex-col gap-5 border border-gray-200 p-5 rounded-md 2xl:px-10 xl:px-6 xl:w[600px] lg:w[650px] lg:p-4 lg:px-6 md:w-full md:border-none md:shadow-none md:gap-3 sm:px-2">
         <div className="flex gap-3">
           <Link to={`/${authorProfile?.username}`}>
             <img
@@ -219,7 +219,7 @@ export const Content = ({ posts, setPosts, users }) => {
             className="w-full max-h-[500px]  object-cover rounded-md md:h-80"
           />
           <div className="flex flex-col gap-3 ">
-            <div className="prose prose-lg text-black prose-a:text-blue-700 prose-a:font-bold prose-a:no-underline prose-blockquote:bg-gray-50 prose-blockquote:py-0.5 prose-th:bg-slate-100 prose-th:p-2 prose-td:p-2 prose-td:border prose-th:border border-r-gray-200 prose-em:prose-strong:text-gray-700 prose-img:w-10/12 prose-img:mx-auto xl:prose-lg md:prose-base">
+            <div className="prose prose-lg text-black prose-a:text-blue-700 prose-a:font-bold prose-a:no-underline prose-blockquote:bg-gray-50 prose-blockquote:py-0.5 prose-th:bg-slate-100 prose-th:p-2 prose-td:p-2 prose-td:border prose-th:border border-r-gray-200 prose-em:prose-strong:text-gray-700 prose-img:w-10/12 prose-img:mx-auto xl:prose-lg md:prose-base prose-headings:text-gray-800">
               <ReactMarkdown children={content} remarkPlugins={[remarkGfm]} />
             </div>
             {/* <MDEditor.Markdown
@@ -229,7 +229,7 @@ export const Content = ({ posts, setPosts, users }) => {
             /> */}
           </div>
         </div>
-        <div className="flex justify-between pt-4 px-3 border-t border-gray-200">
+        <div className="flex justify-between pt-4 px-3 border-t border-gray-200 sm:px-0">
           <div className="flex gap-2 items-center">
             {likes?.length < 1 ? (
               <div
@@ -295,7 +295,7 @@ export const Content = ({ posts, setPosts, users }) => {
             )}
           </div>
         </div>
-        <div className="py-10 flex flex-col gap-6 px-6 md:gap-4 md:px-2">
+        <div className="py-10 flex flex-col gap-6 px-6 md:gap-4 md:px-2 sm:px-0">
           <div className="flex justify-between">
             <h2 className="text-gray-700 font-bold text-2xl md:text-[22px]">
               Comments

@@ -4,7 +4,7 @@ import { TagsInput } from "react-tag-input-component";
 import MDEditor, { selectWord } from "@uiw/react-md-editor";
 import MarkdownIt from "markdown-it";
 import { db, storage } from "../firebase/auth";
-import { auth } from "../firebase/auth.js";
+// import { auth } from "../firebase/auth.js";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { useParams } from "react-router";
 import { useNavigate } from "react-router";
@@ -20,8 +20,10 @@ import {
   serverTimestamp,
   updateDoc,
 } from "firebase/firestore";
-import { onAuthStateChanged } from "firebase/auth";
+// import { onAuthStateChanged } from "firebase/auth";
 import { Helmet } from "react-helmet-async";
+import { useSelector } from "react-redux";
+import { selectUser } from "../Features/userSlice.js";
 
 const initialState = {
   postTitle: "",
@@ -33,6 +35,12 @@ const initialState = {
   likes: [],
   views: [],
   bookmarks: [],
+  analytics: {
+    views: 0,
+    visits: 0,
+    viewers: [],
+    visitors: [],
+  },
 };
 const categoryOption = [
   "Fitnes",
@@ -57,14 +65,14 @@ const categoryOption = [
 // import "./tagsInput.css"
 
 const CreatePost = () => {
-  const [selected, setSelected] = useState([]);
+  // const [selected, setSelected] = useState([]);
   const mdParser = new MarkdownIt();
   const [form, setForm] = useState(initialState);
   const { id } = useParams();
   const navigate = useNavigate();
   const [selectedFile, setSelectedFile] = useState();
   const [previewUrl, setPreviewUrl] = useState();
-  const [userName, setUsername] = useState();
+  // const [userName, setUsername] = useState();
   const { postTitle, category, tags, postDescription, content } = form;
   const [progress, setProgress] = useState(null);
 
@@ -102,41 +110,7 @@ const CreatePost = () => {
     setForm({ ...form, content });
   };
 
-  const [authUser, setAuthUser] = useState(null);
-  useEffect(() => {
-    const listen = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setAuthUser(user);
-      } else {
-        setAuthUser(null);
-      }
-    });
-
-    return () => {
-      listen();
-    };
-  }, []);
-  const userId = authUser?.uid;
-
-  useEffect(() => {
-    // Replace "userId" with the currently logged-in user's ID // You should get the actual user ID
-
-    const fetchData = async () => {
-      try {
-        // 1. Retrieve the user's selected interests from Firestore
-        const userRef = doc(db, "users", userId); // Use doc to get the user document
-        const userDoc = await getDoc(userRef);
-        if (userDoc.exists()) {
-          const userData = userDoc.data();
-          setUsername(userData.name);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, [userId]);
+  const user = useSelector(selectUser);
 
   useEffect(() => {
     const getDraft = async () => {
@@ -162,9 +136,9 @@ const CreatePost = () => {
     handleImageEdit();
   });
   // Use another useEffect to log the username
-  useEffect(() => {
-    console.log(userName);
-  }, [userName]);
+  // useEffect(() => {
+  //   console.log(userName);
+  // }, [userName]);
 
   useEffect(() => {
     const uploadFile = () => {
@@ -228,8 +202,8 @@ const CreatePost = () => {
           await addDoc(collection(db, "posts"), {
             ...form,
             timestamp: serverTimestamp(),
-            author: userName,
-            userId: authUser.uid,
+            author: user.name,
+            userId: user.id,
           });
           toast.success("Post created successfully");
           navigate("/feed");
@@ -242,8 +216,8 @@ const CreatePost = () => {
             await updateDoc(doc(db, "posts", id), {
               ...form,
               timestamp: serverTimestamp(),
-              author: userName,
-              userId: authUser.uid,
+              author: user.name,
+              userId: user.id,
             });
             toast.success("Post updated successfully");
             navigate("/feed");
@@ -266,8 +240,8 @@ const CreatePost = () => {
         await addDoc(collection(db, "posts"), {
           ...form,
           timestamp: serverTimestamp(),
-          author: userName,
-          userId: authUser.uid,
+          author: user.name,
+          userId: user.id,
         });
         toast.success("Draft Published");
         navigate("/feed");
@@ -285,8 +259,8 @@ const CreatePost = () => {
           await addDoc(collection(db, "drafts"), {
             ...form,
             timestamp: serverTimestamp(),
-            author: userName,
-            userId: authUser.uid,
+            author: user.name,
+            userId: user.id,
           });
           toast.success("Added to Draft");
         } catch (err) {
@@ -298,8 +272,8 @@ const CreatePost = () => {
             await updateDoc(doc(db, "drafts", id), {
               ...form,
               timestamp: serverTimestamp(),
-              author: authUser.displayName,
-              userId: authUser.uid,
+              author: user.name,
+              userId: user.id,
             });
             toast.success("Draft updated ");
           } catch (err) {
@@ -374,7 +348,7 @@ const CreatePost = () => {
               <label className=" flex text-gray-600 mt-5 text-md Aceh">
                 Tags
                 <span className="text-sky-500">
-                  (Seperate tags with spacebar or comma "," )
+                  (Seperate tags with spacebar or comma &quot;,&quot; )
                 </span>
               </label>
               <TagsInput

@@ -184,13 +184,15 @@ export const FirstTierReply = ({
     setLoading(false);
   };
 
+  const [showReplies, setShowReplies] = useState(false);
+
   return (
     <div key={index} className="flex gap-3">
       <div className="flex flex-col items-center">
         <img
           src={getProfileDetails(reply.replyAuthorId, users)?.photoURL}
           alt="profile"
-          className="h-10 w-10 block min-h-[40px] object-cover mt-1 rounded-full md:h-9 md:w-9"
+          className="h-[40px] w-[40px] block min-h-[40px] object-cover mt1 rounded-full md:h-[36px] md:w-[36px] md:min-h-[36px]"
         />
         {/* <p
             className={` ${
@@ -206,8 +208,10 @@ export const FirstTierReply = ({
               <h2 className="text-black font-semibold text-base md:text-base">
                 {getProfileDetails(reply.replyAuthorId, users)?.name}
               </h2>
-              <p className="text-slate-500 text-center text-sm md:text-xs">·</p>
-              <p className="text-gray-500 text-sm md:text-xs">
+              <p className="text-slate-500 text-center text-sm md:text-xs font-inter">
+                ·
+              </p>
+              <p className="text-gray-500 text-sm md:text-xs font-inter">
                 {reply.createdAt
                   ? formatTimeAgo(new Date(reply.createdAt.seconds * 1000))
                   : "loading"}
@@ -215,7 +219,9 @@ export const FirstTierReply = ({
             </div>
             {/* <button> follow </button> */}
           </div>
-          <p className="text-[rgb(71,85,105)] text-base">{reply.body}</p>
+          <p className="text-[rgb(71,85,105)] text-base font-inter sm:text-[0.95rem]">
+            {reply.body}
+          </p>
         </div>
 
         <div className="flex gap-2 items-center">
@@ -296,102 +302,66 @@ export const FirstTierReply = ({
             Reply
           </div>
         </div>
+        {reply.secondTierReplies?.length > 0 && (
+          <div
+            onClick={() => setShowReplies(!showReplies)}
+            className="w-full text-[rgb(71,85,105)] text-sm font-medium cursor-pointer transition duration-150 ease-in-out hover:underline"
+          >
+            {showReplies ? "Hide" : "View"} {reply.secondTierReplies?.length}{" "}
+            {reply.secondTierReplies?.length > 1 ? "replies" : "reply"}
+          </div>
+        )}
         {/* put put all */}
-        {reply.secondTierReplies?.map((secondReply, i) => (
-          <div key={i} className="flex gap-3">
-            <div className="flex flex-col items-center">
-              <img
-                src={
-                  getProfileDetails(secondReply.replyAuthorId, users)?.photoURL
-                }
-                alt="profile"
-                className="h-10 w-10 block min-h-[40px] object-cover mt-1 rounded-full md:h-9 md:w-9"
-              />
-              {/* <p
+        {showReplies && (
+          <>
+            {reply.secondTierReplies?.map((secondReply, i) => (
+              <div key={i} className="flex gap-3">
+                <div className="flex flex-col items-center">
+                  <img
+                    src={
+                      getProfileDetails(secondReply.replyAuthorId, users)
+                        ?.photoURL
+                    }
+                    alt="profile"
+                    className="h-[40px] w-[40px] block min-h-[40px] object-cover mt1 rounded-full md:h-[36px] md:w-[36px] md:min-h-[36px]"
+                  />
+                  {/* <p
                   className={` ${
                     i !== comment.firstTierReplies.length - 1 &&
                     "h-full w-0.5 bg-slate-400"
                   }`}
                 ></p> */}
-            </div>
-            <div className="flex flex-col gap-3 w-full">
-              <div className="w-full flex flex-col gap-1 md:gap-0.5">
-                <div className="flex justify-between">
-                  <div className="flex gap-1 items-center">
-                    <h2 className="text-black font-semibold text-base md:text-base">
-                      {
-                        getProfileDetails(secondReply.replyAuthorId, users)
-                          ?.name
-                      }
-                    </h2>
-                    <p className="text-slate-500 text-center text-sm md:text-xs">
-                      ·
-                    </p>
-                    <p className="text-gray-500 text-sm md:text-xs">
-                      {secondReply.createdAt
-                        ? formatTimeAgo(
-                            new Date(secondReply.createdAt.seconds * 1000)
-                          )
-                        : "loading"}
-                    </p>
-                  </div>
-                  {/* <button> follow </button> */}
                 </div>
-                <p className="text-[rgb(71,85,105)] text-base">
-                  {secondReply.body}
-                </p>
-              </div>
-
-              <div className="flex gap-2 items-center">
-                {secondReply?.likes?.length < 1 ? (
-                  <div
-                    onClick={() =>
-                      handleLikeSecondTierReply(
-                        loggedInUser?.id,
-                        post,
-                        setPost,
-                        comment.commentId,
-                        reply?.replyId,
-                        secondReply?.replyId,
-                        comments,
-                        postRef
-                      )
-                    }
-                    className="cursor-pointer focus:scale-120 transition duration-150 ease-in-out"
-                  >
-                    <img src={notClapImg} alt="clap" className="h-6 w-6" />
-                  </div>
-                ) : (
-                  <>
-                    {secondReply?.likes?.includes(loggedInUser?.id) ? (
-                      <div
-                        onClick={() =>
-                          handleUnlikeSecondTierReply(
-                            loggedInUser?.id,
-                            post,
-                            setPost,
-                            comment.commentId,
-                            reply?.replyId,
-                            secondReply?.replyId,
-                            comments,
-                            postRef
-                          )
-                        }
-                        className="cursor-pointer flex gap-1 items-center"
-                      >
-                        <div className="cursor-pointer hover:scale50 transition duration-150 ease-in-out">
-                          <img
-                            src={clappedImg}
-                            alt="clap"
-                            className="h-6 w-6"
-                          />
-                        </div>
-
-                        <p className="text-[rgb(71,85,105)] text-sm font-medium">
-                          {secondReply?.likes?.length}
+                <div className="flex flex-col gap-3 w-full">
+                  <div className="w-full flex flex-col gap-1 md:gap-0.5">
+                    <div className="flex justify-between">
+                      <div className="flex gap-1 items-center">
+                        <h2 className="text-black font-semibold text-base md:text-base">
+                          {
+                            getProfileDetails(secondReply.replyAuthorId, users)
+                              ?.name
+                          }
+                        </h2>
+                        <p className="text-slate-500 text-center text-sm md:text-xs">
+                          ·
+                        </p>
+                        <p className="text-gray-500 text-sm md:text-xs font-inter">
+                          {secondReply.createdAt
+                            ? formatTimeAgo(
+                                new Date(secondReply.createdAt.seconds * 1000)
+                              )
+                            : "loading"}
                         </p>
                       </div>
-                    ) : (
+                      {/* <button> follow </button> */}
+                    </div>
+                    <p className="text-[rgb(71,85,105)] text-base font-inter sm:text-[0.95rem]">
+                      {secondReply.body}
+                    </p>
+                  </div>
+
+                  <div className="flex gap-2 items-center">
+                    {secondReply?.likes?.length < 1 ? (
                       <div
                         onClick={() =>
                           handleLikeSecondTierReply(
@@ -405,37 +375,87 @@ export const FirstTierReply = ({
                             postRef
                           )
                         }
-                        className="cursor-pointer flex gap-1 items-center"
+                        className="cursor-pointer focus:scale-120 transition duration-150 ease-in-out"
                       >
-                        <div className="cursor-pointer hover:scale50 transition duration-150 ease-in-out">
-                          <img
-                            src={notClapImg}
-                            alt="clap"
-                            className="h-6 w-6"
-                          />
-                        </div>
-                        <p className="text-[rgb(71,85,105)] text-sm font-medium">
-                          {secondReply?.likes?.length}
-                        </p>
+                        <img src={notClapImg} alt="clap" className="h-6 w-6" />
                       </div>
+                    ) : (
+                      <>
+                        {secondReply?.likes?.includes(loggedInUser?.id) ? (
+                          <div
+                            onClick={() =>
+                              handleUnlikeSecondTierReply(
+                                loggedInUser?.id,
+                                post,
+                                setPost,
+                                comment.commentId,
+                                reply?.replyId,
+                                secondReply?.replyId,
+                                comments,
+                                postRef
+                              )
+                            }
+                            className="cursor-pointer flex gap-1 items-center"
+                          >
+                            <div className="cursor-pointer hover:scale50 transition duration-150 ease-in-out">
+                              <img
+                                src={clappedImg}
+                                alt="clap"
+                                className="h-6 w-6"
+                              />
+                            </div>
+
+                            <p className="text-[rgb(71,85,105)] text-sm font-medium">
+                              {secondReply?.likes?.length}
+                            </p>
+                          </div>
+                        ) : (
+                          <div
+                            onClick={() =>
+                              handleLikeSecondTierReply(
+                                loggedInUser?.id,
+                                post,
+                                setPost,
+                                comment.commentId,
+                                reply?.replyId,
+                                secondReply?.replyId,
+                                comments,
+                                postRef
+                              )
+                            }
+                            className="cursor-pointer flex gap-1 items-center"
+                          >
+                            <div className="cursor-pointer hover:scale50 transition duration-150 ease-in-out">
+                              <img
+                                src={notClapImg}
+                                alt="clap"
+                                className="h-6 w-6"
+                              />
+                            </div>
+                            <p className="text-[rgb(71,85,105)] text-sm font-medium">
+                              {secondReply?.likes?.length}
+                            </p>
+                          </div>
+                        )}
+                      </>
                     )}
-                  </>
-                )}
-                <p className="text-slate-500 font-semibold text-center text-sm md:text-xs">
-                  ·
-                </p>
-                <div
-                  onClick={() => (
-                    handleShowReply(index), handleClick(secondReply)
-                  )}
-                  className="text-[rgb(71,85,105)] text-sm font-medium cursor-pointer transition duration-150 ease-in-out hover:underline"
-                >
-                  Reply
+                    <p className="text-slate-500 font-semibold text-center text-sm md:text-xs">
+                      ·
+                    </p>
+                    <div
+                      onClick={() => (
+                        handleShowReply(index), handleClick(secondReply)
+                      )}
+                      className="text-[rgb(71,85,105)] text-sm font-medium cursor-pointer transition duration-150 ease-in-out hover:underline"
+                    >
+                      Reply
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-        ))}
+            ))}
+          </>
+        )}
 
         {selectedReplyIndex === index && (
           <div id={`secondReply-${index}`} className="flex gap-2">
