@@ -143,31 +143,37 @@ export const PostCard = ({ post, posts, setPosts }) => {
           </p>
         </div>
       </div>
-      <div className="flex gap-8 items-center">
-        <Link
-          className="w-full flex flex-col gap-2 h[200px]"
-          to={`/readmore/${post.id}`}
-        >
+      <Link
+        className="flex gap-8 items-center md:gap-4 sm:flex-col"
+        to={`/readmore/${post.id}`}
+      >
+        <div className="w-full flex flex-col gap-2 h[200px]">
           <h2
-            className="text-lg font-semibold text-black overflow-hidden"
+            className="text-lg font-semibold text-black overflow-hidden md:text-base"
             id={`title-${post.id}`}
             style={{ WebkitLineClamp: titleLines }}
           >
             {post.postTitle}
           </h2>
+          <div className="sm:flex gap-2 items-center hidden">
+            <img src={readSVG} alt="read" className="h-5 w-5" />
+            <p className="text-[rgb(71,85,105)] font-inter text-sm font-medium">
+              {readTime(post.content)}
+            </p>
+          </div>
           <p
-            className="text-[#637381] font-inter text-base font-normal title-content-container overflow-hidden"
+            className="text-[#637381] font-inter text-base font-normal title-content-container overflow-hidden md:text-sm"
             style={{ WebkitLineClamp: titleLines === 1 ? 3 : 2 }}
           >
             {filterOutOtherCharacters(post.content)}
           </p>
-        </Link>
+        </div>
         <img
           src={post.imgUrl}
           alt="post"
-          className="min-w-[200px] w-[200px] max-h-[100px] rounded-md object-cover"
+          className="min-w-[200px] w-[200px] max-h-[100px] rounded-md object-cover md:min-w-[150px] md:w-[150px] md:max-h-[100px] sm:w-full sm:max-h-[200px]"
         />
-      </div>
+      </Link>
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-3">
           <div className="flex gap-2 items-center">
@@ -217,10 +223,10 @@ export const PostCard = ({ post, posts, setPosts }) => {
               Reply
             </div> */}
           </div>
-          <p className="text-slate-500 font-semibold text-center text-sm md:text-xs">
+          <p className="text-slate-500 font-semibold text-center text-sm md:text-xs sm:hidden">
             ·
           </p>
-          <div className="flex gap-2 items-center">
+          <div className="flex gap-2 items-center sm:hidden">
             <img src={readSVG} alt="read" className="h-5 w-5" />
             <p className="text-[rgb(71,85,105)] font-inter text-sm font-medium">
               {readTime(post.content)}

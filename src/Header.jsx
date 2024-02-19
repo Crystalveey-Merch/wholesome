@@ -453,7 +453,7 @@ const Header = () => {
                   onClick={closeDrawer}
                   className="flex  text-gray-200 rounded-lg dark:text-white hover:bg-gray-100  group"
                 >
-                  <span className=" whitespace-nowrap">Article List</span>
+                  <span className=" whitespace-nowrap">Feed</span>
                 </NavLink>
               </li>
             </ul>
@@ -613,7 +613,7 @@ const Header = () => {
                 tabIndex={0}
                 className=" text-black bg-white border-none capitalize btn m-1 hover:bg-gray-100"
               >
-                Article List
+                Feed
               </label>
             </NavLink>
           </ul>

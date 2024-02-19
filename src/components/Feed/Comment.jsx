@@ -26,7 +26,7 @@ export const Comment = ({
 }) => {
   const [loading, setLoading] = useState(false);
   const users = useSelector(selectUsers);
-//   console.log(users);
+  //   console.log(users);
   const postRef = doc(db, "posts", post.id);
   const [firstTierReply, setFirstTierReply] = useState("");
 
@@ -126,7 +126,10 @@ export const Comment = ({
       ) {
         setFirstTierReply(
           `@${
-            getProfileDetails(comment.userId, users)?.username
+            getProfileDetails(
+              comment.userId ? comment.userId : comment.commentAuthorId,
+              users
+            )?.username
           } ${firstTierReply}`
         );
       }
@@ -140,7 +143,12 @@ export const Comment = ({
     <div className="flex gap-3">
       <div className="flex flex-col items-center">
         <img
-          src={getProfileDetails(comment.userId, users)?.photoURL}
+          src={
+            getProfileDetails(
+              comment.userId ? comment.userId : comment.commentAuthorId,
+              users
+            )?.photoURL
+          }
           alt="profile"
           className="h-10 w-10 block min-h-[40px] object-cover mt1 rounded-full md:h-9 md:w-9"
         />
@@ -157,7 +165,12 @@ export const Comment = ({
           <div className="flex justify-between">
             <div className="flex gap-1 items-center">
               <h2 className="text-black font-semibold text-base md:text-base">
-                {getProfileDetails(comment.userId, users)?.name}
+                {
+                  getProfileDetails(
+                    comment.userId ? comment.userId : comment.commentAuthorId,
+                    users
+                  )?.name
+                }
               </h2>
               <p className="text-slate-500 text-center text-sm md:text-xs">·</p>
               <p className="text-slate-500 text-sm md:text-xs">
@@ -270,7 +283,7 @@ export const Comment = ({
             <div className="w-full border border-r-gray-200 rounded-md p-3 flex flex-col gap-6 md:gap-3">
               <textarea
                 placeholder={`Replying to ${
-                  getProfileDetails(comment.userId, users)?.name
+                  getProfileDetails(comment.userId ? comment.userId : comment.commentAuthorId, users)?.name
                 }`}
                 value={firstTierReply}
                 ref={FirstTierReplyRef}

@@ -7,9 +7,11 @@ export const RightBar = ({ posts, loading, events }) => {
   }
 
   return (
-    <div className="w-[340px] min-h-[calc(100vh-158px)] h-max flex flex-col gap-4">
+    <div className="w-[340px] min-h-[calc(100vh-158px)] h-max flex flex-col gap-4 xl:w-[300px] lg:w-[340px] lg:pb-16 md:w-[300px]">
       <TrendingArticlesCard posts={posts} />
-        <EventsCard events={events} />
+      <EventsCard events={events} />
+
+      <div className="hidden text-white lg:block">.</div>
     </div>
   );
 };

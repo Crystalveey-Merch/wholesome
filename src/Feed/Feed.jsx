@@ -25,7 +25,7 @@ export const Feed = ({ posts, setPosts }) => {
           </p>
         </div>
       ) : (
-        <div className="min-w-[100%] flex flex-col gap-8">
+        <div className="min-w[100%] flex flex-col gap-8">
           {posts
             .sort((a, b) => b.timestamp - a.timestamp)
             .map((post) => (

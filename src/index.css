@@ -91,9 +91,10 @@ a {
 body {
   font-family: "AcehLight";
   margin: 0;
+  /* max-width: 100vw; */
   /* display: flex; */
   place-items: center;
-  min-width: 320px;
+  /* min-width: 320px; */
   min-height: 100vh;
 }
 
@@ -286,6 +287,39 @@ button:focus-visible {
   overflow: hidden;
 }
 
+@media screen and (max-width: 1023px) {
+  .rightbar-link {
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-height: 100vh;
+    height: 100%;
+    width: 100%;
+    transform: translateX(100%);
+    transition: transform 0.4s ease-in-out;
+    border: none;
+    /* background-color: rgba(22, 28, 36, 0.8); */
+    /* rgba(0, 0, 0, 0.4) */
+    /* padding-left: 15%; */
+    /* padding-top: 10px; */
+    /* padding-bottom: 20%; */
+    margin-top: 0px;
+    display: flex;
+    justify-items: end;
+    justify-content: flex-end;
+  }
+
+  .rightbar-link-active {
+    transform: translateY(0);
+  }
+}
+
 .post-card {
   width: 288px !important;
 }
+
+/* @media screen and (max-width: 639px) {
+  .title-content-container {
+    -webkit-line-clamp: 1;
+  }
+} */

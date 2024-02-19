@@ -12,7 +12,9 @@ export const EventsCard = ({ events }) => {
 
   return (
     <div className="w-full h-max p-5 border border-gray-200 rounded-xl flex flex-col gap-7">
-      <h3 className="text-xl font-semibold text-black">🎉 Featured Event</h3>
+      <h3 className="text-xl font-semibold text-black md:text-lg">
+        🎉 Featured Event
+      </h3>
       <div className="flex flex-col gap-5">
         {/* show three events */}
         {/* {events.map((event, index) => ( */}

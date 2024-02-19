@@ -64,6 +64,8 @@ import { Feed, FeedLayout, Content, Following } from "./Feed";
 import { useDispatch } from "react-redux";
 import { login, logout } from "./Features/userSlice.js";
 import { setUsers } from "./Features/usersSlice.js";
+import { openRightBar } from "./Features/openRightBarSlice.js";
+import moreImg from "./Feed/assets/aurora.png";
 
 function App() {
   const dispatch = useDispatch();
@@ -202,6 +204,10 @@ function App() {
   }, []);
 
   console.log("ah");
+
+  const openRightBarSlide = () => {
+    dispatch(openRightBar());
+  };
 
   return (
     <div className="">
@@ -384,6 +390,16 @@ function App() {
         {/* <Route path="/content/123" element={<Content />} /> */}
       </Routes>
       {/* <Footer /> */}
+        <div
+          className={` ${
+            location.pathname === "/feed"
+              ? "hidden lg:block fixed z-10 right-10 bottom-10 cursor-pointer"
+              : "hidden lg:hidden"
+          }`}
+          onClick={openRightBarSlide}
+        >
+          <img src={moreImg} className="h-16 w-16 brightness-95 rotate-45" />
+        </div>
       <ToastContainer />
     </div>
   );

@@ -16,7 +16,7 @@ export const Following = ({ posts, setPosts }) => {
   });
 
   return (
-    <div className="w-full">
+    <div className="">
       {getFollowingPosts.length === 0 ? (
         <div className="flex justify-center flex-col items-center h-[400px] gap-5">
           <h4 className="text-3xl font-semibold text-gray-900">

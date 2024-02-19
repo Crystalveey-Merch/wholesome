@@ -57,7 +57,9 @@ export const TrendingArticlesCard = ({ posts }) => {
 
   return (
     <div className="w-full h-max p-5 border border-gray-200 rounded-xl flex flex-col gap-7">
-      <h3 className="text-xl font-semibold text-black">🔥 Trending Articles</h3>
+      <h3 className="text-xl font-semibold text-black md:text-lg">
+        🔥 Trending Articles
+      </h3>
       <div className="flex flex-col gap-5">
         {trendingPosts.map((post, index) => (
           <div key={index} className="flex flex-col gap-2">
@@ -75,7 +77,7 @@ export const TrendingArticlesCard = ({ posts }) => {
               </p>
             </Link>
             <Link to={`/readmore/${post.id}`}>
-              <h5 className="text-[0.95rem] font-semibold text-slate-600 font-inter">
+              <h5 className="text-[0.95rem] font-semibold text-slate-600 font-inter md:text-sm">
                 {post.postTitle}
               </h5>
             </Link>

@@ -1,13 +1,31 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { RightBar } from "./RightBar";
+import {
+  //   openRightBar,
+  closeRightBar,
+  selectOpenRightBar,
+} from "../Features/openRightBarSlice";
 import { db, onSnapshot, collection } from "../firebase/auth";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const FeedLayout = ({ children }) => {
+  const dispatch = useDispatch();
   const [posts, setPosts] = useState([]);
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const rightBarSlideOpen = useSelector(selectOpenRightBar);
+
+  //   const openRightBarSlide = () => {
+  //     dispatch(openRightBar());
+  //   };
+
+  const closeRightBarSlide = () => {
+    dispatch(closeRightBar());
+  };
 
   useEffect(() => {
     const unsuscribPosts = onSnapshot(collection(db, "posts"), (snapshot) => {
@@ -47,7 +65,7 @@ export const FeedLayout = ({ children }) => {
     return () => {
       unsuscribPosts();
       unsuscribEvents();
-    }
+    };
   }, []);
 
   const rightBarRef = useRef(null);
@@ -79,9 +97,20 @@ export const FeedLayout = ({ children }) => {
     };
   }, []);
 
+  //   useEffect(() => {
+  //     const rightBarLinks = document.querySelectorAll(".rightbar-link");
+  //     if (rightBarSlideOpen) {
+  //       rightBarLinks.classList.add("rightbar-link-active");
+  //     } else {
+  //       rightBarLinks.classList.remove("rightbar-link-active");
+  //     }
+  //   }, [rightBarSlideOpen]);
+
+  //   console.log(rightBarSlideOpen);
+
   return (
-    <div className="flex justify-center min-h-[calc(100vh-0px)] w-screen gap-12 font-inter text-black overflowhidden">
-      <div className="w-full pt-[126px] pb-9 max-w-3xl flex flex-col gap-4 overflowauto">
+    <div className="flex justify-center min-h-[calc(100vh-0px)] w-screen gap-12 font-inter text-black overflowhidden px-4 xl:gap-6 sm:px-2">
+      <div className="w-full pt-[126px] pb-9 max-w-3xl flex flex-col gap-4 overflowauto xl:max-w-[650px] lg:max-w-3xl lg:px-6 md:px-2">
         {/* for you and following tabs */}
         <div className="w-full h-10 flex gap-8">
           <Link
@@ -107,8 +136,30 @@ export const FeedLayout = ({ children }) => {
         </div>
         {children}
       </div>
-      <div ref={rightBarRef} className=" px min- h-max pt-[126px] pb-9">
-        <RightBar posts={posts} loading={loading} events={events} />
+      <div
+        className={`rightbar-link z-20 ${
+          rightBarSlideOpen
+            ? "rightbar-link-active lg:bg-[rgba(0,0,0,0.4)] lg:items-end"
+            : ""
+        }`}
+        style={{
+          backgroundColor: rightBarSlideOpen ? "" : "transparent",
+        }}
+        onClick={closeRightBarSlide}
+      >
+        <div
+          ref={rightBarRef}
+          className="px min- h-max pt-[126px] pb-9 lg:overflow-y-auto lg:bg-white lg:w-max lg:place-self-end lg:h-full lg:px-4 lg:flex lg:flex-col lg:gap-8 lg:pt-[106px] lg:items-end md:pt-[90px]"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="hidden lg:block" onClick={closeRightBarSlide}>
+            <FontAwesomeIcon
+              icon={faXmark}
+              className="text-2xl text-gray-800 cursor-pointer md:text-xl"
+            />
+          </div>
+          <RightBar posts={posts} loading={loading} events={events} />
+        </div>
       </div>
     </div>
   );

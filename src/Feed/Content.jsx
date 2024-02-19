@@ -42,9 +42,8 @@ export const Content = ({ posts, setPosts }) => {
   const navigate = useNavigate();
   //   const postId = "9mBXAxwEFABpxW0jTfn3";
   const postId = id;
-  const reduxUser = useSelector(selectUser);
+  const loggedInUser = useSelector(selectUser);
   //const storageUser = JSON.parse(localStorage.getItem("user") || "{}");
-  const loggedInUser = reduxUser;
   // || storageUser;
   const users = useSelector(selectUsers);
   const [post, setPost] = useState(null);
@@ -176,7 +175,7 @@ export const Content = ({ posts, setPosts }) => {
   };
 
   return (
-    <div className="pt-[126px] py-20 px-12 flex items-center font-inter justify-center xl:px-6 md:px-2 md:py-5">
+    <div className="pt-[126px] py-20 px-12 flex items-center font-inter justify-center xl:px-6 md:px-2 md:py-28">
       <Helmet>
         <title>{postTitle}</title>
         <meta name="description" content={content.slice(0, 150) + "..."} />
