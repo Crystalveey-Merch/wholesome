@@ -120,7 +120,7 @@ export const FeedLayout = ({ children }) => {
 
   return (
     <div className="flex justify-center min-h-[calc(100vh-0px)] w-screen gap-12 font-inter text-black overflowhidden px-4 xl:gap-6 sm:px-2">
-      <div className="w-full pt-[126px] pb-9 max-w-3xl flex flex-col gap-4 overflowauto xl:max-w-[650px] lg:max-w-3xl lg:px-6 md:px-2">
+      <div className="w-full pt-[126px] pb-9 max-w-3xl flex flex-col gap-4 overflowauto xl:max-w-[650px] lg:max-w-3xl md:max-w-[650px] lg:px-5 md:px-2">
         {/* for you and following tabs */}
         <div className="w-full h-10 flex gap-8">
           <Link

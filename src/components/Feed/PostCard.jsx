@@ -122,7 +122,7 @@ export const PostCard = ({ post, posts, setPosts, users }) => {
   return (
     <div
       ref={postRef}
-      className="p-5 border border-gray-200 rounded-md flex flex-col gap-5"
+      className="p-5 border border-gray-200 rounded-md flex flex-col gap-5 overflow-hidden lg:p-4"
     >
       <div className="flex gap-4 items-center">
         <img
@@ -139,15 +139,15 @@ export const PostCard = ({ post, posts, setPosts, users }) => {
           </Link>
           <p className="text-slate-500 text-center text-sm md:text-xs">·</p>
           <p className="text-slate-500 text-[0.85rem]">
-            {formatTimeAgo(new Date(post.timestamp.seconds * 1000))}
+            {formatTimeAgo(new Date(post?.timestamp?.seconds * 1000))}
           </p>
         </div>
       </div>
       <Link
-        className="flex gap-8 items-center md:gap-4 sm:flex-col"
+        className="flex gap-8 items-center lg:gap-4 md:gap-4 sm:flex-col"
         to={`/readmore/${post.id}`}
       >
-        <div className="w-full flex flex-col gap-2 h[200px]">
+        <div className="w-full max-w-[450px] flex flex-grow flex-col gap-2 h[200px] xl:max-w-[332px] lg:max-w-[470px] md:max-w-[440px] sm:max-w-full">
           <h2
             className="text-lg font-semibold text-black overflow-hidden md:text-base"
             id={`title-${post.id}`}
@@ -162,8 +162,13 @@ export const PostCard = ({ post, posts, setPosts, users }) => {
             </p>
           </div>
           <p
-            className="text-[#637381] font-inter text-base font-normal title-content-container overflow-hidden md:text-sm"
-            style={{ WebkitLineClamp: titleLines === 1 ? 3 : 2 }}
+            className="text-[#637381] wfit font-inter text-base font-normal title-content-container overflow-hidden md:text-sm"
+            style={{
+              WebkitLineClamp: titleLines === 1 ? 3 : 2,
+              textOverflow: "ellipsis",
+              overflowWrap: "break-word",
+              wordWrap: "break-word",
+            }}
           >
             {filterOutOtherCharacters(post.content)}
           </p>
@@ -171,7 +176,7 @@ export const PostCard = ({ post, posts, setPosts, users }) => {
         <img
           src={post.imgUrl}
           alt="post"
-          className="min-w-[200px] w-[200px] max-h-[100px] rounded-md object-cover md:min-w-[150px] md:w-[150px] md:max-h-[100px] sm:w-full sm:max-h-[200px]"
+          className="min-w-[200px] w-[200px] max-h-[100px] rounded-md object-cover block md:min-w-[150px] md:w-[150px] md:max-h-[100px] sm:w-full sm:max-h-[200px]"
         />
       </Link>
       <div className="flex justify-between items-center">
