@@ -15,6 +15,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export const FeedLayout = ({ children }) => {
   const dispatch = useDispatch();
   const [posts, setPosts] = useState([]);
+  const [users, setUsers] = useState([]);
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const rightBarSlideOpen = useSelector(selectOpenRightBar);
@@ -62,9 +63,18 @@ export const FeedLayout = ({ children }) => {
       setEvents(eventData);
     });
 
+    const unsuscribUsers = onSnapshot(collection(db, "users"), (snapshot) => {
+      const userData = [];
+      snapshot.forEach((doc) => {
+        userData.push({ ...doc.data(), id: doc.id });
+      });
+      setUsers(userData);
+    });
+
     return () => {
       unsuscribPosts();
       unsuscribEvents();
+      unsuscribUsers();
     };
   }, []);
 
@@ -158,7 +168,12 @@ export const FeedLayout = ({ children }) => {
               className="text-2xl text-gray-800 cursor-pointer md:text-xl"
             />
           </div>
-          <RightBar posts={posts} loading={loading} events={events} />
+          <RightBar
+            posts={posts}
+            loading={loading}
+            events={events}
+            users={users}
+          />
         </div>
       </div>
     </div>

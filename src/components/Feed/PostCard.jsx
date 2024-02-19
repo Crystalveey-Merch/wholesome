@@ -12,7 +12,7 @@ import {
   getProfileDetails,
 } from "../../Hooks";
 import { selectUser } from "../../Features/userSlice";
-import { selectUsers } from "../../Features/usersSlice";
+// import { selectUsers } from "../../Features/usersSlice";
 import { db } from "../../firebase/auth";
 import { faChartSimple } from "@fortawesome/free-solid-svg-icons";
 import { faBookmark } from "@fortawesome/free-regular-svg-icons"; //for yet to be bookmarked
@@ -22,11 +22,11 @@ import notClapImg from "../../Feed/assets/clapping-not-clapped.png";
 import clappedImg from "../../Feed/assets/clapping-clapped.png";
 import readSVG from "../../Feed/assets/read.svg";
 
-export const PostCard = ({ post, posts, setPosts }) => {
+export const PostCard = ({ post, posts, setPosts, users }) => {
   const navigate = useNavigate();
   const loggedInUser = useSelector(selectUser);
 
-  const users = useSelector(selectUsers);
+  // const users = useSelector(selectUsers);
   const postRef = useRef(null);
   const [hasViewedP, setHasViewedP] = useState(false);
 

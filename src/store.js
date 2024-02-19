@@ -11,4 +11,6 @@ export default configureStore({
     user: userSlice,
     users: usersSlice,
   },
+
+  devTools: false,
 });

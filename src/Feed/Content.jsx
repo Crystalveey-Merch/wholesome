@@ -14,7 +14,7 @@ import {
 } from "../Hooks";
 import { useSelector } from "react-redux";
 import { selectUser } from "../Features/userSlice";
-import { selectUsers } from "../Features/usersSlice";
+// import { selectUsers } from "../Features/usersSlice";
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase/auth.js";
 import readSVG from "../Feed/assets/read.svg";
@@ -37,7 +37,7 @@ import { faBookmark as faBookmarkSolid } from "@fortawesome/free-solid-svg-icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Comment } from "../components/Feed/Comment.jsx";
 
-export const Content = ({ posts, setPosts }) => {
+export const Content = ({ posts, setPosts, users }) => {
   const { id } = useParams();
   const navigate = useNavigate();
   //   const postId = "9mBXAxwEFABpxW0jTfn3";
@@ -45,7 +45,7 @@ export const Content = ({ posts, setPosts }) => {
   const loggedInUser = useSelector(selectUser);
   //const storageUser = JSON.parse(localStorage.getItem("user") || "{}");
   // || storageUser;
-  const users = useSelector(selectUsers);
+  //   const users = useSelector(selectUsers);
   const [post, setPost] = useState(null);
   const [comment, setComment] = useState("");
 
@@ -341,6 +341,7 @@ export const Content = ({ posts, setPosts }) => {
                 <Comment
                   key={index}
                   loggedInUser={loggedInUser}
+                  users={users}
                   post={post}
                   setPost={setPost}
                   comment={comment}

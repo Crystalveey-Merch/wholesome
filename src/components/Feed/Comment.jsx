@@ -4,8 +4,8 @@ import { toast } from "react-toastify";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase/auth";
 import { FirstTierReply } from "./FirstTierReply";
-import { selectUsers } from "../../Features/usersSlice";
-import { useSelector } from "react-redux";
+// import { selectUsers } from "../../Features/usersSlice";
+// import { useSelector } from "react-redux";
 import {
   getProfileDetails,
   formatTimeAgo,
@@ -18,6 +18,7 @@ import clappedImg from "../../Feed/assets/clapping-clapped.png";
 
 export const Comment = ({
   loggedInUser,
+  users,
   post,
   setPost,
   comment,
@@ -25,7 +26,7 @@ export const Comment = ({
   index,
 }) => {
   const [loading, setLoading] = useState(false);
-  const users = useSelector(selectUsers);
+//   const users = useSelector(selectUsers);
   //   console.log(users);
   const postRef = doc(db, "posts", post.id);
   const [firstTierReply, setFirstTierReply] = useState("");

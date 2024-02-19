@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { selectUsers } from "../../Features/usersSlice";
+// import { useSelector } from "react-redux";
+// import { selectUsers } from "../../Features/usersSlice";
 import { getProfileDetails } from "../../Hooks";
 
-export const TrendingArticlesCard = ({ posts }) => {
-  const users = useSelector(selectUsers);
+export const TrendingArticlesCard = ({ posts, users }) => {
+  // const users = useSelector(selectUsers);
   //get the top 1 post with the most likes plus top 1 post with the most comments
   // and top 1 post with the most analytics.vists (if no analytics.vists, then use the post with the most likes) and display them in the card
 

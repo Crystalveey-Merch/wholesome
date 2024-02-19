@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
 import { PostCard } from "../components/Feed";
-export const Feed = ({ posts, setPosts }) => {
+export const Feed = ({ posts, setPosts, users }) => {
   return (
     <div>
       {posts.length === 0 ? (
@@ -34,6 +34,7 @@ export const Feed = ({ posts, setPosts }) => {
                 post={post}
                 posts={posts}
                 setPosts={setPosts}
+                users={users}
               />
             ))}
         </div>

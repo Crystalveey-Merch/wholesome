@@ -58,12 +58,12 @@ import ActivityList from "./Activity/ActivityList";
 import SerchUser from "./Userpage/SerchUser";
 import { Messages, SelectMessage, ChatView } from "./Chats";
 import { DefaultLayout } from "./Layouts/";
-import { getDoc, getDocs, limit } from "firebase/firestore";
+import { getDoc, limit } from "firebase/firestore";
 import { Feed, FeedLayout, Content, Following } from "./Feed";
 // import "@fortawesome/fontawesome-free"
 import { useDispatch } from "react-redux";
 import { login, logout } from "./Features/userSlice.js";
-import { setUsers } from "./Features/usersSlice.js";
+// import { setUsers } from "./Features/usersSlice.js";
 import { openRightBar } from "./Features/openRightBarSlice.js";
 import moreImg from "./Feed/assets/aurora.png";
 
@@ -97,17 +97,17 @@ function App() {
       // console.log(user);
 
       // Fetch all users from Firestore
-      const usersRef = collection(db, "users");
-      const usersSnapshot = await getDocs(usersRef);
-      const users = [];
-      usersSnapshot.forEach((doc) => {
-        users.push({
-          id: doc.id,
-          ...doc.data(),
-          photoURL: doc.data().photoURL,
-        });
-      });
-      dispatch(setUsers(users));
+      // const usersRef = collection(db, "users");
+      // const usersSnapshot = await getDocs(usersRef);
+      // const users = [];
+      // usersSnapshot.forEach((doc) => {
+      //   users.push({
+      //     id: doc.id,
+      //     ...doc.data(),
+      //     photoURL: doc.data().photoURL,
+      //   });
+      // });
+      // dispatch(setUsers(users));
       // setAllUsers(users);
     } else {
       localStorage.removeItem("user");
@@ -191,7 +191,7 @@ function App() {
         usersData.push({ ...doc.data(), id: doc.id });
       });
       setAllUsers(usersData);
-      dispatch(setUsers(users));
+      // dispatch(setUsers(users));
     });
 
     return () => {
@@ -293,7 +293,7 @@ function App() {
         <Route path="/articlecategory/:category" element={<CategoryPosts />} />
         <Route
           path="/readmore/:id"
-          element={<Content posts={posts} setPosts={setPosts} />}
+          element={<Content posts={posts} setPosts={setPosts} users={users} />}
         />
         <Route path="/myinterest" element={<MyInterest />}>
           <Route path="/myinterest/articles" element={<ArticleInterest />} />
@@ -375,7 +375,7 @@ function App() {
           path="/feed"
           element={
             <FeedLayout>
-              <Feed posts={posts} setPosts={setPosts} />
+              <Feed posts={posts} setPosts={setPosts} users={users} />
             </FeedLayout>
           }
         />
@@ -383,23 +383,23 @@ function App() {
           path="/feed/following"
           element={
             <FeedLayout>
-              <Following posts={posts} setPosts={setPosts} />
+              <Following posts={posts} setPosts={setPosts} users={users} />
             </FeedLayout>
           }
         />
         {/* <Route path="/content/123" element={<Content />} /> */}
       </Routes>
       {/* <Footer /> */}
-        <div
-          className={` ${
-            location.pathname === "/feed"
-              ? "hidden lg:block fixed z-10 right-10 bottom-10 cursor-pointer"
-              : "hidden lg:hidden"
-          }`}
-          onClick={openRightBarSlide}
-        >
-          <img src={moreImg} className="h-16 w-16 brightness-95 rotate-45" />
-        </div>
+      <div
+        className={` ${
+          location.pathname === "/feed"
+            ? "hidden lg:block fixed z-10 right-10 bottom-10 cursor-pointer"
+            : "hidden lg:hidden"
+        }`}
+        onClick={openRightBarSlide}
+      >
+        <img src={moreImg} className="h-16 w-16 brightness-95 rotate-45" />
+      </div>
       <ToastContainer />
     </div>
   );
