@@ -197,7 +197,7 @@ function App() {
     });
 
     const unsuscribPodcasts = onSnapshot(
-      collection(db, "podcasts"),
+      collection(db, "podcast"),
       (snapshot) => {
         const postData = [];
         snapshot.forEach((doc) => {
