@@ -10,7 +10,7 @@ import { signOut } from "firebase/auth";
 // import { doc, getDoc, collection, getDocs } from "firebase/firestore";
 // import { useNavigate } from "react-router";
 // import { ReactSearchAutocomplete } from "react-search-autocomplete";
-// import messageSVG from "./assets/comment-dots-regular.svg";
+import messageSVG from "./assets/comment-dots-regular.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser, logout } from "./Features/userSlice.js";
 import { Menu } from "@headlessui/react";
@@ -635,18 +635,19 @@ const Header = () => {
               ></FontAwesomeIcon>
             </Link>
           </button>
-
-          {/* <Link
-            // to="/messages"
-            to="/"
-            className="btn flex text-center  bg-white  border-0 "
-          >
-            <img
-              src={messageSVG}
-              alt="message"
-              className="h-5 w-5 sm:h-4 sm:w-4"
-            />
-          </Link> */}
+          {user && (
+            <Link
+              to="/messages"
+              // to="/"
+              className="btn flex text-center  bg-white  border-0 "
+            >
+              <img
+                src={messageSVG}
+                alt="message"
+                className="h-5 w-5 sm:h-4 sm:w-4"
+              />
+            </Link>
+          )}
 
           {user ? (
             <div className="flex">
@@ -681,9 +682,9 @@ const Header = () => {
                       </NavLink>
                     </li>
                     <li>
-                      {/* <NavLink to="/messages" className="justify-between">
+                      <NavLink to="/messages" className="justify-between">
                         Messages
-                      </NavLink> */}
+                      </NavLink>
                     </li>
                     <li>
                       <a>Settings</a>

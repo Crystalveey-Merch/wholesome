@@ -16,20 +16,19 @@ export const NewMessageModal = ({ loggedInUser, users }) => {
   const filteredUsers = users?.filter((user) => {
     return (
       user?.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      user?.username.toLowerCase().includes(searchQuery.toLowerCase())
+      user?.username?.toLowerCase().includes(searchQuery.toLowerCase())
     );
   });
 
   return (
     <div
-      className="fixed z-10 left-0 top-0 w-full h-full overflow-auto bg-[rgba(0,0,0,0.4)] flex justify-center items-center"
+      className="fixed z-10 left-0 top-0 w-full h-full overflow-auto bg-[rgba(0,0,0,0.4)] flex justify-center items-center sm:top-16"
       onClick={closeModal}
     >
       <div
-        className="bg-[#fefefe] p-6 border border-[#fefefe] w-[600px] rounded-xl flex flex-col gap-4"
+        className="bg-[#fefefe] h-[500px] p-6 border border-[#fefefe] w-[600px] rounded-xl flex flex-col gap-4 sm:h-screen sm:w-full sm:rounded-none"
         onClick={(e) => e.stopPropagation()}
         style={{
-          height: "500px",
           boxShadow:
             "0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03)",
         }}
@@ -101,7 +100,7 @@ export const NewMessageModal = ({ loggedInUser, users }) => {
                 className="h-10 w-10 rounded-full"
               />
               <div className="flex flex-col">
-                <p className="font-medium text-gray-900">
+                <p className="font-medium text-gray-900 font-inter">
                   {user.name ? user.name : ""}
                   {/* <span v-if="user.admin" className="relative" title="Admin">
                     <img
@@ -115,7 +114,9 @@ export const NewMessageModal = ({ loggedInUser, users }) => {
                     </p>
                   </span> */}
                 </p>
-                <p className="text-gray-500 text-sm">{user.username}</p>
+                <p className="text-gray-500 text-sm font-inter">
+                  {user.username}
+                </p>
               </div>
             </Link>
           ))}

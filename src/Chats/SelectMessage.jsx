@@ -9,7 +9,7 @@ import {
 } from "../Features/openNewMessageModalSlice";
 import { selectUser } from "../Features/userSlice";
 
-export const SelectMessage = ({  users }) => {
+export const SelectMessage = ({ users }) => {
   const dispatch = useDispatch();
   const loggedInUser = useSelector(selectUser);
   const showModal = useSelector(selectOpenNewMessageModal);
@@ -19,7 +19,7 @@ export const SelectMessage = ({  users }) => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center gap-5 mx-auto h-full">
+    <div className="flex flex-col justify-center items-center gap-5 mx-auto h-full md:hidden">
       <div className="flex flex-col justify-center items-center gap-2">
         {/* <img
           src="../../assets/profileIcons/messages-1.svg"
@@ -31,7 +31,7 @@ export const SelectMessage = ({  users }) => {
           className="text-5xl text-gray-300 h-20 w-20"
         />
         <h1 className="text-2xl font-semibold text-gray-900">Messages</h1>
-        <p className="block text-gray-500 text-center w-96 font-medium text-base">
+        <p className="block text-gray-500 text-center w-[400px] font-medium text-[0.95rem] font-inter">
           You have several options to continue your messaging journey. You can
           choose from your existing conversations, start a new one with someone
           new, or simply keep swimming and wait for someone to message you. The

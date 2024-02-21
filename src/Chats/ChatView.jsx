@@ -7,6 +7,7 @@ import { selectOpenNewMessageModal } from "../Features/openNewMessageModalSlice"
 import { selectUser } from "../Features/userSlice";
 import moment from "moment";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import {
@@ -20,8 +21,11 @@ import {
   serverTimestamp,
   setDoc,
   storage,
+  //   updateDoc,
   where,
 } from "../firebase/auth.js";
+import { toast } from "react-toastify";
+import { useAutosizeTextArea } from "../Hooks/useAutoSizeTextArea.js";
 
 export const ChatView = ({ users }) => {
   const { chatId } = useParams();
@@ -29,12 +33,16 @@ export const ChatView = ({ users }) => {
   const [chatUser, setChatUser] = useState([]);
   const [message, setMessage] = useState("");
   const [chats, setChats] = useState([]);
+  const [messageSending, setMessageSending] = useState(false);
   const showModal = useSelector(selectOpenNewMessageModal);
 
   let idOne = chatId.split("-")[0];
   let idTwo = chatId.split("-")[1];
 
   const navigate = useNavigate();
+
+  const messageRef = useRef(null);
+  useAutosizeTextArea(messageRef.current, message);
 
   useEffect(() => {
     if (idOne !== loggedInUser.id && idTwo !== loggedInUser.id) {
@@ -68,15 +76,12 @@ export const ChatView = ({ users }) => {
   }
 
   useEffect(() => {
-    const displayChat = async () => {
-      const chatsRef = collection(db, "chats");
+    const chatsRef = collection(db, "chats");
+    const chatId = idOne < idTwo ? `${idOne}-${idTwo}` : `${idTwo}-${idOne}`;
 
-      const chatId = idOne < idTwo ? `${idOne}-${idTwo}` : `${idTwo}-${idOne}`;
-
-      // Check if chat already exists between these two users
-      const chatQuery = query(chatsRef, where("chatId", "==", chatId));
-      const chatQuerySnapshot = await getDocs(chatQuery);
-
+    // Check if chat already exists between these two users
+    const chatQuery = query(chatsRef, where("chatId", "==", chatId));
+    const unsubscribe = onSnapshot(chatQuery, async (chatQuerySnapshot) => {
       let chatDocRef;
       if (chatQuerySnapshot.empty) {
         // chat does not exist
@@ -88,26 +93,37 @@ export const ChatView = ({ users }) => {
         const messagesRef = collection(chatDocRef, "messages");
 
         // Listen for new messages
-        onSnapshot(messagesRef, (querySnapshot) => {
+        const unsubscribeMessages = onSnapshot(messagesRef, (querySnapshot) => {
           const newMessages = [];
           querySnapshot.forEach((doc) => {
             newMessages.push(doc.data());
           });
           // sort messages by timestamp in ascending order
           newMessages.sort((a, b) => a.timestamp - b.timestamp);
+
+          //   // Mark messages as read
+          //   newMessages.forEach((message) => {
+
           setChats(newMessages);
         });
+
+        // Cleanup function for message listener
+        return () => {
+          unsubscribeMessages();
+        };
       }
+    });
+
+    // Cleanup function for chat listener
+    return () => {
+      unsubscribe();
     };
-    displayChat();
   }, [idOne, idTwo]);
 
-  const [showImagePreview, setShowImagePreview] = useState(false);
-  const [imagePreview, setImagePreview] = useState("");
-  const [uploadImageFile, setUploadImageFile] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
+  const [imageUrl, setImageUrl] = useState("");
   const imageInputRef = useRef(null);
-
-  const [imageData, setImageData] = useState({ imageURL: "" });
+  const [imageToSend, setImageToSend] = useState(null);
 
   const openImagePicker = () => {
     if (imageInputRef.current) {
@@ -116,53 +132,23 @@ export const ChatView = ({ users }) => {
   };
 
   const handleImageUpload = async (e) => {
-    const file = e.target.files && e.target.files[0];
-    const chatId =
-      idOne && idTwo
-        ? idOne < idTwo
-          ? `${idOne}-${idTwo}`
-          : `${idTwo}-${idOne}`
-        : "";
-    console.log(chatId);
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setImagePreview(e.target?.result);
-        setShowImagePreview(true);
-      };
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
 
-      reader.readAsDataURL(file);
-      setUploadImageFile(file);
-    }
+    reader.onloadend = () => {
+      setImageFile(file);
+      setImageUrl(reader.result);
+    };
   };
 
   const cancelImageUpload = () => {
-    setImagePreview("");
-    setShowImagePreview(false);
-    setUploadImageFile(null);
-    setImageData(null);
+    setImageFile(null);
+    setImageUrl("");
   };
 
   const sendMessage = async () => {
-    if (uploadImageFile) {
-      const chatId =
-        idOne && idTwo
-          ? idOne < idTwo
-            ? `${idOne}-${idTwo}`
-            : `${idTwo}-${idOne}`
-          : "";
-      const storageRef = ref(
-        storage,
-        `chatImages/${chatId}/${uploadImageFile.name}`
-      );
-      const snapShot = await uploadBytes(storageRef, uploadImageFile);
-      //remember to remove this console.log
-      console.log(snapShot);
-      const downloadURL = await getDownloadURL(storageRef);
-
-      setImageData({ imageURL: downloadURL });
-    }
-    if (!message && !imageData?.imageURL) return;
+    setMessageSending(true); // Set messageSending to true when message sending starts
 
     const chatId =
       idOne && idTwo
@@ -170,6 +156,31 @@ export const ChatView = ({ users }) => {
           ? `${idOne}-${idTwo}`
           : `${idTwo}-${idOne}`
         : "";
+
+    // Check if imageFile exists before uploading
+    if (imageFile) {
+      try {
+        const storageRef = ref(
+          storage,
+          `chat-images/${chatId}/${imageFile.name}`
+        );
+        const snapshot = await uploadBytes(storageRef, imageFile);
+        const downloadURL = await getDownloadURL(snapshot.ref);
+        setImageToSend(downloadURL); // Set the image URL to state
+      } catch (error) {
+        // Handle error during image upload
+        console.error("Error uploading image:", error);
+        toast.error("Error uploading image. Please try again.");
+        setMessageSending(false); // Set messageSending to false on error
+        return;
+      }
+    }
+
+    // Check if there's no message or image to send
+    if (!message && !imageToSend) {
+      setMessageSending(false); // Set messageSending to false when no message is sent
+      return;
+    }
 
     const chatsRef = collection(db, "chats");
     const chatQuery = query(chatsRef, where("chatId", "==", chatId));
@@ -199,17 +210,20 @@ export const ChatView = ({ users }) => {
       senderName,
       receiverName,
       text: message || null,
-      imageURL: imageData?.imageURL || null,
+      imageURL: imageToSend || null,
       timestamp,
+      hasRead: false,
+      isDeleted: false,
     };
 
     await addDoc(messagesRef, messageData);
 
+    // Reset form state after message is sent
     setMessage("");
-    setImageData(null);
-    setImagePreview("");
-    setShowImagePreview(false);
-    setUploadImageFile(null);
+    setImageFile(null);
+    setImageUrl("");
+    setImageToSend(null);
+    setMessageSending(false); // Set messageSending to false after message is sent
   };
 
   if (!chatUser) {
@@ -222,37 +236,40 @@ export const ChatView = ({ users }) => {
 
   return (
     <>
-      <div className="w-full relative min-h-screen bg-gray-50">
-        <div style={{ position: "sticky", top: 0 }}>
-          <div className="py-5 px-6 flex row justify-between border-b border-gray-200 bg-white shadow">
-            <NavLink to={`/${chatUser.username}`} className="flex items-center">
+      <div
+        className="w-full relative bg-gray-50 min-h-[calc(100vh-120px)]"
+        // style={{ height: "calc(100vh - 120px)" }}
+      >
+        <div className="sticky top-0">
+          <div className="py-4 px-6 flex row items-center justify-between border-b border-gray-200 bg-white shadow">
+            <NavLink
+              to={`/profile/${chatUser.id}`}
+              className="flex items-center"
+            >
               <img
                 src={
                   chatUser.photoURL
                     ? chatUser.photoURL
                     : "https://sbcf.fr/wp-content/uploads/2018/03/sbcf-default-avatar.png"
                 }
-                className="w-14 h-14 rounded-full border"
+                className="w-12 h-12 rounded-full border xl"
               />
-              <div>
-                <h1 className="font-semibold text-lg ml-4">{chatUser.name}</h1>
-                <p className="text-sm text-gray-500 ml-4">
+              <div className="flex flex-col gap-0">
+                <h1 className="font-semibold text-black text-lg ml-4 font-inter">
+                  {chatUser.name}
+                </h1>
+                <p className="text-sm text-[rgb(71,85,105)] font-inter ml-4">
                   @{chatUser.username}
                 </p>
               </div>
             </NavLink>
-            <button className="p-2 bg-none w-max h-max">
-              {/* <img
-                src="../../assets/dashboardIcons/dots-vertical.svg"
-                alt="dots-vertical"
-                className="w-5 h-5"
-              /> */}
+            <div className="p-2 bg-none w-max h-max cursor-pointer">
               <FontAwesomeIcon icon={faEllipsisV} />
-            </button>
+            </div>
           </div>
         </div>
-        <div className="mt-10 flex flex-col gap-28 overflow-y-scroll h-[75vh]">
-          <div className="text-center flex flex-col items-center justify-center gap-4">
+        <div className="pt-10 flex flex-col gap-28 overflow-yscroll min-h-[75vh]">
+          <div className="text-center flex flex-col items-center justify-center gap-3">
             <img
               src={
                 chatUser.photoURL
@@ -263,23 +280,22 @@ export const ChatView = ({ users }) => {
             />
             <div className="flex flex-col">
               <h1 className="font-bold text-lg text-gray-900">
-                {chatUser.displayName}
+                {chatUser.name}
               </h1>
               <p className="text-base text-gray-600">@{chatUser.username}</p>
             </div>
             <h3 className="text-sm text-gray-800 w-96">{chatUser.shortBio}</h3>
             <div className="flex gap-1 items-center">
-              <h2 className="text-sm text-gray-600">
-                Joined
-                {new Date(
-                  chatUser.createdAt?.seconds * 1000
-                ).toLocaleDateString("en-US", {
-                  month: "long",
-                  day: "numeric",
-                  year: "numeric",
-                })}
-              </h2>
-
+              {chatUser.createdAt && (
+                <h2 className="text-sm text-gray-600">
+                  Joined:{" "}
+                  {new Date(chatUser.createdAt).toLocaleDateString("en-US", {
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
+                </h2>
+              )}
               <p>-</p>
               <h2 className="text-sm text-gray-600">
                 {chatUser.followers?.length} followers
@@ -296,7 +312,7 @@ export const ChatView = ({ users }) => {
                 <p class="text-gray-700 text-sm font-medium text-left">You</p>
               </div>  */}
                       {message.text && (
-                        <div className="bg-purple-600 py-2.5 px-3.5 rounded-lg max-w-[508px]">
+                        <div className="bg-red-600 py-2.5 px-3.5 rounded-lg max-w-[508px]">
                           <p className="text-white font-normal text-base">
                             {message.text}
                           </p>
@@ -305,11 +321,14 @@ export const ChatView = ({ users }) => {
                       {message.imageURL && (
                         <img
                           src={message.imageURL}
-                          className="w-72 h-60 rounded-lg mt-2"
+                          className="w-72 h-60 rounded-lg mt-2 object-cover md:w-60 md:h-56"
                         />
                       )}
-                      <p className="text-gray-600 text-xs font-normal">
-                        {formatTime(message.timestamp?.seconds * 1000)}
+                      <p className="text-gray-600 text-xs font-normal font-inter">
+                        {formatTime(message.timestamp?.seconds * 1000)}{" "}
+                        {/* <span className="text-gray-400">
+                          {message.hasRead && "read"}
+                        </span> */}
                       </p>
                     </div>
                   ) : (
@@ -351,10 +370,10 @@ export const ChatView = ({ users }) => {
                         {message.imageURL && (
                           <img
                             src={message.imageURL}
-                            className="w-72 h-60 rounded-lg mt-2"
+                            className="w-72 h-60 rounded-lg mt-2 object-cover md:w-60 md:h-56"
                           />
                         )}
-                        <p className="text-gray-600 text-xs font-normal">
+                        <p className="text-gray-600 text-xs font-normal font-inter">
                           {formatTime(message.timestamp.seconds * 1000)}
                         </p>
                       </div>
@@ -366,33 +385,34 @@ export const ChatView = ({ users }) => {
           </div>
         </div>
         <div
-          className={` bg-gray-50 border-t border-purple-300 py-3 ${
-            showImagePreview && "h-52"
-          }`}
-          style={{ position: "sticky", bottom: 0 }}
+          // className={` 3 ${
+          //   imageUrl && "h-52"
+          // }`}
+          className="sticky bottom-4 sm:bottom-2"
+          //   style={{ position: "sticky", bottom: 16 }}
         >
-          <div className="flex justify-between px-20 relative items-end h-full">
-            {showImagePreview && (
-              <div className="relative">
+          <div className="flex justify-between mx-20 relative items-end h-full xl:mx-10 lg:mx-3 sm:mx-2">
+            {imageUrl && (
+              <div className="absolute left-3 top-3">
                 <img
-                  src={imagePreview}
+                  src={imageUrl}
                   alt="preview"
-                  className="w-40 h-40 rounded-lg object-cover"
+                  className="w-20 h-20 rounded-lg object-cover"
                 />
-                <button
+                <div
                   type="button"
                   onClick={cancelImageUpload}
-                  className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1.5"
+                  className="absolute cursor-pointer top-1 right-1  text-white h-5 w-5"
                 >
-                  X
-                </button>
+                  <FontAwesomeIcon icon={faCircleXmark} className="w-6 h-6" />
+                </div>
               </div>
             )}
             <div className="absolute bottom-3 pl-1">
               <button
                 type="button"
                 onClick={openImagePicker}
-                className="inline-flex justify-center p-2 text-purple-600 rounded-full cursor-pointer hover:text-purple-900 hover:bg-purple-100 transition duration-300 ease-in-out"
+                className="inline-flex justify-center p-2 text-red-600 rounded-full cursor-pointer hover:text-red-900 hover:bg-red-100 transition duration-300 ease-in-out md:p-1"
               >
                 <svg
                   aria-hidden="true"
@@ -411,7 +431,7 @@ export const ChatView = ({ users }) => {
               </button>
               <button
                 type="button"
-                className="p-2 text-purple-600 rounded-full cursor-pointer hover:text-purple-900 hover:bg-purple-100 transition duration-300 ease-in-out"
+                className="p-2 text-red-600 rounded-full cursor-pointer hover:text-red-900 hover:bg-red-100 transition duration-300 ease-in-out md:p-1"
               >
                 <svg
                   aria-hidden="true"
@@ -429,30 +449,38 @@ export const ChatView = ({ users }) => {
                 <span className="sr-only">Add emoji</span>
               </button>
             </div>
-            <button
+            <div
               type="submit"
-              className={`absolute right-24 w-10 h-10 flex items-center justify-center rounded-md shadow-xl hover:bg-purple-100 transition duration-300 ease-in-out bottom-3 ${
-                message.length === 0 && !showImagePreview
-                  ? "text-purple-400 hover:text-purple-500 cursor-default"
-                  : message.length > 0 ||
-                    (showImagePreview
-                      ? "text-purple-600 hover:text-purple-800"
-                      : "")
+              className={` absolute right-10 w-10 h-10 flex items-center justify-center rounded-md shadow-xl hover:bg-red100 transition duration-300 ease-in-out bottom-3 md:right-2 ${
+                message.length === 0 && !imageFile
+                  ? "bg-red-300 hover:bg-red-400 cursor-default"
+                  : message.length > 0 || imageFile
+                  ? "bg-red-600 hover:bg-red-800  cursor-pointer"
+                  : messageSending &&
+                    "bg-red-300 hover:bg-red-400 cursor-default"
               }`}
+              disabled={message.length === 0 && !imageFile}
               onClick={sendMessage}
             >
-              <span
-                type="button"
-                onClick={sendMessage}
-                className={`inline-flex justify-center p-2 text-white rounded-full cursor-pointer ${
-                  !message && !showImagePreview
-                    ? "bg-gray-300"
-                    : "bg-purple-600 hover:bg-purple-900"
-                } transition duration-300 ease-in-out`}
-              >
-                Send
-              </span>
-            </button>
+              {messageSending ? (
+                "..."
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="#FFFFFF"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"
+                  />
+                </svg>
+              )}
+            </div>
             <input
               type="file"
               ref={imageInputRef}
@@ -460,15 +488,19 @@ export const ChatView = ({ users }) => {
               onChange={handleImageUpload}
               className="hidden"
             />
-
-            <textarea
-              placeholder="Type a message..."
-              className="w-full bg-white font-normal text-base text-gray-900 rounded-lg py-2.5 shadow-sm focus:outline-none disabled:background-gray-50 disabled:border-gray-300 disabled:text-gray-500 after:bg-white transition duration-300 ease-in-out resize-none box-border pr-16 pl-24"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              rows="rows"
-              //   @input="handleInput"
-            ></textarea>
+            <div
+              className={`w-full bg-white h-max border border-r-gray-200 rounded-md pl-24 pr-20 md:pl-[70px] md:pr-12 ${
+                imageUrl ? "pt-20" : "h-max"
+              } `}
+            >
+              <textarea
+                placeholder="Type a message..."
+                className="w-full rounded-md border border-white px-2 py-4 resize-none overflow-hidden text-black focus:outline-none focus:ring-0 focus:ring-none focus:border-white transition duration-300 ease-in-out md:px-0"
+                ref={messageRef}
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+              ></textarea>
+            </div>
           </div>
         </div>
       </div>
