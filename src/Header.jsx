@@ -628,12 +628,12 @@ const Header = () => {
 
         <div className="justify-end sm:justify-middle  sm:w-full flex gap-2 rounded-full ">
           <button className="btn flex text-center  bg-white  border-0 ">
-            <Link to="/searchuser">
-              <FontAwesomeIcon
-                icon={faSearch}
-                className="h-4 w-4"
-              ></FontAwesomeIcon>
-            </Link>
+            {/* <Link to="/searchuser"> */}
+            <FontAwesomeIcon
+              icon={faSearch}
+              className="h-4 w-4"
+            ></FontAwesomeIcon>
+            {/* </Link> */}
           </button>
           {user && (
             <Link

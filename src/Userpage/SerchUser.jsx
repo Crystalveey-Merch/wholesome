@@ -24,8 +24,8 @@ const SerchUser = ({ users }) => {
   useEffect(() => {
     if (users.length > 0) {
       const topUsersData = users
-        .sort((a, b) => b.followers.length - a.followers.length)
-        .slice(0, 20);
+        ?.sort((a, b) => b.followers.length - a.followers.length)
+        ?.slice(0, 20);
       setTopUsers(topUsersData);
     }
   }, [users]);

@@ -2,7 +2,7 @@ import "./App.css";
 import { useEffect, useState } from "react";
 import Header from "./Header";
 import Homepage from "./Home/Homepage";
-import { Route, Routes } from "react-router";
+import { Route, Routes, useLocation } from "react-router";
 import {
   db,
   collection,
@@ -68,6 +68,7 @@ import { openRightBar } from "./Features/openRightBarSlice.js";
 import moreImg from "./Feed/assets/aurora.png";
 
 function App() {
+  const location = useLocation();
   const dispatch = useDispatch();
   const [posts, setPosts] = useState([]);
   const [postId, setPostId] = useState([]);

@@ -120,6 +120,18 @@ export const ChatView = ({ users }) => {
     };
   }, [idOne, idTwo]);
 
+  const lastMessageRef = useRef(null);
+
+  useEffect(() => {
+    // Scroll to the last message when the component mounts
+    if (lastMessageRef.current) {
+      lastMessageRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+      });
+    }
+  }, [chats]);
+
   const [imageFile, setImageFile] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
   const imageInputRef = useRef(null);
@@ -304,8 +316,11 @@ export const ChatView = ({ users }) => {
           </div>
           <div className="mb-10 min-h-[300px]">
             <ul className="flex flex-col gap-8 px-10">
-              {chats.map((message) => (
-                <li key={message.timestamp}>
+              {chats.map((message, index) => (
+                <li
+                  key={message.timestamp}
+                  ref={index === chats.length - 1 ? lastMessageRef : null}
+                >
                   {message.senderId === loggedInUser.id ? (
                     <div className="flex flex-col gap-1.5 items-end">
                       {/* <div class="flex items-start">
@@ -402,7 +417,7 @@ export const ChatView = ({ users }) => {
                 <div
                   type="button"
                   onClick={cancelImageUpload}
-                  className="absolute cursor-pointer top-1 right-1  text-white h-5 w-5"
+                  className="absolute cursor-pointer top-1 right-1  text-white h-7 w-7 flex justify-center items-center bg-red-500 rounded-full"
                 >
                   <FontAwesomeIcon icon={faCircleXmark} className="w-6 h-6" />
                 </div>

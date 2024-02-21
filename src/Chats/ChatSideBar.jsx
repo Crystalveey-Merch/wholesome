@@ -165,8 +165,18 @@ export const ChatSideBar = ({ loggedInUser, users }) => {
         <div className="flex flex-col pt-3">
           <Link
             to={`/messages/${loggedInUser.id}-${loggedInUser.id}`}
-            active-class="bg-gray-50"
-            class="p-4 flex flex-col gap-4 border-b border-gray-200 box-border hover:bg-purple-50 transition duration-500 ease-in-out"
+            // scroll to end of chat
+            // onClick={() => {
+            //   const chat = document.getElementById("chat");
+            //   chat.scrollTop = chat.scrollHeight;
+            // }}
+            // active-class="bg-gray-50"
+            className={`p-4 flex flex-col gap-4 border-b border-gray-200 box-border hover:bg-purple-50 transition duration-500 ease-in-out ${
+              location.pathname ===
+              `/messages/${loggedInUser.id}-${loggedInUser.id}`
+                ? "bg-gray-50"
+                : ""
+            }`}
           >
             <div className="flex justify-between">
               <div className="flex gap-3">
@@ -193,8 +203,10 @@ export const ChatSideBar = ({ loggedInUser, users }) => {
           {chatUserData.map((user) => (
             <Link
               key={user.userData.id}
+              // scroll to bottom of page
+              // onClick={() => window.scrollTo(0, document.body.scrollHeight)}
               to={`/messages/${user.userData.id}-${loggedInUser.id}`}
-              active-class="bg-gray-50"
+              // active-class="bg-gray-50"
               className={`p-4 flex flex-col gap-4 border-b border-gray-200 box-border hover:bg-purple-50 transition duration-500 ease-in-out ${
                 location.pathname ===
                 `/messages/${user.userData.id}-${loggedInUser.id}`
