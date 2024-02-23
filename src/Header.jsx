@@ -23,8 +23,9 @@ import { Menu } from "@headlessui/react";
 // import { useParams } from "react-router";
 // import { useEffect } from "react";
 import { toast } from "react-toastify";
+import { getProfileDetails } from "./Hooks/index.js";
 
-const Header = () => {
+const Header = ({ users }) => {
   const dispatch = useDispatch();
   // const { interestName } = useParams();
   const user = useSelector(selectUser);
@@ -106,6 +107,11 @@ const Header = () => {
   // const closeModal = () => {
   //   setIsModalOpen(false);
   // };
+
+  const unseenNotifications = getProfileDetails(
+    user?.id,
+    users
+  )?.notifications.filter((notification) => !notification.hasSeen);
 
   return (
     <div className="fixed  z-50 top-0 w-screen flex flex-col gap-0 sm:m-0 items-center justify-between border-b border-gray-100  sm:px-0 ">
@@ -717,7 +723,7 @@ const Header = () => {
             <Link
               to="/notifications"
               // to="/"
-              className="flex text-center  bg-white  border-0 btn hover:bg-gray-100 sm:hover:bg-none sm:hidden"
+              className="relative flex text-center  bg-white  border-0 btn hover:bg-gray-100 sm:hover:bg-none sm:hidden"
             >
               <FontAwesomeIcon
                 icon={
@@ -732,6 +738,12 @@ const Header = () => {
                     : "text-[#919EAB]"
                 }`}
               />
+              {/* show notifications that has their hasSeen as false */}
+              {unseenNotifications?.length > 0 && (
+                <div className="absolute top-1.5 right-1.5 font-inter bg-[#FF5841] text-white h-5 w-5 flex justify-center items-center text-xs rounded-full">
+                  {unseenNotifications.length}
+                </div>
+              )}
             </Link>
           )}
           {user ? (

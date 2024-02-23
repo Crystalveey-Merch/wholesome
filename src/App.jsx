@@ -227,7 +227,7 @@ function App() {
 
   return (
     <div className="">
-      <Header />
+      <Header users={users} />
       <Routes>
         <Route
           path="/aboutus"
@@ -242,7 +242,7 @@ function App() {
           path="/"
           element={
             <DefaultLayout>
-              <BottomFeedTab>
+              <BottomFeedTab users={users}>
                 <Homepage
                   posts={posts}
                   postId={postId}
@@ -388,7 +388,7 @@ function App() {
           element={
             <ProtectedRoute>
               {/* change this shit */}
-              <BottomFeedTab>
+              <BottomFeedTab users={users}>
                 <Messages users={users}>
                   <SelectMessage users={users} />
                 </Messages>
@@ -410,9 +410,9 @@ function App() {
           path="/notifications"
           element={
             <ProtectedRoute>
-              <BottomFeedTab>
+              <BottomFeedTab users={users}>
                 <FeedLayout>
-                  <Notifications users={users} />
+                  <Notifications users={users} posts={posts} />
                 </FeedLayout>
               </BottomFeedTab>
             </ProtectedRoute>
@@ -421,7 +421,7 @@ function App() {
         <Route
           path="/feed"
           element={
-            <BottomFeedTab>
+            <BottomFeedTab users={users}>
               <FeedLayout>
                 <Feed posts={posts} setPosts={setPosts} users={users} />
               </FeedLayout>
@@ -431,7 +431,7 @@ function App() {
         <Route
           path="/feed/following"
           element={
-            <BottomFeedTab>
+            <BottomFeedTab users={users}>
               <FeedLayout>
                 <Following posts={posts} setPosts={setPosts} users={users} />
               </FeedLayout>

@@ -48,6 +48,9 @@ export const Content = ({ posts, setPosts, users }) => {
   //   const users = useSelector(selectUsers);
   const [post, setPost] = useState(null);
   const [comment, setComment] = useState("");
+  const [searchText, setSearchText] = useState("");
+  const [userSuggestions, setUserSuggestions] = useState([]);
+  const [showUserSuggestions, setShowUserSuggestions] = useState(false);
 
   const [loading, setLoading] = useState(false);
 
@@ -167,6 +170,7 @@ export const Content = ({ posts, setPosts, users }) => {
       commentId: newComment.commentId,
       createdAt: new Date(),
       hasRead: false,
+      hasSeen: false,
       hasDeleted: false,
       link: `/post/${id}`,
     };
@@ -193,6 +197,46 @@ export const Content = ({ posts, setPosts, users }) => {
     toast.success("Comment added");
 
     setLoading(false);
+  };
+
+  const handleChange = (e) => {
+    const { value } = e.target;
+    setComment(value);
+
+    // Check if "@" is typed
+    if (value.includes("@")) {
+      // Extract search text after "@" and convert to lowercase
+      const searchText = value.split("@").pop().toLowerCase();
+      setSearchText(searchText);
+      // Filter users based on lowercase usernames/names
+      const filteredUsers = users.filter(
+        (user) =>
+          user.username.toLowerCase().includes(searchText) ||
+          user?.name?.toLowerCase().includes(searchText)
+      );
+      setUserSuggestions(filteredUsers);
+      setShowUserSuggestions(true);
+    } else {
+      setUserSuggestions([]);
+      setShowUserSuggestions(false);
+    }
+  };
+  const handleUserSelect = (user) => {
+    // Find the index of the last "@" in the comment
+    const atIndex = comment.lastIndexOf("@");
+
+    if (atIndex !== -1) {
+      // Get the length of the search text after "@"
+      const searchTextLength = searchText.length;
+
+      // Replace the search text with the selected username, including the space
+      const updatedComment =
+        comment.slice(0, atIndex) +
+        `@${user.username} ` + // Include the space after the username
+        comment.slice(atIndex + searchTextLength + 1); // Add 1 to account for the space after the username
+      setComment(updatedComment);
+    }
+    setShowUserSuggestions(false);
   };
 
   return (
@@ -336,12 +380,30 @@ export const Content = ({ posts, setPosts, users }) => {
               alt="profile"
               className="h-10 w-10 rounded-full md:h-8 md:w-8"
             />
-            <div className="w-full border border-r-gray-200 rounded-md p-3 flex flex-col gap-6 md:gap-3">
+            <div className="w-full relative border border-r-gray-200 rounded-md p-3 flex flex-col gap-6 md:gap-3">
+              {/* <div className="absolute w-max top-7 left-4 bgwhite px-0.5">
+                {comment.split(" ").map((word, index) => {
+                  if (word.startsWith("@")) {
+                    // Extract username without "@"
+                    const username = word.substring(1);
+                    return (
+                      <span key={index} className="mention">
+                        @{username}{" "}
+                      </span>
+                    );
+                  }
+                  return (
+                    <span key={index} className="text-black">
+                      {word}{" "}
+                    </span>
+                  );
+                })}
+              </div> */}
               <textarea
                 placeholder="Write a comment..."
                 value={comment}
                 ref={commentRef}
-                onChange={(e) => setComment(e.target.value)}
+                onChange={handleChange}
                 className="w-full rounded-md px-2 py-4 resize-none border-none overflow-hidden text-black focus:outline-none focus:ring-0 transition duration-300 ease-in-out md:px-2 md:py-2"
                 disabled={!loggedInUser}
               />
@@ -354,6 +416,47 @@ export const Content = ({ posts, setPosts, users }) => {
               >
                 {loading ? "Commenting..." : "Comment"}
               </button>
+              {showUserSuggestions && userSuggestions.length > 0 && (
+                <div
+                  className="fixed z-10 left-0 top-0 w-full h-full overflow-auto bg-[rgba(0,0,0,0.4)] flex justify-center items-center"
+                  onClick={() => setShowUserSuggestions(false)}
+                >
+                  <div
+                    className="bg-white h-[350px] w-[350px] rounded-md"
+                    style={{
+                      boxShadow:
+                        "0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03)",
+                    }}
+                  >
+                    <ul
+                      className="max-h-[350px] overflow-y-scroll rounded-md py-2"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      {userSuggestions.slice(0, 7).map((user) => (
+                        <li
+                          key={user.id}
+                          onClick={() => handleUserSelect(user)}
+                          className="cursor-pointer flex gap-3 items-center px-2.5 py-2 hover:bg-gray-200 transition ease-in-out"
+                        >
+                          <img
+                            src={user.photoURL}
+                            alt="profile"
+                            className="h-10 w-10 rounded-full"
+                          />
+                          <div className="flex flex-col">
+                            <p className="text-black text-base font-semibold font-inter">
+                              {user.name}
+                            </p>
+                            <p className="text-gray-500 font-inter">
+                              {user.username}
+                            </p>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
           {comments.length > 0 && (
