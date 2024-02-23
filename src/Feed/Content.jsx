@@ -158,10 +158,31 @@ export const Content = ({ posts, setPosts, users }) => {
       firstTierReplies: [],
     };
 
+    const newNotification = {
+      type: "comment",
+      postId: id,
+      id: loggedInUser?.id + "-" + Date.now(),
+      content: comment,
+      fromUserId: loggedInUser?.id,
+      commentId: newComment.commentId,
+      createdAt: new Date(),
+      hasRead: false,
+      hasDeleted: false,
+      link: `/post/${id}`,
+    };
+
     // Add the new comment to the post's comments array but don't use arrayUnion
     await updateDoc(postRef, {
       comments: arrayUnion(newComment),
     });
+
+    // Add the new comment to the user's notifications array
+    const userRef = doc(db, "users", userId);
+    if (userId !== loggedInUser?.id) {
+      await updateDoc(userRef, {
+        notifications: arrayUnion(newNotification),
+      });
+    }
 
     // const updatedPost = {
     //   ...post,

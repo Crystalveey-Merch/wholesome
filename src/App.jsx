@@ -224,7 +224,6 @@ function App() {
   const openRightBarSlide = () => {
     dispatch(openRightBar());
   };
-  
 
   return (
     <div className="">
@@ -243,14 +242,16 @@ function App() {
           path="/"
           element={
             <DefaultLayout>
-              <Homepage
-                posts={posts}
-                postId={postId}
-                postLoading={postLoading}
-                events={events}
-                eventLoading={eventLoading}
-                activities={activities}
-              />
+              <BottomFeedTab>
+                <Homepage
+                  posts={posts}
+                  postId={postId}
+                  postLoading={postLoading}
+                  events={events}
+                  eventLoading={eventLoading}
+                  activities={activities}
+                />
+              </BottomFeedTab>
             </DefaultLayout>
           }
         />
@@ -410,7 +411,9 @@ function App() {
           element={
             <ProtectedRoute>
               <BottomFeedTab>
-                <Notifications />
+                <FeedLayout>
+                  <Notifications users={users} />
+                </FeedLayout>
               </BottomFeedTab>
             </ProtectedRoute>
           }

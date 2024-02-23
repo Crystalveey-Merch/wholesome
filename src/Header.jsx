@@ -109,13 +109,13 @@ const Header = () => {
 
   return (
     <div className="fixed  z-50 top-0 w-screen flex flex-col gap-0 sm:m-0 items-center justify-between border-b border-gray-100  sm:px-0 ">
-      <div className="navbar text-black bg-white flex gap-5 justify-between px-10 xl:px-5 w-full ">
+      <div className="navbar text-black bg-white flex gap-5 justify-between px-10 xl:px-5 w-full sm:px-2">
         <div className="hidden lg:flex items-center gap-3">
-          <div className="flex-none hidden  lg:block">
+          <div className="flex-none hidden w-max h-max  lg:block">
             <label
               htmlFor="my-drawer-3"
               aria-label="open sidebar"
-              className="btn btn-square btn-ghost"
+              className="btn btn-square w-6 btn-ghost"
             >
               <svg
                 xmlns="https://www.w3.org/2000/svg"

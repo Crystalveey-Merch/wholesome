@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RightBar } from "./RightBar";
 import {
@@ -14,6 +14,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const FeedLayout = ({ children }) => {
   const dispatch = useDispatch();
+  const location = useLocation();
   const [posts, setPosts] = useState([]);
   const [users, setUsers] = useState([]);
   const [events, setEvents] = useState([]);
@@ -122,28 +123,30 @@ export const FeedLayout = ({ children }) => {
     <div className="flex justify-center min-h-[calc(100vh-0px)] w-screen gap-12 font-inter text-black overflowhidden px-4 xl:gap-6 sm:px-2">
       <div className="w-full pt-[126px] pb-9 max-w-3xl flex flex-col gap-4 overflowauto xl:max-w-[650px] lg:max-w-3xl md:max-w-[650px] lg:px-5 md:px-2">
         {/* for you and following tabs */}
-        <div className="w-full h-10 flex gap-8">
-          <Link
-            className={`text-base font-semibold pb-3 border-b-2 cursor-pointer transition duration-500 ease-in-out ${
-              location.pathname === "/feed"
-                ? "text-black border-[#FF5841]"
-                : "text-gray-500 border-b-transparent hover:text-black hover:border-[#FF5841]"
-            } `}
-            to="/feed"
-          >
-            For You
-          </Link>
-          <Link
-            className={`text-base font-semibold pb-3 border-b-2 cursor-pointer transition duration-500 ease-in-out ${
-              location.pathname === "/feed/following"
-                ? "text-black border-[#FF5841]"
-                : "text-gray-500 border-b-transparent hover:text-black hover:border-[#FF5841]"
-            } `}
-            to="/feed/following"
-          >
-            Following
-          </Link>
-        </div>
+        {location.pathname.includes("/feed") && (
+          <div className="w-full h-10 flex gap-8">
+            <Link
+              className={`text-base font-semibold pb-3 border-b-2 cursor-pointer transition duration-500 ease-in-out ${
+                location.pathname === "/feed"
+                  ? "text-black border-[#FF5841]"
+                  : "text-gray-500 border-b-transparent hover:text-black hover:border-[#FF5841]"
+              } `}
+              to="/feed"
+            >
+              For You
+            </Link>
+            <Link
+              className={`text-base font-semibold pb-3 border-b-2 cursor-pointer transition duration-500 ease-in-out ${
+                location.pathname === "/feed/following"
+                  ? "text-black border-[#FF5841]"
+                  : "text-gray-500 border-b-transparent hover:text-black hover:border-[#FF5841]"
+              } `}
+              to="/feed/following"
+            >
+              Following
+            </Link>
+          </div>
+        )}
         {children}
       </div>
       <div
