@@ -1,4 +1,4 @@
-import { updateDoc } from "../../firebase/auth.js";
+import { arrayUnion, db, doc, updateDoc } from "../../firebase/auth.js";
 
 const handleLikeComment = async (
   loggedInUserId,
@@ -16,6 +16,32 @@ const handleLikeComment = async (
         : comment
     ),
   });
+
+  const newNotification = {
+    type: "like",
+    likeType: "comment",
+    commentId: commentId,
+    postId: post.id,
+    id: loggedInUserId + "-" + Date.now(),
+    content: `${post.postTitle}`,
+    fromUserId: loggedInUserId,
+    createdAt: new Date(),
+    hasRead: false,
+    hasSeen: false,
+    hasDeleted: false,
+    link: `/post/${post.id}`,
+  };
+
+  // Add a new notification to comment author's notifications
+  const commentAurthorId = comments.find(
+    (comment) => comment.commentId === commentId
+  ).commentAuthorId;
+  const commentAuthorRef = doc(db, "users", commentAurthorId);
+  if (commentAurthorId !== loggedInUserId) {
+    await updateDoc(commentAuthorRef, {
+      notifications: arrayUnion(newNotification),
+    });
+  }
 
   //   set the state of the post to reflect the updated likes
   const updatedPost = {
@@ -49,7 +75,7 @@ const handleLikeComment = async (
 };
 
 const handleUnlikeComment = async (
-    loggedInUserId,
+  loggedInUserId,
   post,
   setPost,
   commentId,

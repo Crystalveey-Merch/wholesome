@@ -188,6 +188,41 @@ export const Content = ({ posts, setPosts, users }) => {
       });
     }
 
+    // check for mentions and notify the user
+    const mentions = comment.match(/@\w+/g);
+    const mentionedUsers = users.filter((user) =>
+      mentions?.includes(`@${user.username}`)
+    );
+    // console.log("mentionedUsers", mentions);
+
+    if (mentionedUsers.length > 0) {
+      const mentionedUserIds = mentionedUsers.map((user) => user.id);
+      const mentionedNotification = {
+        type: "mention",
+        mentionType: "comment",
+        postId: id,
+        id: loggedInUser?.id + "-" + Date.now(),
+        content: comment,
+        fromUserId: loggedInUser?.id,
+        commentId: newComment.commentId,
+        createdAt: new Date(),
+        hasRead: false,
+        hasSeen: false,
+        hasDeleted: false,
+        link: `/post/${id}`,
+      };
+
+      // Add the new comment to the mentioned users' notifications array
+      mentionedUserIds.forEach(async (userId) => {
+        const mentionedUserRef = doc(db, "users", userId);
+        if (userId !== loggedInUser?.id) {
+          await updateDoc(mentionedUserRef, {
+            notifications: arrayUnion(mentionedNotification),
+          });
+        }
+      });
+    }
+
     // const updatedPost = {
     //   ...post,
     //   comments: [...comments, newComment],
@@ -198,6 +233,13 @@ export const Content = ({ posts, setPosts, users }) => {
 
     setLoading(false);
   };
+  //   // check for mentions and notify the user
+  //   const mentions = comment.match(/@\w+/g);
+  //   const mentionedUsers = users.filter((user) =>
+  //     mentions?.includes(`@${user.username}`)
+  //   );
+  //   console.log("mentionedUsers", mentions);
+  //   console.log("mentionedUsers", mentionedUsers);
 
   const handleChange = (e) => {
     const { value } = e.target;
@@ -381,19 +423,29 @@ export const Content = ({ posts, setPosts, users }) => {
               className="h-10 w-10 rounded-full md:h-8 md:w-8"
             />
             <div className="w-full relative border border-r-gray-200 rounded-md p-3 flex flex-col gap-6 md:gap-3">
-              {/* <div className="absolute w-max top-7 left-4 bgwhite px-0.5">
+              {/* <div
+                ref={commentRef}
+                value
+                className="absolute w-full h-max top-3 py-4 left-[18px] right-[18px] bgwhite px-0.5 curs"
+              >
                 {comment.split(" ").map((word, index) => {
                   if (word.startsWith("@")) {
                     // Extract username without "@"
                     const username = word.substring(1);
                     return (
-                      <span key={index} className="mention">
+                      <span
+                        key={index}
+                        className="bg-yellow-100 font-normal text-blue-400"
+                      >
                         @{username}{" "}
                       </span>
                     );
                   }
                   return (
-                    <span key={index} className="text-black">
+                    <span
+                      key={index}
+                      className="text-transparent bg-transparent tex"
+                    >
                       {word}{" "}
                     </span>
                   );

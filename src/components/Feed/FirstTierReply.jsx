@@ -11,6 +11,7 @@ import {
   handleUnlikeFirstTierReply,
   handleLikeSecondTierReply,
   handleUnlikeSecondTierReply,
+  HighlightedText,
 } from "../../Hooks";
 import notClapImg from "../../Feed/assets/clapping-not-clapped.png";
 import clappedImg from "../../Feed/assets/clapping-clapped.png";
@@ -135,6 +136,31 @@ export const FirstTierReply = ({
       likes: [],
     };
 
+    const newNotification = {
+      type: "reply",
+      replyType: "reply",
+      postId: post.id,
+      commentId: commentId,
+      firstTierReplyId: replyId,
+      secondTierReplyId: newSecondTierReply.replyId,
+      id: loggedInUser?.id + "-" + Date.now(),
+      content: secondTierReply,
+      fromUserId: loggedInUser?.id,
+      createdAt: new Date(),
+      hasRead: false,
+      hasSeen: false,
+      hasDeleted: false,
+      link: `/post/${post.id}`,
+    };
+
+    // Add a new notification to reply author's notifications
+    const replyAuthorRef = doc(db, "users", reply.replyAuthorId);
+    if (reply.replyAuthorId !== loggedInUser?.id) {
+      await updateDoc(replyAuthorRef, {
+        notifications: [newNotification],
+      });
+    }
+
     await updateDoc(postRef, {
       comments: comments.map((comment) =>
         comment.commentId === commentId
@@ -219,9 +245,9 @@ export const FirstTierReply = ({
             </div>
             {/* <button> follow </button> */}
           </div>
-          <p className="text-[rgb(71,85,105)] text-base font-inter sm:text-[0.95rem]">
-            {reply.body}
-          </p>
+          <div className="text-[rgb(71,85,105)] text-base font-inter sm:text-[0.95rem]">
+            <HighlightedText content={reply.body} users={users} />
+          </div>
         </div>
 
         <div className="flex gap-2 items-center">
@@ -355,9 +381,12 @@ export const FirstTierReply = ({
                       </div>
                       {/* <button> follow </button> */}
                     </div>
-                    <p className="text-[rgb(71,85,105)] text-base font-inter sm:text-[0.95rem]">
-                      {secondReply.body}
-                    </p>
+                    <div className="text-[rgb(71,85,105)] text-base font-inter sm:text-[0.95rem]">
+                      <HighlightedText
+                        content={secondReply.body}
+                        users={users}
+                      />
+                    </div>
                   </div>
 
                   <div className="flex gap-2 items-center">

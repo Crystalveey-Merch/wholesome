@@ -1,4 +1,4 @@
-import { updateDoc } from "../../firebase/auth.js";
+import { arrayUnion, db, doc, updateDoc } from "../../firebase/auth.js";
 
 const handleLikeFirstTierReply = async (
   loggedInUserId,
@@ -24,6 +24,33 @@ const handleLikeFirstTierReply = async (
         : comment
     ),
   });
+
+  const newNotification = {
+    type: "like",
+    likeType: "reply",
+    postId: post.id,
+    commentId: commentId,
+    replyId: replyId,
+    id: loggedInUserId + "-" + Date.now(),
+    content: `${post.postTitle}`,
+    fromUserId: loggedInUserId,
+    createdAt: new Date(),
+    hasRead: false,
+    hasSeen: false,
+    hasDeleted: false,
+    link: `/post/${post.id}`,
+  };
+
+  // Add a new notification to reply author's notifications
+  const replyAuthorId = comments
+    .find((comment) => comment.commentId === commentId)
+    .firstTierReplies.find((reply) => reply.replyId === replyId).replyAuthorId;
+  const replyAuthorRef = doc(db, "users", replyAuthorId);
+  if (replyAuthorId !== loggedInUserId) {
+    await updateDoc(replyAuthorRef, {
+      notifications: arrayUnion(newNotification),
+    });
+  }
 
   //   set the state of the post to reflect the updated likes
   const updatedPost = {

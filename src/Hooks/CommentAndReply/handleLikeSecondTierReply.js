@@ -1,4 +1,4 @@
-import { updateDoc } from "../../firebase/auth.js";
+import { arrayUnion, db, doc, updateDoc } from "../../firebase/auth.js";
 
 export const handleLikeSecondTierReply = async (
   loggedInUserId,
@@ -39,6 +39,37 @@ export const handleLikeSecondTierReply = async (
         : comment
     ),
   });
+
+  const newNotification = {
+    type: "like",
+    likeType: "secondTierReply",
+    commentId: commentId,
+    firstTierReplyId: firstTierReplyId,
+    secondTierReplyId: secondTierReplyId,
+    postId: post.id,
+    id: loggedInUserId + "-" + Date.now(),
+    content: `${post.postTitle}`,
+    fromUserId: loggedInUserId,
+    createdAt: new Date(),
+    hasRead: false,
+    hasSeen: false,
+    hasDeleted: false,
+    link: `/post/${post.id}`,
+  };
+
+  //   Add a new notification to second tier reply author's notifications
+  const secondTierReplyAuthorId = comments
+    .find((comment) => comment.commentId === commentId)
+    .firstTierReplies.find((reply) => reply.replyId === firstTierReplyId)
+    .secondTierReplies.find(
+      (reply) => reply.replyId === secondTierReplyId
+    ).replyAuthorId;
+  const secondTierReplyAuthorRef = doc(db, "users", secondTierReplyAuthorId);
+  if (secondTierReplyAuthorId !== loggedInUserId) {
+    await updateDoc(secondTierReplyAuthorRef, {
+      notifications: arrayUnion(newNotification),
+    });
+  }
 
   //   set the state of the post to reflect the updated likes
   const updatedPost = {

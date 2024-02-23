@@ -63,6 +63,33 @@ export const Comment = ({
       secondTierReplies: [],
     };
 
+    const newNotification = {
+      type: "reply",
+      replyType: "comment",
+      postId: post.id,
+      commentId: commentId,
+      id: loggedInUser?.id + "-" + Date.now(),
+      content: firstTierReply,
+      fromUserId: loggedInUser?.id,
+      createdAt: new Date(),
+      hasRead: false,
+      hasSeen: false,
+      hasDeleted: false,
+      link: `/post/${post.id}`,
+    };
+
+    // Add a new notification to comment author's notifications
+    const commentAurthorId = comment.commentAuthorId;
+    const commentAuthorRef = doc(db, "users", commentAurthorId);
+    if (commentAurthorId !== loggedInUser?.id) {
+      await updateDoc(commentAuthorRef, {
+        notifications: [
+          ...users.find((user) => user.id === commentAurthorId).notifications,
+          newNotification,
+        ],
+      });
+    }
+
     await updateDoc(postRef, {
       comments: comments.map((comment) =>
         comment.commentId === commentId
@@ -141,7 +168,6 @@ export const Comment = ({
     }, 500); // Wait for one second (1000 milliseconds)
   };
 
-
   return (
     <div className="flex gap-3 sm:gap-1.5">
       <div className="flex flex-col items-center h-max w-max">
@@ -187,7 +213,7 @@ export const Comment = ({
             {/* <button> follow </button> */}
           </div>
           <div className="text-[rgb(71,85,105)] text-base font-inter sm:text-[0.95rem]">
-            <HighlightedText content={comment.body}  users={users}/>
+            <HighlightedText content={comment.body} users={users} />
           </div>
         </div>
         <div className="flex gap-2 items-center">
