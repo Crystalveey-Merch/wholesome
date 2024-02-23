@@ -1,8 +1,14 @@
 /* eslint-disable react/prop-types */
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch, faUser } from "@fortawesome/free-solid-svg-icons";
+import {
+  faSearch,
+  faUser,
+  faCommentDots as solidComment,
+  faBell as solidBell,
+} from "@fortawesome/free-solid-svg-icons";
+import { faCommentDots, faBell } from "@fortawesome/free-regular-svg-icons";
 // import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 // import { useState } from "react";
 // import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase/auth.js";
@@ -10,7 +16,6 @@ import { signOut } from "firebase/auth";
 // import { doc, getDoc, collection, getDocs } from "firebase/firestore";
 // import { useNavigate } from "react-router";
 // import { ReactSearchAutocomplete } from "react-search-autocomplete";
-import messageSVG from "./assets/comment-dots-regular.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser, logout } from "./Features/userSlice.js";
 import { Menu } from "@headlessui/react";
@@ -23,6 +28,8 @@ const Header = () => {
   const dispatch = useDispatch();
   // const { interestName } = useParams();
   const user = useSelector(selectUser);
+
+  const location = useLocation();
 
   // const navigate = useNavigate();
   // const [isModalOpen, setIsModalOpen] = useState(false);
@@ -102,13 +109,44 @@ const Header = () => {
 
   return (
     <div className="fixed  z-50 top-0 w-screen flex flex-col gap-0 sm:m-0 items-center justify-between border-b border-gray-100  sm:px-0 ">
-      <div className="navbar   text-black bg-white flex gap-5  justify-evenly px-10 xl:px-0 sm:px-5 w-full ">
-        <div className="drawer xl:block   sm:block hidden w-5  left-0">
+      <div className="navbar text-black bg-white flex gap-5 justify-between px-10 xl:px-5 w-full ">
+        <div className="hidden lg:flex items-center gap-3">
+          <div className="flex-none hidden  lg:block">
+            <label
+              htmlFor="my-drawer-3"
+              aria-label="open sidebar"
+              className="btn btn-square btn-ghost"
+            >
+              <svg
+                xmlns="https://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                className="inline-block w-6 h-6 stroke-current"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                ></path>
+              </svg>
+            </label>
+          </div>
+          <NavLink to="/">
+            {" "}
+            <div>
+              <a className=" Aceh  normal-case text-2xl sm:text-xl xl:text-xl  ">
+                Wholesquare
+              </a>
+            </div>
+          </NavLink>
+        </div>
+        <div className="drawer lg:block  sm:block hidden w-5  left-0">
           <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
 
           {/* Navbar */}
-          <div className="">
-            <div className="flex-none hidden  sm:block">
+          {/* <div className="hidden lg:flex items-center gap-3">
+            <div className="flex-none hidden  lg:block">
               <label
                 htmlFor="my-drawer-3"
                 aria-label="open sidebar"
@@ -129,8 +167,16 @@ const Header = () => {
                 </svg>
               </label>
             </div>
-          </div>
-          <div className="drawer-side">
+            <NavLink to="/">
+              {" "}
+              <div>
+                <a className=" Aceh  normal-case text-2xl sm:text-xl xl:text-xl  ">
+                  Wholesquare
+                </a>
+              </div>
+            </NavLink>
+          </div> */}
+          <div className="drawer-side hidden lg:grid">
             <label
               htmlFor="my-drawer-3"
               aria-label="close sidebar"
@@ -281,8 +327,7 @@ const Header = () => {
                       <NavLink
                         onClick={closeDrawer}
                         className={`${active && "bg-blue-500"}`}
-                        to="/interest/Business and Finance
-"
+                        to="/interest/Business and Finance"
                       >
                         Business and Finance
                       </NavLink>
@@ -462,12 +507,20 @@ const Header = () => {
         <NavLink to="/">
           {" "}
           <div>
-            <a className=" Aceh  normal-case text-2xl sm:text-xl xl:text-xl  ">
+            <a className=" Aceh  normal-case text-2xl block lg:hidden sm:text-xl xl:text-xl  ">
               Wholesquare
             </a>
           </div>
         </NavLink>
-        <div className=" w-full flex justify-center m-auto text-2xl sm:hidden  ">
+        <NavLink to="/createpost" className="hidden lg:block sm:hidden">
+          <label
+            tabIndex={0}
+            className=" text-black bg-white border-none capitalize btn m-1 hover:bg-gray-100"
+          >
+            Create Post
+          </label>
+        </NavLink>
+        <div className=" w-full flex justify-center m-auto text-2xl lg:hidden  ">
           <ul className="menu menu-horizontal xl:flex-nowrap gap-2 text-2xl px-1 xl:gap-0 m-auto text-black">
             <div className="dropdown dropdown-bottom ">
               <NavLink to="/aboutus">
@@ -627,28 +680,60 @@ const Header = () => {
         {/* </dialog> */}
 
         <div className="justify-end sm:justify-middle  sm:w-full flex gap-2 rounded-full ">
-          <button className="btn flex text-center  bg-white  border-0 ">
+          <div className="flex text-center  bg-white  border-0 btn m-1 hover:bg-gray-100 sm:m-0 sm:hover:bg-none ">
             {/* <Link to="/searchuser"> */}
             <FontAwesomeIcon
               icon={faSearch}
-              className="h-4 w-4"
-            ></FontAwesomeIcon>
+              className={`h-[18px] w-[18px] ${
+                location.pathname === "/searchuser"
+                  ? "text-[#FF5841]"
+                  : "text-[#919EAB]"
+              }`}
+            />
             {/* </Link> */}
-          </button>
+          </div>
           {user && (
             <Link
               to="/messages"
               // to="/"
-              className="btn flex text-center  bg-white  border-0 "
+              className="flex text-center  bg-white  border-0 btn hover:bg-gray-100 sm:hover:bg-none "
             >
-              <img
-                src={messageSVG}
-                alt="message"
-                className="h-5 w-5 sm:h-4 sm:w-4"
+              <FontAwesomeIcon
+                icon={
+                  location.pathname.includes("/messages")
+                    ? solidComment
+                    : faCommentDots
+                }
+                className={`h-5 w-5
+                ${
+                  location.pathname.includes("/messages")
+                    ? "text-[#FF5841]"
+                    : "text-[#919EAB]"
+                }`}
               />
             </Link>
           )}
-
+          {user && (
+            <Link
+              to="/notifications"
+              // to="/"
+              className="flex text-center  bg-white  border-0 btn hover:bg-gray-100 sm:hover:bg-none sm:hidden"
+            >
+              <FontAwesomeIcon
+                icon={
+                  location.pathname.includes("/notifications")
+                    ? solidBell
+                    : faBell
+                }
+                className={`h-5 w-5
+                ${
+                  location.pathname === "/notifications"
+                    ? "text-[#FF5841]"
+                    : "text-[#919EAB]"
+                }`}
+              />
+            </Link>
+          )}
           {user ? (
             <div className="flex">
               {user ? (

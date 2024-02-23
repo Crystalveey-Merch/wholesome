@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "../firebase/auth.js";
@@ -33,7 +32,7 @@ import {
   faTrashAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { Helmet } from "react-helmet-async";
-const Bookmarks = () => {
+export const Bookmarks = () => {
   const [bookmarks, setBookmarks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [authUser, setAuthUser] = useState(null);
@@ -226,5 +225,3 @@ const Bookmarks = () => {
     </div>
   );
 };
-
-export default Bookmarks;

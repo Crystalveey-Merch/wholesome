@@ -12,6 +12,7 @@ import {
   useAutosizeTextArea,
   handleLikeComment,
   handleUnlikeComment,
+  HighlightedText,
 } from "../../Hooks";
 import notClapImg from "../../Feed/assets/clapping-not-clapped.png";
 import clappedImg from "../../Feed/assets/clapping-clapped.png";
@@ -140,6 +141,7 @@ export const Comment = ({
     }, 500); // Wait for one second (1000 milliseconds)
   };
 
+
   return (
     <div className="flex gap-3 sm:gap-1.5">
       <div className="flex flex-col items-center h-max w-max">
@@ -184,9 +186,9 @@ export const Comment = ({
             </div>
             {/* <button> follow </button> */}
           </div>
-          <p className="text-[rgb(71,85,105)] text-base font-inter sm:text-[0.95rem]">
-            {comment.body}
-          </p>
+          <div className="text-[rgb(71,85,105)] text-base font-inter sm:text-[0.95rem]">
+            <HighlightedText content={comment.body}  users={users}/>
+          </div>
         </div>
         <div className="flex gap-2 items-center">
           {comment?.likes?.length < 1 ? (

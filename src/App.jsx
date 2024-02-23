@@ -37,9 +37,7 @@ import Statistics from "./Dashboard/Statistics";
 import "hover.css";
 import TagPosts from "./Articles/TagPosts";
 import CategoryPosts from "./Articles/CollectionPosts.";
-import Bookmarks from "./Dashboard/Bookmarks";
 import ActivityForm from "./Activity/ActivityForm";
-import Drafts from "./Dashboard/Drafts";
 import Profilepage from "./Dashboard/Profilepage";
 import ArticleInterest from "./MyInterest/ArticleInterest";
 import EventsInterest from "./MyInterest/EventsInterest";
@@ -60,12 +58,14 @@ import { Messages, SelectMessage, ChatView } from "./Chats";
 import { DefaultLayout } from "./Layouts/";
 import { getDoc, limit } from "firebase/firestore";
 import { Feed, FeedLayout, Content, Following } from "./Feed";
+import { Bookmarks, Drafts, Notifications } from "./Dashboard";
 // import "@fortawesome/fontawesome-free"
 import { useDispatch } from "react-redux";
 import { login, logout } from "./Features/userSlice.js";
 // import { setUsers } from "./Features/usersSlice.js";
 import { openRightBar } from "./Features/openRightBarSlice.js";
 import moreImg from "./Feed/assets/aurora.png";
+import { BottomFeedTab } from "./components/Feed/";
 
 function App() {
   const location = useLocation();
@@ -224,6 +224,7 @@ function App() {
   const openRightBarSlide = () => {
     dispatch(openRightBar());
   };
+  
 
   return (
     <div className="">
@@ -386,9 +387,11 @@ function App() {
           element={
             <ProtectedRoute>
               {/* change this shit */}
-              <Messages users={users}>
-                <SelectMessage users={users} />
-              </Messages>
+              <BottomFeedTab>
+                <Messages users={users}>
+                  <SelectMessage users={users} />
+                </Messages>
+              </BottomFeedTab>
             </ProtectedRoute>
           }
         />
@@ -403,19 +406,33 @@ function App() {
           }
         />
         <Route
+          path="/notifications"
+          element={
+            <ProtectedRoute>
+              <BottomFeedTab>
+                <Notifications />
+              </BottomFeedTab>
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/feed"
           element={
-            <FeedLayout>
-              <Feed posts={posts} setPosts={setPosts} users={users} />
-            </FeedLayout>
+            <BottomFeedTab>
+              <FeedLayout>
+                <Feed posts={posts} setPosts={setPosts} users={users} />
+              </FeedLayout>
+            </BottomFeedTab>
           }
         />
         <Route
           path="/feed/following"
           element={
-            <FeedLayout>
-              <Following posts={posts} setPosts={setPosts} users={users} />
-            </FeedLayout>
+            <BottomFeedTab>
+              <FeedLayout>
+                <Following posts={posts} setPosts={setPosts} users={users} />
+              </FeedLayout>
+            </BottomFeedTab>
           }
         />
         {/* <Route path="/content/123" element={<Content />} /> */}
@@ -423,14 +440,16 @@ function App() {
       {/* <Footer /> */}
       <div
         className={` ${
-          location.pathname === "/feed"
-            ? "hidden lg:block fixed z-10 right-10 bottom-10 cursor-pointer"
+          location.pathname.includes("/feed")
+            ? "hidden lg:block fixed z-10 right-10 bottom-10 cursor-pointer sm:hidden"
             : "hidden lg:hidden"
         }`}
         onClick={openRightBarSlide}
       >
         <img src={moreImg} className="h-16 w-16 brightness-95 rotate-45" />
       </div>
+
+      {/* <BottomFeedTab /> */}
       <ToastContainer />
     </div>
   );

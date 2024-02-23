@@ -159,7 +159,7 @@ export const FeedLayout = ({ children }) => {
       >
         <div
           ref={rightBarRef}
-          className="px min- h-max pt-[126px] pb-9 lg:overflow-y-auto lg:bg-white lg:w-max lg:place-self-end lg:h-full lg:px-4 lg:flex lg:flex-col lg:gap-8 lg:pt-[106px] lg:items-end md:pt-[90px]"
+          className="px min- h-max pt-[126px] pb-9 lg:overflow-y-auto lg:bg-white lg:w-max lg:place-self-end lg:h-full lg:px-4 lg:flex lg:flex-col lg:gap-8 lg:pt-[106px] lg:items-end md:pt-[90px] sm:"
           onClick={(e) => e.stopPropagation()}
         >
           <div className="hidden lg:block" onClick={closeRightBarSlide}>

@@ -314,6 +314,11 @@ button:focus-visible {
   }
 }
 
+/* @media screen and (max-width: 639px) {
+  .rightbar-link {
+  }
+} */
+
 .post-card {
   width: 288px !important;
 }
@@ -323,3 +328,13 @@ button:focus-visible {
     -webkit-line-clamp: 1;
   }
 } */
+
+.mention {
+  color: blue; /* Change color as needed */
+  font-weight: bold; /* Add additional styles as needed */
+}
+
+.hashtag {
+  color: green; /* Change color as needed */
+  font-weight: bold; /* Add additional styles as needed */
+}

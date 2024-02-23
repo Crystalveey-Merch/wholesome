@@ -216,7 +216,7 @@ export const Content = ({ posts, setPosts, users }) => {
           <img
             src={imgUrl}
             alt="post"
-            className="w-full max-h-[500px]  object-cover rounded-md md:h-80"
+            className="w-full h-auto max-h-[600px] object-top object-cover rounded-md md:h80"
           />
           <div className="flex flex-col gap-3 ">
             <div className="prose prose-lg text-black prose-a:text-blue-700 prose-a:font-bold prose-a:no-underline prose-blockquote:bg-gray-50 prose-blockquote:py-0.5 prose-th:bg-slate-100 prose-th:p-2 prose-td:p-2 prose-td:border prose-th:border border-r-gray-200 prose-em:prose-strong:text-gray-700 prose-img:w-10/12 prose-img:mx-auto xl:prose-lg md:prose-base prose-headings:text-gray-800">

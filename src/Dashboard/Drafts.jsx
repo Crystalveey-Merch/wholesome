@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "../firebase/auth.js";
@@ -32,7 +31,7 @@ import {
   faThumbsUp,
   faTrashAlt,
 } from "@fortawesome/free-solid-svg-icons";
-const Drafts = () => {
+export const Drafts = () => {
   const [userPosts, setUserPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [authUser, setAuthUser] = useState(null);
@@ -194,4 +193,3 @@ const Drafts = () => {
   );
 };
 
-export default Drafts;

@@ -7,7 +7,7 @@ import { selectOpenNewMessageModal } from "../Features/openNewMessageModalSlice"
 import { selectUser } from "../Features/userSlice";
 import moment from "moment";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
-import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
+import { faCircleXmark, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import {
@@ -128,6 +128,9 @@ export const ChatView = ({ users }) => {
       lastMessageRef.current.scrollIntoView({
         behavior: "smooth",
         block: "end",
+        // inline: "nearest", // Ensure the element is aligned to the end of the container
+        // Add a slight scroll offset of plus ten pixels
+        // bottom: lastMessageRef.current.offsetTop + 80,
       });
     }
   }, [chats]);
@@ -253,28 +256,36 @@ export const ChatView = ({ users }) => {
         // style={{ height: "calc(100vh - 120px)" }}
       >
         <div className="sticky top-0">
-          <div className="py-4 px-6 flex row items-center justify-between border-b border-gray-200 bg-white shadow">
-            <NavLink
-              to={`/profile/${chatUser.id}`}
-              className="flex items-center"
-            >
-              <img
-                src={
-                  chatUser.photoURL
-                    ? chatUser.photoURL
-                    : "https://sbcf.fr/wp-content/uploads/2018/03/sbcf-default-avatar.png"
-                }
-                className="w-12 h-12 rounded-full border xl"
-              />
-              <div className="flex flex-col gap-0">
-                <h1 className="font-semibold text-black text-lg ml-4 font-inter">
-                  {chatUser.name}
-                </h1>
-                <p className="text-sm text-[rgb(71,85,105)] font-inter ml-4">
-                  @{chatUser.username}
-                </p>
+          <div className="py-4 px-6 flex row items-center justify-between border-b border-gray-200 bg-white shadow sm:px-3">
+            <div className="flex items-center gap-4">
+              <div
+                onClick={() => navigate("/messages")}
+                className="hidden md:block cursor-pointer"
+              >
+                <FontAwesomeIcon icon={faArrowLeft} />
               </div>
-            </NavLink>
+              <NavLink
+                to={`/profile/${chatUser.id}`}
+                className="flex items-center"
+              >
+                <img
+                  src={
+                    chatUser.photoURL
+                      ? chatUser.photoURL
+                      : "https://sbcf.fr/wp-content/uploads/2018/03/sbcf-default-avatar.png"
+                  }
+                  className="w-12 h-12 rounded-full border xl"
+                />
+                <div className="flex flex-col gap-0">
+                  <h1 className="font-semibold text-black text-lg ml-4 font-inter">
+                    {chatUser.name}
+                  </h1>
+                  <p className="text-sm text-[rgb(71,85,105)] font-inter ml-4">
+                    @{chatUser.username}
+                  </p>
+                </div>
+              </NavLink>
+            </div>
             <div className="p-2 bg-none w-max h-max cursor-pointer">
               <FontAwesomeIcon icon={faEllipsisV} />
             </div>
@@ -314,15 +325,15 @@ export const ChatView = ({ users }) => {
               </h2>
             </div>
           </div>
-          <div className="mb-10 min-h-[300px]">
-            <ul className="flex flex-col gap-8 px-10">
-              {chats.map((message, index) => (
+          <div className="pb-0 min-h-[300px]">
+            <ul className="flex flex-col gap-8 px-10 md:px-6 sm:px-4">
+              {chats.map((message) => (
                 <li
                   key={message.timestamp}
-                  ref={index === chats.length - 1 ? lastMessageRef : null}
+                  //   ref={index === chats.length - 1 ? lastMessageRef : null}
                 >
                   {message.senderId === loggedInUser.id ? (
-                    <div className="flex flex-col gap-1.5 items-end">
+                    <div className="flex flex-col gap-1.5 items-end pl-9">
                       {/* <div class="flex items-start">
                 <p class="text-gray-700 text-sm font-medium text-left">You</p>
               </div>  */}
@@ -347,7 +358,7 @@ export const ChatView = ({ users }) => {
                       </p>
                     </div>
                   ) : (
-                    <div className="flex gap-3">
+                    <div className="flex gap-3 pr-9">
                       <img
                         src={
                           chatUser.photoURL
@@ -399,6 +410,7 @@ export const ChatView = ({ users }) => {
             </ul>
           </div>
         </div>
+        <div ref={lastMessageRef} className="mt-16"></div>
         <div
           // className={` 3 ${
           //   imageUrl && "h-52"

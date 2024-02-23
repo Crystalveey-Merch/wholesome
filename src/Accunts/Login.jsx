@@ -50,7 +50,7 @@ const Login = () => {
     //   });
     try {
       const { user } = await signInWithEmailAndPassword(auth, email, password);
-      const userRef = doc(db, "users", user.uid);
+      const userRef = doc(db, "users", user.id);
       await updateDoc(userRef, {
         lastLogin: new Date().toISOString(),
       });
