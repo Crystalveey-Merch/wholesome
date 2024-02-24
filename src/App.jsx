@@ -56,7 +56,7 @@ import ActivityList from "./Activity/ActivityList";
 import SerchUser from "./Userpage/SerchUser";
 import { Messages, SelectMessage, ChatView } from "./Chats";
 import { DefaultLayout } from "./Layouts/";
-import { getDoc, limit } from "firebase/firestore";
+import { getDoc, getDocs, limit, query, where } from "firebase/firestore";
 import { Feed, FeedLayout, Content, Following } from "./Feed";
 import { Bookmarks, Drafts, Notifications } from "./Dashboard";
 // import "@fortawesome/fontawesome-free"
@@ -82,7 +82,7 @@ function App() {
   const [podcastLoading, setPodcastLoading] = useState(true);
   // const [loggedInUser, setLoggedInUser] = useState([]);
   const [users, setAllUsers] = useState([]);
-  // const [messages, setMessages] = useState([]);
+  const [allChats, setAllChats] = useState([]);
   // const [chatId, setChatId] = useState(null);
 
   onAuthStateChanged(auth, async (userAuth) => {
@@ -225,9 +225,62 @@ function App() {
     dispatch(openRightBar());
   };
 
+  useEffect(() => {
+    const unsubscribeChats = onSnapshot(
+      collection(db, "chats"),
+      (chatSnapshot) => {
+        const groupedChatsArr = [];
+
+        chatSnapshot.forEach(async (chatDoc) => {
+          const chatId = chatDoc.data().chatId;
+          const chatDocId = chatDoc.id;
+
+          const messagesRef = collection(chatDoc.ref, "messages");
+          const unsubscribeMessages = onSnapshot(
+            messagesRef,
+            (messagesSnapshot) => {
+              const groupedMessages = [];
+
+              messagesSnapshot.forEach((messageDoc) => {
+                groupedMessages.push({
+                  id: messageDoc.id,
+                  ...messageDoc.data(),
+                });
+              });
+
+              const chatData = {
+                chatId,
+                chatDocId,
+                chatData: chatDoc.data(),
+                messages: groupedMessages,
+              };
+
+              const existingChatIndex = groupedChatsArr.findIndex(
+                (chat) => chat.chatId === chatId
+              );
+              if (existingChatIndex !== -1) {
+                groupedChatsArr[existingChatIndex] = chatData;
+              } else {
+                groupedChatsArr.push(chatData);
+              }
+
+              setAllChats([...groupedChatsArr]);
+            }
+          );
+
+          return () => unsubscribeMessages();
+        });
+      }
+    );
+
+    return () => unsubscribeChats();
+  }, []);
+
+  console.log(allChats);
+
   return (
     <div className="">
-      <Header users={users} />
+      <Header users={users} allChats={allChats} />
       <Routes>
         <Route
           path="/aboutus"
