@@ -56,7 +56,7 @@ import ActivityList from "./Activity/ActivityList";
 import SerchUser from "./Userpage/SerchUser";
 import { Messages, SelectMessage, ChatView } from "./Chats";
 import { DefaultLayout } from "./Layouts/";
-import { getDoc, getDocs, limit, query, where } from "firebase/firestore";
+import { getDoc, limit, } from "firebase/firestore";
 import { Feed, FeedLayout, Content, Following } from "./Feed";
 import { Bookmarks, Drafts, Notifications } from "./Dashboard";
 // import "@fortawesome/fontawesome-free"
@@ -252,7 +252,10 @@ function App() {
                 chatId,
                 chatDocId,
                 chatData: chatDoc.data(),
-                messages: groupedMessages,
+                // sort message by newest first
+                messages: groupedMessages.sort(
+                  (a, b) => b.timestamp - a.timestamp
+                ),
               };
 
               const existingChatIndex = groupedChatsArr.findIndex(
@@ -263,7 +266,6 @@ function App() {
               } else {
                 groupedChatsArr.push(chatData);
               }
-
               setAllChats([...groupedChatsArr]);
             }
           );
@@ -276,7 +278,7 @@ function App() {
     return () => unsubscribeChats();
   }, []);
 
-  console.log(allChats);
+  // console.log(allChats);
 
   return (
     <div className="">
@@ -442,7 +444,7 @@ function App() {
             <ProtectedRoute>
               {/* change this shit */}
               <BottomFeedTab users={users}>
-                <Messages users={users}>
+                <Messages users={users} allChats={allChats}>
                   <SelectMessage users={users} />
                 </Messages>
               </BottomFeedTab>
@@ -453,8 +455,8 @@ function App() {
           path="/messages/:chatId"
           element={
             <ProtectedRoute>
-              <Messages users={users}>
-                <ChatView users={users} />
+              <Messages users={users} allChats={allChats}>
+                <ChatView users={users} allChats={allChats} />
               </Messages>
             </ProtectedRoute>
           }

@@ -74,12 +74,13 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   if (!snapShot.exists()) {
     const { displayName, email, photoURL } = userAuth;
     const createdAt = new Date().toISOString();
- 
-    const name = ""
+
+    const name = "";
     const followers = [];
     const following = [];
     const lastLogin = new Date().toISOString();
     const selectedOptions = [];
+    const notifications = [];
     //const bookmarkedPosts: Array<string> | undefined = [];
 
     //Generate username from email
@@ -117,6 +118,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
           followers,
           following,
           selectedOptions,
+          notifications,
           lastLogin,
           //bookmarkedPosts,
           username: usernameToSave, // set the final value of usernameToSave
@@ -159,6 +161,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
           followers,
           following,
           selectedOptions,
+          notifications,
           lastLogin,
           //bookmarkedPosts,
           username: usernameToSave, // set the final value of usernameToSave

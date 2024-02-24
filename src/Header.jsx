@@ -126,10 +126,22 @@ const Header = ({ users, allChats }) => {
   // console.log("loggedInUserChats", loggedInUserChats);
   // console.log("loggedInUserChatsWithOthers", loggedInUserChatsWithOthers);
 
-  // check unseen by checking if ChatData hasSeen is false
+  // check unseen by checking if ChatData hasSeen is false and if the user is not the sender of the last message of the chat
   const unseenChats = loggedInUserChatsWithOthers.filter(
     (chat) => !chat.chatData.hasSeen
   );
+
+  // get the last message of the chat which has been moved to the top of the chat
+  const lastMessageSent = unseenChats.map((chat) => {
+    const lastMessage = chat.messages[0];
+    return lastMessage;
+  });
+
+  const removeMessageSentByUser = lastMessageSent.filter(
+    (message) => message.senderId !== user?.id
+  );
+
+  // console.log("lastMessages", removeMessageSentByUser);
 
   return (
     <div className="fixed  z-50 top-0 w-screen flex flex-col gap-0 sm:m-0 items-center justify-between border-b border-gray-100  sm:px-0 ">
@@ -736,9 +748,9 @@ const Header = ({ users, allChats }) => {
                 }`}
               />
               {/* show notifications that has their hasSeen as false */}
-              {unseenChats?.length > 0 && (
+              {removeMessageSentByUser?.length > 0 && (
                 <div className="absolute top-1.5 right-1.5 font-inter bg-[#FF5841] text-white h-5 w-5 flex justify-center items-center text-xs rounded-full">
-                  {unseenChats.length}
+                  {removeMessageSentByUser.length}
                 </div>
               )}
             </Link>

@@ -7,12 +7,20 @@ import {
   selectOpenNewMessageModal,
 } from "../Features/openNewMessageModalSlice";
 import plusSquareSVG from "./square-plus-regular.svg";
-import { db, collection, query, onSnapshot, where } from "../firebase/auth";
+import {
+  db,
+  collection,
+  query,
+  onSnapshot,
+  where,
+  doc,
+  updateDoc,
+} from "../firebase/auth";
 import { faImage } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { NewMessageModal } from "./NewMessageModal";
 
-export const ChatSideBar = ({ loggedInUser, users }) => {
+export const ChatSideBar = ({ loggedInUser, users, allChats }) => {
   const location = useLocation();
   const dispatch = useDispatch();
 
@@ -144,6 +152,34 @@ export const ChatSideBar = ({ loggedInUser, users }) => {
       return `${date.toLocaleDateString()} at ${date.toLocaleTimeString()}`;
     }
   }
+
+  // has true
+
+  const loggedInUserChats = allChats.filter((chat) =>
+    chat.chatData.conversants.includes(loggedInUser?.id)
+  );
+
+  const chatIds = loggedInUserChats
+    .filter((chat) => chat.messages.length > 0) // Filter out chats without messages
+    .filter((chat) => chat.messages[0].senderId !== loggedInUser?.id) // Filter out chats where the loggedInUser is the sender of the last message
+    .map((chat) => chat.chatDocId);
+
+  useEffect(() => {
+    // Check screen size and pathname before updating chat hasSeen status
+    if (
+      window.innerWidth >= 767 ||
+      (window.innerWidth < 767 && location.pathname === "/messages")
+    ) {
+      const chatsRef = collection(db, "chats");
+      if (chatIds.length > 0) {
+        chatIds.forEach((chatId) => {
+          const chatRef = doc(chatsRef, chatId);
+          const updateData = { hasSeen: true };
+          updateDoc(chatRef, updateData);
+        });
+      }
+    }
+  }, [chatIds, location.pathname]);
 
   return (
     <div

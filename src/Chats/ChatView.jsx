@@ -21,13 +21,14 @@ import {
   serverTimestamp,
   setDoc,
   storage,
+  updateDoc,
   //   updateDoc,
   where,
 } from "../firebase/auth.js";
 import { toast } from "react-toastify";
 import { useAutosizeTextArea } from "../Hooks/useAutoSizeTextArea.js";
 
-export const ChatView = ({ users }) => {
+export const ChatView = ({ users, allChats }) => {
   const { chatId } = useParams();
   const loggedInUser = useSelector(selectUser);
   const [chatUser, setChatUser] = useState([]);
@@ -207,6 +208,7 @@ export const ChatView = ({ users }) => {
       const chatData = {
         chatId,
         conversants: [idOne, idTwo],
+        hasSeen: false,
       };
       await setDoc(chatDocRef, chatData);
     } else {
@@ -233,6 +235,9 @@ export const ChatView = ({ users }) => {
 
     await addDoc(messagesRef, messageData);
 
+    // Update hasSeen to false for the chat after sending a new message
+    await setDoc(chatDocRef, { hasSeen: false }, { merge: true });
+
     // Reset form state after message is sent
     setMessage("");
     setImageFile(null);
@@ -240,6 +245,27 @@ export const ChatView = ({ users }) => {
     setImageToSend(null);
     setMessageSending(false); // Set messageSending to false after message is sent
   };
+
+  const currentChat = allChats.find(
+    (chat) =>
+      chat.chatData.conversants.includes(idOne) &&
+      chat.chatData.conversants.includes(idTwo)
+  );
+
+  //   const chatIds = currentChat
+  //     .filter((chat) => chat.messages.length > 0) // Filter out chats without messages
+  //     .filter((chat) => chat.messages[0].senderId !== loggedInUser?.id) // Filter out chats where the loggedInUser is the sender of the last message
+  //     .map((chat) => chat.chatDocId);
+
+  useEffect(() => {
+    const chatsRef = collection(db, "chats");
+    if (currentChat && currentChat.messages[0].senderId !== loggedInUser?.id) {
+      const chatRef = doc(chatsRef, currentChat.chatDocId);
+      const updateData = { hasSeen: true };
+      updateDoc(chatRef, updateData);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chatId, currentChat]);
 
   if (!chatUser) {
     return (
