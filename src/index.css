@@ -119,7 +119,7 @@ p {
   font-family: "monserrat", "Helvetica Neue";
 }
 
-button {
+/* button {
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
@@ -129,7 +129,7 @@ button {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
-}
+} */
 
 /* button:focus,
 button:focus-visible {
@@ -337,4 +337,14 @@ button:focus-visible {
 .hashtag {
   color: green; /* Change color as needed */
   font-weight: bold; /* Add additional styles as needed */
+}
+
+.emoji-style {
+  width: 350px !important;
+}
+
+@media screen and (max-width: 639px) {
+  .emoji-style {
+    width: calc(100vw - 1rem) !important;
+  }
 }

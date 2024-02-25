@@ -138,7 +138,7 @@ const Header = ({ users, allChats }) => {
   });
 
   const removeMessageSentByUser = lastMessageSent.filter(
-    (message) => message.senderId !== user?.id
+    (message) => message?.senderId !== user?.id
   );
 
   // console.log("lastMessages", removeMessageSentByUser);

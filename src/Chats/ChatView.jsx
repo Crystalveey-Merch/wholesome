@@ -16,25 +16,26 @@ import {
   db,
   doc,
   getDocs,
-  onSnapshot,
-  query,
   serverTimestamp,
   setDoc,
   storage,
   updateDoc,
-  //   updateDoc,
+  query,
   where,
 } from "../firebase/auth.js";
 import { toast } from "react-toastify";
 import { useAutosizeTextArea } from "../Hooks/useAutoSizeTextArea.js";
+import EmojiPicker from "emoji-picker-react";
 
 export const ChatView = ({ users, allChats }) => {
   const { chatId } = useParams();
   const loggedInUser = useSelector(selectUser);
   const [chatUser, setChatUser] = useState([]);
   const [message, setMessage] = useState("");
-  const [chats, setChats] = useState([]);
+  //   const [chats, setChats] = useState([]);
   const [messageSending, setMessageSending] = useState(false);
+  const [openEmojiPicker, setOpenEmojiPicker] = useState(false);
+  const emojiPickerRef = useRef(null);
   const showModal = useSelector(selectOpenNewMessageModal);
 
   let idOne = chatId.split("-")[0];
@@ -44,6 +45,31 @@ export const ChatView = ({ users, allChats }) => {
 
   const messageRef = useRef(null);
   useAutosizeTextArea(messageRef.current, message);
+
+  const handleAddEmoji = (emojiObject) => {
+    setMessage((prev) => prev + emojiObject.emoji);
+  };
+
+  useEffect(() => {
+    // Add event listener to close dropdown when clicking outside
+    function handleClickOutside(event) {
+      if (
+        emojiPickerRef.current &&
+        !emojiPickerRef.current.contains(event.target)
+      ) {
+        // set to false if the emoji picker is open
+        setOpenEmojiPicker(false);
+      }
+    }
+
+    // Bind the event listener
+    window.addEventListener("click", handleClickOutside);
+
+    return () => {
+      // Unbind the event listener on cleanup
+      window.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     if (idOne !== loggedInUser.id && idTwo !== loggedInUser.id) {
@@ -76,65 +102,50 @@ export const ChatView = ({ users, allChats }) => {
     return messageTime.format("MMM D, YYYY h:mm A");
   }
 
-  useEffect(() => {
-    const chatsRef = collection(db, "chats");
-    const chatId = idOne < idTwo ? `${idOne}-${idTwo}` : `${idTwo}-${idOne}`;
+  //   useEffect(() => {
+  //     const chatsRef = collection(db, "chats");
+  //     const chatId = idOne < idTwo ? `${idOne}-${idTwo}` : `${idTwo}-${idOne}`;
 
-    // Check if chat already exists between these two users
-    const chatQuery = query(chatsRef, where("chatId", "==", chatId));
-    const unsubscribe = onSnapshot(chatQuery, async (chatQuerySnapshot) => {
-      let chatDocRef;
-      if (chatQuerySnapshot.empty) {
-        // chat does not exist
-        setChats([]);
-        return;
-      } else {
-        //  chat exists, get its messages subcollection
-        chatDocRef = chatQuerySnapshot.docs[0].ref;
-        const messagesRef = collection(chatDocRef, "messages");
+  //     // Check if chat already exists between these two users
+  //     const chatQuery = query(chatsRef, where("chatId", "==", chatId));
+  //     const unsubscribe = onSnapshot(chatQuery, async (chatQuerySnapshot) => {
+  //       let chatDocRef;
+  //       if (chatQuerySnapshot.empty) {
+  //         // chat does not exist
+  //         setChats([]);
+  //         return;
+  //       } else {
+  //         //  chat exists, get its messages subcollection
+  //         chatDocRef = chatQuerySnapshot.docs[0].ref;
+  //         const messagesRef = collection(chatDocRef, "messages");
 
-        // Listen for new messages
-        const unsubscribeMessages = onSnapshot(messagesRef, (querySnapshot) => {
-          const newMessages = [];
-          querySnapshot.forEach((doc) => {
-            newMessages.push(doc.data());
-          });
-          // sort messages by timestamp in ascending order
-          newMessages.sort((a, b) => a.timestamp - b.timestamp);
+  //         // Listen for new messages
+  //         const unsubscribeMessages = onSnapshot(messagesRef, (querySnapshot) => {
+  //           const newMessages = [];
+  //           querySnapshot.forEach((doc) => {
+  //             newMessages.push(doc.data());
+  //           });
+  //           // sort messages by timestamp in ascending order
+  //           newMessages.sort((a, b) => a.timestamp - b.timestamp);
 
-          //   // Mark messages as read
-          //   newMessages.forEach((message) => {
+  //           //   // Mark messages as read
+  //           //   newMessages.forEach((message) => {
 
-          setChats(newMessages);
-        });
+  //           setChats(newMessages);
+  //         });
 
-        // Cleanup function for message listener
-        return () => {
-          unsubscribeMessages();
-        };
-      }
-    });
+  //         // Cleanup function for message listener
+  //         return () => {
+  //           unsubscribeMessages();
+  //         };
+  //       }
+  //     });
 
-    // Cleanup function for chat listener
-    return () => {
-      unsubscribe();
-    };
-  }, [idOne, idTwo]);
-
-  const lastMessageRef = useRef(null);
-
-  useEffect(() => {
-    // Scroll to the last message when the component mounts
-    if (lastMessageRef.current) {
-      lastMessageRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "end",
-        // inline: "nearest", // Ensure the element is aligned to the end of the container
-        // Add a slight scroll offset of plus ten pixels
-        // bottom: lastMessageRef.current.offsetTop + 80,
-      });
-    }
-  }, [chats]);
+  //     // Cleanup function for chat listener
+  //     return () => {
+  //       unsubscribe();
+  //     };
+  //   }, [idOne, idTwo]);
 
   const [imageFile, setImageFile] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
@@ -252,6 +263,8 @@ export const ChatView = ({ users, allChats }) => {
       chat.chatData.conversants.includes(idTwo)
   );
 
+  //   console.log(currentChat);
+
   //   const chatIds = currentChat
   //     .filter((chat) => chat.messages.length > 0) // Filter out chats without messages
   //     .filter((chat) => chat.messages[0].senderId !== loggedInUser?.id) // Filter out chats where the loggedInUser is the sender of the last message
@@ -259,13 +272,51 @@ export const ChatView = ({ users, allChats }) => {
 
   useEffect(() => {
     const chatsRef = collection(db, "chats");
-    if (currentChat && currentChat.messages[0].senderId !== loggedInUser?.id) {
+    if (currentChat && currentChat.messages[0]?.senderId !== loggedInUser?.id) {
       const chatRef = doc(chatsRef, currentChat.chatDocId);
       const updateData = { hasSeen: true };
       updateDoc(chatRef, updateData);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chatId, currentChat]);
+
+  const currentChatWhereUserIsReceiver = currentChat?.messages.filter(
+    (chat) => chat.receiverId === loggedInUser.id
+  );
+
+  //now update all the messages where the loggedInUser is the receiver hasRead to true
+  useEffect(() => {
+    const chatsRef = collection(db, "chats");
+    if (currentChatWhereUserIsReceiver) {
+      currentChatWhereUserIsReceiver.forEach(async (message) => {
+        const chatRef = doc(
+          chatsRef,
+          currentChat.chatDocId,
+          "messages",
+          message.id
+        );
+        const updateData = { hasRead: true };
+        await updateDoc(chatRef, updateData);
+      });
+    }
+  }, [currentChatWhereUserIsReceiver, currentChat]);
+
+  //   console.log(currentChatWhereUserIsReceiver);
+
+  const lastMessageRef = useRef(null);
+
+  useEffect(() => {
+    // Scroll to the last message when the component mounts
+    if (lastMessageRef.current) {
+      lastMessageRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+        // inline: "nearest", // Ensure the element is aligned to the end of the container
+        // Add a slight scroll offset of plus ten pixels
+        // bottom: lastMessageRef.current.offsetTop + 80,
+      });
+    }
+  }, [currentChat]);
 
   if (!chatUser) {
     return (
@@ -278,10 +329,10 @@ export const ChatView = ({ users, allChats }) => {
   return (
     <>
       <div
-        className="w-full relative bg-gray-50 min-h-[calc(100vh-120px)]"
+        className="w-full relative bg-gray-50 min-h-[calc(100vh-140px)]"
         // style={{ height: "calc(100vh - 120px)" }}
       >
-        <div className="sticky top-0">
+        <div className="sticky top-0 md:fixed md:top-[70px] sm:top-16 md:w-full">
           <div className="py-4 px-6 flex row items-center justify-between border-b border-gray-200 bg-white shadow sm:px-3">
             <div className="flex items-center gap-4">
               <div
@@ -317,7 +368,7 @@ export const ChatView = ({ users, allChats }) => {
             </div>
           </div>
         </div>
-        <div className="pt-10 flex flex-col gap-28 overflow-yscroll min-h-[75vh]">
+        <div className="pt-10 flex flex-col gap-20 overflow-yscroll min-h-[15vh] sm:gap-16 md:pt-32">
           <div className="text-center flex flex-col items-center justify-center gap-3">
             <img
               src={
@@ -353,68 +404,22 @@ export const ChatView = ({ users, allChats }) => {
           </div>
           <div className="pb-0 min-h-[300px]">
             <ul className="flex flex-col gap-8 px-10 md:px-6 sm:px-4">
-              {chats.map((message) => (
-                <li
-                  key={message.timestamp}
-                  //   ref={index === chats.length - 1 ? lastMessageRef : null}
-                >
-                  {message.senderId === loggedInUser.id ? (
-                    <div className="flex flex-col gap-1.5 items-end pl-9">
-                      {/* <div class="flex items-start">
+              {/* reverse the arrangement */}
+              {currentChat?.messages
+                .sort((a, b) => a.timestamp - b.timestamp)
+                .map((message, index) => (
+                  <li
+                    key={index}
+                    //   ref={index === chats.length - 1 ? lastMessageRef : null}
+                  >
+                    {message.senderId === loggedInUser.id ? (
+                      <div className="flex flex-col gap-1.5 items-end pl-9">
+                        {/* <div class="flex items-start">
                 <p class="text-gray-700 text-sm font-medium text-left">You</p>
               </div>  */}
-                      {message.text && (
-                        <div className="bg-red-600 py-2.5 px-3.5 rounded-lg max-w-[508px]">
-                          <p className="text-white font-normal text-base">
-                            {message.text}
-                          </p>
-                        </div>
-                      )}
-                      {message.imageURL && (
-                        <img
-                          src={message.imageURL}
-                          className="w-72 h-60 rounded-lg mt-2 object-cover md:w-60 md:h-56"
-                        />
-                      )}
-                      <p className="text-gray-600 text-xs font-normal font-inter">
-                        {formatTime(message.timestamp?.seconds * 1000)}{" "}
-                        {/* <span className="text-gray-400">
-                          {message.hasRead && "read"}
-                        </span> */}
-                      </p>
-                    </div>
-                  ) : (
-                    <div className="flex gap-3 pr-9">
-                      <img
-                        src={
-                          chatUser.photoURL
-                            ? chatUser.photoURL
-                            : "https://sbcf.fr/wp-content/uploads/2018/03/sbcf-default-avatar.png"
-                        }
-                        className="w-10 h-10 rounded-full border"
-                      />
-                      <div className="flex flex-col gap-1.5 items-start">
-                        <div className="flex justify-between gap-4">
-                          <p className="text-gray-700 text-sm font-medium">
-                            {chatUser.name}
-                            {/* <span v-if="chatUser.admin" class="relative" title="Admin">
-                      <img
-                        src="../../assets/profileIcons/admin-tag.svg"
-                        alt="admin"
-                        class="h-6 w-6 inline-block"
-                        title="Admin"
-                      />
-                      <p
-                        class="absolute top-0.5 left-2 text-xs font-semibold text-white"
-                      >
-                        A
-                      </p>
-                    </span> */}
-                          </p>
-                        </div>
                         {message.text && (
-                          <div className="bg-gray-200 py-2.5 px-3.5 rounded-lg max-w-[508px]">
-                            <p className="text-gray-700 font-normal text-base">
+                          <div className="bg-red-600 py-2.5 px-3.5 rounded-lg max-w-[508px]">
+                            <p className="text-white font-normal text-base">
                               {message.text}
                             </p>
                           </div>
@@ -426,22 +431,59 @@ export const ChatView = ({ users, allChats }) => {
                           />
                         )}
                         <p className="text-gray-600 text-xs font-normal font-inter">
-                          {formatTime(message.timestamp.seconds * 1000)}
+                          {formatTime(message.timestamp?.seconds * 1000)}{" "}
+                          <span className="text-gray-400">
+                            {message.hasRead && "read"}
+                          </span>
                         </p>
                       </div>
-                    </div>
-                  )}
-                </li>
-              ))}
+                    ) : (
+                      <div className="flex gap-3 pr-9">
+                        <img
+                          src={
+                            chatUser.photoURL
+                              ? chatUser.photoURL
+                              : "https://sbcf.fr/wp-content/uploads/2018/03/sbcf-default-avatar.png"
+                          }
+                          className="w-10 h-10 rounded-full border"
+                        />
+                        <div className="flex flex-col gap-1.5 items-start">
+                          <div className="flex justify-between gap-4">
+                            <p className="text-gray-700 text-sm font-medium">
+                              {chatUser.name}
+                            </p>
+                          </div>
+                          {message.text && (
+                            <div className="bg-gray-200 py-2.5 px-3.5 rounded-lg max-w-[508px]">
+                              <p className="text-gray-700 font-normal text-base">
+                                {message.text}
+                              </p>
+                            </div>
+                          )}
+                          {message.imageURL && (
+                            <img
+                              src={message.imageURL}
+                              className="w-72 h-60 rounded-lg mt-2 object-cover md:w-60 md:h-56"
+                            />
+                          )}
+                          <p className="text-gray-600 text-xs font-normal font-inter">
+                            {formatTime(message.timestamp.seconds * 1000)}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </li>
+                ))}
             </ul>
           </div>
         </div>
-        <div ref={lastMessageRef} className="mt-16"></div>
+        <div ref={lastMessageRef} className="h-16 md:h-24 bg-gray-50"></div>
+
         <div
           // className={` 3 ${
           //   imageUrl && "h-52"
           // }`}
-          className="sticky bottom-4 sm:bottom-2"
+          className="sticky bottom-4 md:fixed sm:bottom-2 md:w-full"
           //   style={{ position: "sticky", bottom: 16 }}
         >
           <div className="flex justify-between mx-20 relative items-end h-full xl:mx-10 lg:mx-3 sm:mx-2">
@@ -485,6 +527,8 @@ export const ChatView = ({ users, allChats }) => {
               <button
                 type="button"
                 className="p-2 text-red-600 rounded-full cursor-pointer hover:text-red-900 hover:bg-red-100 transition duration-300 ease-in-out md:p-1"
+                onClick={() => setOpenEmojiPicker((prev) => !prev)}
+                ref={emojiPickerRef}
               >
                 <svg
                   aria-hidden="true"
@@ -500,6 +544,18 @@ export const ChatView = ({ users, allChats }) => {
                   ></path>
                 </svg>
                 <span className="sr-only">Add emoji</span>
+                {openEmojiPicker && (
+                  <div
+                    onClick={(e) => e.stopPropagation()}
+                    className="absolute left-0 bottom-14 w-max h-max sm:w-full"
+                  >
+                    <EmojiPicker
+                      className="w-[350px] emoji-style h-max sm:w-full"
+                      emojiStyle="google"
+                      onEmojiClick={handleAddEmoji}
+                    />
+                  </div>
+                )}
               </button>
             </div>
             <div

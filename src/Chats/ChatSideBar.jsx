@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -7,15 +7,8 @@ import {
   selectOpenNewMessageModal,
 } from "../Features/openNewMessageModalSlice";
 import plusSquareSVG from "./square-plus-regular.svg";
-import {
-  db,
-  collection,
-  query,
-  onSnapshot,
-  where,
-  doc,
-  updateDoc,
-} from "../firebase/auth";
+import { db, collection, doc, updateDoc } from "../firebase/auth";
+import { getProfileDetails, formatTimeAgo2 } from "../Hooks";
 import { faImage } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { NewMessageModal } from "./NewMessageModal";
@@ -28,130 +21,28 @@ export const ChatSideBar = ({ loggedInUser, users, allChats }) => {
     dispatch(openNewMessageModal());
   };
 
-  const [chats, setChats] = useState([]);
-  const [chatUserData, setChatUserData] = useState([]);
-
   const showModal = useSelector(selectOpenNewMessageModal);
 
-  useEffect(() => {
-    if (users.length > 0) {
-      // Create chatIds for each user
-      // const chatIds = users.map((user) => {
-      //   return user.id > loggedInUser.id
-      //     ? `${user.id}-${loggedInUser.id}`
-      //     : `${loggedInUser.id}-${user.id}`;
-      // });
+  // function formatTimestamp(timestamp) {
+  //   const date = new Date(timestamp?.seconds * 1000); // Convert to milliseconds
+  //   const now = new Date();
+  //   const diff = now.getTime() - date.getTime();
 
-      const chatsRef = collection(db, "chats");
-
-      // Query chats where loggedInUser is involved
-      const unsubscribe = onSnapshot(
-        query(
-          chatsRef,
-          where("conversants", "array-contains", loggedInUser.id)
-        ),
-        (snapshot) => {
-          snapshot.forEach((chatDoc) => {
-            // Get the conversants of this chat
-            const conversants = chatDoc.data().conversants;
-
-            // Filter out the loggedInUser from the conversants
-            const otherUserId = conversants.find(
-              (id) => id !== loggedInUser.id
-            );
-
-            // Query messages for this chat
-            const messagesRef = collection(chatDoc.ref, "messages");
-
-            // Listen for new messages
-            const unsubscribeMessages = onSnapshot(
-              messagesRef,
-              (querySnapshot) => {
-                const newMessages = [];
-                querySnapshot.forEach((doc) => {
-                  newMessages.push(doc.data());
-                });
-                // Sort messages by timestamp
-                newMessages.sort((a, b) => a.timestamp - b.timestamp);
-                // Update the chats state
-                setChats((prevChats) => ({
-                  ...prevChats,
-                  [otherUserId]: newMessages,
-                }));
-              }
-            );
-
-            // Cleanup function for message listener
-            return () => {
-              unsubscribeMessages();
-            };
-          });
-        }
-      );
-
-      // Cleanup function for chat listener
-      return () => {
-        unsubscribe();
-      };
-    }
-  }, [users, loggedInUser]);
-
-  useEffect(() => {
-    if (Object.keys(chats).length > 0 && users.length > 0) {
-      const lastMessageData = [];
-
-      // Iterate through the chats object
-      Object.keys(chats).forEach((userId) => {
-        // Check if the conversation is between the user and themselves
-        if (userId === "undefined" || userId === loggedInUser.id) {
-          return;
-        }
-
-        // Get all messages for the user
-        const userMessages = chats[userId];
-
-        // Get the last message for the user
-        const lastMessage = userMessages[userMessages.length - 1];
-
-        // Find the user data from the users array
-        const otherUserData = users.find((user) => user.id === userId);
-
-        // Combine user data with last message data and push to the array
-        lastMessageData.push({
-          id: userId,
-          userData: otherUserData,
-          lastMessage: lastMessage,
-        });
-      });
-
-      // Now you have lastMessageData containing both user data and last message data
-      // console.log("Last Message Data:", lastMessageData);
-      setChatUserData(lastMessageData);
-    }
-  }, [chats, loggedInUser, users]);
-
-  // console.log("chatUserData", chatUserData);
-
-  function formatTimestamp(timestamp) {
-    const date = new Date(timestamp?.seconds * 1000); // Convert to milliseconds
-    const now = new Date();
-    const diff = now.getTime() - date.getTime();
-
-    if (diff < 1000) {
-      return "just now";
-    } else if (diff < 60 * 1000) {
-      const seconds = Math.floor(diff / 1000);
-      return `${seconds} ${seconds === 1 ? "second" : "seconds"} ago`;
-    } else if (diff < 60 * 60 * 1000) {
-      const minutes = Math.floor(diff / (60 * 1000));
-      return `${minutes} ${minutes === 1 ? "minute" : "minutes"} ago`;
-    } else if (diff < 24 * 60 * 60 * 1000) {
-      const hours = Math.floor(diff / (60 * 60 * 1000));
-      return `${hours} ${hours === 1 ? "hour" : "hours"} ago`;
-    } else {
-      return `${date.toLocaleDateString()} at ${date.toLocaleTimeString()}`;
-    }
-  }
+  //   if (diff < 1000) {
+  //     return "just now";
+  //   } else if (diff < 60 * 1000) {
+  //     const seconds = Math.floor(diff / 1000);
+  //     return `${seconds} ${seconds === 1 ? "second" : "seconds"} ago`;
+  //   } else if (diff < 60 * 60 * 1000) {
+  //     const minutes = Math.floor(diff / (60 * 1000));
+  //     return `${minutes} ${minutes === 1 ? "minute" : "minutes"} ago`;
+  //   } else if (diff < 24 * 60 * 60 * 1000) {
+  //     const hours = Math.floor(diff / (60 * 60 * 1000));
+  //     return `${hours} ${hours === 1 ? "hour" : "hours"} ago`;
+  //   } else {
+  //     return `${date.toLocaleDateString()} at ${date.toLocaleTimeString()}`;
+  //   }
+  // }
 
   // has true
 
@@ -180,6 +71,11 @@ export const ChatSideBar = ({ loggedInUser, users, allChats }) => {
       }
     }
   }, [chatIds, location.pathname]);
+
+  // filter out chats between the user and the user by checking if both conversats are the same
+  const loggedInUserChatsWithOthers = loggedInUserChats.filter(
+    (chat) => chat.chatData.conversants[0] !== chat.chatData.conversants[1]
+  );
 
   return (
     <div
@@ -226,96 +122,149 @@ export const ChatSideBar = ({ loggedInUser, users, allChats }) => {
                   className="rounded-full h-10 w-10"
                 />
                 <div>
-                  <h4 className="text-gray-700 font-semibold text-sm">
+                  <h4 className="text-gray-900 font-inter font-semibold text-sm">
                     {loggedInUser.name}
                   </h4>
-                  <p className="text-gray-600 text-xs font-normal">
+                  <p className="text-gray-600 text-xs font-normal font-inter">
                     @{loggedInUser.username}
                   </p>
                 </div>
               </div>
             </div>
           </Link>
-          {chatUserData.map((user) => (
-            <Link
-              key={user.userData.id}
-              // scroll to bottom of page
-              // onClick={() => window.scrollTo(0, document.body.scrollHeight)}
-              to={`/messages/${user.userData.id}-${loggedInUser.id}`}
-              // active-class="bg-gray-50"
-              className={`p-4 flex flex-col gap-4 border-b border-gray-200 box-border hover:bg-purple-50 transition duration-500 ease-in-out ${
-                location.pathname ===
-                `/messages/${user.userData.id}-${loggedInUser.id}`
-                  ? "bg-gray-50"
-                  : ""
-              }`}
-            >
-              <div className="flex justify-between">
-                <div className="flex gap-3">
-                  <img
-                    src={
-                      user.userData.photoURL
-                        ? user.userData.photoURL
-                        : "https://sbcf.fr/wp-content/uploads/2018/03/sbcf-default-avatar.png"
-                    }
-                    alt="avatar"
-                    className="rounded-full h-10 w-10"
-                  />
-                  <div>
-                    <h4 className="text-gray-700 font-semibold text-sm">
-                      {user.userData.name}
-                      {/* <span v-if="user.admin" className="relative" title="Admin">
-                        <img
-                          src="../assets/profileIcons/admin-tag.svg"
-                          alt="admin"
-                          className="h-6 w-6 inline-block"
-                          title="Admin"
-                        />
-                        <p
-                          className="absolute top-0.5 left-2 text-xs font-semibold text-white"
-                        >
-                          A
-                        </p>
-                      </span> */}
-                    </h4>
-                    <p className="text-gray-600 text-xs font-normal">
-                      @{user.userData.username}
-                    </p>
-                  </div>
-                </div>
-                <p className="text-gray-600 text-sm font-normal">
-                  {formatTimestamp(user?.lastMessage?.timestamp)}
-                </p>
-              </div>
-              <h5 className="text-gray-600 font-normal text-sm font-inter">
-                <span className="font-semibold">
-                  {user?.lastMessage?.senderId === loggedInUser.id
-                    ? "You: "
-                    : ""}
-                </span>
-                {user?.lastMessage?.text ? (
-                  // hasRead
-                  <span
-                  // className={`${
-                  //   user.lastMessage.senderId !== loggedInUser.id &&
-                  //   !user.lastMessage.hasRead
-                  //     ? "font-semibold text-black"
-                  //     : "font-normal"
-                  // }`}
+          {loggedInUserChatsWithOthers.length > 0 && (
+            <>
+              {/* Sort chats based on the timestamp of the first message */}
+              {loggedInUserChatsWithOthers
+                .sort((a, b) => {
+                  if (a.messages[0]?.timestamp > b.messages[0]?.timestamp) {
+                    return -1; // Return -1 if the first message of chat a has a higher timestamp
+                  } else if (
+                    a.messages[0]?.timestamp < b.messages[0]?.timestamp
+                  ) {
+                    return 1; // Return 1 if the first message of chat b has a higher timestamp
+                  }
+                  return 0; // Return 0 if timestamps are equal
+                })
+                .map((chat, index) => (
+                  <Link
+                    key={index}
+                    to={`/messages/${chat.chatId}`}
+                    className={`p-4 flex flex-col gap-4 border-b border-gray-200 box-border hover:bg-purple-50 transition duration-500 ease-in-out ${
+                      location.pathname === `/messages/${chat.chatId}`
+                        ? "bg-gray-50"
+                        : ""
+                    }`}
                   >
-                    {user?.lastMessage?.text.length > 90
-                      ? user?.lastMessage?.text.slice(0, 90) + "..."
-                      : user?.lastMessage?.text}
-                  </span>
-                ) : (
-                  <span>
-                    <FontAwesomeIcon icon={faImage} className="mr-2" />
-                    <span className="font-semibold">Photo</span>
-                  </span>
-                )}
-              </h5>
-            </Link>
-          ))}
+                    <div className="flex justify-between">
+                      <div className="flex gap-3">
+                        <img
+                          // check all conversants and get the user that is not the loggedInUser
+                          src={
+                            getProfileDetails(
+                              chat.chatData.conversants.filter(
+                                (id) => id !== loggedInUser.id
+                              )[0],
+                              users
+                            ).photoURL
+                          }
+                          // src={
+                          //   user.userData.photoURL
+                          //     ? user.userData.photoURL
+                          //     : "https://sbcf.fr/wp-content/uploads/2018/03/sbcf-default-avatar.png"
+                          // }
+                          alt="avatar"
+                          className="rounded-full h-10 w-10"
+                        />
+                        <div>
+                          <h4 className="text-gray-900 font-inter font-semibold text-sm">
+                            {
+                              getProfileDetails(
+                                chat.chatData.conversants.filter(
+                                  (id) => id !== loggedInUser.id
+                                )[0],
+                                users
+                              ).name
+                            }
+                          </h4>
+                          <p className="text-gray-600 text-xs font-normal font-inter">
+                            @
+                            {
+                              getProfileDetails(
+                                chat.chatData.conversants.filter(
+                                  (id) => id !== loggedInUser.id
+                                )[0],
+                                users
+                              ).username
+                            }
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex flex-col justify-end items-end gap-1">
+                        <p className="text-gray-600 text-sm font-normal">
+                          {/* get the messages with the lastest timestamp */}
+                          {formatTimeAgo2(
+                            new Date(
+                              chat.messages.sort(
+                                (a, b) => b.timestamp - a.timestamp
+                              )[0].timestamp.seconds * 1000
+                            )
+                          )}
+                        </p>
+                        {/* Check the length of all messages in chat sent by other users */}
+                        {chat.messages.filter(
+                          (message) =>
+                            message.receiverId === loggedInUser.id &&
+                            !message.hasRead
+                        ).length > 0 && (
+                          <div className="flex items-center justify-center gap-1 bg-[#FF5841] min-h-5 min-w-5 px-1.5 py-0.5 rounded-full text-white font-inter text-xs">
+                            {/* <div className="bg-purple-500 rounded-full h-3 w-3"> */}
+                            {/* Visual indicator for unread messages */}
+                            {/* </div> */}
+                            {/* <span className="text-xs text-gray-500 text-center"> */}
+                            {
+                              chat.messages.filter(
+                                (message) =>
+                                  message.receiverId === loggedInUser.id &&
+                                  !message.hasRead
+                              ).length
+                            }
+                            {/* </span> */}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <h5 className="text-gray-600 font-normal text-sm font-inter">
+                      <span className="font-semibold">
+                        {chat.messages[0]?.senderId === loggedInUser.id
+                          ? "You: "
+                          : ""}
+                      </span>
+                      {chat.messages[0]?.text ? (
+                        // hasRead
+                        <span
+                          className={`${
+                            chat.messages[0]?.senderId !== loggedInUser.id &&
+                            !chat.messages[0]?.hasRead
+                              ? "font-semibold text-black"
+                              : "font-normal"
+                          }`}
+                        >
+                          {chat.messages[0]?.text.length > 90
+                            ? chat.messages[0]?.text.slice(0, 90) + "..."
+                            : chat.messages[0]?.text}
+                        </span>
+                      ) : (
+                        <span>
+                          <FontAwesomeIcon icon={faImage} className="mr-2" />
+                          <span className="font-semibold">Photo</span>
+                        </span>
+                      )}
+                    </h5>
+                  </Link>
+                ))}
+            </>
+          )}
         </div>
       </div>
       {showModal && (
