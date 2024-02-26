@@ -22,11 +22,11 @@ export const NewMessageModal = ({ loggedInUser, users }) => {
 
   return (
     <div
-      className="fixed z-10 left-0 top-0 w-full h-full overflow-auto bg-[rgba(0,0,0,0.4)] flex justify-center items-center sm:top-16"
+      className="fixed z-10 left-0 top-0 w-full h-full overflow-auto bg-[rgba(0,0,0,0.4)] flex justify-center items-center sm:top-16 sm:justify-start sm:items-start"
       onClick={closeModal}
     >
       <div
-        className="bg-[#fefefe] h-[500px] p-6 border border-[#fefefe] w-[600px] rounded-xl flex flex-col gap-4 sm:h-screen sm:w-full sm:rounded-none"
+        className="bg-[#fefefe] h-[500px] p-6 border border-[#fefefe] w-[600px] rounded-xl flex flex-col gap-4 sm:h-[calc(100vh-100px)] sm:w-full sm:rounded-none"
         onClick={(e) => e.stopPropagation()}
         style={{
           boxShadow:
@@ -77,7 +77,7 @@ export const NewMessageModal = ({ loggedInUser, users }) => {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-        <div className="max-h-[400px] overflow-y-scroll">
+        <div className="max-h-[400px] overflow-y-scroll sm:max-h-[calc(100vh-100px)]">
           {filteredUsers.map((user) => (
             <Link
               //   v-for="user in filteredUsers"

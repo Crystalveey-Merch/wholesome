@@ -265,7 +265,7 @@ export const SearchUser = ({ users, posts, setPosts, activities, events }) => {
   }
 
   return (
-    <div className="py-10 min-h-full w-full px10 bggray-50 text-black flex flex-col gap-16">
+    <div className="py-10 min-h-full w-full px10 bggray-50 text-black flex flex-col gap-16 sm:px-4">
       <div className="min-h-12 w-full max-w-[400px] border bg-white border-gray-200 mx-auto rounded-xl flex gap-2 items-center px-4 py-2.5">
         <FontAwesomeIcon icon={faSearch} className="text-gray-400" />
         <input

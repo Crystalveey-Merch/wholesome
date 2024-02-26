@@ -41,7 +41,7 @@ export const Notifications = ({ users, posts }) => {
   }, [notifications]);
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 sm:px-4">
       <h1 className="text-4xl font-inter font-semibold text-black md:text-3xl sm:text-2xl">
         Notifications
       </h1>

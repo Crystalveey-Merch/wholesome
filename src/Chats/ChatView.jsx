@@ -342,7 +342,7 @@ export const ChatView = ({ users, allChats }) => {
                 <FontAwesomeIcon icon={faArrowLeft} />
               </div>
               <NavLink
-                to={`/profile/${chatUser.id}`}
+                to={`/${chatUser.username}`}
                 className="flex items-center"
               >
                 <img

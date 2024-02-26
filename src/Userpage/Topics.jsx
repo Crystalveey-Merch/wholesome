@@ -12,7 +12,7 @@ export const Topics = () => {
   };
 
   return (
-    <div className="w-full min-h-screen flex justify-center items-center">
+    <div className="w-full min-h-screen flex justify-center items-center sm:px-4">
       <h1 className="font-inter text-2xl capitalize">Topic - {reverseTitle(topicSTR)}</h1>
     </div>
   );
