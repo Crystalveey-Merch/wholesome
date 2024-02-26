@@ -1,11 +1,18 @@
 /* eslint-disable react/prop-types */
 // Import the highlightMentionsAndHashtags function
+
+// Convert a title to a URL-friendly format
+const convertedTitle = (title) => {
+  return title.toLowerCase().split(" ").join("-");
+};
+
+// Function to highlight mentions and hashtags in text
 function highlightMentionsAndHashtags(text, users) {
   if (!text) return text;
+
+  // Regular expressions to match mentions and hashtags
   const mentionRegex = /@(\w+)/g;
   const hashtagRegex = /#(\w+)/g;
-
-  // console.log("users", users);
 
   // Highlight mentions
   text = text.replace(mentionRegex, (match, username) => {
@@ -17,16 +24,21 @@ function highlightMentionsAndHashtags(text, users) {
   });
 
   // Highlight hashtags
-  text = text.replace(hashtagRegex, '<span class="hashtag">#$1</span>');
+  text = text.replace(
+    hashtagRegex,
+    (match, hashtag) =>
+      `<a href="/topic/${convertedTitle(hashtag)}" class="hashtag">#${hashtag}</a>`
+  );
 
   return text;
 }
 
-// Define a functional component
+// Functional component to display highlighted text
 export const HighlightedText = ({ content, users }) => {
-  if (content?.trim() === "") {
+  if (!content?.trim()) {
     return null;
   }
+
   // Process the text to highlight mentions and hashtags
   const highlightedText = highlightMentionsAndHashtags(content, users);
 

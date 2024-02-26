@@ -526,7 +526,7 @@ export const ChatView = ({ users, allChats }) => {
               </button>
               <button
                 type="button"
-                className="p-2 text-red-600 rounded-full cursor-pointer hover:text-red-900 hover:bg-red-100 transition duration-300 ease-in-out md:p-1"
+                className="p-2 text-red-600 rounded-full cursor-pointer hover:text-red-900 hover:bg-red-100 transition duration-300 ease-in-out md:p-1 sm:text-red-300"
                 onClick={() => setOpenEmojiPicker((prev) => !prev)}
                 ref={emojiPickerRef}
               >
@@ -550,7 +550,7 @@ export const ChatView = ({ users, allChats }) => {
                     className="absolute left-0 bottom-14 w-max h-max sm:w-full"
                   >
                     <EmojiPicker
-                      className="w-[350px] emoji-style h-max sm:w-full"
+                      className="w-[350px] emoji-style h-max sm:w-full sm:hidden"
                       emojiStyle="google"
                       onEmojiClick={handleAddEmoji}
                     />

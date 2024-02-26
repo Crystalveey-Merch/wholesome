@@ -26,8 +26,8 @@ export const BottomFeedTab = ({ children, users }) => {
       <div
         className={` ${
           location.pathname === "/feed"
-            ? "hidden fixed z-10 left-0 right-0 w-full bottom-0 cursor-pointer sm:block"
-            : "hidden fixed z-10 left-0 right-0 w-full bottom-0 cursor-pointer sm:block"
+            ? "hidden fixed z-20 left-0 right-0 w-full bottom-0 cursor-pointer sm:block"
+            : "hidden fixed z-20 left-0 right-0 w-full bottom-0 cursor-pointer sm:block"
         }`}
       >
         <div className="bg-white w-full px-7 py-3.5 flex justify-between items-center border-t border-gray-300">

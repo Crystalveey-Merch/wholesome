@@ -53,14 +53,17 @@ import ActivityInterest from "./MyInterest/ActivityInterest";
 import PodcastInterest from "./MyInterest/PodcastInterest";
 import MyEvents from "./Dashboard/MyEvents";
 import ActivityList from "./Activity/ActivityList";
-import SerchUser from "./Userpage/SerchUser";
+import { SearchModal, SearchUser, Topics } from "./Userpage";
+import { selectSearchModal } from "./Features/searchModalSlice.js";
 import { Messages, SelectMessage, ChatView } from "./Chats";
 import { DefaultLayout } from "./Layouts/";
-import { getDoc, limit, } from "firebase/firestore";
+import { getDoc, limit } from "firebase/firestore";
+// import { doc, getDocs, updateDoc } from "./firebase/auth.js";
 import { Feed, FeedLayout, Content, Following } from "./Feed";
+import { Profile20 } from "./Profile/index.js";
 import { Bookmarks, Drafts, Notifications } from "./Dashboard";
 // import "@fortawesome/fontawesome-free"
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login, logout } from "./Features/userSlice.js";
 // import { setUsers } from "./Features/usersSlice.js";
 import { openRightBar } from "./Features/openRightBarSlice.js";
@@ -280,6 +283,36 @@ function App() {
 
   // console.log(allChats);
 
+  // useEffect(() => {
+  //   const fetchUsersAndUpdateRecentSearches = async () => {
+  //     try {
+  //       // Fetch all users
+  //       const usersRef = collection(db, "users");
+  //       const usersSnapshot = await getDocs(usersRef);
+
+  //       // Iterate over each user
+  //       usersSnapshot.forEach(async (userDoc) => {
+  //         const userData = userDoc.data();
+
+  //         // Check if the user has
+  //         if (!userData.followers) {
+  //           // If not, update the user data to include
+  //           const userRef = doc(usersRef, userDoc.id);
+  //           await updateDoc(userRef, {
+  //             followers: [],
+  //           });
+  //         }
+  //       });
+  //     } catch (error) {
+  //       console.error("Error updating recentSearches:", error);
+  //     }
+  //   };
+
+  //   fetchUsersAndUpdateRecentSearches();
+  // }, []); // Run once on component mount
+
+  const showSearchModal = useSelector(selectSearchModal);
+
   return (
     <div className="">
       <Header users={users} allChats={allChats} />
@@ -312,7 +345,6 @@ function App() {
         />
         <Route path="/account" element={<Account />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/searchuser" element={<SerchUser users={users} />} />
         <Route path="/signup" element={<Signip />} />
         <Route
           path="/upcomingevents"
@@ -438,6 +470,49 @@ function App() {
             </ProtectedRoute>
           }
         /> */}
+
+        <Route
+          path="/search"
+          element={
+            <BottomFeedTab users={users}>
+              <FeedLayout>
+                <SearchUser
+                  users={users}
+                  posts={posts}
+                  setPosts={setPosts}
+                  activities={activities}
+                  events={events}
+                />
+              </FeedLayout>
+            </BottomFeedTab>
+          }
+        />
+        <Route
+          path="/topic/:topicSTR"
+          element={
+            <BottomFeedTab users={users}>
+              <FeedLayout>
+                <Topics
+                  users={users}
+                  posts={posts}
+                  activities={activities}
+                  podcasts={podcasts}
+                  events={events}
+                />
+              </FeedLayout>
+            </BottomFeedTab>
+          }
+        />
+        <Route
+          path="/:username"
+          element={
+            <BottomFeedTab users={users}>
+              <FeedLayout>
+                <Profile20 users={users} posts={posts} />
+              </FeedLayout>
+            </BottomFeedTab>
+          }
+        />
         <Route
           path="/messages"
           element={
@@ -508,6 +583,9 @@ function App() {
       </div>
 
       {/* <BottomFeedTab /> */}
+      {showSearchModal && (
+        <SearchModal users={users} posts={posts} activities={activities} />
+      )}
       <ToastContainer />
     </div>
   );

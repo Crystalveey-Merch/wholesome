@@ -33,8 +33,12 @@ import {
 } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { Helmet } from "react-helmet-async";
+import { handleFollow } from "../Hooks/index.js";
+import { useSelector } from "react-redux";
+import { selectUser } from "../Features/userSlice.js";
 
 const Profilepage = () => {
+  const loggedInUser = useSelector(selectUser);
   const { profileId } = useParams();
   const [isFollowing, setIsFollowing] = useState(false); // Track whether the current user is following the profile.
   const [userPosts, setUserPosts] = useState([]);
@@ -46,7 +50,11 @@ const Profilepage = () => {
       try {
         const profileDocRef = doc(db, "users", profileId); // Assuming you have a "users" collection in Firebase
         const profileDocSnapshot = await getDoc(profileDocRef);
-        setProfileData(profileDocSnapshot.data());
+        const profileData = {
+          id: profileDocSnapshot.id,
+          ...profileDocSnapshot.data(),
+        };
+        setProfileData(profileData);
       } catch (error) {
         console.error("Error fetching profile data: ", error);
       }
@@ -80,37 +88,37 @@ const Profilepage = () => {
       getUserPosts();
     }
   }, [profileId]);
-  console.log(); // Update the variable name here
+  // console.log(profileData); // Update the variable name here
 
-  const handleFollowToggle = async () => {
-    if (auth.currentUser) {
-      const userDocRef = doc(db, "users", profileId);
-      const currentUserDocRef = doc(db, "users", auth.currentUser.uid);
+  // const handleFollowToggle = async () => {
+  //   if (auth.currentUser) {
+  //     const userDocRef = doc(db, "users", profileId);
+  //     const currentUserDocRef = doc(db, "users", auth.currentUser.uid);
 
-      if (isFollowing) {
-        // Unfollow the user.
-        await updateDoc(userDocRef, {
-          followers: arrayRemove(auth.currentUser.uid),
-        });
-        await updateDoc(currentUserDocRef, {
-          following: arrayRemove(profileId),
-        });
-        toast.success("Account unfollowed");
-      } else {
-        // Follow the user.
-        await updateDoc(userDocRef, {
-          followers: arrayUnion(auth.currentUser.uid),
-        });
-        await updateDoc(currentUserDocRef, {
-          following: arrayUnion(profileId),
-        });
-        toast.success("Account followed");
-      }
+  //     if (isFollowing) {
+  //       // Unfollow the user.
+  //       await updateDoc(userDocRef, {
+  //         followers: arrayRemove(auth.currentUser.uid),
+  //       });
+  //       await updateDoc(currentUserDocRef, {
+  //         following: arrayRemove(profileId),
+  //       });
+  //       toast.success("Account unfollowed");
+  //     } else {
+  //       // Follow the user.
+  //       await updateDoc(userDocRef, {
+  //         followers: arrayUnion(auth.currentUser.uid),
+  //       });
+  //       await updateDoc(currentUserDocRef, {
+  //         following: arrayUnion(profileId),
+  //       });
+  //       toast.success("Account followed");
+  //     }
 
-      // Update the follow state.
-      setIsFollowing(!isFollowing);
-    }
-  };
+  //     // Update the follow state.
+  //     setIsFollowing(!isFollowing);
+  //   }
+  // };
   const formatTime = (date) => {
     return date.toLocaleTimeString("en-US", {
       hour: "numeric",
@@ -248,7 +256,9 @@ const Profilepage = () => {
             </div>
             <button
               className="flex m-auto  my-5 text-gray-500"
-              onClick={handleFollowToggle}
+              onClick={() => {
+                handleFollow(loggedInUser, profileData);
+              }}
             >
               <FontAwesomeIcon
                 icon={faPlus}

@@ -81,6 +81,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
     const lastLogin = new Date().toISOString();
     const selectedOptions = [];
     const notifications = [];
+    const recentSearches = [];
     //const bookmarkedPosts: Array<string> | undefined = [];
 
     //Generate username from email
@@ -119,6 +120,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
           following,
           selectedOptions,
           notifications,
+          recentSearches,
           lastLogin,
           //bookmarkedPosts,
           username: usernameToSave, // set the final value of usernameToSave
@@ -162,6 +164,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
           following,
           selectedOptions,
           notifications,
+          recentSearches,
           lastLogin,
           //bookmarkedPosts,
           username: usernameToSave, // set the final value of usernameToSave

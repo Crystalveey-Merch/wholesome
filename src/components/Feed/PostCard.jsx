@@ -132,7 +132,7 @@ export const PostCard = ({ post, posts, setPosts, users }) => {
         />
         <div className="flex gap-1 items-center">
           <Link
-            to={`/profile/${getProfileDetails(post.userId, users)?.id}`}
+            to={`/${getProfileDetails(post.userId, users)?.username}`}
             className="text-[0.95rem] font-inter font-semibold text-black"
           >
             {getProfileDetails(post.userId, users)?.name}

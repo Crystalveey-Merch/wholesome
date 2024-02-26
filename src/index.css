@@ -339,6 +339,10 @@ button:focus-visible {
   font-weight: bold; /* Add additional styles as needed */
 }
 
+.hashtag:hover {
+  text-decoration: underline;
+}
+
 .emoji-style {
   width: 350px !important;
 }
@@ -346,5 +350,6 @@ button:focus-visible {
 @media screen and (max-width: 639px) {
   .emoji-style {
     width: calc(100vw - 1rem) !important;
+    display: none !important;
   }
 }

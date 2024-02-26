@@ -7,7 +7,6 @@ import {
   faBell as solidBell,
 } from "@fortawesome/free-solid-svg-icons";
 import { faCommentDots, faBell } from "@fortawesome/free-regular-svg-icons";
-// import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { Link, NavLink, useLocation } from "react-router-dom";
 // import { useState } from "react";
 // import { onAuthStateChanged } from "firebase/auth";
@@ -18,6 +17,7 @@ import { signOut } from "firebase/auth";
 // import { ReactSearchAutocomplete } from "react-search-autocomplete";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser, logout } from "./Features/userSlice.js";
+import { openSearchModal } from "./Features/searchModalSlice.js";
 import { Menu } from "@headlessui/react";
 // import { events } from "./data/events";
 // import { useParams } from "react-router";
@@ -29,6 +29,11 @@ const Header = ({ users, allChats }) => {
   const dispatch = useDispatch();
   // const { interestName } = useParams();
   const user = useSelector(selectUser);
+
+  const openSearch = () => {
+    dispatch(openSearchModal());
+  };
+
 
   const location = useLocation();
 
@@ -716,17 +721,17 @@ const Header = ({ users, allChats }) => {
         {/* </dialog> */}
 
         <div className="justify-end sm:justify-middle  sm:w-full flex gap-2 rounded-full ">
-          <div className="flex text-center  bg-white  border-0 btn m-1 hover:bg-gray-100 sm:m-0 sm:hover:bg-none ">
-            {/* <Link to="/searchuser"> */}
-            <FontAwesomeIcon
-              icon={faSearch}
-              className={`h-[18px] w-[18px] ${
-                location.pathname === "/searchuser"
-                  ? "text-[#FF5841]"
-                  : "text-[#919EAB]"
-              }`}
-            />
-            {/* </Link> */}
+          <div 
+          onClick={openSearch}
+          className="flex text-center  bg-white  border-0 btn m-1 hover:bg-gray-100 sm:m-0 sm:hover:bg-none ">
+              <FontAwesomeIcon
+                icon={faSearch}
+                className={`h-[18px] w-[18px] ${
+                  location.pathname === "/searchuser"
+                    ? "text-[#FF5841]"
+                    : "text-[#919EAB]"
+                }`}
+              />
           </div>
           {user && (
             <Link
