@@ -298,7 +298,7 @@ export const Content = ({ posts, setPosts, users }) => {
             />
           </Link>
           <div className="flex flex-col gap-1 md:gap-0.5">
-            <Link to={`/profile/${authorProfile?.id}`}>
+            <Link to={`/${authorProfile?.username}`}>
               <p className="text-black text-xl font-semibold font-inter md:text-base">
                 {authorProfile?.name}
               </p>

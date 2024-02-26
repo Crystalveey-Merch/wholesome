@@ -2,10 +2,11 @@
 import { useState, useEffect } from "react";
 import { useParams, NavLink } from "react-router-dom";
 import { ActionButtons, SocialProfile } from ".";
+import { PostCard } from "../components/Feed";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 
-export const Profile20 = ({ users, posts }) => {
+export const Profile20 = ({ users, posts, setPosts }) => {
   const [loading, setLoading] = useState(true);
   const [userNotFound, setUserNotFound] = useState(false);
 
@@ -27,6 +28,8 @@ export const Profile20 = ({ users, posts }) => {
     }
   }, [routeUser, username, users]);
 
+  const userPosts = posts.filter((post) => post.userId === routeUser.id);
+
   return (
     <div className="relative -mt-20 min-h-screen">
       <div className="bg-gradient-to-tr from-red-100 via-orange-200 to-red-400 w-full absolute top-0 z-10 h-60 sm:h-52"></div>
@@ -39,7 +42,7 @@ export const Profile20 = ({ users, posts }) => {
           <p className="text-center">User not found or invalid username</p>
         </div>
       ) : (
-        <div className="w-full relative pt-[195px] border border-gray-200 h-full rounded-md sm:pt-[160px]">
+        <div className="w-full relative pt-[195px] flex flex-col gap-6 border border-gray-200 h-full rounded-md sm:pt-[160px]">
           <div className="flex justify-between px-6 w-full sm:px-5">
             <div
               className="flex flex-col gap-10 h-max z-20 w-full sm:gap-6"
@@ -92,6 +95,19 @@ export const Profile20 = ({ users, posts }) => {
               </div>
             </div>
           </div>
+          {userPosts.length > 0 && (
+            <div className="flex flex-col gap-6 p-6 w-full">
+              {userPosts.map((post) => (
+                <PostCard
+                  key={post.id}
+                  post={post}
+                  posts={posts}
+                  setPosts={setPosts}
+                  users={users}
+                />
+              ))}
+            </div>
+          )}
         </div>
       )}
     </div>

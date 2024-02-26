@@ -508,7 +508,7 @@ function App() {
           element={
             <BottomFeedTab users={users}>
               <FeedLayout>
-                <Profile20 users={users} posts={posts} />
+                <Profile20 users={users} posts={posts} setPosts={setPosts} />
               </FeedLayout>
             </BottomFeedTab>
           }
