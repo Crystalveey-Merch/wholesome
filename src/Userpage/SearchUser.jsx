@@ -402,7 +402,12 @@ export const SearchUser = ({ users, posts, setPosts, activities, events }) => {
                         <div className="w-full flex justify-between py-1">
                           <button
                             onClick={() => {
-                              navigate(`/profile/${search.value}`);
+                              navigate(
+                                `/${
+                                  getProfileDetails(search.value, users)
+                                    .username
+                                }`
+                              );
                             }}
                             className="flex gap-2 items-center w-full"
                           >

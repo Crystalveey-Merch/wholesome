@@ -318,7 +318,7 @@ export const SearchModal = ({ users, posts, activities }) => {
                               <button
                                 onClick={() => {
                                   handleSearchUser(user.id, loggedInUser);
-                                  navigate(`/profile/${user.id}`);
+                                  navigate(`/${user.username}`);
                                   closeModal();
                                 }}
                                 className="flex w-full gap-2 items-center hover:bg-gray-100 p-2 rounded-xl transition duration-300 ease-in-out"

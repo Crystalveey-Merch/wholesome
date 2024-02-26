@@ -23,7 +23,7 @@ export const People = ({ searchResults }) => {
                 <button
                   onClick={() => {
                     handleSearchUser(user.id, loggedInUser);
-                    navigate(`/profile/${user.id}`);
+                    navigate(`/${user.username}`);
                   }}
                   className="flex w-full gap-2 items-center"
                 >
