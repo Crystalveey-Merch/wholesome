@@ -34,7 +34,6 @@ const Header = ({ users, allChats }) => {
     dispatch(openSearchModal());
   };
 
-
   const location = useLocation();
 
   // const navigate = useNavigate();
@@ -217,13 +216,13 @@ const Header = ({ users, allChats }) => {
               </div>
             </NavLink>
           </div> */}
-          <div className="drawer-side hidden lg:grid">
+          <div className="drawer-side z-20 hidden lg:grid">
             <label
               htmlFor="my-drawer-3"
               aria-label="close sidebar"
               className="drawer-overlay"
             ></label>
-            <ul className="menu p-4 w-80 min-h-full bg-black text-xl">
+            <ul className="menu z-20 p-4 w-80 min-h-full bg-black text-xl">
               {/* Sidebar content here */}
               <NavLink
                 to="/"
@@ -234,7 +233,7 @@ const Header = ({ users, allChats }) => {
                 <hr></hr>
               </NavLink>
               <Menu>
-                <Menu.Button className="text-left p-2 text-white light:text-black   border-b border">
+                <Menu.Button className="text-left p-2 text-white light:text-black">
                   About us
                 </Menu.Button>
                 <Menu.Items className="flex flex-col gap-4 text-2xl px-5">
@@ -477,7 +476,7 @@ const Header = ({ users, allChats }) => {
               </Menu>
 
               <Menu>
-                <Menu.Button className="text-left p-2 text-white border-b border light:text-black  ">
+                <Menu.Button className="text-left p-2 text-white light:text-black  ">
                   {" "}
                   Events
                 </Menu.Button>
@@ -721,23 +720,24 @@ const Header = ({ users, allChats }) => {
         {/* </dialog> */}
 
         <div className="justify-end sm:justify-middle  sm:w-full flex gap-2 rounded-full ">
-          <div 
-          onClick={openSearch}
-          className="flex text-center  bg-white  border-0 btn m-1 hover:bg-gray-100 sm:m-0 sm:hover:bg-none ">
-              <FontAwesomeIcon
-                icon={faSearch}
-                className={`h-[18px] w-[18px] ${
-                  location.pathname === "/searchuser"
-                    ? "text-[#FF5841]"
-                    : "text-[#919EAB]"
-                }`}
-              />
+          <div
+            onClick={openSearch}
+            className="flex text-center  bg-white  border-0 btn m-1 hover:bg-gray-100 sm:m-0 sm:hover:bg-none "
+          >
+            <FontAwesomeIcon
+              icon={faSearch}
+              className={`h-[18px] w-[18px] ${
+                location.pathname === "/searchuser"
+                  ? "text-[#FF5841]"
+                  : "text-[#919EAB]"
+              }`}
+            />
           </div>
           {user && (
             <Link
               to="/messages"
               // to="/"
-              className="relative flex text-center  bg-white  border-0 btn hover:bg-gray-100 sm:hover:bg-none "
+              className="flex text-center z-0 bg-white  border-0 btn hover:bg-gray-100 sm:hover:bg-none "
             >
               <FontAwesomeIcon
                 icon={

@@ -45,11 +45,11 @@ export const SearchUser = ({ users, posts, setPosts, activities, events }) => {
   // const [suggestions, setSuggestions] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
   const [searchedWord, setSearchedWord] = useState("");
-  const [usersMatched, setUsersMatched] = useState([]);
-  const [eventsMatched, setEventsMatched] = useState([]);
-  const [podcastsMatched, setPodcastsMatched] = useState([]);
-  const [activitiesMatched, setActivitiesMatched] = useState([]);
-  const [postsMatched, setPostsMatched] = useState([]);
+  // const [usersMatched, setUsersMatched] = useState([]);
+  // const [eventsMatched, setEventsMatched] = useState([]);
+  // const [podcastsMatched, setPodcastsMatched] = useState([]);
+  // const [activitiesMatched, setActivitiesMatched] = useState([]);
+  // const [postsMatched, setPostsMatched] = useState([]);
 
   // set suggestions based on search query, suggestions are based on users, keywords, and topics
 

@@ -128,17 +128,22 @@ export const SearchModal = ({ users, posts, activities }) => {
 
   return (
     <div
-      className="fixed z-20 font-inter text-bleck left-0 top-0 w-full h-full overflow-auto bg-[rgba(0,0,0,0.4)] flex justify-center items-center sm:top-16"
+      className="fixed z-20 font-inter text-bleck left-0 top-0 w-full h-full overflow-auto bg-[rgba(0,0,0,0.4)] flex justify-center items-center sm:top-16 sm:justify-start sm:items-start"
       onClick={closeModal}
     >
       <div
-        className="bg-[#fefefe] h-[500px] p-6 border border-[#fefefe] w-[600px] rounded-xl flex flex-col gap-4 sm:h-screen sm:w-full sm:rounded-none"
+        className="bg-[#fefefe] overflow-hidden h-[500px] p-6 border border-[#fefefe] w-[600px] rounded-xl flex flex-col gap-4 sm:h-[calc(100vh-50px)] sm:w-full sm:rounded-none"
         onClick={(e) => e.stopPropagation()}
         style={{
           boxShadow:
             "0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03)",
         }}
       >
+        <FontAwesomeIcon
+          icon={faXmark}
+          onClick={() => closeModal()}
+          className="text-black h-5 w-5 hidden sm:block sm:place-self-start"
+        />
         <div className="relative min-h-12 w-full border bg-white border-gray-200 mx-auto rounded-xl flex gap-2 items-center px-4 py-2.5">
           <FontAwesomeIcon icon={faSearch} className="text-gray-400" />
           <input
@@ -286,7 +291,7 @@ export const SearchModal = ({ users, posts, activities }) => {
             )}
           </div>
         ) : (
-          <div className="max-h-[400px] overflow-y-scroll py-3">
+          <div className="max-h-[400px] overflow-y-scroll py-3 sm:max-h-[calc(100vh-100px)]">
             <div className="flex flex-col gap-4">
               <button
                 type="button"

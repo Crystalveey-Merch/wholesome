@@ -18,7 +18,7 @@ function highlightMentionsAndHashtags(text, users) {
   text = text.replace(mentionRegex, (match, username) => {
     const user = users?.find((u) => u.username === username);
     if (user) {
-      return `<a href="/profile/${user.id}" class="mention">@${username}</a>`;
+      return `<a href="/${user.username}" class="mention">@${username}</a>`;
     }
     return match; // If user not found, keep original mention
   });
@@ -27,7 +27,9 @@ function highlightMentionsAndHashtags(text, users) {
   text = text.replace(
     hashtagRegex,
     (match, hashtag) =>
-      `<a href="/topic/${convertedTitle(hashtag)}" class="hashtag">#${hashtag}</a>`
+      `<a href="/topic/${convertedTitle(
+        hashtag
+      )}" class="hashtag">#${hashtag}</a>`
   );
 
   return text;

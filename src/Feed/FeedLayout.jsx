@@ -120,11 +120,15 @@ export const FeedLayout = ({ children }) => {
   //   console.log(rightBarSlideOpen);
 
   return (
-    <div className="flex justify-center min-h-[calc(100vh-0px)] w-screen gap-12 font-inter text-black overflowhidden px-4 xl:gap-6 sm:px-2">
-      <div className="w-full pt-[126px] pb-9 max-w-3xl flex flex-col gap-4 overflowauto xl:max-w-[650px] lg:max-w-3xl md:max-w-[650px] lg:px-5 md:px-2">
+    <div className="flex justify-center min-h-[calc(100vh-0px)] w-screen gap-12 font-inter text-black overflowhidden px-4 xl:gap-6 sm:px-0">
+      <div
+        className={`w-full pt-[126px] pb-9 max-w-3xl flex flex-col gap-4 overflowauto xl:max-w-[650px] lg:max-w-3xl md:max-w-[650px] lg:px-5 md:px-2 sm:px-0 ${location.pathname.includes(
+          ""
+        )}`}
+      >
         {/* for you and following tabs */}
         {location.pathname.includes("/feed") && (
-          <div className="w-full h-10 flex gap-8">
+          <div className="w-full h-10 flex gap-8 sm:px-4">
             <Link
               className={`text-base font-semibold pb-3 border-b-2 cursor-pointer transition duration-500 ease-in-out ${
                 location.pathname === "/feed"

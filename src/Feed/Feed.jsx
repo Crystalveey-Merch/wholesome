@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { PostCard } from "../components/Feed";
 export const Feed = ({ posts, setPosts, users }) => {
   return (
-    <div>
+    <div className="sm:px-4">
       {posts.length === 0 ? (
         <div className="flex justify-center flex-col items-center h-[400px] gap-5">
           <h4 className="text-3xl font-semibold text-gray-900">

@@ -1,12 +1,15 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import { useParams, NavLink } from "react-router-dom";
-import { ActionButtons, SocialProfile } from ".";
+import { useSelector } from "react-redux";
+import { selectUser } from "../Features/userSlice";
+import { ActionButtons, SocialProfile, SuggestedUsers } from ".";
 import { PostCard } from "../components/Feed";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 
 export const Profile20 = ({ users, posts, setPosts }) => {
+  const loggedInUser = useSelector(selectUser);
   const [loading, setLoading] = useState(true);
   const [userNotFound, setUserNotFound] = useState(false);
 
@@ -30,6 +33,19 @@ export const Profile20 = ({ users, posts, setPosts }) => {
 
   const userPosts = posts.filter((post) => post.userId === routeUser.id);
 
+  const [displayedPosts, setDisplayedPosts] = useState(0);
+
+  useEffect(() => {
+    // Update the displayedPosts count after the component has rendered
+    setDisplayedPosts(userPosts.slice(0, 3).length);
+  }, [userPosts]);
+
+  const [presentTab, setPresentTab] = useState("posts");
+
+  const handleTabChange = (tabName) => {
+    setPresentTab(tabName);
+  };
+
   return (
     <div className="relative -mt-20 min-h-screen">
       <div className="bg-gradient-to-tr from-red-100 via-orange-200 to-red-400 w-full absolute top-0 z-10 h-60 sm:h-52"></div>
@@ -42,21 +58,21 @@ export const Profile20 = ({ users, posts, setPosts }) => {
           <p className="text-center">User not found or invalid username</p>
         </div>
       ) : (
-        <div className="w-full relative pt-[195px] flex flex-col gap-6 border border-gray-200 h-full rounded-md sm:pt-[160px]">
+        <div className="w-full relative pt-[195px] flex flex-col gap-6 border border-gray-200 h-full rounded-md pb-8 sm:pt-[160px]">
           <div className="flex justify-between px-6 w-full sm:px-5">
             <div
               className="flex flex-col gap-10 h-max z-20 w-full sm:gap-6"
               //style="position: sticky; top: 0"
             >
               <div className="flex flex-row justify-between w-full">
-                <div className="flex gap-5 md:flex-col">
+                <div className="flex gap-5 xl:flex-col lg:flex-row md:flex-col">
                   <img
                     src={routeUser?.photoURL}
                     alt="avatar"
                     className="h-36 w-36 rounded-full border-4 border-white shadow-lg bg-white md:w-32 md:h-32 sm:w-24sm:h-24"
                   />
 
-                  <div className="flex flex-col gap-3 mt-16 md:mt-4">
+                  <div className="flex flex-col gap-3 mt-16 xl:mt-4 lg:mt-16 md:mt-4">
                     <div className="flex flex-col gap-0">
                       <h1 className="text-2xl font-semibold text-gray-900 w-max">
                         {routeUser?.name}
@@ -95,19 +111,57 @@ export const Profile20 = ({ users, posts, setPosts }) => {
               </div>
             </div>
           </div>
-          {userPosts.length > 0 && (
-            <div className="flex flex-col gap-6 p-6 w-full">
-              {userPosts.map((post) => (
-                <PostCard
-                  key={post.id}
-                  post={post}
-                  posts={posts}
-                  setPosts={setPosts}
-                  users={users}
-                />
-              ))}
+          <div className="px-6 flex flex-col gap-5 mt-4">
+            <div className="w-full justify-start flex gap-8">
+              <button
+                onClick={() => handleTabChange("posts")}
+                className={`text-base font-semibold pb-3 border-b-2 cursor-pointer transition duration-500 ease-in-out ${
+                  presentTab === "posts"
+                    ? "text-black border-[#FF5841]"
+                    : "text-gray-500 border-b-transparent hover:text-black hover:border-[#FF5841]"
+                } `}
+              >
+                Posts
+              </button>
             </div>
-          )}
+            {userPosts.length > 0 ? (
+              <>
+                {userPosts.length > 0 && (
+                  <div className="flex flex-col gap-6 w-full">
+                    {userPosts
+                      .slice(0, 3) // Only display the first three posts
+                      .map((post) => (
+                        <PostCard
+                          key={post.id}
+                          post={post}
+                          posts={posts}
+                          setPosts={setPosts}
+                          users={users}
+                        />
+                      ))}
+                  </div>
+                )}
+                {displayedPosts >= 3 && (
+                  <SuggestedUsers users={users} loggedInUser={routeUser} />
+                )}
+                {userPosts.length > 3 && (
+                  <div className="flex flex-col gap-6 w-full">
+                    {userPosts.slice(3).map((post) => (
+                      <PostCard
+                        key={post.id}
+                        post={post}
+                        posts={posts}
+                        setPosts={setPosts}
+                        users={users}
+                      />
+                    ))}
+                  </div>
+                )}
+              </>
+            ) : (
+              <SuggestedUsers users={users} loggedInUser={loggedInUser} />
+            )}
+          </div>
         </div>
       )}
     </div>

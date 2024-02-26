@@ -16,7 +16,7 @@ export const Following = ({ posts, setPosts, users }) => {
   });
 
   return (
-    <>
+    <div className="sm:px-4">
       {loggedInUser === null ? (
         <div className="flex justify-center flex-col items-center h-[400px] gap-5">
           <h4 className="text-3xl font-semibold text-gray-900">
@@ -76,6 +76,6 @@ export const Following = ({ posts, setPosts, users }) => {
           )}
         </div>
       )}
-    </>
+    </div>
   );
 };

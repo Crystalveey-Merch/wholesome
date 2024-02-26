@@ -26,6 +26,20 @@
   font-family: "Inter", sans-serif;
 }
 
+.one-line-text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 1;
+}
+
+.two-line-text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+}
+
 .title-content-container {
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -131,6 +145,7 @@ p {
   transition: border-color 0.25s;
 } */
 
+
 /* button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
@@ -144,9 +159,9 @@ button:focus-visible {
   a:hover {
     color: #747bff;
   }
-  button {
+  /* button {
     background-color: #f9f9f9;
-  }
+  } */
 }
 @media screen and (max-width: 639px) {
   .header-links {
@@ -352,4 +367,13 @@ button:focus-visible {
     width: calc(100vw - 1rem) !important;
     display: none !important;
   }
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
