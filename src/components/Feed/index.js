@@ -1,5 +1,6 @@
 export * from "./FirstTierReply"
 export * from "./Comment"
+export * from "./HomePostCard"
 export * from "./PostCard"
 export * from "./TrendingArticlesCard"
 export * from "./EventsCard"

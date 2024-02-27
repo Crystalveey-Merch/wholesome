@@ -27,8 +27,9 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, Pagination } from "swiper";
+import { HomePostCard } from "../components/Feed";
 
-const Section2new = ({ posts, postId, loading }) => {
+const Section2new = ({ users, posts, postId, loading }) => {
   const [authUser, setAuthUser] = useState(null);
 
   useEffect(() => {
@@ -165,7 +166,7 @@ const Section2new = ({ posts, postId, loading }) => {
           disableOnInteraction: false,
         }}
         modules={[Pagination, Autoplay, Navigation]}
-        className="mySwiper w-[calc(100vw-20px)] px-10"
+        className="mySwiper w-[calc(100vw-20px)] px-10 hidden"
       >
         {limitedPosts.map((post) => (
           <SwiperSlide key={post.id} className="w-max sm:h-max">
@@ -236,92 +237,38 @@ const Section2new = ({ posts, postId, loading }) => {
           </SwiperSlide>
         ))}
       </Swiper>
-      {/* <Swiper
-        centeredSlides={true}
-        watchSlidesProgress
-        navigation={true}
-        spaceBetween={26}
-        loop={true}
-        breakpoints={breakpoints}
-        pagination={{
-          clickable: true,
-        }}
-        autoplay={{
-          delay: 6000,
-          disableOnInteraction: false,
-        }}
-        modules={[Autoplay, Pagination, Navigation]}
-        className="mySwiper w-full  px-20 sm:mx-0  lg:px-10 hidden"
-      >
-        {limitedPosts.map((post) => (
-          <SwiperSlide
-            key={post._id}
-            className="transition duration-500 hover:scale-90  ease-in-out swipper"
-          >
-            <NavLink
-              to={`/readmore/${post.id}`}
-              onClick={handleReadMoreClick}
-              key={post.id}
-              className="p-2"
-            >
-              <div
-                key={post.id}
-                className="w-72 sm:w-full bg-white rounded-xl pt-4 px-4 pb-3 shadow"
-              >
-                <div className="relative overflow-clip h-[140px] sm:w-full">
-                  <img
-                    src={post.imgUrl}
-                    height={200}
-                    className="p-2 absolute hover:scale-125 transition duration-300 ease-in-out m-auto max-h-36 w-full"
-                  />
-                  <p className="text-black z-0 top-1 absolute sm:hidden  ">
-                    {post.category}
-                  </p>
-                </div>
-                <div className="px-5 flex flex-col justify-between h-[170px] sm:p-0 mt-4 mb4 relative">
-                  <div>
-                    <p className="mt-1 text-sm leading-5 text-gray-500 border-b Aceh">
-                      {post.timestamp.toDate().toDateString()} at{" "}
-                      {formatTime(post.timestamp.toDate())}
-                    </p>
-                    <h2 className="Aceh text-l py-2 text-red-500 ">
-                      {excerpt(post.postTitle, 24)}
-                    </h2>
-                    <p className=" text-gray-800 ">
-                      {excerpt(post.postDescription, 80)}
-                    </p>
-                  </div>
-                  <div className="text-l flex gap-5 justify-selfend z-10">
-                    <div className="flex gap-2">
-                      <FontAwesomeIcon
-                        icon={faComment}
-                        className="text-gray-500 my-auto "
-                      />{" "}
-                      {post.comments.length}
-                    </div>
-                    <div className="flex gap-2">
-                      <FontAwesomeIcon
-                        icon={faThumbsUp}
-                        className="text-gray-500 my-auto "
-                      />{" "}
-                      {post.likes.length}
-                    </div>
-                    <div className="flex gap-2">
-                      <FontAwesomeIcon
-                        icon={faEye}
-                        className="text-gray-500 my-auto "
-                      />{" "}
-                      {post.views ? post.views.length : 0}
-                    </div>
-                  </div>
-                </div>
+
+      {limitedPosts.length > 0 && (
+        <Swiper
+          slidesPerView={"auto"}
+          watchSlidesProgress
+          navigation={true}
+          loop={true}
+          pagination={{
+            clickable: true,
+          }}
+          autoplay={{
+            delay: 3000,
+            disableOnInteraction: false,
+          }}
+          modules={[Pagination, Autoplay, Navigation]}
+          className="mySwiper w-[calc(100vw-20px)] px-10"
+        >
+          {limitedPosts.map((post) => (
+            <SwiperSlide key={post.id} className="w-max sm:h-max">
+              <div className="p-1.5 px-5 sm:px-1.5">
+                <HomePostCard key={post.id} post={post} users={users} />
               </div>
-            </NavLink>
-          </SwiperSlide>
-        ))}
-      </Swiper> */}
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      )}
       <div className="flex justify-center">
-        <NavLink to="articlelist" className="w-28">
+        <NavLink
+          to="/feed"
+          onClick={() => window.scrollTo(0, 0)}
+          className="w-28"
+        >
           <button className="btn bg-black flex mauto Aceh text-white">
             {" "}
             See More

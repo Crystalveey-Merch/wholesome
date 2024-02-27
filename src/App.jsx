@@ -337,6 +337,7 @@ function App() {
             <DefaultLayout>
               <BottomFeedTab users={users}>
                 <Homepage
+                  users={users}
                   posts={posts}
                   postId={postId}
                   postLoading={postLoading}

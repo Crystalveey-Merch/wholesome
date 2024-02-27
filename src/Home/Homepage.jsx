@@ -9,6 +9,7 @@ import Section2new from "./Section2new";
 import { Helmet } from "react-helmet-async";
 
 const Homepage = ({
+  users,
   posts,
   postId,
   postLoading,
@@ -76,7 +77,7 @@ const Homepage = ({
         <Section1 />
         <Section1plus />
 
-        <Section2new posts={posts} postId={postId} loading={postLoading} />
+        <Section2new users={users} posts={posts} postId={postId} loading={postLoading} />
         <Section4 events={events} loading={eventLoading} />
 
         <Section2first activities={activities} />
