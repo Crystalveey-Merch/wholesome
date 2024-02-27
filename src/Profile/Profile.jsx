@@ -84,13 +84,13 @@ export const Profile20 = ({ users, posts, setPosts }) => {
 
                     <div className="flex gap-4">
                       <NavLink
-                        // to={`/${username}/followers`}
+                        to={`/${username}/followers`}
                         className="text-gray-600 text-base font-semibold"
                       >
                         {routeUser?.followers.length} followers
                       </NavLink>
                       <NavLink
-                        // to={`/${username}/following`}
+                        to={`/${username}/following`}
                         className="text-gray-600 text-base font-semibold"
                       >
                         {routeUser?.following.length} following

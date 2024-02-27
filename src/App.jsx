@@ -60,7 +60,12 @@ import { DefaultLayout } from "./Layouts/";
 import { getDoc, limit } from "firebase/firestore";
 // import { doc, getDocs, updateDoc } from "./firebase/auth.js";
 import { Feed, FeedLayout, Content, Following } from "./Feed";
-import { Profile20 } from "./Profile/index.js";
+import {
+  Profile20,
+  FollowersAndFollowing,
+  Followers,
+  FollowingUsers,
+} from "./Profile";
 import { Bookmarks, Drafts, Notifications } from "./Dashboard";
 // import "@fortawesome/fontawesome-free"
 import { useDispatch, useSelector } from "react-redux";
@@ -509,6 +514,28 @@ function App() {
             <BottomFeedTab users={users}>
               <FeedLayout>
                 <Profile20 users={users} posts={posts} setPosts={setPosts} />
+              </FeedLayout>
+            </BottomFeedTab>
+          }
+        />
+        <Route
+          path="/:username/followers"
+          element={
+            <BottomFeedTab users={users}>
+              <FeedLayout>
+                <FollowersAndFollowing users={users} />
+                <Followers users={users} />
+              </FeedLayout>
+            </BottomFeedTab>
+          }
+        />
+        <Route
+          path="/:username/following"
+          element={
+            <BottomFeedTab users={users}>
+              <FeedLayout>
+                <FollowersAndFollowing users={users} />
+                <FollowingUsers users={users} />
               </FeedLayout>
             </BottomFeedTab>
           }

@@ -1,0 +1,137 @@
+/* eslint-disable react/prop-types */
+import { useEffect, useState } from "react";
+import { NavLink, useParams, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectUser } from "../Features/userSlice";
+import { handleFollow } from "../Hooks";
+import defaultAvatar from "../assets/avatar-default.png";
+
+export const Followers = ({ users }) => {
+  const { username } = useParams();
+  const navigate = useNavigate();
+
+  const routeUser = users.find((user) => user.username === username);
+
+  const loggedInUser = useSelector(selectUser);
+
+  const [routeUserFollowers, setRouteUserFollowers] = useState(null);
+
+  useEffect(() => {
+    if (routeUser) {
+      const followers = users.filter((user) =>
+        routeUser.followers.includes(user.id)
+      );
+      setRouteUserFollowers(followers);
+    } else {
+      setRouteUserFollowers([]);
+    }
+  }, [routeUser, users]);
+
+  const [isGreaterThanOne, setisGreaterThanOne] = useState(false);
+
+  useEffect(() => {
+    if (routeUserFollowers) {
+      if (routeUserFollowers.length > 0) {
+        setisGreaterThanOne(true);
+      } else {
+        setisGreaterThanOne(false);
+      }
+    }
+  }, [routeUserFollowers]);
+
+  return (
+    <>
+      <div className="bg-white w-full p-4 shadow-md rounded-lg mx-auto">
+        {routeUser === undefined ? (
+          <div>
+            <h1>Loading...</h1>
+          </div>
+        ) : (
+          <div>
+            {isGreaterThanOne ? (
+              <ul className="flex flex-col gap-3">
+                {routeUserFollowers.map((user) => (
+                  <li key={user.id} className="flex justify-between">
+                    <NavLink
+                      to={`/${user.username}`}
+                      className="flex items-center gap-4 transition duration-300 ease-in-out hover:bg-gray-100 p-2 rounded-md px-4"
+                    >
+                      <img
+                        src={user.photoURL ? user.photoURL : defaultAvatar}
+                        alt="avatar"
+                        className="w-12 h-12 rounded-full"
+                      />
+                      <div className="flex flex-col">
+                        <h1 className="text-gray-900 font-semibold text-base font-inter">
+                          {user.name}
+                        </h1>
+                        <p className="text-gray-600 text-sm font-inter">
+                          @{user.username}
+                        </p>
+                      </div>
+                    </NavLink>
+                    <div>
+                      {loggedInUser ? (
+                        <>
+                          {loggedInUser.id === user.id ? (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                navigate("/dashboard/profile");
+                              }}
+                              className="w-max h-max min-w-[120px] block px-4 py-2 rounded-xl bg-[#FF5841] border border-[#FF5841] text-[#FFFFFF] font-inter text-sm"
+                            >
+                              Edit Profile
+                            </button>
+                          ) : loggedInUser.following.includes(user.id) ? (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                handleFollow(loggedInUser, user);
+                              }}
+                              className="w-max h-max min-w-[120px] block px-4 py-2 rounded-xl bg-[#FF5841] border border-[#FF5841] text-[#FFFFFF] font-inter text-sm"
+                            >
+                              Following
+                            </button>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                handleFollow(loggedInUser, user);
+                              }}
+                              className="w-max h-max min-w-[120px] block px-4 py-2 rounded-xl bg-white border border-gray-300 text-[#FF5841] font-inter text-sm"
+                            >
+                              Follow
+                            </button>
+                          )}
+                        </>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            navigate(`/profile/${user.id}`);
+                          }}
+                          className="w-max min-w-[120px] h-max block px-4 py-2 rounded-xl border border-gray-300 text-[#FF5841] font-inter text-sm"
+                        >
+                          View Profile
+                        </button>
+                      )}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <div className="text-gray-500 text-sm">
+                {routeUser.id === loggedInUser?.id ? (
+                  <p>You don&rsquo;t have any followers yet</p>
+                ) : (
+                  <p>This user doesn&rsquo;t have any followers yet</p>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </>
+  );
+};
