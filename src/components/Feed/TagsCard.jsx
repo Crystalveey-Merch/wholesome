@@ -3,8 +3,11 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { faHashtag } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useDispatch } from "react-redux";
+import { closeRightBar } from "../../Features/openRightBarSlice";
 
 export const TagsCard = ({ posts, activities }) => {
+  const dispatch = useDispatch();
   const [trendingTags, setTrendingTags] = useState([]);
 
   const convertedTitle = (title) => {
@@ -55,6 +58,10 @@ export const TagsCard = ({ posts, activities }) => {
   }, [posts, activities]);
   //   console.log(trendingTags);
 
+  const closeRightBarSlide = () => {
+    dispatch(closeRightBar());
+  };
+
   return (
     <div className="w-full h-max p-5 border border-gray-200 rounded-xl flex flex-col gap-7">
       <div className="flex gap-1 items-centertext-xl font-semibold text-black md:text-lg">
@@ -65,7 +72,12 @@ export const TagsCard = ({ posts, activities }) => {
         {trendingTags.map((tag) => (
           <Link
             to={`/topic/${convertedTitle(tag)}`}
-            onClick={() => window.scrollTo(0, 0)}
+            onClick={
+              (() => {
+                window.scrollTo(0, 0);
+              },
+              closeRightBarSlide)
+            }
             key={tag.id}
             className="text-sm text-black bg-gray-100 px-2 py-1 rounded-full hover:bg-gray-200 transition-colors duration-300 ease-in-out"
           >

@@ -4,12 +4,18 @@ import { faCalendarDay } from "@fortawesome/free-solid-svg-icons";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import moment from "moment";
+import { useDispatch } from "react-redux";
+import { closeRightBar } from "../../Features/openRightBarSlice";
 
 export const EventsCard = ({ events }) => {
+  const dispatch = useDispatch();
   const formattedDateTime = (date) => {
     return moment(date).format("MMM DD, YYYY h:mm A");
   };
 
+  const closeRightBarSlide = () => {
+    dispatch(closeRightBar());
+  };
   return (
     <div className="w-full h-max p-5 border border-gray-200 rounded-xl flex flex-col gap-7">
       <h3 className="text-xl font-semibold text-black md:text-lg">
@@ -25,7 +31,13 @@ export const EventsCard = ({ events }) => {
           {/* {events.map((event, index) => ( */}
           <div className="flex flex-col">
             <Link
-              to={`/events/${events[0]?.id}`}
+              to={`/upcomingevents/${events[0]?.id}`}
+              onClick={
+                (() => {
+                  window.scrollTo(0, 0);
+                },
+                closeRightBarSlide)
+              }
               className="text-lg font-semibold text-black"
             >
               <img
