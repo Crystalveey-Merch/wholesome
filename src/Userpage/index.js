@@ -4,3 +4,4 @@ export * from "./Topics";
 export * from "./All"
 export * from "./Articles"
 export * from "./People"
+export * from "./Tags"

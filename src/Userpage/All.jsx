@@ -16,7 +16,6 @@ export const All = ({
 
   const navigate = useNavigate();
 
-
   const convertedTitle = (title) => {
     return title.toLowerCase().split(" ").join("-");
   };
@@ -40,6 +39,7 @@ export const All = ({
                             onClick={() => {
                               handleSearchUser(user.id, loggedInUser);
                               navigate(`/${user.username}`);
+                              window.scrollTo(0, 0);
                             }}
                             className="flex w-full gap-2 items-center"
                           >
@@ -48,7 +48,7 @@ export const All = ({
                               className="w-10 h-10 rounded-full"
                             />
                             <div className="flex flex-col justify-start">
-                              <h4 className="text-sm font-inter font-semibold text-black">
+                              <h4 className="text-sm text-left font-inter font-semibold text-black">
                                 {user?.name}
                               </h4>
                               <p className="text-xs text-start font-inter text-gray-400">
@@ -63,6 +63,7 @@ export const All = ({
                                   type="button"
                                   onClick={() => {
                                     navigate("/dashboard/profile");
+                                    window.scrollTo(0, 0);
                                   }}
                                   className="w-max h-max min-w-[120px] block px-4 py-2 rounded-xl bg-[#FF5841] border border-[#FF5841] text-[#FFFFFF] font-inter text-sm"
                                 >
@@ -95,6 +96,7 @@ export const All = ({
                               type="button"
                               onClick={() => {
                                 navigate(`/profile/${user.id}`);
+                                window.scrollTo(0, 0);
                               }}
                               className="w-max min-w-[120px] h-max block px-4 py-2 rounded-xl border border-gray-300 text-[#FF5841] font-inter text-sm"
                             >
@@ -134,19 +136,22 @@ export const All = ({
                     <h3 className="text-base mb-2 font-inter font-semibold text-black uppercase">
                       Tags
                     </h3>
-                    {result.value.slice(0, 3).map((tag, index) => (
+                    {result.value.slice(0, 4).map((tag, index) => (
                       <button
                         key={index}
                         onClick={() => {
-                          navigate(`/topic/${convertedTitle(tag)}`);
+                          navigate(`/topic/${convertedTitle(tag)}`),
+                            window.scrollTo(0, 0);
                         }}
-                        className="text-sm text-start font-inter font-semibold text-black lowercase"
+                        className="text-sm text-black bg-gray-100 px-2 py-1 rounded-full hover:bg-gray-200 transition-colors duration-300 ease-in-out w-max lowercase"
                       >
                         #{tag}
                       </button>
                     ))}
                     <button
-                      onClick={() => handleTabChange("tags")}
+                      onClick={() => {
+                        handleTabChange("tags"), window.scrollTo(0, 0);
+                      }}
                       className="mt-1 py-1.5 text-start text-gray-700 hover:underline"
                     >
                       View all

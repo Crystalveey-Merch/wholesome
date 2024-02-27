@@ -2,21 +2,21 @@
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { NavLink } from "react-router-dom";
+// import { NavLink } from "react-router-dom";
 import { useNavigate, useLocation } from "react-router";
 import { useSelector } from "react-redux";
 import { selectUser } from "../Features/userSlice";
 import {
-  handleFollow,
+  // handleFollow,
   handleSearchKeyWord,
   getProfileDetails,
-  handleSearchUser,
+  // handleSearchUser,
   handleRemoveUserFromRecentSearches,
-  handleSearchTopic,
+  // handleSearchTopic,
   handleRemoveTopicFromRecentSearches,
   handleRemoveKeywordFromRecentSearches,
 } from "../Hooks";
-import { All, Articles, People } from ".";
+import { All, Articles, People, Tags } from ".";
 // import { db } from "../firebase/auth";
 // import { collection, getDocs, query, orderBy, limit } from "firebase/firestore";
 
@@ -377,6 +377,8 @@ export const SearchUser = ({ users, posts, setPosts, activities, events }) => {
               setPosts={setPosts}
               users={users}
             />
+          ) : currenTab === "tags" ? (
+            <Tags searchResults={searchResults} posts={posts} />
           ) : (
             <></>
           )}
@@ -407,7 +409,8 @@ export const SearchUser = ({ users, posts, setPosts, activities, events }) => {
                                   getProfileDetails(search.value, users)
                                     .username
                                 }`
-                              );
+                              ),
+                                window.scrollTo(0, 0);
                             }}
                             className="flex gap-2 items-center w-full"
                           >
@@ -452,7 +455,8 @@ export const SearchUser = ({ users, posts, setPosts, activities, events }) => {
                             onClick={() => {
                               navigate(
                                 `/topic/${convertedTitle(search.value)}`
-                              );
+                              ),
+                                window.scrollTo(0, 0);
                             }}
                             className="text-sm font-inter font-semibold text-black lowercase"
                           >
@@ -477,7 +481,8 @@ export const SearchUser = ({ users, posts, setPosts, activities, events }) => {
                         <div className="w-full flex justify-between py-1">
                           <button
                             onClick={() => {
-                              navigate(`/search?q=${search.value}`);
+                              navigate(`/search?q=${search.value}`),
+                                window.scrollTo(0, 0);
                             }}
                             className="text-sm font-inter font-semibold text-black"
                           >

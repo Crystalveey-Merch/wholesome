@@ -24,6 +24,7 @@ export const People = ({ searchResults }) => {
                   onClick={() => {
                     handleSearchUser(user.id, loggedInUser);
                     navigate(`/${user.username}`);
+                    window.scrollTo(0, 0);
                   }}
                   className="flex w-full gap-2 items-center"
                 >
@@ -32,10 +33,10 @@ export const People = ({ searchResults }) => {
                     className="w-10 h-10 rounded-full"
                   />
                   <div className="flex flex-col justify-start">
-                    <h4 className="text-sm font-inter font-semibold text-black">
+                    <h4 className="text-sm font-inter text-left font-semibold text-black">
                       {user?.name}
                     </h4>
-                    <p className="text-xs text-start font-inter text-gray-400">
+                    <p className="text-xs text-left font-inter text-gray-400">
                       @{user?.username}{" "}
                     </p>
                   </div>
