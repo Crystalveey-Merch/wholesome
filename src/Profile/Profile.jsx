@@ -65,14 +65,14 @@ export const Profile20 = ({ users, posts, setPosts }) => {
               //style="position: sticky; top: 0"
             >
               <div className="flex flex-row justify-between w-full">
-                <div className="flex gap-5 xl:flex-col lg:flex-row md:flex-col">
+                <div className="flex gap-5 xl:flex-collg:flex-rowmd: flex-col">
                   <img
                     src={routeUser?.photoURL}
                     alt="avatar"
                     className="h-36 w-36 rounded-full border-4 border-white shadow-lg bg-white md:w-32 md:h-32 sm:w-24sm:h-24"
                   />
 
-                  <div className="flex flex-col gap-3 mt-16 xl:mt-4 lg:mt-16 md:mt-4">
+                  <div className="flex flex-col gap-3 mt-16xl:mt-4lg:mt-16md: mt-4">
                     <div className="flex flex-col gap-0">
                       <h1 className="text-2xl font-semibold text-gray-900 w-max">
                         {routeUser?.name}

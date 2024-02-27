@@ -18,6 +18,7 @@ export const FeedLayout = ({ children }) => {
   const [posts, setPosts] = useState([]);
   const [users, setUsers] = useState([]);
   const [events, setEvents] = useState([]);
+  const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
   const rightBarSlideOpen = useSelector(selectOpenRightBar);
 
@@ -72,10 +73,22 @@ export const FeedLayout = ({ children }) => {
       setUsers(userData);
     });
 
+    const unsuscribActivities = onSnapshot(
+      collection(db, "activities"),
+      (snapshot) => {
+        const activityData = [];
+        snapshot.forEach((doc) => {
+          activityData.push({ ...doc.data(), id: doc.id });
+        });
+        setActivities(activityData);
+      }
+    );
+
     return () => {
       unsuscribPosts();
       unsuscribEvents();
       unsuscribUsers();
+      unsuscribActivities();
     };
   }, []);
 
@@ -166,10 +179,10 @@ export const FeedLayout = ({ children }) => {
       >
         <div
           ref={rightBarRef}
-          className="px min- h-max pt-[126px] pb-9 lg:overflow-y-auto lg:bg-white lg:w-max lg:place-self-end lg:h-full lg:px-4 lg:flex lg:flex-col lg:gap-8 lg:pt-[106px] lg:items-end md:pt-[90px] sm:"
+          className="px min- h-max pt-[126px] pb-9 lg:overflow-y-auto lg:bg-white lg:w-max lg:place-self-end lg:h-full lg:px-4 lg:flex lg:flex-col lg:gap-8 lg:pt-[106px] lg:items-end md:pt-[90px] sm:mb-10"
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="hidden lg:block" onClick={closeRightBarSlide}>
+          <div className="hidden lg:block sm:pt-10" onClick={closeRightBarSlide}>
             <FontAwesomeIcon
               icon={faXmark}
               className="text-2xl text-gray-800 cursor-pointer md:text-xl"
@@ -180,6 +193,7 @@ export const FeedLayout = ({ children }) => {
             loading={loading}
             events={events}
             users={users}
+            activities={activities}
           />
         </div>
       </div>
