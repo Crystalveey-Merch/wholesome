@@ -494,9 +494,9 @@ function App() {
               <FeedLayout>
                 <Topics
                   users={users}
+                  setPosts={setPosts}
                   posts={posts}
                   activities={activities}
-                  podcasts={podcasts}
                   events={events}
                 />
               </FeedLayout>

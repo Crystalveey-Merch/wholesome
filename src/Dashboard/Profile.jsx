@@ -306,19 +306,19 @@ const Profile = () => {
                           className=" rounded-full w-40"
                           options={[
                             {
-                              key: "Lifestyle and Fashion",
+                              key: "Lifestyle & Fashion",
                             },
                             {
-                              key: "Health and wellness",
+                              key: "Health & wellness",
                             },
                             {
-                              key: "Food and Nutrition",
+                              key: "Food & Nutrition",
                             },
                             {
-                              key: "Travel and Events",
+                              key: "Travel & Events",
                             },
                             {
-                              key: "Volunteer and Philanthropy",
+                              key: "Volunteer & Philanthropy",
                             },
                             {
                               key: "Business",
