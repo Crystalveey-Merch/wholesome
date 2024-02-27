@@ -119,6 +119,13 @@ export const PostCard = ({ post, posts, setPosts, users }) => {
     }
   }, [post.id]);
 
+  const convertedTitle = (title) => {
+    if (!title) {
+      return "";
+    }
+    return title.toLowerCase().split(" ").join("-");
+  };
+
   return (
     <div
       ref={postRef}
@@ -132,6 +139,7 @@ export const PostCard = ({ post, posts, setPosts, users }) => {
         />
         <div className="flex gap-1 items-center">
           <Link
+            onClick={() => window.scrollTo(0, 0)}
             to={`/${getProfileDetails(post.userId, users)?.username}`}
             className="text-[0.95rem] font-inter font-semibold text-black"
           >
@@ -145,6 +153,7 @@ export const PostCard = ({ post, posts, setPosts, users }) => {
       </div>
       <Link
         className="flex gap-8 items-center lg:gap-4 md:gap-4 sm:flex-col"
+        onClick={() => window.scrollTo(0, 0)}
         to={`/readmore/${post.id}`}
       >
         <div className="w-full max-w-[450px] flex flex-grow flex-col gap-2 h[200px] xl:max-w-[332px] lg:max-w-[470px] md:max-w-[440px] sm:max-w-full">
@@ -240,10 +249,15 @@ export const PostCard = ({ post, posts, setPosts, users }) => {
         </div>
         <div className="flex items-end gap-4">
           <div>
-            <p className="text-red-500 capitalize py-1 px-2.5 bg-red-50 rounded-3xl font-inter text-xs font-semibold">
-              {/* get first post tag */}
-              {post.tags[0]}
-            </p>
+            <Link
+              onClick={() => window.scrollTo(0, 0)}
+              to={`/topic/${convertedTitle(post?.tags[0])}`}
+            >
+              <p className="text-red-500 capitalize py-1 px-2.5 bg-red-50 rounded-3xl font-inter text-xs font-semibold">
+                {/* get first post tag */}
+                {post.tags[0]}
+              </p>
+            </Link>
           </div>
           <div
             className="cursor-pointer"
