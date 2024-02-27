@@ -18,12 +18,12 @@ import { selectUser } from "../Features/userSlice";
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase/auth.js";
 import readSVG from "../Feed/assets/read.svg";
-// import devAvatar from '../../Images/Profile/avatar-default.png';
-// import loveBeforeSVG from '../../assets/Svg/Feed/love-before.svg';
-// import loveAfterSVG from '../../assets/Svg/Feed/love-after.svg';
-// import bookmarkBeforeSVG from '../../assets/Svg/Feed/bookmark-before.svg';
-// import bookmarkAfterSVG from '../../assets/Svg/Feed/bookmark-after.svg';
-// import commentSVG from '../../assets/Svg/Feed/comment.svg';
+import {
+  FacebookShareButton,
+  LinkedinShareButton,
+  TwitterShareButton,
+  WhatsappShareButton,
+} from "react-share";
 import { toast } from "react-toastify";
 // import { Comment } from "../../Utils/types";
 import { Helmet } from "react-helmet-async";
@@ -33,9 +33,12 @@ import remarkGfm from "remark-gfm";
 import notClapImg from "./assets/clapping-not-clapped.png";
 import clappedImg from "./assets/clapping-clapped.png";
 import { faBookmark } from "@fortawesome/free-regular-svg-icons"; //for yet to be bookmarked
-import { faBookmark as faBookmarkSolid } from "@fortawesome/free-solid-svg-icons"; //for already bookmarked
+import {
+  faBookmark as faBookmarkSolid,
+  faShareNodes,
+} from "@fortawesome/free-solid-svg-icons"; //for already bookmarked
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Comment } from "../components/Feed/Comment.jsx";
+import { Comment, Sharing } from "../components/Feed";
 
 export const Content = ({ posts, setPosts, users }) => {
   const { id } = useParams();
@@ -281,6 +284,8 @@ export const Content = ({ posts, setPosts, users }) => {
     setShowUserSuggestions(false);
   };
 
+  const url = `https://wholesquare.org/readmore/${postId}`
+
   return (
     <div className="pt-[126px] py-20 px-12 flex items-center font-inter justify-center xl:px-6 md:px-2 md:py-28">
       <Helmet>
@@ -376,30 +381,34 @@ export const Content = ({ posts, setPosts, users }) => {
               </>
             )}
           </div>
-
-          <div
-            className="cursor-pointer"
-            onClick={() => {
-              if (loggedInUser) {
-                handleBookmark(postId, loggedInUser, setPosts, posts);
-              } else {
-                // Redirect the user to the login page
-                navigate("/login");
-              }
-            }}
-          >
-            {Array.isArray(post.bookmarks) &&
-            post.bookmarks.includes(loggedInUser?.id) ? (
-              <FontAwesomeIcon
-                icon={faBookmarkSolid}
-                className="text-[#818f9c] text-lg hover:text-[#637381] transition duration-300 ease-in-out h-5"
-              />
-            ) : (
-              <FontAwesomeIcon
-                icon={faBookmark}
-                className="text-[#818f9c] text-lg hover:text-[#637381] transition duration-300 h-5"
-              />
-            )}
+          <div className="flex gap-4">
+            <div
+              className="cursor-pointer"
+              onClick={() => {
+                if (loggedInUser) {
+                  handleBookmark(postId, loggedInUser, setPosts, posts);
+                } else {
+                  // Redirect the user to the login page
+                  navigate("/login");
+                }
+              }}
+            >
+              {Array.isArray(post.bookmarks) &&
+              post.bookmarks.includes(loggedInUser?.id) ? (
+                <FontAwesomeIcon
+                  icon={faBookmarkSolid}
+                  className="text-[#818f9c] text-lg hover:text-[#637381] transition duration-300 ease-in-out h-5"
+                />
+              ) : (
+                <FontAwesomeIcon
+                  icon={faBookmark}
+                  className="text-[#818f9c] text-lg hover:text-[#637381] transition duration-300 h-5"
+                />
+              )}
+            </div>
+            <button>
+              <Sharing url={url}/>
+            </button>
           </div>
         </div>
         <div className="py-10 flex flex-col gap-6 px-6 md:gap-4 md:px-2 sm:px-0">
