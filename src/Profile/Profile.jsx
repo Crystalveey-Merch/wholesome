@@ -123,6 +123,16 @@ export const Profile20 = ({ users, posts, setPosts }) => {
               >
                 Posts
               </button>
+              <button
+                onClick={() => handleTabChange("events")}
+                className={`text-base font-semibold pb-3 border-b-2 cursor-pointer transition duration-500 ease-in-out ${
+                  presentTab === "events"
+                    ? "text-black border-[#FF5841]"
+                    : "text-gray-500 border-b-transparent hover:text-black hover:border-[#FF5841]"
+                } `}
+              >
+                Events
+              </button>
             </div>
             {userPosts.length > 0 ? (
               <>
