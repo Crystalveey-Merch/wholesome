@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { HighlightedText, handleFollow } from "../Hooks";
+import devAvatar from "../assets/avatar-default.png";
 
 /* eslint-disable react/prop-types */
 export const SuggestedUsers = ({ users, loggedInUser }) => {
@@ -24,7 +25,11 @@ export const SuggestedUsers = ({ users, loggedInUser }) => {
               to={`/${user.username}`}
               className="flex gap-2 items-center w-full"
             >
-              <img src={user?.photoURL} className="h-10 w-10 rounded-full" />
+              <img
+                src={user.photoURL ? user.photoURL : devAvatar}
+                className="h-10 w-10 rounded-full"
+                alt="User avatar"
+              />
               <div className="flex flex-col justifystart w-full">
                 <h4 className="text-sm font-inter font-semibold text-black one-line-text">
                   {user?.name}

@@ -3,12 +3,12 @@ import { useState, useEffect } from "react";
 import { useParams, NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectUser } from "../Features/userSlice";
-import { ActionButtons, SocialProfile, SuggestedUsers } from ".";
-import { PostCard } from "../components/Feed";
+import { ActionButtons, SocialProfile, Posts, Events } from ".";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 
-export const Profile20 = ({ users, posts, setPosts }) => {
+export const Profile20 = ({ users, posts, setPosts, events }) => {
   const loggedInUser = useSelector(selectUser);
   const [loading, setLoading] = useState(true);
   const [userNotFound, setUserNotFound] = useState(false);
@@ -30,15 +30,6 @@ export const Profile20 = ({ users, posts, setPosts }) => {
       setUserNotFound(true);
     }
   }, [routeUser, username, users]);
-
-  const userPosts = posts.filter((post) => post.userId === routeUser.id);
-
-  const [displayedPosts, setDisplayedPosts] = useState(0);
-
-  useEffect(() => {
-    // Update the displayedPosts count after the component has rendered
-    setDisplayedPosts(userPosts.slice(0, 3).length);
-  }, [userPosts]);
 
   const [presentTab, setPresentTab] = useState("posts");
 
@@ -134,43 +125,17 @@ export const Profile20 = ({ users, posts, setPosts }) => {
                 Events
               </button>
             </div>
-            {userPosts.length > 0 ? (
-              <>
-                {userPosts.length > 0 && (
-                  <div className="flex flex-col gap-6 w-full">
-                    {userPosts
-                      .slice(0, 3) // Only display the first three posts
-                      .map((post) => (
-                        <PostCard
-                          key={post.id}
-                          post={post}
-                          posts={posts}
-                          setPosts={setPosts}
-                          users={users}
-                        />
-                      ))}
-                  </div>
-                )}
-                {displayedPosts >= 3 && (
-                  <SuggestedUsers users={users} loggedInUser={routeUser} />
-                )}
-                {userPosts.length > 3 && (
-                  <div className="flex flex-col gap-6 w-full">
-                    {userPosts.slice(3).map((post) => (
-                      <PostCard
-                        key={post.id}
-                        post={post}
-                        posts={posts}
-                        setPosts={setPosts}
-                        users={users}
-                      />
-                    ))}
-                  </div>
-                )}
-              </>
-            ) : (
-              <SuggestedUsers users={users} loggedInUser={loggedInUser} />
-            )}
+            {presentTab === "posts" ? (
+              <Posts
+                posts={posts}
+                setPosts={setPosts}
+                users={users}
+                loggedInUser={loggedInUser}
+                routeUser={routeUser}
+              />
+            ) : presentTab === "events" ? (
+              <Events events={events} routeUser={routeUser} loggedInUser={loggedInUser} />
+            ) : null}
           </div>
         </div>
       )}
