@@ -90,7 +90,7 @@ const Signip = () => {
         "Verification Link has been sent to your email Address"
       );
       toast.success("Registration successful");
-      await navigate("/dashboard/profile");
+      await navigate("/feed");
     } catch (error) {
       console.log(error);
       toast.error(error.message);
@@ -160,28 +160,40 @@ const Signip = () => {
                               key: "Exploration",
                             },
                             {
-                              key: "Lifestyle",
+                              key: "Fashion",
                             },
                             {
-                              key: "Fashion",
+                              key: "Creators",
                             },
                             {
                               key: "Music",
                             },
                             {
+                              key: "Dance",
+                            },
+                            {
                               key: "Health & Wellness",
                             },
                             {
-                              key: "Art & craft",
+                              key: "Art & Crafts",
                             },
                             {
-                              key: "Volunteering & Philanthropy",
+                              key: "Volunteering",
                             },
+                            // {
+                            //   key: "Volunteering & Philanthropy",
+                            // },
                             {
                               key: "Food",
                             },
                             {
-                              key: "Business & Finance",
+                              key: "Movies",
+                            },
+                            {
+                              key: "Business",
+                            },
+                            {
+                              key: "Finance",
                             },
                             {
                               key: "Tech",
@@ -190,13 +202,19 @@ const Signip = () => {
                               key: "Books",
                             },
                             {
-                              key: "Games & Sports",
+                              key: "Games",
                             },
                             {
-                              key: "Comedy & entertainment",
+                              key: "Sport",
+                            },
+                            // {
+                            //   key: "Comedy & entertainment",
+                            // },
+                            {
+                              key: "Nightlife",
                             },
                             {
-                              key: "Night life",
+                              key: "SDGs",
                             },
                           ]}
                           showCheckbox

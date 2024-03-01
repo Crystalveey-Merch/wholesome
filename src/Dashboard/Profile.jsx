@@ -306,25 +306,67 @@ const Profile = () => {
                           className=" rounded-full w-40"
                           options={[
                             {
-                              key: "Lifestyle & Fashion",
+                              key: "Fitnes",
                             },
                             {
-                              key: "Health & wellness",
+                              key: "Photography",
                             },
                             {
-                              key: "Food & Nutrition",
+                              key: "Travel",
                             },
                             {
-                              key: "Travel & Events",
+                              key: "Exploration",
                             },
                             {
-                              key: "Volunteer & Philanthropy",
+                              key: "Fashion",
+                            },
+                            {
+                              key: "Creators",
+                            },
+                            {
+                              key: "Music",
+                            },
+                            {
+                              key: "Dance",
+                            },
+                            {
+                              key: "Health & Wellness",
+                            },
+                            {
+                              key: "Art & Crafts",
+                            },
+                            {
+                              key: "Volunteering",
+                            },
+                            {
+                              key: "Food",
+                            },
+                            {
+                              key: "Movies",
                             },
                             {
                               key: "Business",
                             },
                             {
-                              key: "Sports",
+                              key: "Finance",
+                            },
+                            {
+                              key: "Tech",
+                            },
+                            {
+                              key: "Books",
+                            },
+                            {
+                              key: "Games",
+                            },
+                            {
+                              key: "Sport",
+                            },
+                            {
+                              key: "Nightlife",
+                            },
+                            {
+                              key: "SDGs",
                             },
                           ]}
                           showCheckbox

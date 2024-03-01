@@ -1,4 +1,3 @@
-import React from "react";
 import "swiper/css/effect-fade";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -50,13 +49,13 @@ const Section1 = () => {
         {userId ? (
           <NavLink to="/myinterest">
             <button className="text-2xl btn xl:text-sm  p-auto sm:text-sm hover:text-white  hover:bg-red-500  flex w-60 sm:w-40  bg-white  text-red-500 text-center ">
-            <p className="text-xl xl:text-sm ">    My Interest</p> 
+              <p className="text-xl xl:text-sm "> My Interest</p>
             </button>
           </NavLink>
         ) : (
-          <NavLink to="/signup">
+          <NavLink to="/account">
             <button className=" btn Aceh   p-auto sm:text-sm hover:text-white  hover:bg-red-500  flex w-60 sm:w-40  bg-white  text-red-500 text-center ">
-           <p className="">  JOIN </p> 
+              <p className=""> JOIN </p>
             </button>
           </NavLink>
         )}

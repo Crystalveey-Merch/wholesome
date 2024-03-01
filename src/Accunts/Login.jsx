@@ -17,7 +17,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   if (user) {
-    navigate("/dashboard/profile");
+    navigate("/feed");
   }
 
   // const [error, setError] = useState(null);
@@ -54,7 +54,7 @@ const Login = () => {
       await updateDoc(userRef, {
         lastLogin: new Date().toISOString(),
       });
-      navigate("/dashboard/profile");
+      navigate("/feed");
       toast.success("Login Successful");
     } catch (error) {
       toast.error(error.message);

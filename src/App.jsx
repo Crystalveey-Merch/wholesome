@@ -349,7 +349,7 @@ function App() {
             </DefaultLayout>
           }
         />
-        <Route path="/account" element={<Account />} />
+        <Route path="/account" element={<Account users={users} />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signip />} />
         <Route
