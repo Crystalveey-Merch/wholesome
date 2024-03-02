@@ -47,7 +47,7 @@ const Section1 = () => {
         </p>
         <hr></hr>
         {userId ? (
-          <NavLink to="/myinterest">
+          <NavLink to="/i/interest">
             <button className="text-2xl btn xl:text-sm  p-auto sm:text-sm hover:text-white  hover:bg-red-500  flex w-60 sm:w-40  bg-white  text-red-500 text-center ">
               <p className="text-xl xl:text-sm "> My Interest</p>
             </button>

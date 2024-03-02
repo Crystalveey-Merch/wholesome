@@ -2,7 +2,7 @@ import "./App.css";
 import { useEffect, useState } from "react";
 import Header from "./Header";
 import Homepage from "./Home/Homepage";
-import { Route, Routes, useLocation } from "react-router";
+import { Navigate, Route, Routes, useLocation } from "react-router";
 import {
   db,
   collection,
@@ -22,7 +22,7 @@ import HostEvent from "./Events/HoseEvent";
 import Articles from "./Articles/Articles";
 import Podcast from "./Podcast/Podcast";
 import Activity from "./Activity/ActivityDes";
-import Interest from "./Interest/Interest";
+import InterestOld from "./Interest/InterestOld.jsx";
 import CreatePost from "./CreatePost/CreatePost";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -66,6 +66,12 @@ import {
   Followers,
   FollowingUsers,
 } from "./Profile";
+import {
+  Feed as InterestFeed,
+  Layout as InterestLayout,
+  Create,
+  Interest,
+} from "./Interest";
 import { Bookmarks, Drafts, Notifications } from "./Dashboard";
 // import "@fortawesome/fontawesome-free"
 import { useDispatch, useSelector } from "react-redux";
@@ -91,6 +97,7 @@ function App() {
   // const [loggedInUser, setLoggedInUser] = useState([]);
   const [users, setAllUsers] = useState([]);
   const [allChats, setAllChats] = useState([]);
+  const [interests, setInterests] = useState([]);
   // const [chatId, setChatId] = useState(null);
 
   onAuthStateChanged(auth, async (userAuth) => {
@@ -217,12 +224,24 @@ function App() {
       }
     );
 
+    const unsuscribInterests = onSnapshot(
+      collection(db, "interests"),
+      (snapshot) => {
+        const interestData = [];
+        snapshot.forEach((doc) => {
+          interestData.push({ ...doc.data(), id: doc.id });
+        });
+        setInterests(interestData);
+      }
+    );
+
     return () => {
       unsuscribPosts();
       unsuscribEvents();
       unsuscribActivities();
       unsuscribUsers();
       unsuscribPodcasts();
+      unsuscribInterests();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -378,7 +397,7 @@ function App() {
         />
         <Route path="/activity/adminform" element={<ActivityForm />} />
         <Route path="/podcast/adminform" element={<PodcastAdmin />} />
-        <Route path="/interest/:interestName" element={<Interest />} />
+        <Route path="/interest/:interestName" element={<InterestOld />} />
         <Route
           path="/upcomingevents/:id"
           element={<EventDes events={events} />}
@@ -601,12 +620,51 @@ function App() {
             </BottomFeedTab>
           }
         />
+        <Route
+          path="/i/interest"
+          element={
+            <BottomFeedTab users={users}>
+              <InterestLayout interests={interests}>
+                <InterestFeed interests={interests} />
+              </InterestLayout>
+            </BottomFeedTab>
+          }
+        />
+        <Route
+          path="/i/create"
+          element={
+            <BottomFeedTab users={users}>
+              <InterestLayout interests={interests}>
+                <Create interests={interests} />
+              </InterestLayout>
+            </BottomFeedTab>
+          }
+        />
+
+        <Route
+          path="/i"
+          //redirect to account settings
+          element={<Navigate to="/i/interest" />}
+        />
+
+        <Route
+          path="/i/:name"
+          element={
+            <BottomFeedTab users={users}>
+              <InterestLayout interests={interests}>
+                <Interest interests={interests} />
+              </InterestLayout>
+            </BottomFeedTab>
+          }
+        />
+
         {/* <Route path="/content/123" element={<Content />} /> */}
       </Routes>
       {/* <Footer /> */}
       <div
-        className={` ${
-          location.pathname.includes("/feed")
+        className={`${
+          location.pathname.includes("/feed") &&
+          !location.pathname.includes("/interest/feed")
             ? "hidden lg:block fixed z-10 right-10 bottom-10 cursor-pointer sm:hidden"
             : "hidden lg:hidden"
         }`}

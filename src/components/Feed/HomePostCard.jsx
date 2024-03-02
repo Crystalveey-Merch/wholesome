@@ -36,8 +36,8 @@ export const HomePostCard = ({ post, users }) => {
         <div className="flex gap-4 items-center">
           <img
             src={
-              getProfileDetails(post.userId, users).photoURL
-                ? getProfileDetails(post.userId, users).photoURL
+              getProfileDetails(post.userId, users)?.photoURL
+                ? getProfileDetails(post.userId, users)?.photoURL
                 : devAvatar
             }
             alt="user"

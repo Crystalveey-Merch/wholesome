@@ -265,215 +265,15 @@ const Header = ({ users, allChats }) => {
                   </Menu.Item>
                 </Menu.Items>
               </Menu>
-              <Menu>
-                <Menu.Button className="text-left p-2 text-white light:text-black ">
-                  Interest
-                </Menu.Button>
-                <Menu.Items className="flex flex-col gap-4 text-base px-5">
-                  {user ? (
-                    <Menu.Item>
-                      {({ active }) => (
-                        <NavLink
-                          onClick={closeDrawer}
-                          className={`${active && "bg-blue-500"}`}
-                          to="/myinterest/articles"
-                        >
-                          My Interest
-                        </NavLink>
-                      )}
-                    </Menu.Item>
-                  ) : (
-                    <div></div>
-                  )}
-                  <Menu.Item>
-                    {({ active }) => (
-                      <NavLink
-                        onClick={closeDrawer}
-                        className={`${active && "bg-blue-500"}`}
-                        to="/interest/Health and wellness"
-                      >
-                        Health & wellness
-                      </NavLink>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <NavLink
-                        onClick={closeDrawer}
-                        className={`${active && "bg-blue-500"}`}
-                        to="/interest/Travel"
-                      >
-                        Travel
-                      </NavLink>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <NavLink
-                        onClick={closeDrawer}
-                        className={`${active && "bg-blue-500"}`}
-                        to="/interest/Lifestyle"
-                      >
-                        Lifestyle
-                      </NavLink>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <NavLink
-                        onClick={closeDrawer}
-                        className={`${active && "bg-blue-500"}`}
-                        to="/interest/Fashion"
-                      >
-                        Fashion
-                      </NavLink>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <NavLink
-                        onClick={closeDrawer}
-                        className={`${active && "bg-blue-500"}`}
-                        to="/interest/Music"
-                      >
-                        Fitness
-                      </NavLink>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <NavLink
-                        onClick={closeDrawer}
-                        className={`${active && "bg-blue-500"}`}
-                        to="/interest/Music"
-                      >
-                        Photography
-                      </NavLink>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <NavLink
-                        onClick={closeDrawer}
-                        className={`${active && "bg-blue-500"}`}
-                        to="/interest/Volunteer and philanthropy"
-                      >
-                        Volunteer & philanthropy
-                      </NavLink>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <NavLink
-                        onClick={closeDrawer}
-                        className={`${active && "bg-blue-500"}`}
-                        to="/interest/Business and Finance"
-                      >
-                        Business and Finance
-                      </NavLink>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <NavLink
-                        onClick={closeDrawer}
-                        className={`${active && "bg-blue-500"}`}
-                        to="/interest/Games and Sports"
-                      >
-                        Games & Sports
-                      </NavLink>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <NavLink
-                        onClick={closeDrawer}
-                        className={`${active && "bg-blue-500"}`}
-                        to="/interest/Art and crafts"
-                      >
-                        Art & crafts
-                      </NavLink>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <NavLink
-                        onClick={closeDrawer}
-                        className={`${active && "bg-blue-500"}`}
-                        to="/interest/Environmental and Sustainability"
-                      >
-                        Environmental & Sustainability
-                      </NavLink>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <NavLink
-                        onClick={closeDrawer}
-                        className={`${active && "bg-blue-500"}`}
-                        to="/interest/Book club"
-                      >
-                        Book club
-                      </NavLink>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <NavLink
-                        onClick={closeDrawer}
-                        className={`${active && "bg-blue-500"}`}
-                        to="/interest/Music"
-                      >
-                        Music
-                      </NavLink>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <NavLink
-                        onClick={closeDrawer}
-                        className={`${active && "bg-blue-500"}`}
-                        to="/interest/Games & Sports"
-                      >
-                        Games & Sports
-                      </NavLink>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <NavLink
-                        onClick={closeDrawer}
-                        className={`${active && "bg-blue-500"}`}
-                        to="/interest/Tech"
-                      >
-                        Tech
-                      </NavLink>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <NavLink
-                        onClick={closeDrawer}
-                        className={`${active && "bg-blue-500"}`}
-                        to="/interest/Night life"
-                      >
-                        Night life
-                      </NavLink>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <NavLink
-                        onClick={closeDrawer}
-                        className={`${active && "bg-blue-500"}`}
-                        to="/interest/Comedy & entertainment"
-                      >
-                        Comedy & entertainment
-                      </NavLink>
-                    )}
-                  </Menu.Item>
-                </Menu.Items>
-              </Menu>
+              <li>
+                <NavLink
+                  to="/i/interest"
+                  onClick={closeDrawer}
+                  className="flex  text-gray-200 rounded-lg dark:text-white hover:bg-gray-100  group"
+                >
+                  <span className=" whitespace-nowrap">Interest</span>
+                </NavLink>
+              </li>
 
               <Menu>
                 <Menu.Button className="text-left p-2 text-white light:text-black  ">
@@ -573,7 +373,15 @@ const Header = ({ users, allChats }) => {
                 </label>
               </NavLink>
             </div>
-            <div className="dropdown dropdown-bottom text-xl">
+            <NavLink to="/i/interest">
+              <label
+                tabIndex={0}
+                className=" text-black bg-white border-none capitalize btn m-1 hover:bg-gray-100"
+              >
+                Interest
+              </label>
+            </NavLink>
+            <div className="dropdown dropdown-bottom text-xl hidden">
               <label
                 tabIndex={0}
                 className="text-black bg-white  border-none capitalize btn m-1 hover:bg-gray-100"
@@ -737,7 +545,7 @@ const Header = ({ users, allChats }) => {
             <Link
               to="/messages"
               // to="/"
-              className="flex text-center z-0 bg-white  border-0 btn hover:bg-gray-100 sm:hover:bg-none "
+              className="relative flex text-center z-0 bg-white  border-0 btn hover:bg-gray-100 sm:hover:bg-none "
             >
               <FontAwesomeIcon
                 icon={
@@ -792,11 +600,11 @@ const Header = ({ users, allChats }) => {
               {user ? (
                 <div className="dropdown dropdown-end ">
                   <label tabIndex={0} className="btn-primary   flex-row ">
-                    <div className="w-10 h-10  m-1 bg-white border rounded-full overflow-hidden">
+                    <div className="w-10 h-10  m-1 bg-white border rounded-full overflow-hidden cursor-pointer">
                       <img
                         src={user?.photoURL}
                         alt="Photo"
-                        className="rounded-full m-auto"
+                        className="rounded-full w-full h-full object-cover"
                       />
                     </div>
                   </label>

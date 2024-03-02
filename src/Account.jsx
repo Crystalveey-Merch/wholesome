@@ -27,7 +27,7 @@ const Account = ({ users }) => {
     <div className=" w-screen pt-10 bg-white text-black ">
       <div className="text-center text-2xl">
         <div className="pt-34  m-auto bg-gradient-to-r from-teal-200 to-lime-200  pb-20 ">
-          <div className=" h-full w-full flex sm:flex-col rounded rounded-lg  pt-36  ">
+          <div className=" h-full w-full flex sm:flex-col rounded-lg  pt-36  ">
             <div className="w-1/2 sm:w-full text-lg  ">
               <h1 className="w-98 text-left ml-40 sm:ml-0 text-3xl sm:p-5 sm:text-center text-black">
                 Wholesquare helps foster connections with like-minds that
@@ -60,7 +60,7 @@ const Account = ({ users }) => {
                 </NavLink>
                 <NavLink to="/login">
                   {" "}
-                  <div className="btn bg-transparent   Aceh border-red-500 border-sky-500 rounded-full m-auto   hover:bg-sky-500/50 text-sky-500  hover:text-white  w-48">
+                  <div className="btn bg-transparent   Aceh border-red-500 rounded-full m-auto   hover:bg-sky-500/50 text-sky-500  hover:text-white  w-48">
                     <i className="fa-brands fa-facebook text-2xl"></i> Login
                   </div>{" "}
                 </NavLink>

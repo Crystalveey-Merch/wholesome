@@ -29,16 +29,16 @@ export const SearchUser = ({ users, posts, setPosts, activities, events }) => {
   // const [profileData, setProfileData] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
-  const [topUsers, setTopUsers] = useState([]);
+  // const [topUsers, setTopUsers] = useState([]);
 
-  useEffect(() => {
-    if (users.length > 0) {
-      const topUsersData = users
-        ?.sort((a, b) => b.followers?.length - a.followers?.length)
-        ?.slice(0, 8);
-      setTopUsers(topUsersData);
-    }
-  }, [users]);
+  // useEffect(() => {
+  //   if (users.length > 0) {
+  //     const topUsersData = users
+  //       ?.sort((a, b) => b.followers?.length - a.followers?.length)
+  //       ?.slice(0, 8);
+  //     setTopUsers(topUsersData);
+  //   }
+  // }, [users]);
 
   // const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");

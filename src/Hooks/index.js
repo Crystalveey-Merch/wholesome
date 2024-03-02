@@ -2,6 +2,7 @@ export * from "./Profile";
 export * from "./useAutoSizeTextArea";
 export * from "./TimeAndDate";
 export * from "./readTime";
+export * from "./convertString";
 export * from "./Post";
 export * from "./CommentAndReply";
 export * from "./HashTagAndMentionHighLights"

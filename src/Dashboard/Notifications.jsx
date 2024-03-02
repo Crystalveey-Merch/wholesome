@@ -68,10 +68,10 @@ export const Notifications = ({ users, posts }) => {
       ) : (
         <div className="min-w[100%] flex flex-col gap-0">
           {notifications
-            ?.sort((a, b) => b.timestamp - a.timestamp)
+            ?.sort((a, b) => b.createdAt - a.createdAt)
             ?.map((notification, index) => (
-              <div key={index}>
-                {notification.type === "comment" ? (
+              <div key={notification.index}>
+                {notification.type === "comment" && (
                   <div
                     className={`flex gap-4 justifybetween py-3 px-4 border-b hover:bg-grey-50 transition duration-500 ease-in-out ${
                       index === notifications.length - 1 ? "" : ""
@@ -123,7 +123,8 @@ export const Notifications = ({ users, posts }) => {
                       />
                     </div>
                   </div>
-                ) : notification.type === "reply" ? (
+                )}
+                {notification.type === "reply" && (
                   <div
                     className={`flex gap-4 justifybetween py-3 px-4 border-b hover:bg-grey-50 transition duration-500 ease-in-out ${
                       index === notifications.length - 1 ? "" : ""
@@ -172,7 +173,8 @@ export const Notifications = ({ users, posts }) => {
                       />
                     </div>
                   </div>
-                ) : notification.type === "like" ? (
+                )}
+                {notification.type === "like" && (
                   <div
                     className={`flex gap-4 justifybetween py-3 px-4 border-b hover:bg-grey-50 transition duration-500 ease-in-out ${
                       index === notifications.length - 1 ? "" : ""
@@ -228,7 +230,8 @@ export const Notifications = ({ users, posts }) => {
                       />
                     </div>
                   </div>
-                ) : notification.type === "mention" ? (
+                )}
+                {notification.type === "mention" && (
                   <div
                     className={`flex gap-4 justifybetween py-3 px-4 border-b hover:bg-grey-50 transition duration-500 ease-in-out ${
                       index === notifications.length - 1 ? "" : ""
@@ -294,8 +297,6 @@ export const Notifications = ({ users, posts }) => {
                       />
                     </div>
                   </div>
-                ) : (
-                  ""
                 )}
               </div>
             ))}
