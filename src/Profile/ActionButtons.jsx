@@ -114,7 +114,7 @@ export const ActionButtons = ({ users }) => {
       ) : (
         <div>
           <button
-            className="self-end bg-blue-700 text-white w-36 py-3 rounded-lg text-base font-medium xl:py-3 md:w-28 md:py-2"
+            className="self-end bg-[#FF5841] text-white w-36 py-3 rounded-lg text-base font-medium xl:py-3 md:w-28 md:py-2"
             onClick={() => (window.location.href = "/login")}
           >
             Login to follow

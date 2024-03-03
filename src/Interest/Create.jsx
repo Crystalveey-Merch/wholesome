@@ -141,82 +141,82 @@ export const Create = ({ interests }) => {
             userId: "FQyML9JKw4buN6QlPCOebTLliDz1",
             joinedAt: new Date(),
           },
-        //   {
-        //     userId: "FZigAa98XCVOrySiC8Bu2ppf2Jp2",
-        //     joinedAt: new Date(),
-        //   },
-        //   {
-        //     userId: "GSaB2SUEDwfEpW7VKvTcYktVcUr2",
-        //     joinedAt: new Date(),
-        //   },
-        //   {
-        //     userId: "HJ5wA98yJfZREHqE1twYJ41C4ea2",
-        //     joinedAt: new Date(),
-        //   },
-        //   {
-        //     userId: "IUBXyFNR8dRjCJ2XVTrjocHc0cj1",
-        //     joinedAt: new Date(),
-        //   },
-        //   {
-        //     userId: "J41V4rVudUXV2xnzef9cTlZCGK03",
-        //     joinedAt: new Date(),
-        //   },
-        //   {
-        //     userId: "LADM9U5stpS2MZZYujpfDy6ZJ7e2",
-        //     joinedAt: new Date(),
-        //   },
-        //   {
-        //     userId: "Uzy8DRiDBIctDBZXn69RdSGFOaK2",
-        //     joinedAt: new Date(),
-        //   },
-        //   {
-        //     userId: "VYk3ccts5fYaGchTzuZnpykL5Vi1",
-        //     joinedAt: new Date(),
-        //   },
+          //   {
+          //     userId: "FZigAa98XCVOrySiC8Bu2ppf2Jp2",
+          //     joinedAt: new Date(),
+          //   },
+          //   {
+          //     userId: "GSaB2SUEDwfEpW7VKvTcYktVcUr2",
+          //     joinedAt: new Date(),
+          //   },
+          //   {
+          //     userId: "HJ5wA98yJfZREHqE1twYJ41C4ea2",
+          //     joinedAt: new Date(),
+          //   },
+          //   {
+          //     userId: "IUBXyFNR8dRjCJ2XVTrjocHc0cj1",
+          //     joinedAt: new Date(),
+          //   },
+          //   {
+          //     userId: "J41V4rVudUXV2xnzef9cTlZCGK03",
+          //     joinedAt: new Date(),
+          //   },
+          //   {
+          //     userId: "LADM9U5stpS2MZZYujpfDy6ZJ7e2",
+          //     joinedAt: new Date(),
+          //   },
+          //   {
+          //     userId: "Uzy8DRiDBIctDBZXn69RdSGFOaK2",
+          //     joinedAt: new Date(),
+          //   },
+          //   {
+          //     userId: "VYk3ccts5fYaGchTzuZnpykL5Vi1",
+          //     joinedAt: new Date(),
+          //   },
           //   {
           //     userId: "Y8l2HQt2xZUw0eQxVjx1hvyC1zv2",
           //     joinedAt: new Date(),
           //   },
-        //   {
-        //     userId: "YQ2YlYEznoTjfB5zIW4CmOEmfLr1",
-        //     joinedAt: new Date(),
-        //   },
-        //   {
-        //     userId: "YpSGMzUwX7PVnh6EdYtTo8kktny1",
-        //     joinedAt: new Date(),
-        //   },
-        //   {
-        //     userId: "bj6K44tek8hJcSqWoPfODkHkes12",
-        //     joinedAt: new Date(),
-        //   },
+          //   {
+          //     userId: "YQ2YlYEznoTjfB5zIW4CmOEmfLr1",
+          //     joinedAt: new Date(),
+          //   },
+          //   {
+          //     userId: "YpSGMzUwX7PVnh6EdYtTo8kktny1",
+          //     joinedAt: new Date(),
+          //   },
+          //   {
+          //     userId: "bj6K44tek8hJcSqWoPfODkHkes12",
+          //     joinedAt: new Date(),
+          //   },
           //   {
           //     userId: "edWpoeCFCVXHK4BcvE4Yc7235F93",
           //     joinedAt: new Date(),
           //   },
-        //   {
-        //     userId: "ghckYiZnDMWjBALNJYlyXYmvcpQ2",
-        //     joinedAt: new Date(),
-        //   },
-        //   {
-        //     userId: "qhCmIkrgxZQnBuTmLA39DDVUV952",
-        //     joinedAt: new Date(),
-        //   },
-        //   {
-        //     userId: "sFsu58ji7ocpgpjc9JSCfIROZwn2",
-        //     joinedAt: new Date(),
-        //   },
+          //   {
+          //     userId: "ghckYiZnDMWjBALNJYlyXYmvcpQ2",
+          //     joinedAt: new Date(),
+          //   },
+          //   {
+          //     userId: "qhCmIkrgxZQnBuTmLA39DDVUV952",
+          //     joinedAt: new Date(),
+          //   },
+          //   {
+          //     userId: "sFsu58ji7ocpgpjc9JSCfIROZwn2",
+          //     joinedAt: new Date(),
+          //   },
           //   {
           //     userId: "sV2FzkV3PpbRy3xZEitQwIFXRWo2",
           //     joinedAt: new Date(),
           //   },
-        //   {
-        //     userId: "tN1hfGT4OHbxGsLXS4mUUSzFENA3",
-        //     joinedAt: new Date(),
-        //   },
-        //   {
-        //     userId: "",
-        //     joinedAt: new Date(),
-        //   },
+          //   {
+          //     userId: "tN1hfGT4OHbxGsLXS4mUUSzFENA3",
+          //     joinedAt: new Date(),
+          //   },
+          //   {
+          //     userId: "",
+          //     joinedAt: new Date(),
+          //   },
         ],
         moderators: [
           {
@@ -238,6 +238,8 @@ export const Create = ({ interests }) => {
         chatBox: [],
         description: "",
         rules: [],
+        // requests is for private and secret groups
+        requests: [],
         createdBy: loggedInUser.id,
         wallPaper: randomImage.imgUrl,
         createdAt: new Date(),
