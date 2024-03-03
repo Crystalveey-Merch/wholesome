@@ -6,7 +6,7 @@ import { selectUser } from "../Features/userSlice";
 import { convertToLowercase } from "../Hooks";
 import { faPen, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { UploadWallpaperModal } from "../components/Interest";
+import { Sharing, UploadWallpaperModal } from "../components/Interest";
 import { toast } from "react-toastify";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { updateDoc, storage, doc, db } from "../firebase/auth";
@@ -87,6 +87,10 @@ export const Interest = ({ interests }) => {
     setWallPaperURL(interest.wallPaper || "");
   };
 
+  const url = `https://www.wholesquare.org/i/${name}`;
+
+  //   console.log(url)
+
   return (
     <div className="w-full flex flex-col gap-6">
       <div className="flex flex-col gap-6">
@@ -114,7 +118,7 @@ export const Interest = ({ interests }) => {
         </div>
         <div className="px-10 flex justify-between items-center">
           {" "}
-          <h2 className="text-3xl font-semibold text-black font-inter">
+          <h2 className="text-3xl font-bold text-black font-inter">
             {interest.name}
           </h2>
           {loggedInUser ? (
@@ -122,25 +126,36 @@ export const Interest = ({ interests }) => {
               {interest?.members?.some(
                 (member) => member?.userId === loggedInUser?.id
               ) ? (
-                <button className="self-end bg-[#FF5841] font-inter text-white w-36 py-3 rounded-lg text-base font-medium xl:py-3 md:w-28 md:py-2">
-                  Joined
-                </button>
+                <div className="flex gap-4 items-center">
+                  <button className="text-black bg-gray-200 px-4 py-2 flex gap-2.5 items-center rounded-lg transition duration-300 ease-in-out hover:bg-gray-300 md:py-2">
+                    <FontAwesomeIcon
+                      icon={faPlus}
+                      className="text-black h-4 w-4"
+                    />
+                    <p className="font-inter text-base font-medium">Invite</p>
+                  </button>
+                  <button className="self-end bg-[#FF5841] font-inter text-white px-4 py-2 rounded-lg text-base font-medium md:py-2 transition duration-300 ease-in-out hover:bg-[#ec432d]">
+                    Joined
+                  </button>
+                  <Sharing url={url} />
+                </div>
               ) : (
-                <button className="self-end bg-[#FF5841] text-white w-36 py-3 rounded-lg text-base font-medium xl:py-3 md:w-28 md:py-2">
+                <button className="self-end bg-[#FF5841] text-white  px-4 py-2 rounded-lg text-base font-medium  md:py-2 transition duration-300 ease-in-out hover:bg-[#ec432d]">
                   Join
                 </button>
               )}
             </div>
           ) : (
             <button
-              className="self-end bg-[#FF5841] text-white w-36 py-3 rounded-lg text-base font-medium xl:py-3 md:w-28 md:py-2"
+              className="self-end bg-[#FF5841] text-white  px-4 py-2 rounded-lg text-base font-inter font-medium md:py-2 transition duration-300 ease-in-out hover:bg-[#ec432d]"
               onClick={() => (window.location.href = "/login")}
             >
-              Login to join
+              Login
             </button>
           )}
         </div>
       </div>
+      <hr className="mx-10 border-t border-gray-200" />
       <div></div>
       <UploadWallpaperModal
         open={isImageOpen}
