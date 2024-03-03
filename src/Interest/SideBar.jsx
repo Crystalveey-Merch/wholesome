@@ -111,7 +111,7 @@ export const SideBar = ({ interests }) => {
                     <img
                       src={interest.wallPaper}
                       alt="interest"
-                      className="h-8 w-8 rounded-md"
+                      className="h-10 w-10 rounded-md"
                     />
                   ) : (
                     <FontAwesomeIcon
@@ -120,7 +120,7 @@ export const SideBar = ({ interests }) => {
                     />
                   )}
 
-                  <p className="text-gray-900 font-inter text-sm font-normal">
+                  <p className="text-gray-900 font-inter text-sm font-medium">
                     {interest.name}
                   </p>
                 </Link>

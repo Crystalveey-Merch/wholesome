@@ -153,6 +153,7 @@ const Profile = () => {
         return;
       }
       setPhoto(file);
+      console.log(file);
       createImagePreview(file);
     } else {
       setPhoto(null);

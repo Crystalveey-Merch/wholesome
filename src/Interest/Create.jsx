@@ -11,8 +11,9 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { toast } from "react-toastify";
 import { selectUser } from "../Features/userSlice";
-import { wholesquareEmployees } from "../Employees";
+import { wholesquareEmployees, interestImagesSuggestions } from "../Employees";
 import { addDoc, db, collection } from "../firebase/auth";
+// import { urlToBlob } from "../Hooks";
 
 export const Create = ({ interests }) => {
   const loggedInUser = useSelector(selectUser);
@@ -76,6 +77,15 @@ export const Create = ({ interests }) => {
 
   //   console.log(wholesquareEmployees);
 
+  //   get image of type any from the interestImagesSuggestions array and get any random image from the array. Must be type any
+  const typeAnys = interestImagesSuggestions.filter(
+    (interestImage) => interestImage.type === "Any"
+  );
+
+  const randomImage = typeAnys[Math.floor(Math.random() * typeAnys.length)];
+
+  console.log(randomImage.imgUrl);
+
   const handleCancel = () => {
     navigate("/i/interest");
   };
@@ -112,6 +122,9 @@ export const Create = ({ interests }) => {
     }
 
     try {
+      // Convert image URL to Blob
+      //   const blob = await urlToBlob(randomImage.imgUrl);
+      // URL.createObjectURL(blob), // Use Blob URL
       await addDoc(interestsRef, {
         name,
         privacyType: privacy,
@@ -120,6 +133,90 @@ export const Create = ({ interests }) => {
             userId: loggedInUser.id,
             joinedAt: new Date(),
           },
+          {
+            userId: "r3GUqjQxKPUrB1AnudSj6utlVaf1",
+            joinedAt: new Date(),
+          },
+          {
+            userId: "FQyML9JKw4buN6QlPCOebTLliDz1",
+            joinedAt: new Date(),
+          },
+        //   {
+        //     userId: "FZigAa98XCVOrySiC8Bu2ppf2Jp2",
+        //     joinedAt: new Date(),
+        //   },
+        //   {
+        //     userId: "GSaB2SUEDwfEpW7VKvTcYktVcUr2",
+        //     joinedAt: new Date(),
+        //   },
+        //   {
+        //     userId: "HJ5wA98yJfZREHqE1twYJ41C4ea2",
+        //     joinedAt: new Date(),
+        //   },
+        //   {
+        //     userId: "IUBXyFNR8dRjCJ2XVTrjocHc0cj1",
+        //     joinedAt: new Date(),
+        //   },
+        //   {
+        //     userId: "J41V4rVudUXV2xnzef9cTlZCGK03",
+        //     joinedAt: new Date(),
+        //   },
+        //   {
+        //     userId: "LADM9U5stpS2MZZYujpfDy6ZJ7e2",
+        //     joinedAt: new Date(),
+        //   },
+        //   {
+        //     userId: "Uzy8DRiDBIctDBZXn69RdSGFOaK2",
+        //     joinedAt: new Date(),
+        //   },
+        //   {
+        //     userId: "VYk3ccts5fYaGchTzuZnpykL5Vi1",
+        //     joinedAt: new Date(),
+        //   },
+          //   {
+          //     userId: "Y8l2HQt2xZUw0eQxVjx1hvyC1zv2",
+          //     joinedAt: new Date(),
+          //   },
+        //   {
+        //     userId: "YQ2YlYEznoTjfB5zIW4CmOEmfLr1",
+        //     joinedAt: new Date(),
+        //   },
+        //   {
+        //     userId: "YpSGMzUwX7PVnh6EdYtTo8kktny1",
+        //     joinedAt: new Date(),
+        //   },
+        //   {
+        //     userId: "bj6K44tek8hJcSqWoPfODkHkes12",
+        //     joinedAt: new Date(),
+        //   },
+          //   {
+          //     userId: "edWpoeCFCVXHK4BcvE4Yc7235F93",
+          //     joinedAt: new Date(),
+          //   },
+        //   {
+        //     userId: "ghckYiZnDMWjBALNJYlyXYmvcpQ2",
+        //     joinedAt: new Date(),
+        //   },
+        //   {
+        //     userId: "qhCmIkrgxZQnBuTmLA39DDVUV952",
+        //     joinedAt: new Date(),
+        //   },
+        //   {
+        //     userId: "sFsu58ji7ocpgpjc9JSCfIROZwn2",
+        //     joinedAt: new Date(),
+        //   },
+          //   {
+          //     userId: "sV2FzkV3PpbRy3xZEitQwIFXRWo2",
+          //     joinedAt: new Date(),
+          //   },
+        //   {
+        //     userId: "tN1hfGT4OHbxGsLXS4mUUSzFENA3",
+        //     joinedAt: new Date(),
+        //   },
+        //   {
+        //     userId: "",
+        //     joinedAt: new Date(),
+        //   },
         ],
         moderators: [
           {
@@ -127,12 +224,22 @@ export const Create = ({ interests }) => {
             email: loggedInUser.email,
             role: "admin",
           },
+          {
+            userId: "r3GUqjQxKPUrB1AnudSj6utlVaf1",
+            email: "victoria.crystalveey@gmail.com",
+            role: "admin",
+          },
+          {
+            userId: "FQyML9JKw4buN6QlPCOebTLliDz1",
+            email: "muzardemoses@gmail.com",
+            role: "moderator",
+          },
         ],
         chatBox: [],
         description: "",
         rules: [],
         createdBy: loggedInUser.id,
-        wallPaper: "",
+        wallPaper: randomImage.imgUrl,
         createdAt: new Date(),
         updatedAt: new Date(),
       });
@@ -142,7 +249,7 @@ export const Create = ({ interests }) => {
       navigate("/i/interest");
       setLoading(false);
     } catch (error) {
-      toast.error("Failed to create interest group");
+      toast.error(error.message);
       setLoading(false);
     }
   };
