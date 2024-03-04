@@ -22,6 +22,11 @@ export default {
       'sm': {'max': '639px'},
       // => @media (max-width: 639px) { ... }
     },
+    fontFamily: {
+      sans: ["Inter", "sans-serif"],
+      serif: ["Merriweather", "serif"],
+      inter: ["Inter", "sans-serif"],
+    },
     extend: {},
   },
   // eslint-disable-next-line no-undef

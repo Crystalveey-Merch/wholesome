@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -20,6 +20,7 @@ import { convertToLowercase } from "../Hooks";
 
 export const SideBar = ({ interests }) => {
   const loggedInUser = useSelector(selectUser);
+  const location = useLocation();
   const [userInterest, setUserInterest] = useState([]);
 
   // check for user interest by checking if the user is in the interest group
@@ -47,24 +48,40 @@ export const SideBar = ({ interests }) => {
               />
             </div>
             <div className="flex flex-col gap-2">
-              <div className="flex gap-4 items-center px-4 py-2.5 rounded-md cursor-pointer transition duration-300 ease-in-out hover:bg-gray-100">
+              <Link
+                to="/i/interest"
+                className={`flex gap-4 items-center px-4 py-2.5 rounded-md cursor-pointer transition duration-300 ease-in-out hover:bg-gray-100 ${
+                  location.pathname === "/i/interest" ? "bg-gray-100" : ""
+                }`}
+              >
                 <FontAwesomeIcon
-                  icon={NewRegular}
+                  icon={
+                    location.pathname === "/i/interest"
+                      ? faNewspaper
+                      : NewRegular
+                  }
                   className="text-gray-900 h-5 w-5"
                 />
                 <p className="text-gray-900 font-inter text-sm font-medium">
                   Interest Feed
                 </p>
-              </div>
-              <div className="flex gap-4 items-center px-4 py-2.5 rounded-md cursor-pointer transition duration-300 ease-in-out hover:bg-gray-100">
+              </Link>
+              <Link
+                to="/i/discover"
+                className={`flex gap-4 items-center px-4 py-2.5 rounded-md cursor-pointer transition duration-300 ease-in-out hover:bg-gray-100 ${
+                  location.pathname === "/i/discover" ? "bg-gray-100" : ""
+                }`}
+              >
                 <FontAwesomeIcon
-                  icon={ComRegular}
+                  icon={
+                    location.pathname === "/i/discover" ? faCompass : ComRegular
+                  }
                   className="text-gray-900 h-5 w-5"
                 />
                 <p className="text-gray-900 font-inter text-sm font-medium">
-                  Discover
+                  Discover More
                 </p>
-              </div>
+              </Link>
             </div>
           </div>
           <div className="px-1 flex flex-col gap-4 pb-4 border-b border-gray-200">
@@ -87,11 +104,12 @@ export const SideBar = ({ interests }) => {
                 }`}
                 className={`flex gap-4 items-center px-4 py-2.5 rounded-md cursor-pointer transition duration-300 ease-in-out hover:bg-gray-100 ${
                   !loggedInUser
-                    ? "pointer-events-none opacity-50"
+                    ? "pointer-events-none opacity-50 hidden"
                     : wholesquareEmployees.includes(loggedInUser.email)
                     ? ""
                     : "pointer-events-none opacity-50"
-                }`}
+                } ${location.pathname === "/i/create" ? "bg-gray-100" : ""}
+                `}
               >
                 <FontAwesomeIcon
                   icon={faPlus}
@@ -106,7 +124,12 @@ export const SideBar = ({ interests }) => {
                   <Link
                     to={`/i/${convertToLowercase(interest.name)}`}
                     key={index}
-                    className="flex gap-4 items-center px-4 py-2.5 rounded-md cursor-pointer transition duration-300 ease-in-out hover:bg-gray-100"
+                    className={`flex gap-4 items-center px-4 py-2.5 rounded-md cursor-pointer transition duration-300 ease-in-out hover:bg-gray-100 ${
+                      location.pathname ===
+                      `/i/${convertToLowercase(interest.name)}`
+                        ? "bg-gray-100"
+                        : ""
+                    }`}
                   >
                     {interest.wallPaper ? (
                       <img

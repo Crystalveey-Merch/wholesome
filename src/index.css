@@ -1,5 +1,6 @@
 @tailwind base;
 @tailwind components;
+
 @tailwind utilities;
 
 :root {
@@ -144,6 +145,7 @@ h1 {
 }
 p {
   font-family: "monserrat", "Helvetica Neue";
+  /* font-family: Inter, sans-serif; */
 }
 
 /* button {

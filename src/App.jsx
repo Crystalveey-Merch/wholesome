@@ -68,10 +68,22 @@ import {
 } from "./Profile";
 import {
   Feed as InterestFeed,
+  Discover,
   Layout as InterestLayout,
   Create,
   Interest,
+  ChatBox,
+  Activities,
+  Events,
+  Settings as InterestSettings,
 } from "./Interest";
+import {
+  Login as NewLogin,
+  ForgotPassword,
+  Register,
+  SelectInterest,
+  VerifyEmail,
+} from "./Auth";
 import { Bookmarks, Drafts, Notifications } from "./Dashboard";
 // import "@fortawesome/fontawesome-free"
 import { useDispatch, useSelector } from "react-redux";
@@ -369,7 +381,7 @@ function App() {
           }
         />
         <Route path="/account" element={<Account users={users} />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/signin" element={<Login />} />
         <Route path="/signup" element={<Signip />} />
         <Route
           path="/upcomingevents"
@@ -631,6 +643,16 @@ function App() {
           }
         />
         <Route
+          path="/i/discover"
+          element={
+            <BottomFeedTab users={users}>
+              <InterestLayout interests={interests}>
+                <Discover interests={interests} />
+              </InterestLayout>
+            </BottomFeedTab>
+          }
+        />
+        <Route
           path="/i/create"
           element={
             <BottomFeedTab users={users}>
@@ -652,12 +674,72 @@ function App() {
           element={
             <BottomFeedTab users={users}>
               <InterestLayout interests={interests}>
-                <Interest interests={interests} />
+                <Interest interests={interests}>
+                  {" "}
+                  <ChatBox interests={interests} />
+                </Interest>
               </InterestLayout>
             </BottomFeedTab>
           }
         />
 
+        {/* <Route
+          path="/i/:name/chatbox"
+          element={
+            <BottomFeedTab users={users}>
+              <InterestLayout interests={interests}>
+                <Interest interests={interests}>
+                  {" "}
+                  <ChatBox interests={interests} />
+                </Interest>
+              </InterestLayout>
+            </BottomFeedTab>
+          }
+        /> */}
+
+        <Route
+          path="/i/:name/activities"
+          element={
+            <BottomFeedTab users={users}>
+              <InterestLayout interests={interests}>
+                <Interest interests={interests}>
+                  <Activities interests={interests} />
+                </Interest>
+              </InterestLayout>
+            </BottomFeedTab>
+          }
+        />
+
+        <Route
+          path="/i/:name/events"
+          element={
+            <BottomFeedTab users={users}>
+              <InterestLayout interests={interests}>
+                <Interest interests={interests}>
+                  <Events interests={interests} />
+                </Interest>
+              </InterestLayout>
+            </BottomFeedTab>
+          }
+        />
+
+        <Route
+          path="/i/:name/edit"
+          element={
+            <BottomFeedTab users={users}>
+              <InterestLayout interests={interests}>
+                <Interest interests={interests}>
+                  <InterestSettings interests={interests} />
+                </Interest>
+              </InterestLayout>
+            </BottomFeedTab>
+          }
+        />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<NewLogin />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/select-interests" element={<SelectInterest />} />
+        <Route path="/verify-email" element={<VerifyEmail />} />
         {/* <Route path="/content/123" element={<Content />} /> */}
       </Routes>
       {/* <Footer /> */}

@@ -27,13 +27,31 @@ export const Create = ({ interests }) => {
   const [message, setMessage] = useState("");
   const [isInputFocused, setIsInputFocused] = useState(false);
 
-  const otherInterestsName = interests.filter((interest) => interest !== name);
+  const otherInterestsName = interests.filter(
+    (interest) => interest.name !== name
+  );
+
+  //   add create, discussion, edit, settings, members, interests, about, events, and more to the not allowed names
+  const notAllowedNames = [
+    "create",
+    "discussion",
+    "edit",
+    "settings",
+    "members",
+    "interests",
+    "about",
+    "events",
+    "more",
+  ];
 
   useEffect(() => {
     if (name.length > 0 && !isInputFocused) {
       if (otherInterestsName.includes(name)) {
         setIsAccepted(false);
         setMessage("Interest group name already exists");
+      } else if (notAllowedNames.includes(name.toLowerCase())) {
+        setIsAccepted(false);
+        setMessage("Interest group name is not allowed");
       } else if (name.length < 3) {
         setIsAccepted(false);
         setMessage("Interest group name must be at least 3 characters long");
@@ -46,7 +64,8 @@ export const Create = ({ interests }) => {
       setIsAccepted(false);
       setMessage("");
     }
-  }, [name, interests, isInputFocused, otherInterestsName]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [name, otherInterestsName, isInputFocused]);
 
   const interestsPrivacyTypes = [
     {
@@ -110,6 +129,12 @@ export const Create = ({ interests }) => {
       return;
     }
 
+    if (notAllowedNames.includes(name.toLowerCase())) {
+      toast.error("Interest group name is not allowed");
+      setLoading(false);
+      return;
+    }
+
     if (
       privacy === "General" &&
       !wholesquareEmployees.includes(loggedInUser.email.toLowerCase())
@@ -145,18 +170,18 @@ export const Create = ({ interests }) => {
           //     userId: "FZigAa98XCVOrySiC8Bu2ppf2Jp2",
           //     joinedAt: new Date(),
           //   },
-          //   {
-          //     userId: "GSaB2SUEDwfEpW7VKvTcYktVcUr2",
-          //     joinedAt: new Date(),
-          //   },
+          {
+            userId: "GSaB2SUEDwfEpW7VKvTcYktVcUr2",
+            joinedAt: new Date(),
+          },
           //   {
           //     userId: "HJ5wA98yJfZREHqE1twYJ41C4ea2",
           //     joinedAt: new Date(),
           //   },
-          //   {
-          //     userId: "IUBXyFNR8dRjCJ2XVTrjocHc0cj1",
-          //     joinedAt: new Date(),
-          //   },
+          {
+            userId: "IUBXyFNR8dRjCJ2XVTrjocHc0cj1",
+            joinedAt: new Date(),
+          },
           //   {
           //     userId: "J41V4rVudUXV2xnzef9cTlZCGK03",
           //     joinedAt: new Date(),
@@ -165,6 +190,10 @@ export const Create = ({ interests }) => {
           //     userId: "LADM9U5stpS2MZZYujpfDy6ZJ7e2",
           //     joinedAt: new Date(),
           //   },
+          {
+            userId: "SFwQS6eUFTTu2QKwQaWMLODINhx2",
+            joinedAt: new Date(),
+          },
           //   {
           //     userId: "Uzy8DRiDBIctDBZXn69RdSGFOaK2",
           //     joinedAt: new Date(),
@@ -197,26 +226,30 @@ export const Create = ({ interests }) => {
           //     userId: "ghckYiZnDMWjBALNJYlyXYmvcpQ2",
           //     joinedAt: new Date(),
           //   },
+          {
+            userId: "q6FcdeEWhXcRQrQa39OhfwS7eyD3",
+            joinedAt: new Date(),
+          },
           //   {
           //     userId: "qhCmIkrgxZQnBuTmLA39DDVUV952",
           //     joinedAt: new Date(),
           //   },
-          //   {
-          //     userId: "sFsu58ji7ocpgpjc9JSCfIROZwn2",
-          //     joinedAt: new Date(),
-          //   },
+          {
+            userId: "sFsu58ji7ocpgpjc9JSCfIROZwn2",
+            joinedAt: new Date(),
+          },
           //   {
           //     userId: "sV2FzkV3PpbRy3xZEitQwIFXRWo2",
           //     joinedAt: new Date(),
           //   },
-          //   {
-          //     userId: "tN1hfGT4OHbxGsLXS4mUUSzFENA3",
-          //     joinedAt: new Date(),
-          //   },
-          //   {
-          //     userId: "",
-          //     joinedAt: new Date(),
-          //   },
+          {
+            userId: "tN1hfGT4OHbxGsLXS4mUUSzFENA3",
+            joinedAt: new Date(),
+          },
+          {
+            userId: "vHQFjrXqx0PZntmgHM0oxde5eF43",
+            joinedAt: new Date(),
+          },
         ],
         moderators: [
           {

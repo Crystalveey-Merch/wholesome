@@ -271,7 +271,9 @@ const Header = ({ users, allChats }) => {
                   onClick={closeDrawer}
                   className="flex  text-gray-200 rounded-lg dark:text-white hover:bg-gray-100  group"
                 >
-                  <span className=" whitespace-nowrap">Interest</span>
+                  <span className=" whitespace-nowrap">
+                    Squaremate
+                  </span>
                 </NavLink>
               </li>
 
@@ -338,7 +340,9 @@ const Header = ({ users, allChats }) => {
                   onClick={closeDrawer}
                   className="flex  text-gray-200 rounded-lg dark:text-white hover:bg-gray-100  group"
                 >
-                  <span className=" whitespace-nowrap">Feed</span>
+                  <span className=" whitespace-nowrap">
+                    Articles
+                  </span>
                 </NavLink>
               </li>
             </ul>
@@ -378,7 +382,7 @@ const Header = ({ users, allChats }) => {
                 tabIndex={0}
                 className=" text-black bg-white border-none capitalize btn m-1 hover:bg-gray-100"
               >
-                Interest
+                Squaremate
               </label>
             </NavLink>
             <div className="dropdown dropdown-bottom text-xl hidden">
@@ -514,7 +518,7 @@ const Header = ({ users, allChats }) => {
                 tabIndex={0}
                 className=" text-black bg-white border-none capitalize btn m-1 hover:bg-gray-100"
               >
-                Feed
+                Articles
               </label>
             </NavLink>
           </ul>
