@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectUser } from "../Features/userSlice";
 import { convertToLowercase } from "../Hooks";
@@ -10,6 +10,7 @@ import { Sharing, UploadWallpaperModal } from "../components/Interest";
 import { toast } from "react-toastify";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { updateDoc, storage, doc, db } from "../firebase/auth";
+import { Main, RightBar } from ".";
 
 export const Interest = ({ interests }) => {
   const { name } = useParams();
@@ -53,8 +54,6 @@ export const Interest = ({ interests }) => {
     reader.readAsDataURL(file);
   };
 
-  if (!interest) return null;
-
   const handleImageClick = async () => {
     try {
       if (loggedInUser) {
@@ -90,6 +89,8 @@ export const Interest = ({ interests }) => {
   const url = `https://www.wholesquare.org/i/${name}`;
 
   //   console.log(url)
+
+  if (!interest) return null;
 
   return (
     <div className="w-full flex flex-col gap-6">
@@ -156,7 +157,49 @@ export const Interest = ({ interests }) => {
         </div>
       </div>
       <hr className="mx-10 border-t border-gray-200" />
-      <div></div>
+      <div className="flex gap-10 w-full font-inter px-16 pb-3">
+        <div className="w-full flex flex-col gap-6">
+          <div className="w-full h-10 flex gap-8">
+            {/* chatBox */}
+            <Link
+              className={`text-base font-semibold pb-3 border-b-2 cursor-pointer transition duration-500 ease-in-out ${
+                location.pathname === `/i/${name}`
+                  ? "text-black border-[#FF5841]"
+                  : "text-gray-500 border-b-transparent hover:text-black hover:border-[#FF5841]"
+              } `}
+              to={`/i/${name}`}
+            >
+              Chat Box
+            </Link>
+            {/* activities */}
+            <Link
+              className={`text-base font-semibold pb-3 border-b-2 cursor-pointer transition duration-500 ease-in-out ${
+                location.pathname === `/i/${name}/activities`
+                  ? "text-black border-[#FF5841]"
+                  : "text-gray-500 border-b-transparent hover:text-black hover:border-[#FF5841]"
+              } `}
+              to={`/i/${name}/activities`}
+            >
+              Activities
+            </Link>
+            {/* events */}
+            <Link
+              className={`text-base font-semibold pb-3 border-b-2 cursor-pointer transition duration-500 ease-in-out ${
+                location.pathname === `/i/${name}/events`
+                  ? "text-black border-[#FF5841]"
+                  : "text-gray-500 border-b-transparent hover:text-black hover:border-[#FF5841]"
+              } `}
+              to={`/i/${name}/events`}
+            >
+              Events
+            </Link>
+          </div>
+          <Main />
+        </div>
+        <div className="z-10 sticky top-0 h-max">
+          <RightBar />
+        </div>
+      </div>
       <UploadWallpaperModal
         open={isImageOpen}
         handleClose={handleClose}

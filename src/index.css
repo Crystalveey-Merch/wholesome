@@ -73,6 +73,12 @@
   top: 0;
 }
 
+.i-sticky-rightbar {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 40;
+}
+
 @font-face {
   font-family: "Aceh";
   src: local("Aceh"), url("Fonts/AcehSoft-Medium.ttf") format("truetype");
@@ -382,4 +388,20 @@ button:focus-visible {
 .hide-scrollbar {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+}
+
+/* make scrollbar beautiful */
+.scroll-bar-beauty::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* .scroll-bar-beauty::-webkit-scrollbar-thumb {
+  background-color: #ff5841;
+  border-radius: 10px;
+} */
+
+/* show scrollbar on hover */
+.scroll-bar-beauty:hover::-webkit-scrollbar-thumb {
+  background-color: #f6bdb6;
+  border-radius: 10px;
 }
