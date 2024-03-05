@@ -1,4 +1,3 @@
-import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPeopleGroup,
@@ -16,6 +15,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Helmet } from "react-helmet-async";
 import { faConnectdevelop } from "@fortawesome/free-brands-svg-icons";
+import { MiniHeader } from "./Home";
 
 const Aboutus = () => {
   document.addEventListener("DOMContentLoaded", function () {
@@ -34,8 +34,9 @@ const Aboutus = () => {
         />
         <link rel="canonical" href="/aboutus" />
       </Helmet>
-      <div className="mt-16   sm:mt-18 relative overflow-hidden w-screen ">
-        <div className=" mt-5 sm:mt-0 h-fit w-screen ">
+      <MiniHeader />
+      <div className="pt-[90px] relative overflow-hidden w-screen lg:pt-[80px] md:pt-[70px]">
+        <div className="h-fit w-screen ">
           <div className="hero-main absolute sm:w-screen sm:ml-0 sm:h-40 ">
             <div className="py-10 flex justify-center text-white bg-red-500/50 h-full  ">
               <h1 className="pt-20 sm:pt-5 sm:text-4xl pl-5 text-md ">

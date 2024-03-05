@@ -9,7 +9,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase/auth.js";
 import { NavLink } from "react-router-dom";
 
-const Section1 = () => {
+export const Section1 = () => {
   const [authUser, setAuthUser] = useState(null);
 
   useEffect(() => {
@@ -43,19 +43,19 @@ const Section1 = () => {
           JOIN THE GLOBAL NETWORK
         </h1>
         <p className=" py-4 xl:text-xl  text-3xl sm:text-2xl text-black ">
-          Be part of our Community
+          Connect with people who share your interests.
         </p>
         <hr></hr>
         {userId ? (
-          <NavLink to="/i/interest">
+          <NavLink to="/i/interest" className="w-max">
             <button className="text-2xl btn xl:text-sm  p-auto sm:text-sm hover:text-white  hover:bg-red-500  flex w-60 sm:w-40  bg-white  text-red-500 text-center ">
               <p className="text-xl xl:text-sm "> My Interest</p>
             </button>
           </NavLink>
         ) : (
-          <NavLink to="/account">
+          <NavLink to="/signup" className="w-max">
             <button className=" btn Aceh   p-auto sm:text-sm hover:text-white  hover:bg-red-500  flex w-60 sm:w-40  bg-white  text-red-500 text-center ">
-              <p className=""> JOIN </p>
+              <p className=""> Get Started </p>
             </button>
           </NavLink>
         )}
@@ -102,5 +102,3 @@ const Section1 = () => {
     </div>
   );
 };
-
-export default Section1;

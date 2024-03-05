@@ -148,7 +148,11 @@ const Header = ({ users, allChats }) => {
   // console.log("lastMessages", removeMessageSentByUser);
 
   return (
-    <div className="fixed  z-50 top-0 w-screen flex flex-col gap-0 sm:m-0 items-center justify-between border-b border-gray-100  sm:px-0 ">
+    <div
+      className={`fixed  z-50 top-0 w-screen flex flex-col gap-0 sm:m-0 items-center justify-between border-b border-gray-100  sm:px-0 ${
+        user ? "block" : "hidden"
+      }`}
+    >
       <div className="navbar text-black bg-white flex gap-5 justify-between px-10 xl:px-5 w-full sm:px-2">
         <div className="hidden lg:flex items-center gap-3">
           <div className="flex-none hidden w-max h-max  lg:block">
@@ -271,9 +275,7 @@ const Header = ({ users, allChats }) => {
                   onClick={closeDrawer}
                   className="flex  text-gray-200 rounded-lg dark:text-white hover:bg-gray-100  group"
                 >
-                  <span className=" whitespace-nowrap">
-                    Squaremate
-                  </span>
+                  <span className=" whitespace-nowrap">Squaremate</span>
                 </NavLink>
               </li>
 
@@ -340,9 +342,7 @@ const Header = ({ users, allChats }) => {
                   onClick={closeDrawer}
                   className="flex  text-gray-200 rounded-lg dark:text-white hover:bg-gray-100  group"
                 >
-                  <span className=" whitespace-nowrap">
-                    Articles
-                  </span>
+                  <span className=" whitespace-nowrap">Articles</span>
                 </NavLink>
               </li>
             </ul>

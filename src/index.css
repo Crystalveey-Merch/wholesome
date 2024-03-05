@@ -138,15 +138,14 @@ body {
   height: 5rem; /* Adjust the desired height */
 }
 
-h1 {
+/* h1 {
   font-family: "Aceh";
   font-size: 3.2em;
   line-height: 1.1;
 }
 p {
   font-family: "monserrat", "Helvetica Neue";
-  /* font-family: Inter, sans-serif; */
-}
+} */
 
 /* button {
   border-radius: 8px;
@@ -229,7 +228,7 @@ button:focus-visible {
   position: absolute;
   top: 0;
   left: 0;
-  width: 16px;
+  width: 20px;
   border-radius: 10px;
   height: 2px;
   transform: translate(0px);

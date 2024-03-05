@@ -1,10 +1,10 @@
-import { Link } from "react-router-dom";
+/* eslint-disable react/prop-types */
+import { Link, useNavigate } from "react-router-dom";
 import { HighlightedText, handleFollow } from "../Hooks";
 import devAvatar from "../assets/avatar-default.png";
 
-/* eslint-disable react/prop-types */
-export const SuggestedUsers = ({ users, loggedInUser }) => {
-  // Filter out users who are in loggedInUser's following list and are not the loggedInUser
+export const Suggested2 = ({ users, loggedInUser }) => {
+  const navigate = useNavigate();
   const suggestedUsers = users.filter((user) => {
     // Check if the user is not the loggedInUser and is not in the loggedInUser's following list
     return (
@@ -14,7 +14,7 @@ export const SuggestedUsers = ({ users, loggedInUser }) => {
 
   return (
     <div className="w-full flex flex-col gap-4">
-      <h4 className="font-semibold text-lg">Suggested creator to follow</h4>
+      <h4 className="font-semibold text-black text-lg">🌟 Community Spotlight</h4>
       <div className="flex gap-4 overflow-y-scroll hide-scrollbar">
         {suggestedUsers.map((user) => (
           <div
@@ -42,25 +42,39 @@ export const SuggestedUsers = ({ users, loggedInUser }) => {
             <div className="text-gray-900 text-sm font-inter font-normal w-full two-line-text">
               <HighlightedText content={user.shortBio} users={users} />
             </div>
-            {loggedInUser?.following.includes(user.id) ? (
-              <button
-                type="button"
-                onClick={() => {
-                  handleFollow(loggedInUser, user);
-                }}
-                className="w-max h-max min-w-[120px] block px-4 py-2 rounded-xl bg-[#FF5841] border border-[#FF5841] text-[#FFFFFF] font-inter text-sm"
-              >
-                Following
-              </button>
+            {loggedInUser ? (
+              <>
+                {loggedInUser?.following.includes(user.id) ? (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      handleFollow(loggedInUser, user);
+                    }}
+                    className="w-max h-max min-w-[120px] block px-4 py-2 rounded-xl bg-[#FF5841] border border-[#FF5841] text-[#FFFFFF] font-inter text-sm"
+                  >
+                    Following
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      handleFollow(loggedInUser, user);
+                    }}
+                    className="w-max h-max min-w-[120px] block px-4 py-2 rounded-xl bg-white border border-gray-300 text-[#FF5841] font-inter text-sm"
+                  >
+                    Follow
+                  </button>
+                )}
+              </>
             ) : (
               <button
                 type="button"
                 onClick={() => {
-                  handleFollow(loggedInUser, user);
+                  navigate(`/${user.username}`);
                 }}
-                className="w-max h-max min-w-[120px] block px-4 py-2 rounded-xl bg-white border border-gray-300 text-[#FF5841] font-inter text-sm"
+                className="w-max min-w-[120px] h-max block px-4 py-2 rounded-xl border border-gray-300 text-[#FF5841] font-inter text-sm"
               >
-                Follow
+                View Profile
               </button>
             )}
           </div>

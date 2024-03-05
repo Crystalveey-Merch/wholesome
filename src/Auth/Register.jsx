@@ -131,12 +131,12 @@ export const Register = () => {
           "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=1380&t=st=1701420226~exp=1701420826~hmac=2284e7a4b1f4cc634d76e02dc665ad6f93fc816574f3a3a605581318745e20a0",
       });
       await sendEmailVerification(user, {
-        url: "https://www.wholesquare.org/feed",
+        url: "https://www.wholesquare.org/select-interests",
         handleCodeInApp: true,
       });
-      setLoading(false);
-      navigate("/login");
-      toast.success(
+      await navigate("/verify-email");
+      await setLoading(false);
+      await toast.success(
         "Account created successfully. Please check your email to complete your signup."
       );
     } catch (error) {
@@ -160,7 +160,10 @@ export const Register = () => {
         className="rounded-lg"
       /> */}
         <div className="w-full flex flex-col items-center">
-          <h3 className="font-semibold text-3xl text-center font-inter text-black mt-6 mb-3 sm:text-2xl">
+          <h3
+            onClick={() => navigate("/")}
+            className="font-semibold text-3xl text-center font-inter text-black mt-6 mb-3 sm:text-2xl"
+          >
             Create a Wholesquare account
           </h3>
           <p className="text-base font-normal text-gray-600 font-inter text-center">
@@ -248,6 +251,7 @@ export const Register = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 onFocus={() => setPasswordInputFocused(true)}
                 onBlur={() => setPasswordInputFocused(false)}
+                name="password"
               />
               <FontAwesomeIcon
                 icon={showPassword ? faEye : faEyeSlash}
@@ -282,6 +286,7 @@ export const Register = () => {
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 onFocus={() => setConfirmPasswordInputFocused(true)}
                 onBlur={() => setConfirmPasswordInputFocused(false)}
+                name="confirmPassword"
               />
               <FontAwesomeIcon
                 icon={showConfirmPassword ? faEye : faEyeSlash}
@@ -321,6 +326,7 @@ export const Register = () => {
           <div className="text-sm font-normal font-inter text-gray-600 text-center mt-6 sm:mt-4">
             Already have an account? &nbsp;
             <button
+              type="button"
               onClick={() => navigate("/login")}
               className="text-[#ff5841] font-semibold"
             >

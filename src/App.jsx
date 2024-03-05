@@ -83,6 +83,7 @@ import {
   Register,
   SelectInterest,
   VerifyEmail,
+  ProtectSignUpProcess,
 } from "./Auth";
 import { Bookmarks, Drafts, Notifications } from "./Dashboard";
 // import "@fortawesome/fontawesome-free"
@@ -353,6 +354,7 @@ function App() {
     <div className="">
       <Header users={users} allChats={allChats} />
       <Routes>
+        {/* <Route element={<ProtectSignUpProcess />}> */}
         <Route
           path="/aboutus"
           element={
@@ -366,23 +368,20 @@ function App() {
           path="/"
           element={
             <DefaultLayout>
-              <BottomFeedTab users={users}>
                 <Homepage
                   users={users}
                   posts={posts}
-                  postId={postId}
-                  postLoading={postLoading}
+                  setPosts={setPosts}
                   events={events}
                   eventLoading={eventLoading}
                   activities={activities}
                 />
-              </BottomFeedTab>
             </DefaultLayout>
           }
         />
         <Route path="/account" element={<Account users={users} />} />
         <Route path="/signin" element={<Login />} />
-        <Route path="/signup" element={<Signip />} />
+        {/* <Route path="/signup" element={<Signip />} /> */}
         <Route
           path="/upcomingevents"
           element={<EventList events={events} loading={eventLoading} />}
@@ -735,10 +734,15 @@ function App() {
             </BottomFeedTab>
           }
         />
-        <Route path="/register" element={<Register />} />
+        <Route path="/register" element={<Navigate to="/signup" />} />
+        <Route path="/signup" element={<Register />} />
         <Route path="/login" element={<NewLogin />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/select-interests" element={<SelectInterest />} />
+        {/* </Route> */}
+        <Route
+          path="/select-interests"
+          element={<SelectInterest interests={interests} />}
+        />
         <Route path="/verify-email" element={<VerifyEmail />} />
         {/* <Route path="/content/123" element={<Content />} /> */}
       </Routes>
