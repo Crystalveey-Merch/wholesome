@@ -88,7 +88,7 @@ import {
 import { Bookmarks, Drafts, Notifications } from "./Dashboard";
 // import "@fortawesome/fontawesome-free"
 import { useDispatch, useSelector } from "react-redux";
-import { login, logout } from "./Features/userSlice.js";
+import { login, logout, selectUser } from "./Features/userSlice.js";
 // import { setUsers } from "./Features/usersSlice.js";
 import { openRightBar } from "./Features/openRightBarSlice.js";
 import moreImg from "./Feed/assets/aurora.png";
@@ -111,6 +111,7 @@ function App() {
   const [users, setAllUsers] = useState([]);
   const [allChats, setAllChats] = useState([]);
   const [interests, setInterests] = useState([]);
+  const loggedInUser = useSelector(selectUser);
   // const [chatId, setChatId] = useState(null);
 
   onAuthStateChanged(auth, async (userAuth) => {
@@ -364,10 +365,22 @@ function App() {
           }
         />
         <Route path="/whatwedo" element={<Whatwedo />} />
-        <Route
-          path="/"
-          element={
-            <DefaultLayout>
+        {loggedInUser ? (
+          <Route
+            path="/"
+            element={
+              <BottomFeedTab users={users}>
+                <InterestLayout interests={interests}>
+                  <InterestFeed interests={interests} />
+                </InterestLayout>
+              </BottomFeedTab>
+            }
+          />
+        ) : (
+          <Route
+            path="/"
+            element={
+              <DefaultLayout>
                 <Homepage
                   users={users}
                   posts={posts}
@@ -375,10 +388,13 @@ function App() {
                   events={events}
                   eventLoading={eventLoading}
                   activities={activities}
+                  interests={interests}
                 />
-            </DefaultLayout>
-          }
-        />
+              </DefaultLayout>
+            }
+          />
+        )}
+
         <Route path="/account" element={<Account users={users} />} />
         <Route path="/signin" element={<Login />} />
         {/* <Route path="/signup" element={<Signip />} /> */}
@@ -631,16 +647,7 @@ function App() {
             </BottomFeedTab>
           }
         />
-        <Route
-          path="/i/interest"
-          element={
-            <BottomFeedTab users={users}>
-              <InterestLayout interests={interests}>
-                <InterestFeed interests={interests} />
-              </InterestLayout>
-            </BottomFeedTab>
-          }
-        />
+
         <Route
           path="/i/discover"
           element={

@@ -43,10 +43,10 @@ export const SelectInterest = ({ interests }) => {
       <div className="w-full max-w-2xl py-10 flex flex-col gap-16 justify-center items-center">
         <div className="flex flex-col gap-2 justify-center text-center">
           <h1 className="text-3xl font-semibold text-black font-inter">
-            Select Interest groups you are interested in
+            Select your interests
           </h1>
           <p className="text-base font-normal text-gray-600 font-inter text-center">
-            Choose at least 2 interests to get started
+            Choose at least 4 interests to get started
           </p>
         </div>
         <div className="flex flex-col gap-6 justify-center">

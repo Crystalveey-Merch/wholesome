@@ -46,7 +46,7 @@ export const VerifyEmail = () => {
             Check your email
           </h3>
           <p className="text-base font-normal text-gray-600 font-inter text-center">
-            We have sent a verification link to <strong>{user.email}</strong>.
+            We have sent a verification link to <strong>{user?.email}</strong>.
             Click the link to verify your email and continue.
           </p>
         </div>

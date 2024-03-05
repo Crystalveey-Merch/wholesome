@@ -236,7 +236,7 @@ const Header = ({ users, allChats }) => {
                 <div>Wholesquare</div>
                 <hr></hr>
               </NavLink>
-              <Menu>
+              {/* <Menu>
                 <Menu.Button className="text-left p-2 text-white light:text-black">
                   About us
                 </Menu.Button>
@@ -277,9 +277,9 @@ const Header = ({ users, allChats }) => {
                 >
                   <span className=" whitespace-nowrap">Squaremate</span>
                 </NavLink>
-              </li>
+              </li> */}
 
-              <Menu>
+              {/* <Menu>
                 <Menu.Button className="text-left p-2 text-white light:text-black  ">
                   {" "}
                   Events
@@ -308,8 +308,8 @@ const Header = ({ users, allChats }) => {
                     )}
                   </Menu.Item>
                 </Menu.Items>
-              </Menu>
-              <li>
+              </Menu> */}
+              {/* <li>
                 <NavLink
                   to="/activities"
                   onClick={closeDrawer}
@@ -326,7 +326,7 @@ const Header = ({ users, allChats }) => {
                 >
                   <span className=" whitespace-nowrap">Podcast</span>
                 </NavLink>
-              </li>
+              </li> */}
               <li>
                 <NavLink
                   to="/createpost"
@@ -336,7 +336,7 @@ const Header = ({ users, allChats }) => {
                   <span className=" whitespace-nowrap">Create Post</span>
                 </NavLink>
               </li>
-              <li>
+              {/* <li>
                 <NavLink
                   to="/feed"
                   onClick={closeDrawer}
@@ -344,7 +344,7 @@ const Header = ({ users, allChats }) => {
                 >
                   <span className=" whitespace-nowrap">Articles</span>
                 </NavLink>
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>
@@ -366,8 +366,8 @@ const Header = ({ users, allChats }) => {
         </NavLink>
         <div className=" w-full flex justify-center m-auto text-2xl lg:hidden  ">
           <ul className="menu menu-horizontal xl:flex-nowrap gap-2 text-2xl px-1 xl:gap-0 m-auto text-black">
-            <div className="dropdown dropdown-bottom ">
-              <NavLink to="/aboutus">
+            {/*<div className="dropdown dropdown-bottom ">
+               <NavLink to="/aboutus">
                 {" "}
                 <label
                   tabIndex={0}
@@ -384,8 +384,8 @@ const Header = ({ users, allChats }) => {
               >
                 Squaremate
               </label>
-            </NavLink>
-            <div className="dropdown dropdown-bottom text-xl hidden">
+            </NavLink> */}
+            {/* <div className="dropdown dropdown-bottom text-xl hidden">
               <label
                 tabIndex={0}
                 className="text-black bg-white  border-none capitalize btn m-1 hover:bg-gray-100"
@@ -465,8 +465,8 @@ const Header = ({ users, allChats }) => {
                   </li>
                 </ul>
               </ul>
-            </div>
-            <div className="dropdown dropdown-bottom">
+            </div> */}
+            {/* <div className="dropdown dropdown-bottom">
               <label
                 tabIndex={0}
                 className=" text-black bg-white border-none capitalize btn m-1 hover:bg-gray-100"
@@ -487,8 +487,8 @@ const Header = ({ users, allChats }) => {
                   </li>
                 </ul>
               </ul>
-            </div>
-            <NavLink to="/podcast">
+            </div> */}
+            {/* <NavLink to="/podcast">
               <label
                 tabIndex={0}
                 className=" text-black bg-white border-none capitalize btn m-1 hover:bg-gray-100"
@@ -503,7 +503,7 @@ const Header = ({ users, allChats }) => {
               >
                 Activities
               </label>
-            </NavLink>
+            </NavLink> */}
             <NavLink to="/createpost">
               <label
                 tabIndex={0}
@@ -513,14 +513,14 @@ const Header = ({ users, allChats }) => {
               </label>
             </NavLink>
 
-            <NavLink to="/feed">
+            {/* <NavLink to="/feed">
               <label
                 tabIndex={0}
                 className=" text-black bg-white border-none capitalize btn m-1 hover:bg-gray-100"
               >
                 Articles
               </label>
-            </NavLink>
+            </NavLink> */}
           </ul>
         </div>
 

@@ -57,6 +57,20 @@
   overflow: hidden;
 }
 
+.title-content-container-home {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  /* Limit to 3 or 2 lines depending on title */
+  -webkit-line-clamp: 2;
+}
+
+@media (max-width: 639px) {
+  .title-content-container-home {
+    -webkit-line-clamp: 1;
+  }
+}
+
 /* .texttitle { */
 /* Limit title to 1 or 2 lines */
 /* -webkit-line-clamp: 1;  */

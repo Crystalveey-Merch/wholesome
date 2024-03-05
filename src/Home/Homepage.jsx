@@ -17,6 +17,7 @@ const Homepage = ({
   postLoading,
   events,
   activities,
+  interests,
 }) => {
   const user = useSelector(selectUser);
 
@@ -85,6 +86,7 @@ const Homepage = ({
           loading={postLoading}
           events={events}
           activities={activities}
+          interests={interests}
         />
         // <div className="h-full  w-screen pt-20 sm:pt-14  bg-stone-100">
         //   <Section1 />
