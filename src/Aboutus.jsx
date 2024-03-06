@@ -3,19 +3,14 @@ import {
   faPeopleGroup,
   faHandHoldingHand,
   faSeedling,
-  faPeoplePulling,
   faHandsHoldingChild,
   faQuestion,
   faUserGroup,
-  faMaskFace,
-  faMask,
   faMasksTheater,
-  faThumbtack,
   faThumbsUp,
 } from "@fortawesome/free-solid-svg-icons";
 import { Helmet } from "react-helmet-async";
 import { faConnectdevelop } from "@fortawesome/free-brands-svg-icons";
-import { MiniHeader } from "./Home";
 
 const Aboutus = () => {
   document.addEventListener("DOMContentLoaded", function () {
@@ -34,8 +29,7 @@ const Aboutus = () => {
         />
         <link rel="canonical" href="/aboutus" />
       </Helmet>
-      <MiniHeader />
-      <div className="pt-[90px] relative overflow-hidden w-screen lg:pt-[80px] md:pt-[70px]">
+      <div className="relative overflow-hidden w-screen">
         <div className="h-fit w-screen ">
           <div className="hero-main absolute sm:w-screen sm:ml-0 sm:h-40 ">
             <div className="py-10 flex justify-center text-white bg-red-500/50 h-full  ">
@@ -61,7 +55,7 @@ const Aboutus = () => {
               <hr className="mb-5"></hr>
 
               <p className="text-black text-xl sm:text-center ">
-                Empowering Connections, Inspiring Conversations: We're dedicated
+                Empowering Connections, Inspiring Conversations: We&rsquo;re dedicated
                 to building a vibrant online community that fosters personal and
                 professional growth. Our platform celebrates diversity and
                 positive engagement, offering a range of interest groups
@@ -80,7 +74,7 @@ const Aboutus = () => {
             <hr></hr>
           </div>
           <ul className="text-black text-md gap-4 flex flex-wrap m-auto justify-center mb-10 ">
-            <li className="mb-2 border  rounded-lg text-center text-white p-4 w-72 shadow shadow-xl bg-red-500">
+            <li className="mb-2 border  rounded-lg text-center text-white p-4 w-72 shadow-xl bg-red-500">
               <div className="Aceh text-lg">Integrity:</div>
               <div>
                 <FontAwesomeIcon icon={faThumbsUp} className="text-6xl p-5" />
@@ -89,7 +83,7 @@ const Aboutus = () => {
               correspondence.
             </li>
 
-            <li className="mb-2 border  rounded-lg text-center text-white p-4 w-72 shadow shadow-xl bg-green-600">
+            <li className="mb-2 border  rounded-lg text-center text-white p-4 w-72 shadow-xl bg-green-600">
               <div className="Aceh text-lg">Inclusivity:</div>
               <div>
                 <FontAwesomeIcon icon={faSeedling} className="text-6xl p-5" />
@@ -117,7 +111,7 @@ const Aboutus = () => {
                   className="text-6xl p-5"
                 />
               </div>
-              Putting our users' relationships and general well-being first.
+              Putting our users&rsquo;s relationships and general well-being first.
             </li>
             <li className="mb-2 brder text-white  rounded-lg text-center p-4 w-72 shadow-xl bg-teal-700 ">
               <div className="Aceh text-lg"> Opportunity:</div>

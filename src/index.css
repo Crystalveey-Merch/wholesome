@@ -41,6 +41,13 @@
   -webkit-line-clamp: 2;
 }
 
+.text-three-lines {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 3;
+}
+
 .title-content-container {
   display: -webkit-box;
   -webkit-box-orient: vertical;

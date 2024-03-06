@@ -9,7 +9,7 @@ import {
 import { RightBar } from "../Feed";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { MiniHeader, Section1, Suggested2, DiscoverInterests } from ".";
+import {  Section1, Suggested2, DiscoverInterests } from ".";
 import { PostCardHome } from "../components/Feed";
 import { selectUser } from "../Features/userSlice";
 // import { handleFollow } from "../Hooks";
@@ -72,8 +72,7 @@ export const NewHome = ({
   };
 
   return (
-    <div className="pt-[90px] flex flex-col gap-16 font-inter lg:pt-[80px] md:pt-[70px]">
-      <MiniHeader />
+    <div className="flex flex-col gap-16 font-inter">
       <section>
         <Section1 />
       </section>
@@ -84,7 +83,7 @@ export const NewHome = ({
           <hr className="border-t border-gray-200 sm:mx-4" />
           <div className="flex flex-col gap-4 sm:px-4">
             <h4 className="font-semibold text-black text-lg sm:text-base">
-              Articles Trending on Wholesquare
+             Trending articles on Wholesquare
             </h4>
             <div className="flex flex-col gap-4">
               {posts.length === 0 ? (

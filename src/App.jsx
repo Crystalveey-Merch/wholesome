@@ -22,7 +22,6 @@ import HostEvent from "./Events/HoseEvent";
 import Articles from "./Articles/Articles";
 import Podcast from "./Podcast/Podcast";
 import Activity from "./Activity/ActivityDes";
-import InterestOld from "./Interest/InterestOld.jsx";
 import CreatePost from "./CreatePost/CreatePost";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -56,7 +55,7 @@ import ActivityList from "./Activity/ActivityList";
 import { SearchModal, SearchUser, Topics } from "./Userpage";
 import { selectSearchModal } from "./Features/searchModalSlice.js";
 import { Messages, SelectMessage, ChatView } from "./Chats";
-import { DefaultLayout } from "./Layouts/";
+import { DashboardLayout, DefaultLayout } from "./Layouts/";
 import { getDoc, limit } from "firebase/firestore";
 // import { doc, getDocs, updateDoc } from "./firebase/auth.js";
 import { Feed, FeedLayout, Content, Following } from "./Feed";
@@ -76,6 +75,12 @@ import {
   Activities,
   Events,
   Settings as InterestSettings,
+  InterestForNonUsers,
+  NonUsersChatBox,
+  NonUsersActivities,
+  NonUsersArticles,
+  NonUsersPodcasts,
+  NonUsersEvents,
 } from "./Interest";
 import {
   Login as NewLogin,
@@ -93,6 +98,7 @@ import { login, logout, selectUser } from "./Features/userSlice.js";
 import { openRightBar } from "./Features/openRightBarSlice.js";
 import moreImg from "./Feed/assets/aurora.png";
 import { BottomFeedTab } from "./components/Feed/";
+import { MiniHeader } from "./components/Header/MiniHeader.jsx";
 
 function App() {
   const location = useLocation();
@@ -107,11 +113,11 @@ function App() {
   const [activities, setActivities] = useState([]);
   const [podcasts, setPodcasts] = useState([]);
   const [podcastLoading, setPodcastLoading] = useState(true);
-  // const [loggedInUser, setLoggedInUser] = useState([]);
   const [users, setAllUsers] = useState([]);
   const [allChats, setAllChats] = useState([]);
   const [interests, setInterests] = useState([]);
-  const loggedInUser = useSelector(selectUser);
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  // const loggedInUser = useSelector(selectUser);
   // const [chatId, setChatId] = useState(null);
 
   onAuthStateChanged(auth, async (userAuth) => {
@@ -141,12 +147,24 @@ function App() {
       // });
       // dispatch(setUsers(users));
       // setAllUsers(users);
+      // setIsUserLoggedIn(true);
     } else {
       localStorage.removeItem("user");
       dispatch(logout());
+      // setIsUserLoggedIn(false);
       // setLoggedInUser(null);
     }
   });
+
+  // check if user is logged in using local storage
+  const user = JSON.parse(localStorage.getItem("user"));
+  useEffect(() => {
+    if (user) {
+      setIsUserLoggedIn(true);
+    } else {
+      setIsUserLoggedIn(false);
+    }
+  }, [user]);
 
   // useEffect(() => {
   //   const fetchUsers = async () => {
@@ -353,7 +371,6 @@ function App() {
 
   return (
     <div className="">
-      <Header users={users} allChats={allChats} />
       <Routes>
         {/* <Route element={<ProtectSignUpProcess />}> */}
         <Route
@@ -365,15 +382,17 @@ function App() {
           }
         />
         <Route path="/whatwedo" element={<Whatwedo />} />
-        {loggedInUser ? (
+        {isUserLoggedIn ? (
           <Route
             path="/"
             element={
-              <BottomFeedTab users={users}>
+              // <BottomFeedTab users={users}>
+              <DashboardLayout users={users} allChats={allChats}>
                 <InterestLayout interests={interests}>
                   <InterestFeed interests={interests} />
                 </InterestLayout>
-              </BottomFeedTab>
+              </DashboardLayout>
+              //  </BottomFeedTab>
             }
           />
         ) : (
@@ -396,7 +415,6 @@ function App() {
         )}
 
         <Route path="/account" element={<Account users={users} />} />
-        <Route path="/signin" element={<Login />} />
         {/* <Route path="/signup" element={<Signip />} /> */}
         <Route
           path="/upcomingevents"
@@ -424,7 +442,6 @@ function App() {
         />
         <Route path="/activity/adminform" element={<ActivityForm />} />
         <Route path="/podcast/adminform" element={<PodcastAdmin />} />
-        <Route path="/interest/:interestName" element={<InterestOld />} />
         <Route
           path="/upcomingevents/:id"
           element={<EventDes events={events} />}
@@ -465,7 +482,11 @@ function App() {
         <Route path="/articlecategory/:category" element={<CategoryPosts />} />
         <Route
           path="/readmore/:id"
-          element={<Content posts={posts} setPosts={setPosts} users={users} />}
+          element={
+            <DashboardLayout users={users} allChats={allChats}>
+              <Content posts={posts} setPosts={setPosts} users={users} />
+            </DashboardLayout>
+          }
         />
         <Route path="/myinterest" element={<MyInterest />}>
           <Route path="/myinterest/articles" element={<ArticleInterest />} />
@@ -526,39 +547,39 @@ function App() {
         <Route
           path="/search"
           element={
-            <BottomFeedTab users={users}>
-              <FeedLayout>
-                <SearchUser
-                  users={users}
-                  posts={posts}
-                  setPosts={setPosts}
-                  activities={activities}
-                  events={events}
-                />
-              </FeedLayout>
-            </BottomFeedTab>
+            // <BottomFeedTab users={users}>
+            <FeedLayout>
+              <SearchUser
+                users={users}
+                posts={posts}
+                setPosts={setPosts}
+                activities={activities}
+                events={events}
+              />
+            </FeedLayout>
+            //  </BottomFeedTab>
           }
         />
         <Route
           path="/topic/:topicSTR"
           element={
-            <BottomFeedTab users={users}>
-              <FeedLayout>
-                <Topics
-                  users={users}
-                  setPosts={setPosts}
-                  posts={posts}
-                  activities={activities}
-                  events={events}
-                />
-              </FeedLayout>
-            </BottomFeedTab>
+            // <BottomFeedTab users={users}>
+            <FeedLayout>
+              <Topics
+                users={users}
+                setPosts={setPosts}
+                posts={posts}
+                activities={activities}
+                events={events}
+              />
+            </FeedLayout>
+            //  </BottomFeedTab>
           }
         />
         <Route
           path="/:username"
           element={
-            <BottomFeedTab users={users}>
+            <DashboardLayout users={users} allChats={allChats}>
               <FeedLayout>
                 <Profile20
                   users={users}
@@ -567,41 +588,42 @@ function App() {
                   events={events}
                 />
               </FeedLayout>
-            </BottomFeedTab>
+            </DashboardLayout>
           }
         />
         <Route
           path="/:username/followers"
           element={
-            <BottomFeedTab users={users}>
+            <DashboardLayout users={users} allChats={allChats}>
               <FeedLayout>
                 <FollowersAndFollowing users={users} />
                 <Followers users={users} />
               </FeedLayout>
-            </BottomFeedTab>
+            </DashboardLayout>
           }
         />
         <Route
           path="/:username/following"
           element={
-            <BottomFeedTab users={users}>
+            <DashboardLayout users={users} allChats={allChats}>
               <FeedLayout>
                 <FollowersAndFollowing users={users} />
                 <FollowingUsers users={users} />
               </FeedLayout>
-            </BottomFeedTab>
+            </DashboardLayout>
           }
         />
         <Route
           path="/messages"
           element={
             <ProtectedRoute>
-              {/* change this shit */}
-              <BottomFeedTab users={users}>
-                <Messages users={users} allChats={allChats}>
-                  <SelectMessage users={users} />
-                </Messages>
-              </BottomFeedTab>
+              <DashboardLayout users={users} allChats={allChats}>
+                <InterestLayout interests={interests}>
+                  <Messages users={users} allChats={allChats}>
+                    <SelectMessage users={users} />
+                  </Messages>
+                </InterestLayout>
+              </DashboardLayout>
             </ProtectedRoute>
           }
         />
@@ -609,9 +631,11 @@ function App() {
           path="/messages/:chatId"
           element={
             <ProtectedRoute>
-              <Messages users={users} allChats={allChats}>
-                <ChatView users={users} allChats={allChats} />
-              </Messages>
+              <DashboardLayout users={users} allChats={allChats}>
+                <Messages users={users} allChats={allChats}>
+                  <ChatView users={users} allChats={allChats} />
+                </Messages>
+              </DashboardLayout>
             </ProtectedRoute>
           }
         />
@@ -619,53 +643,57 @@ function App() {
           path="/notifications"
           element={
             <ProtectedRoute>
-              <BottomFeedTab users={users}>
-                <FeedLayout>
-                  <Notifications users={users} posts={posts} />
-                </FeedLayout>
-              </BottomFeedTab>
+              <DashboardLayout users={users} allChats={allChats}>
+                <InterestLayout interests={interests}>
+                  {/* <BottomFeedTab users={users}> */}
+                  <FeedLayout>
+                    <Notifications users={users} posts={posts} />
+                  </FeedLayout>
+                  {/* </BottomFeedTab>  */}
+                </InterestLayout>
+              </DashboardLayout>
             </ProtectedRoute>
           }
         />
         <Route
           path="/feed"
           element={
-            <BottomFeedTab users={users}>
+            <DashboardLayout users={users} allChats={allChats}>
               <FeedLayout>
                 <Feed posts={posts} setPosts={setPosts} users={users} />
               </FeedLayout>
-            </BottomFeedTab>
+            </DashboardLayout>
           }
         />
         <Route
           path="/feed/following"
           element={
-            <BottomFeedTab users={users}>
+            <DashboardLayout users={users} allChats={allChats}>
               <FeedLayout>
                 <Following posts={posts} setPosts={setPosts} users={users} />
               </FeedLayout>
-            </BottomFeedTab>
+            </DashboardLayout>
           }
         />
 
         <Route
           path="/i/discover"
           element={
-            <BottomFeedTab users={users}>
+            <DashboardLayout users={users} allChats={allChats}>
               <InterestLayout interests={interests}>
                 <Discover interests={interests} />
               </InterestLayout>
-            </BottomFeedTab>
+            </DashboardLayout>
           }
         />
         <Route
           path="/i/create"
           element={
-            <BottomFeedTab users={users}>
+            <DashboardLayout users={users} allChats={allChats}>
               <InterestLayout interests={interests}>
                 <Create interests={interests} />
               </InterestLayout>
-            </BottomFeedTab>
+            </DashboardLayout>
           }
         />
 
@@ -678,67 +706,117 @@ function App() {
         <Route
           path="/i/:name"
           element={
-            <BottomFeedTab users={users}>
+            <DashboardLayout users={users} allChats={allChats}>
               <InterestLayout interests={interests}>
                 <Interest interests={interests}>
                   {" "}
                   <ChatBox interests={interests} />
                 </Interest>
               </InterestLayout>
-            </BottomFeedTab>
+            </DashboardLayout>
           }
         />
 
         {/* <Route
           path="/i/:name/chatbox"
           element={
-            <BottomFeedTab users={users}>
+          // <BottomFeedTab users={users}>
               <InterestLayout interests={interests}>
                 <Interest interests={interests}>
                   {" "}
                   <ChatBox interests={interests} />
                 </Interest>
               </InterestLayout>
-            </BottomFeedTab>
+         //  </BottomFeedTab> 
           }
         /> */}
 
         <Route
           path="/i/:name/activities"
           element={
-            <BottomFeedTab users={users}>
+            <DashboardLayout users={users} allChats={allChats}>
               <InterestLayout interests={interests}>
                 <Interest interests={interests}>
                   <Activities interests={interests} />
                 </Interest>
               </InterestLayout>
-            </BottomFeedTab>
+            </DashboardLayout>
           }
         />
 
         <Route
           path="/i/:name/events"
           element={
-            <BottomFeedTab users={users}>
+            <DashboardLayout users={users} allChats={allChats}>
               <InterestLayout interests={interests}>
                 <Interest interests={interests}>
                   <Events interests={interests} />
                 </Interest>
               </InterestLayout>
-            </BottomFeedTab>
+            </DashboardLayout>
           }
         />
 
         <Route
           path="/i/:name/edit"
           element={
-            <BottomFeedTab users={users}>
+            <DashboardLayout users={users} allChats={allChats}>
               <InterestLayout interests={interests}>
                 <Interest interests={interests}>
                   <InterestSettings interests={interests} />
                 </Interest>
               </InterestLayout>
-            </BottomFeedTab>
+            </DashboardLayout>
+          }
+        />
+        <Route
+          path="/interest/:name"
+          element={
+            <DefaultLayout>
+              <InterestForNonUsers interests={interests}>
+                <NonUsersChatBox interests={interests} />
+              </InterestForNonUsers>
+            </DefaultLayout>
+          }
+        />
+        <Route
+          path="/interest/:name/activities"
+          element={
+            <DefaultLayout>
+              <InterestForNonUsers interests={interests}>
+                <NonUsersActivities interests={interests} />
+              </InterestForNonUsers>
+            </DefaultLayout>
+          }
+        />
+        <Route
+          path="/interest/:name/articles"
+          element={
+            <DefaultLayout>
+              <InterestForNonUsers interests={interests}>
+                <NonUsersArticles interests={interests} />
+              </InterestForNonUsers>
+            </DefaultLayout>
+          }
+        />
+        <Route
+          path="/interest/:name/podcasts"
+          element={
+            <DefaultLayout>
+              <InterestForNonUsers interests={interests}>
+                <NonUsersPodcasts interests={interests} />
+              </InterestForNonUsers>
+            </DefaultLayout>
+          }
+        />
+        <Route
+          path="/interest/:name/events"
+          element={
+            <DefaultLayout>
+              <InterestForNonUsers interests={interests}>
+                <NonUsersEvents interests={interests} />
+              </InterestForNonUsers>
+            </DefaultLayout>
           }
         />
         <Route path="/register" element={<Navigate to="/signup" />} />

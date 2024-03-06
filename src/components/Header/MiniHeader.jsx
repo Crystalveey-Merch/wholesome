@@ -1,6 +1,5 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
 
 export const MiniHeader = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -31,6 +30,7 @@ export const MiniHeader = () => {
     preventScroll();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [menuOpen]);
+  
   return (
     <header className="fixed font-inter top-0 left-0 w-full z-30 px-36  flex justify-between py-5 items-center bg-white border-b border-gray-200 2xl:px-20 lg:px-10 md:px-6">
       <Link to="/">

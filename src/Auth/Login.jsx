@@ -10,11 +10,11 @@ import {
   updateDoc,
 } from "../firebase/auth";
 import { toast } from "react-toastify";
-// import { useSelector } from "react-redux";
-// import { selectUser } from "../Features/userSlice";
+import { useSelector } from "react-redux";
+import { selectUser } from "../Features/userSlice";
 
 export const Login = () => {
-  //   const user = useSelector(selectUser);
+  // const user = useSelector(selectUser);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -33,7 +33,7 @@ export const Login = () => {
       await updateDoc(userRef, {
         lastLogin: new Date(),
       });
-      navigate("/feed");
+      navigate("/");
       toast.success("Login Successful");
       setLoading(false);
     } catch (error) {
@@ -44,6 +44,10 @@ export const Login = () => {
       setLoading(false);
     }
   };
+
+  // if (user) {
+  //   navigate("/");
+  // }
 
   return (
     <div className="w-screen px-20 flex justify-center items-center sm:px-4">

@@ -35,7 +35,7 @@ export const SideBar = ({ interests }) => {
   }, [interests, loggedInUser]);
 
   return (
-    <div className="w-80">
+    <div className="w-80 sm:hidden">
       <div className="h-screen border-r border-gray-300">
         <div className="h-full overflow-y-scroll scroll-bar-beauty flex flex-col gap-6 py-10 px-4">
           <div className="px-1 flex flex-col gap-4 pb-4 border-b border-gray-200">
@@ -120,7 +120,7 @@ export const SideBar = ({ interests }) => {
                 </p>
               </Link>
               <>
-                {userInterest.slice(0, 10).map((interest, index) => (
+                {userInterest?.slice(0, 10).map((interest, index) => (
                   <Link
                     to={`/i/${convertToLowercase(interest.name)}`}
                     key={index}
