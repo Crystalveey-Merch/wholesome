@@ -200,7 +200,7 @@ const CreatePost = () => {
   const handleAddPost = async (e) => {
     e.preventDefault();
 
-    if (category && tags && postTitle && postDescription && content) {
+    if (category && tags && postTitle && content) {
       if (!id) {
         try {
           await addDoc(collection(db, "posts"), {
@@ -257,7 +257,7 @@ const CreatePost = () => {
   const handleAddDraft = async (e) => {
     e.preventDefault();
 
-    if (category && tags && postTitle && postDescription && content) {
+    if (category && tags && postTitle && content) {
       if (!id) {
         try {
           await addDoc(collection(db, "drafts"), {
@@ -342,7 +342,6 @@ const CreatePost = () => {
                 Sub Title
               </label>
               <input
-                required
                 type="text"
                 value={postDescription}
                 name="postDescription"
