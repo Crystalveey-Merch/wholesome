@@ -27,9 +27,11 @@ export const Create = ({ interests }) => {
   const [message, setMessage] = useState("");
   const [isInputFocused, setIsInputFocused] = useState(false);
 
-  const otherInterestsName = interests.filter(
-    (interest) => interest.name !== name
+  const otherInterestsName = interests.map((interest) =>
+    interest.name.toLowerCase()
   );
+
+  // console.log(otherInterestsName);
 
   //   add create, discussion, edit, settings, members, interests, about, events, and more to the not allowed names
   const notAllowedNames = [
@@ -42,14 +44,42 @@ export const Create = ({ interests }) => {
     "about",
     "events",
     "more",
+    "home",
+    "feed",
+    "notifications",
+    "messages",
+    "profile",
+    "search",
+    "explore",
+    "discover",
+    "activity",
+    "activities",
+    "groups",
+    "group",
+    "interest",
+    "articles",
+    "article",
+    "post",
+    "posts",
+    "people",
+    "podcast",
+    "podcasts",
+    "video",
+    "videos",
+    "photo",
+    "photos",
+    "image",
+    "images",
+    "chatBox",
   ];
 
   useEffect(() => {
     if (name.length > 0 && !isInputFocused) {
-      if (otherInterestsName.includes(name)) {
+      const lowercaseName = name?.toLowerCase();
+      if (otherInterestsName.includes(lowercaseName)) {
         setIsAccepted(false);
         setMessage("Interest group name already exists");
-      } else if (notAllowedNames.includes(name.toLowerCase())) {
+      } else if (notAllowedNames.includes(lowercaseName)) {
         setIsAccepted(false);
         setMessage("Interest group name is not allowed");
       } else if (name.length < 3) {
@@ -103,7 +133,7 @@ export const Create = ({ interests }) => {
 
   const randomImage = typeAnys[Math.floor(Math.random() * typeAnys.length)];
 
-  console.log(randomImage.imgUrl);
+  // console.log(randomImage.imgUrl);
 
   const handleCancel = () => {
     navigate("/");
@@ -123,7 +153,7 @@ export const Create = ({ interests }) => {
       return;
     }
 
-    if (otherInterestsName.includes(name)) {
+    if (otherInterestsName.includes(name.toLowerCase())) {
       toast.error("Interest group name already exists");
       setLoading(false);
       return;
@@ -151,7 +181,8 @@ export const Create = ({ interests }) => {
       //   const blob = await urlToBlob(randomImage.imgUrl);
       // URL.createObjectURL(blob), // Use Blob URL
       await addDoc(interestsRef, {
-        name,
+        // uppercase the first letter of the name
+        name: name.charAt(0).toUpperCase() + name.slice(1),
         privacyType: privacy,
         members: [
           {
@@ -298,9 +329,9 @@ export const Create = ({ interests }) => {
   };
 
   return (
-    <div className="w-full  min-h-screen h-max max-w-3xl py-16 pb-16 px-10 flex flex-col gap-8">
-      <div className="flex flex-col gap-2">
-        <h3 className="text-3xl font-inter font-semibold text-black">
+    <div className="w-full  min-h-screen h-max max-w-3xl py-16 pb-16 px-10 flex flex-col gap-8 sm:px-4">
+      <div className="flex flex-col gap-2 sm:gap-1.5">
+        <h3 className="text-3xl font-inter font-semibold text-black sm:text-2xl">
           Create Interest Group
         </h3>
         <p className="text-gray-500 font-inter text-sm">
@@ -366,14 +397,14 @@ export const Create = ({ interests }) => {
                 >
                   <FontAwesomeIcon
                     icon={interestPrivacyType.icon}
-                    className="h-6 w-6 text-black"
+                    className="h-6 w-6 text-black sm:h-5 sm:w-5"
                   />
                   <div className="flex gap-1 items-center">
                     <div className="flex flex-col gap-1">
-                      <p className="text-black font-inter text-base font-medium">
+                      <p className="text-black font-inter text-base font-medium sm:text-[0.95rem]">
                         {interestPrivacyType.name}
                       </p>
-                      <p className="text-gray-500 font-inter text-sm">
+                      <p className="text-gray-500 font-inter text-sm sm:text-[0.85rem]">
                         {interestPrivacyType.description}
                       </p>
                     </div>
@@ -395,7 +426,7 @@ export const Create = ({ interests }) => {
         <div className="flex gap-4 justify-end">
           <button
             type="submit"
-            className={`h-11 px-3 py-2 bg-red-500 text-white font-inter font-semibold text-sm rounded-md focus:outline-none focus:ring-0 transition duration-300 ease-in-out ${
+            className={`h-11 px-3 py-2 bg-red-500 text-white font-inter font-semibold text-sm rounded-md focus:outline-none focus:ring-0 transition duration-300 ease-in-out sm:h-10 ${
               loading ? "opacity-50 cursor-not-allowed" : "hover:bg-red-600"
             }`}
             disabled={loading}
@@ -405,7 +436,7 @@ export const Create = ({ interests }) => {
           <button
             type="reset"
             onClick={handleCancel}
-            className="h-11 px-3 py-2 bg-gray-100 text-black font-inter font-semibold text-sm rounded-md focus:outline-none focus:ring-0 transition duration-300 ease-in-out hover:bg-gray-200"
+            className="h-11 px-3 py-2 bg-gray-100 text-black font-inter font-semibold text-sm rounded-md focus:outline-none focus:ring-0 transition duration-300 ease-in-out hover:bg-gray-200 sm:h-10"
           >
             Cancel
           </button>

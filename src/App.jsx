@@ -83,6 +83,13 @@ import {
   NonUsersEvents,
 } from "./Interest";
 import {
+  AllActivities,
+  AllArticles,
+  AllChatBox,
+  AllEvents,
+  AllPodcasts,
+} from "./Interest/AllInterest/";
+import {
   Login as NewLogin,
   ForgotPassword,
   Register,
@@ -389,7 +396,9 @@ function App() {
               // <BottomFeedTab users={users}>
               <DashboardLayout users={users} allChats={allChats}>
                 <InterestLayout interests={interests}>
-                  <InterestFeed interests={interests} />
+                  <InterestFeed>
+                    <AllChatBox interests={interests} />
+                  </InterestFeed>
                 </InterestLayout>
               </DashboardLayout>
               //  </BottomFeedTab>
@@ -824,6 +833,58 @@ function App() {
             </DefaultLayout>
           }
         />
+        <Route
+          path="/interest/articles"
+          element={
+            <DashboardLayout users={users} allChats={allChats}>
+              <InterestLayout interests={interests}>
+                <InterestFeed>
+                  <AllArticles interests={interests} posts={posts} />
+                </InterestFeed>
+              </InterestLayout>
+            </DashboardLayout>
+          }
+        />
+        <Route
+          path="/interest/activities"
+          element={
+            <DashboardLayout users={users} allChats={allChats}>
+              <InterestLayout interests={interests}>
+                <InterestFeed>
+                  <AllActivities
+                    interests={interests}
+                    activities={activities}
+                  />
+                </InterestFeed>
+              </InterestLayout>
+            </DashboardLayout>
+          }
+        />
+        <Route
+          path="/interest/podcasts"
+          element={
+            <DashboardLayout users={users} allChats={allChats}>
+              <InterestLayout interests={interests}>
+                <InterestFeed>
+                  <AllPodcasts interests={interests} podcasts={podcasts} />
+                </InterestFeed>
+              </InterestLayout>
+            </DashboardLayout>
+          }
+        />
+        <Route
+          path="/interest/events"
+          element={
+            <DashboardLayout users={users} allChats={allChats}>
+              <InterestLayout interests={interests}>
+                <InterestFeed>
+                  <AllEvents interests={interests} events={events} />
+                </InterestFeed>
+              </InterestLayout>
+            </DashboardLayout>
+          }
+        />
+
         <Route path="/register" element={<Navigate to="/signup" />} />
         <Route path="/signup" element={<Register />} />
         <Route path="/login" element={<NewLogin />} />

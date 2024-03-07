@@ -278,12 +278,11 @@ export const DashboardHeader = ({ users, allChats }) => {
                       </div>
                     </div>
                   </li>
-
-                  <li className="">
+                  {/* <li className="">
                     <Link to="/dashboard/profile" className="justify-between">
                       Dashboard
                     </Link>
-                  </li>
+                  </li> */}
                   <li>
                     <Link to="/messages" className="justify-between">
                       Messages

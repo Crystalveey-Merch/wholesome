@@ -68,14 +68,14 @@ export const SideBar = ({ interests }) => {
             </div>
             <div className="flex flex-col gap-2">
               <Link
-                to="/i/interest"
+                to="/"
                 className={`flex gap-4 items-center px-4 py-2.5 rounded-md cursor-pointer transition duration-300 ease-in-out hover:bg-gray-100 ${
-                  location.pathname === "/i/interest" ? "bg-gray-100" : ""
+                  location.pathname === "/" ? "bg-gray-100" : ""
                 }`}
               >
                 <FontAwesomeIcon
                   icon={
-                    location.pathname === "/i/interest"
+                    location.pathname === ""
                       ? faNewspaper
                       : NewRegular
                   }
