@@ -14,8 +14,6 @@ import {
 import Account from "./Account";
 import Aboutus from "./Aboutus";
 import Whatwedo from "./Whatwedo";
-import Login from "./Accunts/Login";
-import Signip from "./Accunts/Signip";
 import EventList from "./Events/EventList";
 import EventDes from "./Events/EventDes";
 import HostEvent from "./Events/HoseEvent";
@@ -100,12 +98,18 @@ import {
 import { Bookmarks, Drafts, Notifications } from "./Dashboard";
 // import "@fortawesome/fontawesome-free"
 import { useDispatch, useSelector } from "react-redux";
-import { login, logout, selectUser } from "./Features/userSlice.js";
+import { login, logout } from "./Features/userSlice.js";
 // import { setUsers } from "./Features/usersSlice.js";
 import { openRightBar } from "./Features/openRightBarSlice.js";
+import {
+  // openCreateModal,
+  closeCreateModal,
+  selectOpenCreateModal,
+} from "./Features/openCreateModalSlice.js";
 import moreImg from "./Feed/assets/aurora.png";
-import { BottomFeedTab } from "./components/Feed/";
-import { MiniHeader } from "./components/Header/MiniHeader.jsx";
+import { CreateModal } from "./CreatePost/CreateModal.jsx";
+// import { BottomFeedTab } from "./components/Feed/";
+// import { MiniHeader } from "./components/Header/MiniHeader.jsx";
 
 function App() {
   const location = useLocation();
@@ -375,6 +379,11 @@ function App() {
   // }, []); // Run once on component mount
 
   const showSearchModal = useSelector(selectSearchModal);
+  const showCreateModal = useSelector(selectOpenCreateModal);
+
+  const setCreateModalClose = () => {
+    dispatch(closeCreateModal());
+  };
 
   return (
     <div className="">
@@ -463,7 +472,11 @@ function App() {
           path="/createpost"
           element={
             <ProtectedRoute>
-              <CreatePost />
+              <DashboardLayout users={users} allChats={allChats}>
+                <InterestLayout interests={interests}>
+                  <CreatePost />
+                </InterestLayout>
+              </DashboardLayout>
             </ProtectedRoute>
           }
         />
@@ -914,6 +927,8 @@ function App() {
       {showSearchModal && (
         <SearchModal users={users} posts={posts} activities={activities} />
       )}
+
+      <CreateModal isOpen={showCreateModal} setIsOpen={setCreateModalClose} />
       <ToastContainer />
     </div>
   );
