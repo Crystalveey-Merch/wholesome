@@ -5,6 +5,7 @@ import usersSlice from "./Features/usersSlice";
 import openRightBarSlice from "./Features/openRightBarSlice";
 import searchModalSlice from "./Features/searchModalSlice";
 import openSideBarSlice from "./Features/openSideBarSlice";
+import openCreateModalSlice from "./Features/openCreateModalSlice";
 
 export default configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export default configureStore({
     users: usersSlice,
     searchModal: searchModalSlice,
     openSideBar: openSideBarSlice,
+    openCreateModal: openCreateModalSlice,
   },
 
   devTools: false,

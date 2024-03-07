@@ -43,7 +43,7 @@ const initialState = {
   },
 };
 const categoryOption = [
-  "Fitnes",
+  "Fitness",
   "Photography",
   "Travel",
   "Exploration",
@@ -51,8 +51,8 @@ const categoryOption = [
   "Fashion",
   "Music",
   "Dance",
-  "Health & Wellness",
-  "Art & craft",
+  "Health and Wellness",
+  "Art and craft",
   "Volunteering",
   "Food",
   "Movies",
@@ -200,7 +200,7 @@ const CreatePost = () => {
   const handleAddPost = async (e) => {
     e.preventDefault();
 
-    if (category && tags && postTitle && postDescription && content) {
+    if (category && tags && postTitle && content) {
       if (!id) {
         try {
           await addDoc(collection(db, "posts"), {
@@ -257,7 +257,7 @@ const CreatePost = () => {
   const handleAddDraft = async (e) => {
     e.preventDefault();
 
-    if (category && tags && postTitle && postDescription && content) {
+    if (category && tags && postTitle && content) {
       if (!id) {
         try {
           await addDoc(collection(db, "drafts"), {
@@ -304,13 +304,13 @@ const CreatePost = () => {
         <meta name="description" content="Create Post on Wholesquare" />
         <link rel="canonical" href="/createpost" />
       </Helmet>
-      <div className="pt-24  flex m-auto  justify-center w-screen ">
+      <div className="pt-20  flex m-auto  justify-center w-full sm:pt-16">
         <div
           style={{}}
-          className="bg-white mx-40  xl:mx-10 xl:px-10 sm:mx-0 px-40 sm:px-5 dark:text-white  w-full  "
+          className="bg-white mx-20  xl:mx-10 xl:px-10 sm:mx-0 px-40 sm:px-5 dark:text-white  w-full  "
         >
-          <div className="   bg-white ">
-            <h3 className=" font-bold text-center my-10 text-4xl">
+          <div className="flex flex-col gap-10 bg-white ">
+            <h3 className="text-black font-bold text-center my-10 text-4xl lg:text-3xl sm:text-2xl">
               {id ? "Edit Post" : "Create Post on Wholesquare"}
             </h3>
             <form className="form-control" onSubmit={handleAddPost}>
@@ -339,10 +339,9 @@ const CreatePost = () => {
                 className="input input-bordered w-full  bg-transparent text-gray-800 mt-3 text-xl font-bold"
               />
               <label className="text-gray-600 mt-5 text-md Aceh">
-                Description
+                Sub Title
               </label>
               <input
-                required
                 type="text"
                 value={postDescription}
                 name="postDescription"

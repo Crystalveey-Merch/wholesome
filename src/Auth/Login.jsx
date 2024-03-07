@@ -14,7 +14,7 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../Features/userSlice";
 
 export const Login = () => {
-  // const user = useSelector(selectUser);
+  const user = useSelector(selectUser);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -45,9 +45,9 @@ export const Login = () => {
     }
   };
 
-  // if (user) {
-  //   navigate("/");
-  // }
+  if (user) {
+    navigate("/");
+  }
 
   return (
     <div className="w-screen px-20 flex justify-center items-center sm:px-4">

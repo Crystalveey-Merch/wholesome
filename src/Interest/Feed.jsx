@@ -10,7 +10,7 @@ export const Feed = ({ children }) => {
   //   const getInterestPosts = interests.filter((interest) => {
 
   return (
-    <div className="py-10 px-4">
+    <div className="py-10 px-4 w-full">
       <div className="w-full md:max-w-[650px]">
         <AllInterestNavBar />
         {children}

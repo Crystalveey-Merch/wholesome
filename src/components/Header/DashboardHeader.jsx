@@ -1,10 +1,13 @@
 /* eslint-disable react/prop-types */
-// import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, selectUser } from "../../Features/userSlice.js";
 import { getProfileDetails } from "../../Hooks/index.js";
 import { openSearchModal } from "../../Features/searchModalSlice.js";
+import {
+  openCreateModal,
+  // selectOpenCreateModal,
+} from "../../Features/openCreateModalSlice.js";
 import {
   selectOpenSideBar,
   toggleSideBar,
@@ -92,6 +95,12 @@ export const DashboardHeader = ({ users, allChats }) => {
   const removeMessageSentByUser = lastMessageSent.filter(
     (message) => message?.senderId !== user?.id
   );
+
+  // const showCreateModal = useSelector(selectOpenCreateModal);
+  const setCreateModalOpen = () => {
+    dispatch(openCreateModal());
+  };
+  // console.log("removeMessageSentByUser", showCreateModal);
 
   return (
     <header className="fixed z-40 font-inter top-0 left-0 w-full px-10  flex justify-between py-5 items-center bg-white border-b border-gray-200 lg:px-4 md:px-6 sm:px-3">
@@ -181,7 +190,10 @@ export const DashboardHeader = ({ users, allChats }) => {
       <div className="flex gap-3 items-center">
         {user && (
           <div className="flex gap-3 items-center">
-            <button className="flex gap-2 items-center p-2 rounded-md hover:bg-gray-100">
+            <button
+              onClick={setCreateModalOpen}
+              className="flex gap-2 items-center p-2 rounded-md hover:bg-gray-100"
+            >
               <FontAwesomeIcon
                 icon={faPlus}
                 className="text-[#3c4248] text-2xl"
