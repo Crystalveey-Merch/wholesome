@@ -10,11 +10,11 @@ import {
   updateDoc,
 } from "../firebase/auth";
 import { toast } from "react-toastify";
-// import { useSelector } from "react-redux";
-// import { selectUser } from "../Features/userSlice";
+import { useSelector } from "react-redux";
+import { selectUser } from "../Features/userSlice";
 
 export const Login = () => {
-  //   const user = useSelector(selectUser);
+  // const user = useSelector(selectUser);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -33,7 +33,7 @@ export const Login = () => {
       await updateDoc(userRef, {
         lastLogin: new Date(),
       });
-      navigate("/feed");
+      navigate("/");
       toast.success("Login Successful");
       setLoading(false);
     } catch (error) {
@@ -45,6 +45,10 @@ export const Login = () => {
     }
   };
 
+  // if (user) {
+  //   navigate("/");
+  // }
+
   return (
     <div className="w-screen px-20 flex justify-center items-center sm:px-4">
       <form
@@ -52,7 +56,10 @@ export const Login = () => {
         className="pt-24 py-10 min-h-screen flex flex-col gap-2 items-center w-full max-w-xl font-inter sm:pt-20"
       >
         <div className="w-full flex flex-col items-center">
-          <h3 className="font-semibold text-3xl text-center font-inter text-black mt-6 mb-3 sm:text-2xl">
+          <h3
+            onClick={() => navigate("/")}
+            className="font-semibold text-3xl text-center font-inter text-black mt-6 mb-3 sm:text-2xl"
+          >
             Login in to your account
           </h3>
           <p className="text-base font-normal text-gray-600 font-inter text-center">
@@ -136,6 +143,7 @@ export const Login = () => {
             Remember for 30 days
           </label>
           <button
+            type="button"
             onClick={() => navigate("/forgot-password")}
             className="text-sm font-semibold text-red-600 font-inter"
           >
@@ -145,7 +153,8 @@ export const Login = () => {
         <div className="text-sm  font-inter font-normal text-black mt-6 sm:mt-4">
           Don’t have an account? &nbsp;
           <button
-            onClick={() => navigate("/register")}
+            type="button"
+            onClick={() => navigate("/signup")}
             className="text-red-600 font-semibold font-inter"
           >
             Sign up

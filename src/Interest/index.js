@@ -10,3 +10,9 @@ export * from "./RightBar";
 export * from "./Main";
 export * from "./Discover";
 export * from "./Settings";
+export * from "./InterestForNonUsers"
+export * from "./NonUsersChatBox"
+export * from "./NonUsersEvents"
+export * from "./NonUsersActivities"
+export * from "./NonUsersArticles"
+export * from "./NonUsersPodcasts"

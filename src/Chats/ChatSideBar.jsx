@@ -166,7 +166,7 @@ export const ChatSideBar = ({ loggedInUser, users, allChats }) => {
                                 (id) => id !== loggedInUser.id
                               )[0],
                               users
-                            ).photoURL
+                            )?.photoURL
                           }
                           // src={
                           //   user.userData.photoURL

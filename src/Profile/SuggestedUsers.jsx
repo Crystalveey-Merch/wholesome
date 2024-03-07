@@ -8,7 +8,7 @@ export const SuggestedUsers = ({ users, loggedInUser }) => {
   const suggestedUsers = users.filter((user) => {
     // Check if the user is not the loggedInUser and is not in the loggedInUser's following list
     return (
-      user.id !== loggedInUser.id && !loggedInUser.following.includes(user.id)
+      user.id !== loggedInUser?.id && !loggedInUser?.following.includes(user.id)
     );
   });
 
@@ -42,7 +42,7 @@ export const SuggestedUsers = ({ users, loggedInUser }) => {
             <div className="text-gray-900 text-sm font-inter font-normal w-full two-line-text">
               <HighlightedText content={user.shortBio} users={users} />
             </div>
-            {loggedInUser.following.includes(user.id) ? (
+            {loggedInUser?.following.includes(user.id) ? (
               <button
                 type="button"
                 onClick={() => {

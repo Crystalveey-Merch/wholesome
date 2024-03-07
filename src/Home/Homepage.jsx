@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-import Section1 from "./Section1";
 // import Sectiom2 from "./Sectiom2";
 import Section3 from "./Section3";
 import Section4 from "./Section4";
@@ -7,17 +6,21 @@ import Section1plus from "./Section1plus";
 import Section2first from "./Section2first";
 import Section2new from "./Section2new";
 import { Helmet } from "react-helmet-async";
+import { useSelector } from "react-redux";
+import { selectUser } from "../Features/userSlice";
+import { NewHome } from ".";
 
 const Homepage = ({
   users,
   posts,
-  postId,
+  setPosts,
   postLoading,
   events,
-  eventLoading,
   activities,
+  interests,
 }) => {
-  // console.log(posts);
+  const user = useSelector(selectUser);
+
   return (
     <>
       <Helmet>
@@ -73,17 +76,35 @@ const Homepage = ({
           })}
         />
       </Helmet>
-      <div className="h-full  w-screen pt-20 sm:pt-14  bg-stone-100">
-        <Section1 />
-        <Section1plus />
+      {user ? (
+        <></>
+      ) : (
+        <NewHome
+          users={users}
+          posts={posts}
+          setPosts={setPosts}
+          loading={postLoading}
+          events={events}
+          activities={activities}
+          interests={interests}
+        />
+        // <div className="h-full  w-screen pt-20 sm:pt-14  bg-stone-100">
+        //   <Section1 />
+        //   <Section1plus />
 
-        <Section2new users={users} posts={posts} postId={postId} loading={postLoading} />
-        <Section4 events={events} loading={eventLoading} />
+        //   <Section2new
+        //     users={users}
+        //     posts={posts}
+        //     postId={postId}
+        //     loading={postLoading}
+        //   />
+        //   <Section4 events={events} loading={eventLoading} />
 
-        <Section2first activities={activities} />
+        //   <Section2first activities={activities} />
 
-        <Section3 />
-      </div>
+        //   <Section3 />
+        // </div>
+      )}
     </>
   );
 };

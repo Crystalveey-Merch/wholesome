@@ -165,7 +165,7 @@ export const SearchModal = ({ users, posts, activities }) => {
         </div>
         {!isSuggestionsOpen || searchQuery === "" ? (
           <div className="w-full flex flex-col justify-center items-center gap-8">
-            {loggedInUser.recentSearches?.length > 0 ? (
+            {loggedInUser?.recentSearches?.length > 0 ? (
               <div className="flex flex-col gap-5 w-full">
                 <div className="w-full flex justify-between">
                   <h4 className="text-xl font-inter text-center font-semibold text-black">
