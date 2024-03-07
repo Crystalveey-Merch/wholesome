@@ -52,7 +52,7 @@ const categoryOption = [
   "Music",
   "Dance",
   "Health and Wellness",
-  "Art and craft",
+  "Art and crafts",
   "Volunteering",
   "Food",
   "Movies",
@@ -62,6 +62,7 @@ const categoryOption = [
   "Books",
   "Games",
   "Sports",
+  "Nightlife",
   // "Comedy & entertainment",
   "SDGs",
 ];
