@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSearch,
@@ -15,11 +15,13 @@ import {
   faImage,
 } from "@fortawesome/free-regular-svg-icons";
 import { selectUser } from "../Features/userSlice";
+import { toggleSideBar } from "../Features/openSideBarSlice";
 import { wholesquareEmployees } from "../Employees";
 import { convertToLowercase } from "../Hooks";
 
 export const SideBar = ({ interests }) => {
   const loggedInUser = useSelector(selectUser);
+  const dispatch = useDispatch();
   const location = useLocation();
   const [userInterest, setUserInterest] = useState([]);
 
@@ -34,9 +36,26 @@ export const SideBar = ({ interests }) => {
     }
   }, [interests, loggedInUser]);
 
+  const handleMenu = () => {
+    const barLinks = document.querySelector(".bar-links");
+    barLinks?.classList.toggle("open");
+
+    const barItems = document.querySelectorAll(".bar-item");
+    barItems.forEach((item) => {
+      item.addEventListener("click", () => {
+        barLinks?.classList.remove("open");
+        dispatch(toggleSideBar());
+      });
+    });
+    dispatch(toggleSideBar());
+  };
+
   return (
-    <div className="w-80 sm:hidden">
-      <div className="h-screen border-r border-gray-300">
+    <div className="bar-links block xl:hdden" onClick={handleMenu}>
+      <div
+        className="w-80 h-screen border-r border-gray-300 xl:abslute xl:bg-white"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="h-full overflow-y-scroll scroll-bar-beauty flex flex-col gap-6 py-10 px-4">
           <div className="px-1 flex flex-col gap-4 pb-4 border-b border-gray-200">
             <div className="relative min-h-12 w-full border bg-white border-gray-200 mx-auto rounded-3xl flex gap-3.5 items-center px-4 py-1.5">
@@ -120,7 +139,7 @@ export const SideBar = ({ interests }) => {
                 </p>
               </Link>
               <>
-                {userInterest?.slice(0, 10).map((interest, index) => (
+                {userInterest?.slice(0, 6).map((interest, index) => (
                   <Link
                     to={`/i/${convertToLowercase(interest.name)}`}
                     key={index}

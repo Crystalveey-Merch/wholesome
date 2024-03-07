@@ -336,6 +336,25 @@ button:focus-visible {
   overflow: hidden;
 }
 
+@media screen and (max-width: 1279px) {
+  .bar-links {
+    position: fixed;
+    top: 5;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    border: none;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+
+  .bar-links.open {
+    transform: translateX(0);
+    top: 5;
+  }
+}
+
 @media screen and (max-width: 1023px) {
   .rightbar-link {
     position: fixed;
@@ -362,7 +381,35 @@ button:focus-visible {
     transform: translateY(0);
   }
 }
+@media screen and (max-width: 767px) {
+  .header-links {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    border: none;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding-left: 40%;
+    margin-top: 68.5px;
+  }
 
+  .header-links.open {
+    transform: translateX(0);
+  }
+}
+
+body.is-side-menu-open {
+  overflow: hidden;
+}
+
+@media screen and (max-width: 639px) {
+  .header-links {
+    padding-left: 30%;
+  }
+}
 /* @media screen and (max-width: 639px) {
   .rightbar-link {
   }

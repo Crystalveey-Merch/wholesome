@@ -67,7 +67,7 @@ export const Suggested2 = ({ users, loggedInUser }) => {
           disableOnInteraction: false,
         }}
         modules={[Pagination, Autoplay, Navigation]}
-        className="mySwiper pb8 w-[calc(100vw-2.5rem)] sm:w-[calc(100vw-10px)]"
+        className="mySwiper pb8 w-[calc(100vw-2.5rem)] sm:w-[calc(100vw-24px)]"
       >
         {suggestedUsers.slice(1, 8).map((user) => (
           <SwiperSlide key={user.id} className="w-max sm:h-max">

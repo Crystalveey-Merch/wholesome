@@ -547,33 +547,33 @@ function App() {
         <Route
           path="/search"
           element={
-            // <BottomFeedTab users={users}>
-            <FeedLayout>
-              <SearchUser
-                users={users}
-                posts={posts}
-                setPosts={setPosts}
-                activities={activities}
-                events={events}
-              />
-            </FeedLayout>
-            //  </BottomFeedTab>
+            <DashboardLayout users={users} allChats={allChats}>
+              <FeedLayout>
+                <SearchUser
+                  users={users}
+                  posts={posts}
+                  setPosts={setPosts}
+                  activities={activities}
+                  events={events}
+                />
+              </FeedLayout>
+            </DashboardLayout>
           }
         />
         <Route
           path="/topic/:topicSTR"
           element={
-            // <BottomFeedTab users={users}>
-            <FeedLayout>
-              <Topics
-                users={users}
-                setPosts={setPosts}
-                posts={posts}
-                activities={activities}
-                events={events}
-              />
-            </FeedLayout>
-            //  </BottomFeedTab>
+            <DashboardLayout users={users} allChats={allChats}>
+              <FeedLayout>
+                <Topics
+                  users={users}
+                  setPosts={setPosts}
+                  posts={posts}
+                  activities={activities}
+                  events={events}
+                />
+              </FeedLayout>
+            </DashboardLayout>
           }
         />
         <Route
@@ -794,7 +794,12 @@ function App() {
           element={
             <DefaultLayout>
               <InterestForNonUsers interests={interests}>
-                <NonUsersArticles interests={interests} />
+                <NonUsersArticles
+                  interests={interests}
+                  posts={posts}
+                  setPosts={setPosts}
+                  users={users}
+                />
               </InterestForNonUsers>
             </DefaultLayout>
           }
