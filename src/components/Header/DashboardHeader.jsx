@@ -100,7 +100,7 @@ export const DashboardHeader = ({ users, allChats }) => {
   const setCreateModalOpen = () => {
     dispatch(openCreateModal());
   };
-  // console.log("removeMessageSentByUser", showCreateModal);
+  console.log("removeMessageSentByUser", sideBarState);
 
   return (
     <header className="fixed z-40 font-inter top-0 left-0 w-full px-10  flex justify-between py-5 items-center bg-white border-b border-gray-200 lg:px-4 md:px-6 sm:px-3">

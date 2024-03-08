@@ -15,7 +15,11 @@ import {
   faImage,
 } from "@fortawesome/free-regular-svg-icons";
 import { selectUser } from "../Features/userSlice";
-import { toggleSideBar } from "../Features/openSideBarSlice";
+import {
+  toggleSideBar,
+  // openSideBar,
+  // closeSideBar,
+} from "../Features/openSideBarSlice";
 import { wholesquareEmployees } from "../Employees";
 import { convertToLowercase } from "../Hooks";
 
@@ -74,11 +78,7 @@ export const SideBar = ({ interests }) => {
                 }`}
               >
                 <FontAwesomeIcon
-                  icon={
-                    location.pathname === ""
-                      ? faNewspaper
-                      : NewRegular
-                  }
+                  icon={location.pathname === "" ? faNewspaper : NewRegular}
                   className="text-gray-900 h-5 w-5"
                 />
                 <p className="text-gray-900 font-inter text-sm font-medium">

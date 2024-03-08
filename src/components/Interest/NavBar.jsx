@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 
 export const NavBar = ({ name }) => {
   return (
-    <div className="w-full h-10 flex gap-8">
+    <div className="w-full h-10 flex gap-8 sm:overflow-y-scroll">
       {/* chatBox */}
       <Link
-        className={`text-base font-semibold pb-3 border-b-2 cursor-pointer transition duration-500 ease-in-out ${
+        className={`text-base font-semibold pb-3 border-b-2 cursor-pointer transition duration-500 ease-in-out whitespace-nowrap ${
           location.pathname === `/i/${name}`
             ? "text-black border-[#FF5841]"
             : "text-gray-500 border-b-transparent hover:text-black hover:border-[#FF5841]"
@@ -14,6 +14,17 @@ export const NavBar = ({ name }) => {
         to={`/i/${name}`}
       >
         Chat Box
+      </Link>
+      {/* articles */}
+      <Link
+        className={`text-base font-semibold pb-3 border-b-2 cursor-pointer transition duration-500 ease-in-out ${
+          location.pathname === `/i/${name}/articles`
+            ? "text-black border-[#FF5841]"
+            : "text-gray-500 border-b-transparent hover:text-black hover:border-[#FF5841]"
+        } `}
+        to={`/i/${name}/articles`}
+      >
+        Articles
       </Link>
       {/* activities */}
       <Link
@@ -36,6 +47,17 @@ export const NavBar = ({ name }) => {
         to={`/i/${name}/events`}
       >
         Events
+      </Link>
+      {/* podcasts */}
+      <Link
+        className={`text-base font-semibold pb-3 border-b-2 cursor-pointer transition duration-500 ease-in-out ${
+          location.pathname === `/i/${name}/podcasts`
+            ? "text-black border-[#FF5841]"
+            : "text-gray-500 border-b-transparent hover:text-black hover:border-[#FF5841]"
+        } `}
+        to={`/i/${name}/podcasts`}
+      >
+        Podcasts
       </Link>
     </div>
   );

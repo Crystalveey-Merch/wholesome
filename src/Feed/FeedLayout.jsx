@@ -135,7 +135,7 @@ export const FeedLayout = ({ children }) => {
   return (
     <div className="flex justify-center min-h-[calc(100vh-0px)] w-screen gap-12 font-inter text-black overflowhidden px-4 xl:gap-6 sm:px-0">
       <div
-        className={`w-full pt-[126px] pb-9 max-w-3xl flex flex-col gap-4 overflowauto xl:max-w-[650px] lg:max-w-3xl md:max-w-[650px] lg:px-5 md:px-2 sm:px-0 ${location.pathname.includes(
+        className={`w-full pt-[56px] pb-9 max-w-3xl flex flex-col gap-4 overflowauto xl:max-w-[650px] lg:max-w-3xl md:max-w-[650px] lg:px-5 md:px-2 sm:px-0 ${location.pathname.includes(
           ""
         )}`}
       >
@@ -182,7 +182,10 @@ export const FeedLayout = ({ children }) => {
           className="px min- h-max pt-[126px] pb-9 lg:overflow-y-auto lg:bg-white lg:w-max lg:place-self-end lg:h-full lg:px-4 lg:flex lg:flex-col lg:gap-8 lg:pt-[106px] lg:items-end md:pt-[90px] sm:mb-10"
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="hidden lg:block sm:pt-10" onClick={closeRightBarSlide}>
+          <div
+            className="hidden lg:block sm:pt-10"
+            onClick={closeRightBarSlide}
+          >
             <FontAwesomeIcon
               icon={faXmark}
               className="text-2xl text-gray-800 cursor-pointer md:text-xl"
