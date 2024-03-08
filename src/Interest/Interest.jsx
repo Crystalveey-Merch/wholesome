@@ -96,7 +96,7 @@ export const Interest = ({ children, interests }) => {
     <div className="w-full flex flex-col gap-6">
       <div className="flex flex-col gap-6">
         {/* check if wallPaper string is not empty */}
-        <div className="w-full h-80 relative">
+        <div className="w-full h-80 relative md:h-60">
           {interest.wallPaper !== "" ? (
             <img
               src={interest.wallPaper}
@@ -117,9 +117,9 @@ export const Interest = ({ children, interests }) => {
             </button>
           )}
         </div>
-        <div className="px-10 flex justify-between items-center">
+        <div className="px-10 flex justify-between items-center md:flex-col md:items-start md:gap-5 md:px-4">
           {" "}
-          <h2 className="text-3xl font-bold text-black font-inter">
+          <h2 className="text-3xl font-bold text-black font-inter lg:text-2xl">
             {interest.name}
           </h2>
           {loggedInUser ? (
@@ -133,22 +133,24 @@ export const Interest = ({ children, interests }) => {
                       icon={faPlus}
                       className="text-black h-4 w-4"
                     />
-                    <p className="font-inter text-base font-medium">Invite</p>
+                    <p className="font-inter text-base font-medium sm:text-sm">
+                      Invite
+                    </p>
                   </button>
-                  <button className="self-end bg-[#FF5841] font-inter text-white px-4 py-2 rounded-lg text-base font-medium md:py-2 transition duration-300 ease-in-out hover:bg-[#ec432d]">
+                  <button className="self-end bg-[#FF5841] font-inter text-white px-4 py-2 rounded-lg text-base font-medium md:py-2 transition duration-300 ease-in-out hover:bg-[#ec432d] sm:text-sm">
                     Joined
                   </button>
                   <Sharing url={url} />
                 </div>
               ) : (
-                <button className="self-end bg-[#FF5841] text-white  px-4 py-2 rounded-lg text-base font-medium  md:py-2 transition duration-300 ease-in-out hover:bg-[#ec432d]">
+                <button className="self-end bg-[#FF5841] text-white  px-4 py-2 rounded-lg text-base font-medium  md:py-2 transition duration-300 ease-in-out hover:bg-[#ec432d] sm:text-sm">
                   Join
                 </button>
               )}
             </div>
           ) : (
             <button
-              className="self-end bg-[#FF5841] text-white  px-4 py-2 rounded-lg text-base font-inter font-medium md:py-2 transition duration-300 ease-in-out hover:bg-[#ec432d]"
+              className="self-end bg-[#FF5841] text-white  px-4 py-2 rounded-lg text-base font-inter font-medium md:py-2 transition duration-300 ease-in-out hover:bg-[#ec432d] sm:text-sm"
               onClick={() => (window.location.href = "/login")}
             >
               Login
@@ -156,18 +158,20 @@ export const Interest = ({ children, interests }) => {
           )}
         </div>
       </div>
-      <hr className="mx-10 border-t border-gray-200" />
-      <div className="flex gap-10 w-full font-inter px-16 pb-3">
+      <hr className="mx-10 border-t border-gray-200 md:mx-4" />
+      <div className="flex gap-10 w-full font-inter px-10 pb-3 md:px-4">
         <div className="w-full flex flex-col gap-6">
           {/* only show if location is /i/name or /i/name/events or /i/name/activities */}
           {location.pathname === `/i/${name}` ||
           location.pathname === `/i/${name}/events` ||
-          location.pathname === `/i/${name}/activities` ? (
+          location.pathname === `/i/${name}/activities` ||
+          location.pathname === `/i/${name}/articles` ||
+          location.pathname === `/i/${name}/podcasts` ? (
             <NavBar name={name} />
           ) : null}
           {children}
         </div>
-        <div className="z-10 sticky top-0 h-max">
+        <div className="z-10 sticky top-0 h-max lg:hidden">
           <RightBar interest={interest} />
         </div>
       </div>

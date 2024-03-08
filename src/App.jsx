@@ -72,6 +72,8 @@ import {
   ChatBox,
   Activities,
   Events,
+  Articles as InterestArticles,
+  Podcasts as InterestPodcasts,
   Settings as InterestSettings,
   InterestForNonUsers,
   NonUsersChatBox,
@@ -773,6 +775,30 @@ function App() {
               <InterestLayout interests={interests}>
                 <Interest interests={interests}>
                   <Events interests={interests} />
+                </Interest>
+              </InterestLayout>
+            </DashboardLayout>
+          }
+        />
+        <Route
+          path="/i/:name/articles"
+          element={
+            <DashboardLayout users={users} allChats={allChats}>
+              <InterestLayout interests={interests}>
+                <Interest interests={interests}>
+                  <InterestArticles interests={interests} posts={posts} />
+                </Interest>
+              </InterestLayout>
+            </DashboardLayout>
+          }
+        />
+        <Route
+          path="/i/:name/podcasts"
+          element={
+            <DashboardLayout users={users} allChats={allChats}>
+              <InterestLayout interests={interests}>
+                <Interest interests={interests}>
+                  <InterestPodcasts interests={interests} podcasts={podcasts} />
                 </Interest>
               </InterestLayout>
             </DashboardLayout>

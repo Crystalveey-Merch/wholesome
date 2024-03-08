@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { TagsInput } from "react-tag-input-component";
 // import { Component } from "react";
-import MDEditor, { selectWord } from "@uiw/react-md-editor";
+import MDEditor from "@uiw/react-md-editor";
+// import MDEditor, { selectWord } from "@uiw/react-md-editor";
 import MarkdownIt from "markdown-it";
 import { db, storage } from "../firebase/auth";
 // import { auth } from "../firebase/auth.js";
