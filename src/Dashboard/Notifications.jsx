@@ -7,12 +7,17 @@ import { selectUser } from "../Features/userSlice";
 import { useSelector } from "react-redux";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export const Notifications = ({ users, posts }) => {
   const user = useSelector(selectUser);
+  const [notifications, setNotifications] = useState([]);
 
-  const notifications = getProfileDetails(user.id, users)?.notifications;
+ useEffect(() => {
+    if (!user) return;
+    const notifications = user.notifications;
+    setNotifications(notifications);
+  }, [user]);
 
   const handleClick = (id) => {
     const docRef = doc(db, "users", user.id);
@@ -25,20 +30,19 @@ export const Notifications = ({ users, posts }) => {
       }),
     });
   };
+  // console.log(user);
 
   useEffect(() => {
+    if (!user) return;
     // set the notifications to hasSeen = true
-    const docRef = doc(db, "users", user.id);
-    {
-      if (notifications?.length === 0) return;
-    }
+    const docRef = doc(db, "users", user?.id);
+    if (!notifications) return;
     updateDoc(docRef, {
-      notifications: notifications?.map((notification) => {
+      notifications: notifications.map((notification) => {
         return { ...notification, hasSeen: true };
       }),
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [notifications]);
+  }, [user, notifications]);
 
   return (
     <div className="flex flex-col gap-6 sm:px-4">
@@ -192,8 +196,8 @@ export const Notifications = ({ users, posts }) => {
                           {" "}
                           <img
                             src={
-                              getProfileDetails(notification.fromUserId, users)
-                                .photoURL
+                              getProfileDetails(notification?.fromUserId, users)
+                                ?.photoURL
                             }
                             alt=""
                             className="w-10 h-10 rounded-full"
