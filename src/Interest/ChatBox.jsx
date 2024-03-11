@@ -7,9 +7,18 @@ import {
   convertToLowercase,
   formatByInitialTime,
   getProfileDetails,
+  handleLikeChatBox,
+  handleUnlikeChatBox,
 } from "../Hooks";
 import { selectUser } from "../Features/userSlice";
 import { CreateChatBoxModal } from "../components/Interest";
+import { faComment, faHeart } from "@fortawesome/free-regular-svg-icons";
+import {
+  faHeart as faHeartSolid,
+  faShareNodes,
+  faEllipsisH,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const ChatBox = ({ interests, users }) => {
   const { name } = useParams();
@@ -60,29 +69,104 @@ export const ChatBox = ({ interests, users }) => {
                   src={user?.photoURL}
                   className="w-[40px] h-[40px] min-h-10 min-w-10 max-h-[40px] max-w-[40px] rounded-sm object-cover border-2 border-red-50 shadow-md"
                 />
-                <div className="flex gap-1.5 flex-col">
-                  <div className="flex flex-col gap-0">
-                    <div className="flex gap-1 items-center">
-                      <h2 className="text-black font-inter font-semibold text-sm">
-                        {user?.name}{" "}
-                        {/* <span className="text-xs font-medium">
+                <div className="w-full flex gap-1.5 flex-col">
+                  <div className="w-full flex justify-between items-start">
+                    <div className="flex flex-col gap-0">
+                      <div className="flex gap-1 items-center">
+                        <h2 className="text-black font-inter font-semibold text-sm">
+                          {user?.name}{" "}
+                          {/* <span className="text-xs font-medium">
                         @{user?.username}
                       </span> */}
-                      </h2>
+                        </h2>
 
-                      <p className="text-gray-400">•</p>
+                        <p className="text-gray-400">•</p>
+                        <p className="text-gray-500 font-inter font-medium text-xs">
+                          {formatByInitialTime(chat?.createdAt.seconds * 1000)}
+                        </p>
+                      </div>
                       <p className="text-gray-500 font-inter font-medium text-xs">
-                        {formatByInitialTime(chat?.createdAt.seconds * 1000)}
+                        @{user?.username}
                       </p>
                     </div>
-                    <p className="text-gray-500 font-inter font-medium text-xs">
-                      @{user?.username}
-                    </p>
+                    <button className="p-2 rounded-full flex items-center justify-center transition duration-300 ease-in-out hover:bg-gray-50">
+                      <FontAwesomeIcon
+                        icon={faEllipsisH}
+                        className="text-gray-900 h-[1.13rem] w-[1.13rem] group-hover:text-black transition duration-300 ease-in-out"
+                      />
+                    </button>
                   </div>
                   <div className="text-black font-inter font-medium text-[0.95rem]">
                     <HighlightedText content={chat.text} users={users} />
                   </div>
-                  <div></div>
+                  <div className="w-full flex justify-between">
+                    <div className="flex gap-5">
+                      {chat?.likes?.includes(loggedInUser?.id) ? (
+                        <div className="flex gap-0 items-center">
+                          <button
+                            className="group p-2 rounded-full flex items-center justify-center transition duration-300 ease-in-out hover:bg-red-50"
+                            onClick={() =>
+                              handleUnlikeChatBox(
+                                loggedInUser.id,
+                                interest,
+                                chat,
+                                interest.chatBox
+                              )
+                            }
+                          >
+                            <FontAwesomeIcon
+                              icon={faHeartSolid}
+                              className="text-red-500 h-[1.13rem] w-[1.13rem] group-hover:text-red-600 transition duration-300 ease-in-out"
+                            />
+                          </button>
+                          <p className="text-gray-500 font-inter font-medium text-xs">
+                            {chat.likes.length > 0 ? chat.likes.length : ""}
+                          </p>
+                        </div>
+                      ) : (
+                        <div className="flex gap-0 items-center">
+                          <button
+                            onClick={() =>
+                              handleLikeChatBox(loggedInUser.id, interest, chat, interest.chatBox)
+                            }
+                            className="group p-2 rounded-full flex items-center justify-center transition duration-300 ease-in-out hover:bg-red-50"
+                          >
+                            <FontAwesomeIcon
+                              icon={faHeart}
+                              className="text-red-500 h-[1.13rem] w-[1.13rem] group-hover:text-red-600 transition duration-300 ease-in-out"
+                            />
+                          </button>
+                          <p className="text-gray-500 font-inter font-medium text-xs">
+                            {chat.likes.length > 0 ? chat.likes.length : ""}
+                          </p>
+                        </div>
+                      )}
+                      <button className="group p-2 rounded-full flex items-center justify-center transition duration-300 ease-in-out hover:bg-gray-50">
+                        <FontAwesomeIcon
+                          icon={faComment}
+                          className="text-gray-400 h-[1.13rem] w-[1.13rem] group-hover:text-gray-600 transition duration-300 ease-in-out"
+                        />
+                      </button>
+                    </div>
+
+                    <button className="group p-2 rounded-full flex items-center justify-center transition duration-300 ease-in-out hover:bg-gray-50">
+                      <FontAwesomeIcon
+                        icon={faShareNodes}
+                        className="text-gray-600 h-[1.13rem] w-[1.13rem] group-hover:text-gray-700 transition duration-300 ease-in-out"
+                      />
+                    </button>
+
+                    {/* <div className="flex gap-3 items-center">
+                      <FontAwesomeIcon
+                        icon={faHeartSolid}
+                        className="text-gray-400 text-sm"
+                      />
+                      <FontAwesomeIcon
+                        icon={faComment}
+                        className="text-gray-400 text-sm"
+                      />
+                    </div> */}
+                  </div>
                 </div>
               </div>
             );
