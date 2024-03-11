@@ -174,9 +174,11 @@ function App() {
   useEffect(() => {
     if (user) {
       setIsUserLoggedIn(true);
+      dispatch(login(user));
     } else {
       setIsUserLoggedIn(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   // useEffect(() => {
@@ -734,7 +736,7 @@ function App() {
               <InterestLayout interests={interests}>
                 <Interest interests={interests}>
                   {" "}
-                  <ChatBox interests={interests} />
+                  <ChatBox interests={interests} users={users} />
                 </Interest>
               </InterestLayout>
             </DashboardLayout>

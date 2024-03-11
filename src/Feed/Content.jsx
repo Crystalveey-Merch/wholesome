@@ -18,12 +18,12 @@ import { selectUser } from "../Features/userSlice";
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase/auth.js";
 import readSVG from "../Feed/assets/read.svg";
-import {
-  FacebookShareButton,
-  LinkedinShareButton,
-  TwitterShareButton,
-  WhatsappShareButton,
-} from "react-share";
+// import {
+//   FacebookShareButton,
+//   LinkedinShareButton,
+//   TwitterShareButton,
+//   WhatsappShareButton,
+// } from "react-share";
 import { toast } from "react-toastify";
 // import { Comment } from "../../Utils/types";
 import { Helmet } from "react-helmet-async";
@@ -35,7 +35,7 @@ import clappedImg from "./assets/clapping-clapped.png";
 import { faBookmark } from "@fortawesome/free-regular-svg-icons"; //for yet to be bookmarked
 import {
   faBookmark as faBookmarkSolid,
-  faShareNodes,
+  // faShareNodes,
 } from "@fortawesome/free-solid-svg-icons"; //for already bookmarked
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Comment, Sharing } from "../components/Feed";
@@ -284,7 +284,7 @@ export const Content = ({ posts, setPosts, users }) => {
     setShowUserSuggestions(false);
   };
 
-  const url = `https://wholesquare.org/readmore/${postId}`
+  const url = `https://wholesquare.org/readmore/${postId}`;
 
   return (
     <div className="pt-[126px] py-20 px-12 flex items-center font-inter justify-center xl:px-6 md:px-2 md:py-28">
@@ -331,7 +331,7 @@ export const Content = ({ posts, setPosts, users }) => {
             className="w-full h-auto max-h-[600px] object-top object-cover rounded-md md:h80"
           />
           <div className="flex flex-col gap-3 ">
-            <div className="prose prose-lg text-black prose-a:text-blue-700 prose-a:font-bold prose-a:no-underline prose-blockquote:bg-gray-50 prose-blockquote:py-0.5 prose-th:bg-slate-100 prose-th:p-2 prose-td:p-2 prose-td:border prose-th:border border-r-gray-200 prose-em:prose-strong:text-gray-700 prose-img:w-10/12 prose-img:mx-auto xl:prose-lg md:prose-base prose-headings:text-gray-800">
+            <div className="prose prose-lg text-black prose-a:text-blue-700 prose-a:font-bold prose-a:no-underline prose-blockquote:bg-gray-50 prose-blockquote:py-0.5 prose-th:bg-slate-100 prose-th:p-2 prose-td:p-2 prose-td:border prose-th:border border-r-gray-200 prose-em:prose-strong:text-gray-700 prose-img:w-10/12 prose-img:mx-auto xl:prose-lg md:prose-base prose-headings:text-gray-800 prose-strong:text-black prose-code:bg-[hsl(213,18%,20%)] prose-code:px-1.5 prose-code:py-1 prose-code:text-slate-300 prose-code:text-sm">
               <ReactMarkdown children={content} remarkPlugins={[remarkGfm]} />
             </div>
             {/* <MDEditor.Markdown
@@ -407,7 +407,7 @@ export const Content = ({ posts, setPosts, users }) => {
               )}
             </div>
             <button>
-              <Sharing url={url}/>
+              <Sharing url={url} />
             </button>
           </div>
         </div>
