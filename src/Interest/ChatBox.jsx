@@ -130,7 +130,7 @@ export const ChatBox = ({ interests, users }) => {
                               key={index}
                               src={image}
                               alt=""
-                              className="w-1/2 h object-cover rounded-md"
+                              className="w-1/2 min-h-[180px] object-cover rounded-md"
                             />
                           ))}
                           {chat.videos.map((video, index) => (
@@ -138,7 +138,7 @@ export const ChatBox = ({ interests, users }) => {
                               key={index}
                               src={video}
                               controls
-                              className="w-1/2 h object-cover rounded-md"
+                              className="w-1/2 min-h-[180px] object-cover rounded-md"
                             />
                           ))}
                         </div>
