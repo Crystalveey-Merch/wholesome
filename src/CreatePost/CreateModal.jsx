@@ -44,7 +44,7 @@ export const CreateModal = ({ isOpen, setIsOpen }) => {
               <img
                 src={loggedInUser?.photoURL}
                 alt="profile"
-                className="h-10 w-10 rounded-full"
+                className="w-[40px] h-[40px] min-h-10 min-w-10 max-h-[40px] max-w-[40px] rounded-sm object-cover border-2 border-red-50 shadow-md"
               />
               <div className="flex flex-col gap-0">
                 <h1 className="text-lg font-inter font-semibold text-black">
@@ -55,6 +55,7 @@ export const CreateModal = ({ isOpen, setIsOpen }) => {
                 </p>
               </div>
             </div>
+
             <div className="flex flex-col gap-2">
               <h3 className="text-lg font-inter font-semibold text-black">
                 Create

@@ -10,11 +10,12 @@ import {
   updateDoc,
 } from "../firebase/auth";
 import { toast } from "react-toastify";
-import { useSelector } from "react-redux";
-import { selectUser } from "../Features/userSlice";
+// import { useSelector } from "react-redux";
+// import { selectUser } from "../Features/userSlice";
 
 export const Login = () => {
-  const user = useSelector(selectUser);
+  // const user = useSelector(selectUser);
+  // const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -23,6 +24,15 @@ export const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+
+  const user = JSON.parse(localStorage.getItem("user"));
+  // useEffect(() => {
+  //   if (user) {
+  //     setIsUserLoggedIn(true);
+  //   } else {
+  //     setIsUserLoggedIn(false);
+  //   }
+  // }, [user]);
 
   const handleLogin = async (e) => {
     e.preventDefault();

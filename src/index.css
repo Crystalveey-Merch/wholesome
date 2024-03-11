@@ -17,6 +17,7 @@
   -webkit-text-size-adjust: 100%;
   --swiper-navigation-size: 20px;
   --swiper-theme-color: white;
+  color: black;
 }
 
 .font-roboto {
@@ -187,7 +188,7 @@ button:focus-visible {
 
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
+    color: #000000;
     background-color: #ffffff;
   }
   a:hover {

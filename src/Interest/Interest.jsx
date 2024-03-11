@@ -159,8 +159,8 @@ export const Interest = ({ children, interests }) => {
         </div>
       </div>
       <hr className="mx-10 border-t border-gray-200 md:mx-4" />
-      <div className="flex gap-10 w-full font-inter px-10 pb-3 md:px-4">
-        <div className="w-full flex flex-col gap-6">
+      <div className="flex gap-10 w-full justify-between font-inter px-10 pb-3 md:px-4">
+        <div className="w-full flex flex-col gap-10">
           {/* only show if location is /i/name or /i/name/events or /i/name/activities */}
           {location.pathname === `/i/${name}` ||
           location.pathname === `/i/${name}/events` ||
@@ -169,9 +169,9 @@ export const Interest = ({ children, interests }) => {
           location.pathname === `/i/${name}/podcasts` ? (
             <NavBar name={name} />
           ) : null}
-          {children}
+          <div className="w-full max-w-3xl xl:mx-auto">{children}</div>
         </div>
-        <div className="z-10 sticky top-0 h-max lg:hidden">
+        <div className="z-10 sticky block top-0 h-max lg:hidden">
           <RightBar interest={interest} />
         </div>
       </div>
