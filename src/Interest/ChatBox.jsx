@@ -47,7 +47,7 @@ export const ChatBox = ({ interests, users }) => {
           </p>
         </div>
       </button>
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-5 pb-10">
         {interest?.chatBox?.length > 0 ? (
           interest?.chatBox?.map((chat) => {
             const user = getProfileDetails(chat?.authorId, users);
