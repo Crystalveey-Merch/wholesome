@@ -24,7 +24,6 @@ import CreatePost from "./CreatePost/CreatePost";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProtectedRoute from "./firebase/ProtectedRouteProps";
-import ArticleList from "./Articles/ArticleList";
 // import ReadMore from "./Articles/ReadMore";
 import MyInterest from "./MyInterest/MyInterest";
 import Dashboard from "./Dashboard/Dashboard";
@@ -117,9 +116,6 @@ function App() {
   const location = useLocation();
   const dispatch = useDispatch();
   const [posts, setPosts] = useState([]);
-  const [postId, setPostId] = useState([]);
-  const [postTags, setPostTags] = useState([]);
-  const [postCategories, setPostCategories] = useState([]);
   const [postLoading, setPostLoading] = useState(true);
   const [events, setEvents] = useState([]);
   const [eventLoading, setEventLoading] = useState(true);
@@ -206,28 +202,10 @@ function App() {
   useEffect(() => {
     const unsuscribPosts = onSnapshot(collection(db, "posts"), (snapshot) => {
       const postData = [];
-      const postIds = [];
-      const tags = [];
-      const categories = [];
       snapshot.forEach((doc) => {
-        const postDoc = doc.data();
-        postDoc.id = doc.id;
-        postIds.push(doc.id);
         postData.push({ ...doc.data(), id: doc.id });
-        if (Array.isArray(postDoc.tags)) {
-          tags.push(...postDoc.tags);
-        }
-
-        const category = postDoc.category;
-        if (category) {
-          categories.push(category);
-        }
       });
-
       setPosts(postData);
-      setPostId(postIds);
-      setPostTags([...new Set(tags)]);
-      setPostCategories(categories);
       setPostLoading(false);
     });
     const unsuscribEvents = onSnapshot(collection(db, "events"), (snapshot) => {
@@ -246,8 +224,7 @@ function App() {
           postData.push({ ...doc.data(), id: doc.id });
         });
         setActivities(postData);
-      },
-      limit(10)
+      }
     );
 
     const unsuscribUsers = onSnapshot(collection(db, "users"), (snapshot) => {
@@ -490,18 +467,6 @@ function App() {
             <ProtectedRoute>
               <CreatePost />
             </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/articlelist"
-          element={
-            <ArticleList
-              posts={posts}
-              postId={postId}
-              tags={postTags}
-              category={postCategories}
-              loading={postLoading}
-            />
           }
         />
         <Route path="/articletag/:tag" element={<TagPosts />} />

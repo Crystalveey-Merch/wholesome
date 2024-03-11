@@ -164,7 +164,7 @@ export const DashboardHeader = ({ users, allChats }) => {
           className="text-[#3c4248] h-[18px] w-[18px]"
         />
       </button>
-      <div className="relative sm:hidden">
+      <div className="block relative sm:hidden">
         <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none sm:hidden">
           <svg
             aria-hidden="true"
