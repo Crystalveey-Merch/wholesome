@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Modal } from "@mui/material";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
@@ -12,14 +12,17 @@ import {
   faImage,
   faSquarePollVertical,
   faFaceSmile,
+  faVideo,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useAutosizeTextArea } from "../../Hooks";
-import { db, doc, updateDoc, arrayUnion } from "../../firebase/auth";
+import { db, doc, updateDoc, arrayUnion, storage } from "../../firebase/auth";
 import { toast } from "react-toastify";
+import EmojiPicker from "emoji-picker-react";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 export const CreateChatBoxModal = ({ isOpen, setIsOpen, interest }) => {
-//   const navigate = useNavigate();
+  //   const navigate = useNavigate();
   const loggedInUser = useSelector(selectUser);
 
   const style = {
@@ -38,9 +41,126 @@ export const CreateChatBoxModal = ({ isOpen, setIsOpen, interest }) => {
 
   const [loading, setLoading] = useState(false);
   const [text, setText] = useState("");
+  const [openEmojiPicker, setOpenEmojiPicker] = useState(false);
+  const emojiPickerRef = useRef(null);
 
   const textRef = useRef(null);
   useAutosizeTextArea(textRef.current, text);
+
+  const handleAddEmoji = (emojiObject) => {
+    setText((text) => text + emojiObject.emoji);
+  };
+
+  useEffect(() => {
+    // Add event listener to close dropdown when clicking outside
+    function handleClickOutside(event) {
+      if (
+        emojiPickerRef.current &&
+        !emojiPickerRef.current.contains(event.target)
+      ) {
+        // set to false if the emoji picker is open
+        setOpenEmojiPicker(false);
+      }
+    }
+
+    // Bind the event listener
+    window.addEventListener("click", handleClickOutside);
+
+    return () => {
+      // Unbind the event listener on cleanup
+      window.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
+  const [imageFiles, setImageFiles] = useState([]);
+  const [videoFiles, setVideoFiles] = useState([]);
+  const [mediaPreviewUrls, setMediaPreviewUrls] = useState([]);
+
+  const imageInputRef = useRef(null);
+  const videoInputRef = useRef(null);
+
+  const openImagePicker = () => {
+    if (imageInputRef.current) {
+      imageInputRef.current.click();
+    }
+  };
+
+  const openVideoPicker = () => {
+    if (videoInputRef.current) {
+      videoInputRef.current.click();
+    }
+  };
+
+  const handleImageFileChange = (e) => {
+    if (
+      imageFiles.length + videoFiles.length + e.target.files.length > 4 ||
+      mediaPreviewUrls.length + e.target.files.length > 4
+    ) {
+      toast.error("You can only upload 4 media files at a time");
+      return;
+    }
+    const files = Array.from(e.target.files || []);
+    const previewUrls = [];
+    const newFiles = [];
+
+    files.forEach((file) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        previewUrls.push(reader.result);
+        if (previewUrls.length === files.length) {
+          setMediaPreviewUrls([...mediaPreviewUrls, ...previewUrls]);
+        }
+      };
+      reader.readAsDataURL(file);
+      newFiles.push(file);
+    });
+
+    setImageFiles([...imageFiles, ...newFiles]);
+  };
+
+  const handleVideoFileChange = (e) => {
+    if (
+      imageFiles.length + videoFiles.length + e.target.files.length > 4 ||
+      mediaPreviewUrls.length + e.target.files.length > 4
+    ) {
+      toast.error("You can only upload 4 media files at a time");
+      return;
+    }
+    const files = Array.from(e.target.files || []);
+    const previewUrls = [];
+    const newFiles = [];
+
+    files.forEach((file) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        previewUrls.push(reader.result);
+        if (previewUrls.length === files.length) {
+          setMediaPreviewUrls([...mediaPreviewUrls, ...previewUrls]);
+        }
+      };
+      reader.readAsDataURL(file);
+      newFiles.push(file);
+    });
+
+    setVideoFiles([...videoFiles, ...newFiles]);
+  };
+
+  const cancelMediaFile = (index) => {
+    const updatedPreviewUrls = [...mediaPreviewUrls];
+    updatedPreviewUrls.splice(index, 1);
+    setMediaPreviewUrls(updatedPreviewUrls);
+
+    if (index < imageFiles.length) {
+      const updatedImageFiles = [...imageFiles];
+      updatedImageFiles.splice(index, 1);
+      setImageFiles(updatedImageFiles);
+    } else {
+      const updatedVideoFiles = [...videoFiles];
+      const videoIndex = index - imageFiles.length;
+      updatedVideoFiles.splice(videoIndex, 1);
+      setVideoFiles(updatedVideoFiles);
+    }
+  };
 
   const postType = "default";
 
@@ -55,10 +175,31 @@ export const CreateChatBoxModal = ({ isOpen, setIsOpen, interest }) => {
 
     const interestRef = doc(db, "interests", interest.id);
 
+    // Upload media files and get their download URLs
+    const imageDownloadUrls = await Promise.all(
+      imageFiles.map(async (file) => {
+        const imageRef = ref(storage, `images/${file.name}`);
+        await uploadBytes(imageRef, file);
+        const downloadUrl = await getDownloadURL(imageRef);
+        return downloadUrl;
+      })
+    );
+
+    // Upload video files and get their download URLs
+    const videoDownloadUrls = await Promise.all(
+      videoFiles.map(async (file) => {
+        const videoRef = ref(storage, `videos/${file.name}`);
+        await uploadBytes(videoRef, file);
+        const downloadUrl = await getDownloadURL(videoRef);
+        return downloadUrl;
+      })
+    );
+
     const newChatBox = {
       text,
       authorId: loggedInUser.id,
-      images: [],
+      images: imageDownloadUrls,
+      videos: videoDownloadUrls,
       likes: [],
       comments: [],
       createdAt: new Date(),
@@ -76,6 +217,9 @@ export const CreateChatBoxModal = ({ isOpen, setIsOpen, interest }) => {
       setLoading(false);
       setIsOpen(false);
       setText("");
+      setMediaPreviewUrls([]);
+      setImageFiles([]);
+      setVideoFiles([]);
       toast.success("Chatbox created successfully");
     } catch (error) {
       console.error("Error adding document: ", error);
@@ -132,29 +276,145 @@ export const CreateChatBoxModal = ({ isOpen, setIsOpen, interest }) => {
                 value={text}
                 onChange={(e) => setText(e.target.value)}
               />
+              {/* media uploads */}
+              <div
+                className={`w-full p-2 h-max flex flex-shrink 2xl:p2 sm:p1 ${
+                  mediaPreviewUrls.length === 1
+                    ? "bg-slate50 flex flex-shrink w-full"
+                    : mediaPreviewUrls.length > 1
+                    ? " gap-4 bg-slate50 sm:gap-1"
+                    : mediaPreviewUrls.length === 2
+                    ? "flex flex-shrink"
+                    : mediaPreviewUrls.length === 3
+                    ? "flex flex-shrink"
+                    : mediaPreviewUrls.length === 4
+                    ? " grid grid-cols-2 grid-flow-row"
+                    : ""
+                }`}
+                style={{
+                  display: mediaPreviewUrls.length > 2 ? "grid" : "flex",
+                  gridTemplateColumns:
+                    mediaPreviewUrls.length > 2
+                      ? "repeat(2, minmax(0, 1fr))"
+                      : "",
+                  gridAutoFlow: mediaPreviewUrls.length > 2 ? "row" : "",
+                }}
+              >
+                {mediaPreviewUrls.map((url, index) => (
+                  <div
+                    key={index}
+                    className={`relative object-cover w-full rounded-lg
+                                     ${
+                                       mediaPreviewUrls.length === 1
+                                         ? ""
+                                         : mediaPreviewUrls.length === 2
+                                         ? "max-w[65%]"
+                                         : mediaPreviewUrls.length === 3
+                                         ? ""
+                                         : ""
+                                     }
+                                    `}
+                  >
+                    <div className="relative">
+                      {url.includes("image") && (
+                        <img
+                          src={url}
+                          alt={`Preview ${index}`}
+                          // className={`max-h-[500px] object-cover rounded-lg ${mediaPreviewUrls.length === 1 ? "w-[95%]" : mediaPreviewUrls.length === 2 ? "w-[50%]" : mediaPreviewUrls.length === 3 ? "w-[33%]" : ""}`}
+                          className="w-full h-full max-h-[350px] object-cover rounded-lg object-top shadow-md"
+                        />
+                      )}
+                    </div>
+                    <div>
+                      {url.includes("video") && (
+                        <video
+                          src={url}
+                          className="w-full h-full object-cover rounded-lg object-top shadow-md"
+                          controls
+                        />
+                      )}
+                    </div>
+                    <button
+                      onClick={() => cancelMediaFile(index)}
+                      className="absolute top-2 right-2 w-8 h-8 bg-gray-800 rounded-lg flex items-center justify-center text-white shadow-md hover:bg-gray-900 transition duration-500 ease-in-out"
+                    >
+                      X
+                    </button>
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 relative">
               <div className="flex items-center gap-5">
-                <button className="flex items-center gap-2">
+                <button
+                  className="flex items-center gap-2"
+                  onClick={openImagePicker}
+                  title="add image"
+                >
                   <FontAwesomeIcon
                     icon={faImage}
-                    className="text-green-500 h-5 w-5 opacity-50 cursor-default"
+                    className="text-green-500 h-5 w-5"
                   />
                 </button>
-                <button className="flex items-center gap-2">
+                <button
+                  className="flex items-center gap-2"
+                  onClick={openVideoPicker}
+                  title="add video"
+                >
+                  <FontAwesomeIcon
+                    icon={faVideo}
+                    className="text-red-500 h-5 w-5"
+                  />
+                </button>
+                <button className="flex items-center gap-2" title="add poll">
                   <FontAwesomeIcon
                     icon={faSquarePollVertical}
                     className="text-yellow-500 h-5 w-5 opacity-50 cursor-default"
                   />
                 </button>
-                <button className="flex items-center gap-2">
+                <button
+                  onClick={() => setOpenEmojiPicker(!openEmojiPicker)}
+                  ref={emojiPickerRef}
+                  className="flex items-center gap-2"
+                  title="add emoji"
+                >
                   <FontAwesomeIcon
                     icon={faFaceSmile}
-                    className="text-orange-500 h-5 w-5 opacity-50 cursor-default"
+                    className="text-orange-500 h-5 w-5"
                   />
                 </button>
+                <input
+                  type="file"
+                  accept="image/*"
+                  ref={imageInputRef}
+                  onChange={handleImageFileChange}
+                  className="hidden"
+                  id="image-input"
+                  multiple
+                />
+                <input
+                  type="file"
+                  accept="video/*"
+                  ref={videoInputRef}
+                  onChange={handleVideoFileChange}
+                  className="hidden"
+                  id="video-input"
+                  multiple
+                />
               </div>
               <hr className="border-gray-200" />
+              {openEmojiPicker && (
+                <div
+                  onClick={(e) => e.stopPropagation()}
+                  className="absolute left-60 -top-32 bg-white w-max h-max sm:w-full"
+                >
+                  <EmojiPicker
+                    className="w-[350px] z-20 emoji-style bg-white h-max sm:w-full sm:hidden"
+                    emojiStyle="google"
+                    onEmojiClick={handleAddEmoji}
+                  />
+                </div>
+              )}
             </div>
             <button
               className={`bg-[#ff5841] text-white font-inter font-semibold text-base py-2.5 rounded-md focus:outline-none focus:ring-0 focus:ring-none focus:border-white transition duration-300 ease-in-out ${
@@ -165,7 +425,7 @@ export const CreateChatBoxModal = ({ isOpen, setIsOpen, interest }) => {
               onClick={handleCreateChatBox}
               disabled={text.trim() === "" || loading}
             >
-              Post
+              {loading ? "Posting..." : "Post"}
             </button>
           </div>
         </Box>

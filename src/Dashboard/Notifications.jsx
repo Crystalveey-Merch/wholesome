@@ -175,61 +175,71 @@ export const Notifications = ({ users, posts }) => {
                   </div>
                 )}
                 {notification.type === "like" && (
-                  <div
-                    className={`flex gap-4 justifybetween py-3 px-4 border-b hover:bg-grey-50 transition duration-500 ease-in-out ${
-                      index === notifications.length - 1 ? "" : ""
-                    } ${notification.hasRead ? "" : "bg-slate-50"}`}
-                    onClick={() => handleClick(notification.id)}
-                  >
-                    <Link
-                      to={`/readMore/${notification.postId}`}
-                      className="flex gap-3 w-full"
-                    >
-                      {" "}
-                      <img
-                        src={
-                          getProfileDetails(notification.fromUserId, users)
-                            .photoURL
-                        }
-                        alt=""
-                        className="w-10 h-10 rounded-full"
-                      />
-                      <div className="flex flex-col gap-2">
-                        <div className="text-gray-700 font-inter text-base">
-                          <span className="font-semibold">
-                            {
+                  <>
+                    {notification.likeType === "post" ||
+                    notification.likeType === "comment" ||
+                    notification.likeType === "reply" ? (
+                      <div
+                        className={`flex gap-4 justifybetween py-3 px-4 border-b hover:bg-grey-50 transition duration-500 ease-in-out ${
+                          index === notifications.length - 1 ? "" : ""
+                        } ${notification.hasRead ? "" : "bg-slate-50"}`}
+                        onClick={() => handleClick(notification.id)}
+                      >
+                        <Link
+                          to={`/readMore/${notification.postId}`}
+                          className="flex gap-3 w-full"
+                        >
+                          {" "}
+                          <img
+                            src={
                               getProfileDetails(notification.fromUserId, users)
-                                .name
+                                .photoURL
                             }
-                          </span>{" "}
-                          {notification.likeType === "post"
-                            ? "liked your article."
-                            : notification.likeType === "comment"
-                            ? "liked your comment in article."
-                            : "liked your reply in article."}{" "}
-                          &quot;
-                          <span className="text-black font-inter text-sm">
-                            {
-                              getPostDetails(notification.postId, posts)
-                                ?.postTitle
-                            }
-                          </span>
-                          &quot;
+                            alt=""
+                            className="w-10 h-10 rounded-full"
+                          />
+                          <div className="flex flex-col gap-2">
+                            <div className="text-gray-700 font-inter text-base">
+                              <span className="font-semibold">
+                                {
+                                  getProfileDetails(
+                                    notification.fromUserId,
+                                    users
+                                  ).name
+                                }
+                              </span>{" "}
+                              {notification.likeType === "post"
+                                ? "liked your article."
+                                : notification.likeType === "comment"
+                                ? "liked your comment in article."
+                                : "liked your reply in article."}{" "}
+                              &quot;
+                              <span className="text-black font-inter text-sm">
+                                {
+                                  getPostDetails(notification.postId, posts)
+                                    ?.postTitle
+                                }
+                              </span>
+                              &quot;
+                            </div>
+                            <p className="text-gray-500 font-inter text-sm">
+                              {formatTimeAgo2(
+                                new Date(notification.createdAt.seconds * 1000)
+                              )}
+                            </p>
+                          </div>
+                        </Link>
+                        <div>
+                          <FontAwesomeIcon
+                            icon={faEllipsisV}
+                            className="text-gray-500 cursor-pointer"
+                          />
                         </div>
-                        <p className="text-gray-500 font-inter text-sm">
-                          {formatTimeAgo2(
-                            new Date(notification.createdAt.seconds * 1000)
-                          )}
-                        </p>
                       </div>
-                    </Link>
-                    <div>
-                      <FontAwesomeIcon
-                        icon={faEllipsisV}
-                        className="text-gray-500 cursor-pointer"
-                      />
-                    </div>
-                  </div>
+                    ) : (
+                      <></>
+                    )}
+                  </>
                 )}
                 {notification.type === "mention" && (
                   <div
