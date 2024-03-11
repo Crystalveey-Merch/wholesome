@@ -8,3 +8,4 @@ export * from "./Post";
 export * from "./CommentAndReply";
 export * from "./HashTagAndMentionHighLights";
 export * from "./RecentSearch";
+export * from "./ChatBox";
