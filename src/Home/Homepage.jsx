@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
 // import Sectiom2 from "./Sectiom2";
-import Section3 from "./Section3";
-import Section4 from "./Section4";
-import Section1plus from "./Section1plus";
-import Section2first from "./Section2first";
-import Section2new from "./Section2new";
+// import Section3 from "./Section3";
+// import Section4 from "./Section4";
+// import Section1plus from "./Section1plus";
+// import Section2first from "./Section2first";
+// import Section2new from "./Section2new";
 import { Helmet } from "react-helmet-async";
 import { useSelector } from "react-redux";
 import { selectUser } from "../Features/userSlice";
