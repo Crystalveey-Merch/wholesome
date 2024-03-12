@@ -1,6 +1,7 @@
 export * from "./Create";
 export * from "./Activities";
 export * from "./ChatBox";
+export * from "./ChatBoxView";
 export * from "./Events";
 export * from "./Articles";
 export * from "./Podcasts";

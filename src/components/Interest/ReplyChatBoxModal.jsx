@@ -15,7 +15,11 @@ import {
   faVideo,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { getProfileDetails, useAutosizeTextArea } from "../../Hooks";
+import {
+  getProfileDetails,
+  useAutosizeTextArea,
+  convertToLowercase,
+} from "../../Hooks";
 import { db, doc, updateDoc, arrayUnion, storage } from "../../firebase/auth";
 import { toast } from "react-toastify";
 import EmojiPicker from "emoji-picker-react";
@@ -174,6 +178,129 @@ export const ReplyChatBoxModal = ({
       setVideoFiles(updatedVideoFiles);
     }
   };
+
+  const postType = "default";
+  const level = "replies";
+
+  const handleCreateChatBox = async () => {
+    setLoading(true);
+
+    if (postType === "default" && text.trim() === "") {
+      toast.error("Chatbox can't be empty");
+      setLoading(false);
+      return;
+    }
+
+    const interestRef = doc(db, "interests", interest.id);
+
+    // Upload media files and get their download URLs
+    const imageDownloadUrls = await Promise.all(
+      imageFiles.map(async (file) => {
+        const imageRef = ref(storage, `images/${file.name}`);
+        await uploadBytes(imageRef, file);
+        const downloadUrl = await getDownloadURL(imageRef);
+        return downloadUrl;
+      })
+    );
+
+    // Upload video files and get their download URLs
+    const videoDownloadUrls = await Promise.all(
+      videoFiles.map(async (file) => {
+        const videoRef = ref(storage, `videos/${file.name}`);
+        await uploadBytes(videoRef, file);
+        const downloadUrl = await getDownloadURL(videoRef);
+        return downloadUrl;
+      })
+    );
+
+    const newChatBox = {
+      text,
+      authorId: loggedInUser.id,
+      images: imageDownloadUrls,
+      videos: videoDownloadUrls,
+      likes: [],
+      replies: [],
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      isEdited: false,
+      isDeleted: false,
+      type: postType,
+      level,
+      id: loggedInUser.id + Date.now(),
+      replyingToId: chat.id,
+    };
+
+    const newNotification = {
+      type: "reply",
+      replyType: "chat",
+      chatId: chat.id,
+      interestId: interest.id,
+      id: loggedInUser.id + "-" + Date.now(),
+      content: `${chat.text}`,
+      fromUserId: loggedInUser.id,
+      createdAt: new Date(),
+      hasRead: false,
+      hasSeen: false,
+      hasDeleted: false,
+      link: `/i/${convertToLowercase(interest.name)}/chat/${chat.id}`,
+    };
+
+    // const newComment = {
+    //   text,
+    //   authorId: loggedInUser.id,
+    //   images: imageDownloadUrls,
+    //   videos: videoDownloadUrls,
+    //   likes: [],
+    //   replies: [],
+    //   createdAt: new Date(),
+    //   updatedAt: new Date(),
+    //   isEdited: false,
+    //   isDeleted: false,
+    //   type: postType,
+    //   level,
+    //   id: loggedInUser.id + Date.now(),
+    //   replyingToId: chat.id,
+    // };
+
+    try {
+      await updateDoc(interestRef, {
+        replies: arrayUnion(newChatBox),
+      });
+
+      await updateDoc(interestRef, {
+        // also update newReply to the chat
+        chatBox: interest.chatBox.map((chatS) =>
+          chatS.id === chat.id
+            ? {
+                ...chatS,
+                comments: [...chatS.comments, newChatBox],
+              }
+            : chatS
+        ),
+      });
+
+      //   add notification to the author of the chat
+      const chatAuthorRef = doc(db, "users", chat.authorId);
+      if (chat.authorId !== loggedInUser.id) {
+        await updateDoc(chatAuthorRef, {
+          notifications: arrayUnion(newNotification),
+        });
+      }
+
+      setLoading(false);
+      setIsOpen(false);
+      setText("");
+      setMediaPreviewUrls([]);
+      setImageFiles([]);
+      setVideoFiles([]);
+      toast.success("Reply is successfully posted");
+    } catch (error) {
+      console.error("Error adding document: ", error);
+      toast.error(error.message);
+      setLoading(false);
+    }
+  };
+
   return (
     <Modal
       open={isOpen}
@@ -390,7 +517,7 @@ export const ReplyChatBoxModal = ({
                     ? "opacity-50 cursor-default"
                     : "cursor-pointer"
                 }`}
-                // onClick={handleCreateChatBox}
+                onClick={handleCreateChatBox}
                 disabled={text.trim() === "" || loading}
               >
                 {loading ? "Posting..." : "Post"}

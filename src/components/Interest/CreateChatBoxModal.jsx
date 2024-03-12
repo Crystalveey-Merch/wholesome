@@ -169,6 +169,7 @@ export const CreateChatBoxModal = ({ isOpen, setIsOpen, interest }) => {
   };
 
   const postType = "default";
+  const level = "first";
 
   const handleCreateChatBox = async () => {
     setLoading(true);
@@ -213,6 +214,7 @@ export const CreateChatBoxModal = ({ isOpen, setIsOpen, interest }) => {
       isEdited: false,
       isDeleted: false,
       type: postType,
+      level,
       id: loggedInUser.id + Date.now(),
     };
 
