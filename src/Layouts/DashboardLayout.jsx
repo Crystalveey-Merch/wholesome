@@ -1,10 +1,17 @@
 /* eslint-disable react/prop-types */
-import { DashboardHeader } from "../components/Header/DashboardHeader";
+import { DashboardHeader, MiniHeader } from "../components/Header";
+import { useSelector } from "react-redux";
+import { selectUser } from "../Features/userSlice";
 
 export const DashboardLayout = ({ children, users, allChats }) => {
+  const loggedInUser = useSelector(selectUser);
   return (
     <>
-      <DashboardHeader users={users} allChats={allChats} />
+      {loggedInUser ? (
+        <DashboardHeader users={users} allChats={allChats} />
+      ) : (
+        <MiniHeader />
+      )}
       {children}
     </>
   );

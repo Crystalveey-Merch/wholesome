@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 import Fade from "@mui/material/Fade";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../Features/userSlice";
-// import { useNavigate } from "react-router-dom";
+
 import {
   faXmarkCircle,
   faImage,
@@ -15,14 +15,20 @@ import {
   faVideo,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useAutosizeTextArea } from "../../Hooks";
+import { getProfileDetails, useAutosizeTextArea } from "../../Hooks";
 import { db, doc, updateDoc, arrayUnion, storage } from "../../firebase/auth";
 import { toast } from "react-toastify";
 import EmojiPicker from "emoji-picker-react";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { ReplyChatContent } from ".";
 
-export const CreateChatBoxModal = ({ isOpen, setIsOpen, interest }) => {
-  //   const navigate = useNavigate();
+export const ReplyChatBoxModal = ({
+  isOpen,
+  setIsOpen,
+  chat,
+  interest,
+  users,
+}) => {
   const loggedInUser = useSelector(selectUser);
 
   const style = {
@@ -35,13 +41,14 @@ export const CreateChatBoxModal = ({ isOpen, setIsOpen, interest }) => {
     bgcolor: "background.paper",
     boxShadow: 24,
     borderRadius: "10px",
-    p: "24px",
+    p: "20px",
     zIndex: 100,
     // responsive
     "@media (max-width: 639px)": {
       width: "calc(100% - 0px)",
       height: "calc(100% - 0px)",
       borderRadius: "0px",
+      p: "10px",
     },
   };
 
@@ -167,73 +174,6 @@ export const CreateChatBoxModal = ({ isOpen, setIsOpen, interest }) => {
       setVideoFiles(updatedVideoFiles);
     }
   };
-
-  const postType = "default";
-
-  const handleCreateChatBox = async () => {
-    setLoading(true);
-
-    if (postType === "default" && text.trim() === "") {
-      toast.error("Chatbox can't be empty");
-      setLoading(false);
-      return;
-    }
-
-    const interestRef = doc(db, "interests", interest.id);
-
-    // Upload media files and get their download URLs
-    const imageDownloadUrls = await Promise.all(
-      imageFiles.map(async (file) => {
-        const imageRef = ref(storage, `images/${file.name}`);
-        await uploadBytes(imageRef, file);
-        const downloadUrl = await getDownloadURL(imageRef);
-        return downloadUrl;
-      })
-    );
-
-    // Upload video files and get their download URLs
-    const videoDownloadUrls = await Promise.all(
-      videoFiles.map(async (file) => {
-        const videoRef = ref(storage, `videos/${file.name}`);
-        await uploadBytes(videoRef, file);
-        const downloadUrl = await getDownloadURL(videoRef);
-        return downloadUrl;
-      })
-    );
-
-    const newChatBox = {
-      text,
-      authorId: loggedInUser.id,
-      images: imageDownloadUrls,
-      videos: videoDownloadUrls,
-      likes: [],
-      comments: [],
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      isEdited: false,
-      isDeleted: false,
-      type: postType,
-      id: loggedInUser.id + Date.now(),
-    };
-
-    try {
-      await updateDoc(interestRef, {
-        chatBox: arrayUnion(newChatBox),
-      });
-      setLoading(false);
-      setIsOpen(false);
-      setText("");
-      setMediaPreviewUrls([]);
-      setImageFiles([]);
-      setVideoFiles([]);
-      toast.success("Chatbox created successfully");
-    } catch (error) {
-      console.error("Error adding document: ", error);
-      toast.error(error.message);
-      setLoading(false);
-    }
-  };
-
   return (
     <Modal
       open={isOpen}
@@ -248,10 +188,10 @@ export const CreateChatBoxModal = ({ isOpen, setIsOpen, interest }) => {
     >
       <Fade in={isOpen}>
         <Box sx={style}>
-          <div className="flex flex-col gap-6 sm:h-full">
+          <div className="flex flex-col gap-6sm:h-full">
             <div className="border-b border-gray-200 pb-3 flex justify-between items-center">
               <h3 className="text-lg font-inter font-semibold text-black">
-                Create Chatbox
+                Reply
               </h3>
               <button
                 onClick={() => setIsOpen(false)}
@@ -260,97 +200,118 @@ export const CreateChatBoxModal = ({ isOpen, setIsOpen, interest }) => {
                 <FontAwesomeIcon icon={faXmarkCircle} className="h-6 w-6" />
               </button>
             </div>
-            <div className="flex gap-2">
-              <img
-                src={loggedInUser?.photoURL}
-                className="w-[40px] h-[40px] min-h-10 min-w-10 max-h-[40px] max-w-[40px] rounded-sm object-cover border-2 border-red-50 shadow-md"
-              />
-              <div className="flex flex-col gap-0">
-                <h1 className="text-lg font-inter font-semibold text-black">
-                  {loggedInUser?.name}
-                </h1>
-                <p className="text-gray-500 text-xs font-inter">
-                  @{loggedInUser?.username}
-                </p>
+            <div className="flex pt-4 flex-col gap-1.5 h-full max-h-[75vh] overflow-y-scroll scroll-bar-beauty ">
+              <div className="flex gap-1">
+                <div className="flex flex-col gap-1.5">
+                  {" "}
+                  <img
+                    src={getProfileDetails(chat?.authorId, users)?.photoURL}
+                    className="w-[40px] h-[40px] min-h-[40px] min-w-[40px] max-h-[40px] max-w-[40px] rounded-sm object-cover border-2 border-red-50 shadow-md sm:w-[35px] sm:h-[35px] sm:min-h-[35px] sm:min-w-[35px] sm:max-h-[35px] sm:max-w-[35px]"
+                  />
+                  {/* long line to connect */}
+                  <div className="w-1 h-full bg-gray-200 rounded-full mx-auto sm:w-1"></div>
+                </div>
+
+                <ReplyChatContent chat={chat} users={users} />
               </div>
-            </div>
-            <div className="max-h-[300px] overflow-y-scroll scroll-bar-beauty sm:max-h-[calc(100vh-300px)]">
-              <textarea
-                placeholder="What's on your mind?"
-                className="w-full rounded-md font-inter text-base border bggray-200 border-white px-0.5 py-4 resize-none overflow-hidden text-black focus:outline-none focus:ring-0 focus:ring-none focus:border-white transition duration-300 ease-in-out md:px-0"
-                ref={textRef}
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-              />
-              {/* media uploads */}
-              <div
-                className={`w-full p-2 h-max flex flex-shrink 2xl:p2 sm:p1 ${
-                  mediaPreviewUrls.length === 1
-                    ? "bg-slate50 flex flex-shrink w-full"
-                    : mediaPreviewUrls.length > 1
-                    ? " gap-4 bg-slate50 sm:gap-1"
-                    : mediaPreviewUrls.length === 2
-                    ? "flex flex-shrink"
-                    : mediaPreviewUrls.length === 3
-                    ? "flex flex-shrink"
-                    : mediaPreviewUrls.length === 4
-                    ? " grid grid-cols-2 grid-flow-row"
-                    : ""
-                }`}
-                style={{
-                  display: mediaPreviewUrls.length > 2 ? "grid" : "flex",
-                  gridTemplateColumns:
-                    mediaPreviewUrls.length > 2
-                      ? "repeat(2, minmax(0, 1fr))"
-                      : "",
-                  gridAutoFlow: mediaPreviewUrls.length > 2 ? "row" : "",
-                }}
-              >
-                {mediaPreviewUrls.map((url, index) => (
-                  <div
-                    key={index}
-                    className={`relative object-cover w-full rounded-lg
-                                     ${
-                                       mediaPreviewUrls.length === 1
-                                         ? ""
-                                         : mediaPreviewUrls.length === 2
-                                         ? "max-w[65%]"
-                                         : mediaPreviewUrls.length === 3
-                                         ? ""
-                                         : ""
-                                     }
-                                    `}
-                  >
-                    <div className="relative">
-                      {url.includes("image") && (
-                        <img
-                          src={url}
-                          alt={`Preview ${index}`}
-                          // className={`max-h-[500px] object-cover rounded-lg ${mediaPreviewUrls.length === 1 ? "w-[95%]" : mediaPreviewUrls.length === 2 ? "w-[50%]" : mediaPreviewUrls.length === 3 ? "w-[33%]" : ""}`}
-                          className="w-full h-full max-h-[350px] object-cover rounded-lg object-top shadow-md"
-                        />
-                      )}
-                    </div>
-                    <div>
-                      {url.includes("video") && (
-                        <video
-                          src={url}
-                          className="w-full h-full object-cover rounded-lg object-top shadow-md"
-                          controls
-                        />
-                      )}
-                    </div>
-                    <button
-                      onClick={() => cancelMediaFile(index)}
-                      className="absolute top-2 right-2 w-8 h-8 bg-gray-800 rounded-lg flex items-center justify-center text-white shadow-md hover:bg-gray-900 transition duration-500 ease-in-out"
-                    >
-                      X
-                    </button>
+              <div className="flex gap-1">
+                <div className="flex">
+                  <img
+                    src={loggedInUser?.photoURL}
+                    className="w-[40px] h-[40px] min-h-10 min-w-10 max-h-[40px] max-w-[40px] rounded-sm object-cover border-2 border-red-50 shadow-md"
+                  />
+                </div>
+                <div className="w-full flex flex-col gap-1">
+                  <div className="flex flex-col gap-0">
+                    <h1 className="text-base font-inter font-semibold text-black sm:text-[0.95rem]">
+                      {loggedInUser?.name}
+                    </h1>
+                    {/* <p className="text-gray-500 text-xs font-inter">
+                    @{loggedInUser?.username}
+                  </p> */}
                   </div>
-                ))}
+                  <div className="max-h-[400px] overflow-y-scroll scroll-bar-beauty w-full sm:max-h-[calc(100vh-300px)]">
+                    <textarea
+                      placeholder={`Reply to ${
+                        getProfileDetails(chat?.authorId, users)?.name
+                      }`}
+                      className="w-full rounded-md font-inter text-base border bggray-200 border-white px-0.5 py-1 resize-none overflow-hidden text-black focus:outline-none focus:ring-0 focus:ring-none focus:border-white transition duration-300 ease-in-out md:px-0"
+                      ref={textRef}
+                      value={text}
+                      onChange={(e) => setText(e.target.value)}
+                    />
+                    {/* media uploads */}
+                    <div
+                      className={`w-full p-2 h-max flex flex-shrink 2xl:p2 sm:p1 ${
+                        mediaPreviewUrls.length === 1
+                          ? "bg-slate50 flex flex-shrink w-full"
+                          : mediaPreviewUrls.length > 1
+                          ? " gap-4 bg-slate50 sm:gap-1"
+                          : mediaPreviewUrls.length === 2
+                          ? "flex flex-shrink"
+                          : mediaPreviewUrls.length === 3
+                          ? "flex flex-shrink"
+                          : mediaPreviewUrls.length === 4
+                          ? " grid grid-cols-2 grid-flow-row"
+                          : ""
+                      }`}
+                      style={{
+                        display: mediaPreviewUrls.length > 2 ? "grid" : "flex",
+                        gridTemplateColumns:
+                          mediaPreviewUrls.length > 2
+                            ? "repeat(2, minmax(0, 1fr))"
+                            : "",
+                        gridAutoFlow: mediaPreviewUrls.length > 2 ? "row" : "",
+                      }}
+                    >
+                      {mediaPreviewUrls.map((url, index) => (
+                        <div
+                          key={index}
+                          className={`relative object-cover w-full rounded-lg
+                                 ${
+                                   mediaPreviewUrls.length === 1
+                                     ? ""
+                                     : mediaPreviewUrls.length === 2
+                                     ? "max-w[65%]"
+                                     : mediaPreviewUrls.length === 3
+                                     ? ""
+                                     : ""
+                                 }
+                                `}
+                        >
+                          <div className="relative">
+                            {url.includes("image") && (
+                              <img
+                                src={url}
+                                alt={`Preview ${index}`}
+                                // className={`max-h-[500px] object-cover rounded-lg ${mediaPreviewUrls.length === 1 ? "w-[95%]" : mediaPreviewUrls.length === 2 ? "w-[50%]" : mediaPreviewUrls.length === 3 ? "w-[33%]" : ""}`}
+                                className="w-full h-full max-h-[350px] object-cover rounded-lg object-top shadow-md"
+                              />
+                            )}
+                          </div>
+                          <div>
+                            {url.includes("video") && (
+                              <video
+                                src={url}
+                                className="w-full h-full object-cover rounded-lg object-top shadow-md"
+                                controls
+                              />
+                            )}
+                          </div>
+                          <button
+                            onClick={() => cancelMediaFile(index)}
+                            className="absolute top-2 right-2 w-8 h-8 bg-gray-800 rounded-lg flex items-center justify-center text-white shadow-md hover:bg-gray-900 transition duration-500 ease-in-out"
+                          >
+                            X
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-5 z-10 pt-4">
               <div className="flex flex-col gap-4 relative">
                 <div className="flex items-center gap-5">
                   <button
@@ -429,7 +390,7 @@ export const CreateChatBoxModal = ({ isOpen, setIsOpen, interest }) => {
                     ? "opacity-50 cursor-default"
                     : "cursor-pointer"
                 }`}
-                onClick={handleCreateChatBox}
+                // onClick={handleCreateChatBox}
                 disabled={text.trim() === "" || loading}
               >
                 {loading ? "Posting..." : "Post"}
