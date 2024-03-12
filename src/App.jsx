@@ -53,7 +53,7 @@ import { SearchModal, SearchUser, Topics } from "./Userpage";
 import { selectSearchModal } from "./Features/searchModalSlice.js";
 import { Messages, SelectMessage, ChatView } from "./Chats";
 import { DashboardLayout, DefaultLayout } from "./Layouts/";
-import { getDoc, limit } from "firebase/firestore";
+import { getDoc } from "firebase/firestore";
 // import { doc, getDocs, updateDoc } from "./firebase/auth.js";
 import { Feed, FeedLayout, Content, Following } from "./Feed";
 import {
@@ -69,6 +69,7 @@ import {
   Create,
   Interest,
   ChatBox,
+  ChatBoxView,
   Activities,
   Events,
   Articles as InterestArticles,
@@ -335,19 +336,19 @@ function App() {
   //   const fetchUsersAndUpdateRecentSearches = async () => {
   //     try {
   //       // Fetch all users
-  //       const usersRef = collection(db, "users");
-  //       const usersSnapshot = await getDocs(usersRef);
+  //       const interestRef = collection(db, "interests");
+  //       const usersSnapshot = await getDocs(interestRef);
 
   //       // Iterate over each user
   //       usersSnapshot.forEach(async (userDoc) => {
   //         const userData = userDoc.data();
 
   //         // Check if the user has
-  //         if (!userData.followers) {
+  //         if (!userData.replies) {
   //           // If not, update the user data to include
-  //           const userRef = doc(usersRef, userDoc.id);
+  //           const userRef = doc(interestRef, userDoc.id);
   //           await updateDoc(userRef, {
-  //             followers: [],
+  //             replies: [],
   //           });
   //         }
   //       });
@@ -703,6 +704,16 @@ function App() {
                   {" "}
                   <ChatBox interests={interests} users={users} />
                 </Interest>
+              </InterestLayout>
+            </DashboardLayout>
+          }
+        />
+        <Route
+          path="/i/:name/chat/:chatBoxId"
+          element={
+            <DashboardLayout users={users} allChats={allChats}>
+              <InterestLayout interests={interests}>
+                  <ChatBoxView interests={interests} users={users} />
               </InterestLayout>
             </DashboardLayout>
           }

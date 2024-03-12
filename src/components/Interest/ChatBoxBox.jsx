@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../Features/userSlice";
 import {
@@ -7,6 +8,7 @@ import {
   formatByInitialTime,
   handleLikeChatBox,
   handleUnlikeChatBox,
+  convertToLowercase,
 } from "../../Hooks";
 import { faComment, faHeart } from "@fortawesome/free-regular-svg-icons";
 import {
@@ -19,10 +21,16 @@ import { ReplyChatBoxModal } from "./ReplyChatBoxModal";
 
 export const ChatBoxBox = ({ chat, interest, user, users }) => {
   const loggedInUser = useSelector(selectUser);
+  const navigate = useNavigate();
   const [showReplyModal, setShowReplyModal] = useState(false);
 
   return (
-    <div className="p-4 border border-gray-100 rounded-xl bg-white flex gap-2.5 sm:p-2">
+    <div
+      className="p-4 border border-gray-100 rounded-xl bg-white flex gap-2.5 transition duration-300 ease-in-out sm:p-2 hover:bg-gray-50 hover:cursor-pointer"
+      onClick={() =>
+        navigate(`/i/${convertToLowercase(interest.name)}/chat/${chat.id}`)
+      }
+    >
       <img
         src={user?.photoURL}
         className="w-[40px] h-[40px] min-h-[40px] min-w-[40px] max-h-[40px] max-w-[40px] rounded-sm object-cover border-2 border-red-50 shadow-md sm:w-[35px] sm:h-[35px] sm:min-h-[35px] sm:min-w-[35px] sm:max-h-[35px] sm:max-w-[35px]"
@@ -206,7 +214,10 @@ export const ChatBoxBox = ({ chat, interest, user, users }) => {
             </div>
           )}
         </div>
-        <div className="w-full flex justify-between">
+        <div
+          className="w-full flex justify-between"
+          onClick={(e) => e.stopPropagation()}
+        >
           <div className="flex gap-5">
             {chat?.likes?.includes(loggedInUser?.id) ? (
               <div className="flex gap-0 items-center">
@@ -255,16 +266,21 @@ export const ChatBoxBox = ({ chat, interest, user, users }) => {
                 </p>
               </div>
             )}
-            <button
-              title="Reply"
-              className="group p-2 rounded-full flex items-center justify-center transition duration-300 ease-in-out hover:bg-gray-50"
-              onClick={() => setShowReplyModal(true)}
-            >
-              <FontAwesomeIcon
-                icon={faComment}
-                className="text-gray-400 h-[1.13rem] w-[1.13rem] group-hover:text-gray-600 transition duration-300 ease-in-out"
-              />
-            </button>
+            <div className="flex gap-0 items-center">
+              <button
+                title="Reply"
+                className="group p-2 rounded-full flex items-center justify-center transition duration-300 ease-in-out hover:bg-gray-50"
+                onClick={() => setShowReplyModal(true)}
+              >
+                <FontAwesomeIcon
+                  icon={faComment}
+                  className="text-gray-400 h-[1.13rem] w-[1.13rem] group-hover:text-gray-600 transition duration-300 ease-in-out"
+                />
+              </button>
+              <p className="text-gray-500 font-inter font-medium text-xs">
+                {chat?.comments?.length > 0 ? chat?.comments?.length : ""}
+              </p>
+            </div>
           </div>
 
           <button
@@ -289,13 +305,15 @@ export const ChatBoxBox = ({ chat, interest, user, users }) => {
           </div> */}
         </div>
       </div>
-      <ReplyChatBoxModal
-        isOpen={showReplyModal}
-        setIsOpen={setShowReplyModal}
-        chat={chat}
-        interest={interest}
-        users={users}
-      />
+      <div onClick={(e) => e.stopPropagation()}>
+        <ReplyChatBoxModal
+          isOpen={showReplyModal}
+          setIsOpen={setShowReplyModal}
+          chat={chat}
+          interest={interest}
+          users={users}
+        />
+      </div>
     </div>
   );
 };

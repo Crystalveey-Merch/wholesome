@@ -308,6 +308,7 @@ export const Create = ({ interests }) => {
           },
         ],
         chatBox: [],
+        replies: [],
         description: "",
         rules: [],
         // requests is for private and secret groups
