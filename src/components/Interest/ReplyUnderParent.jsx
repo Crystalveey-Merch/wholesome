@@ -338,7 +338,7 @@ export const ReplyUnderParent = ({ reply, interest, users }) => {
                   />
                 </button>
                 <p className="text-gray-500 font-inter font-medium text-xs">
-                  {reply?.comments?.length > 0 ? reply?.comments?.length : ""}
+                  {reply?.replies?.length > 0 ? reply?.replies?.length : ""}
                 </p>
               </div>
             </div>
