@@ -25,7 +25,6 @@ export const ViewParent = ({ chat, interest, users }) => {
 
   const [showReplyModal, setShowReplyModal] = useState(false);
 
-  //
 
   return (
     <div className="flex flex-col gap-2 pb-10">

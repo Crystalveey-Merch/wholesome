@@ -30,6 +30,7 @@ export const ReplyUnderParent = ({ reply, interest, users }) => {
   const navigate = useNavigate();
 
   const [showReplyModal, setShowReplyModal] = useState(false);
+  const [showFirstReplyModal, setShowFirstReplyModal] = useState(false);
   console.log(author.id, reply.replies);
 
   const parentPostDetails = interest.chatBox.find(
@@ -627,7 +628,7 @@ export const ReplyUnderParent = ({ reply, interest, users }) => {
                   <button
                     title="Reply"
                     className="group p-2 rounded-full flex items-center justify-center transition duration-300 ease-in-out hover:bg-gray-100"
-                    onClick={() => setShowReplyModal(true)}
+                    onClick={() => setShowFirstReplyModal(true)}
                   >
                     <FontAwesomeIcon
                       icon={faComment}
@@ -635,8 +636,8 @@ export const ReplyUnderParent = ({ reply, interest, users }) => {
                     />
                   </button>
                   <p className="text-gray-500 font-inter font-medium text-xs">
-                    {firstReplyOfParent?.comments?.length > 0
-                      ? firstReplyOfParent?.comments?.length
+                    {firstReplyOfParent?.replies?.length > 0
+                      ? firstReplyOfParent?.replies?.length
                       : ""}
                   </p>
                 </div>
@@ -655,6 +656,13 @@ export const ReplyUnderParent = ({ reply, interest, users }) => {
           </div>
         </div>
       )}
+      <ReplyChatBoxModal2
+        isOpen={showFirstReplyModal}
+        setIsOpen={setShowFirstReplyModal}
+        reply={firstReplyOfParent}
+        interest={interest}
+        users={users}
+      />
       <ReplyChatBoxModal2
         isOpen={showReplyModal}
         setIsOpen={setShowReplyModal}

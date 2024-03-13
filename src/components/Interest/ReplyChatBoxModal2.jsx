@@ -226,6 +226,7 @@ export const ReplyChatBoxModal2 = ({
       isDeleted: false,
       type: postType,
       level,
+      onThread: false,
       id: loggedInUser.id + Date.now(),
       replyingToId: reply.id,
     };
