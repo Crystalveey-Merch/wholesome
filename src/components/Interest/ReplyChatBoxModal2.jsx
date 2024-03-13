@@ -26,10 +26,10 @@ import EmojiPicker from "emoji-picker-react";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { ReplyChatContent } from ".";
 
-export const ReplyChatBoxModal = ({
+export const ReplyChatBoxModal2 = ({
   isOpen,
   setIsOpen,
-  chat,
+  reply,
   interest,
   users,
 }) => {
@@ -227,22 +227,22 @@ export const ReplyChatBoxModal = ({
       type: postType,
       level,
       id: loggedInUser.id + Date.now(),
-      replyingToId: chat.id,
+      replyingToId: reply.id,
     };
 
     const newNotification = {
       type: "reply",
-      replyType: "chat",
-      chatId: chat.id,
+      replyType: "chatReply",
+      chatId: reply.id,
       interestId: interest.id,
       id: loggedInUser.id + "-" + Date.now(),
-      content: `${chat.text}`,
+      content: `${reply.text}`,
       fromUserId: loggedInUser.id,
       createdAt: new Date(),
       hasRead: false,
       hasSeen: false,
       hasDeleted: false,
-      link: `/i/${convertToLowercase(interest.name)}/chat/${chat.id}`,
+      link: `/i/${convertToLowercase(interest.name)}/chat/${reply.id}`,
     };
 
     // const newComment = {
@@ -264,28 +264,30 @@ export const ReplyChatBoxModal = ({
 
     try {
       await updateDoc(interestRef, {
-        replies: arrayUnion(newChatBox),
-      });
-
-      await updateDoc(interestRef, {
         // also update newReply to the chat
-        chatBox: interest.chatBox.map((chatS) =>
-          chatS.id === chat.id
+        replies: interest.replies.map((chatS) =>
+          chatS.id === reply.id
             ? {
                 ...chatS,
-                comments: [...chatS.comments, newChatBox],
+                replies: [...chatS.replies, newChatBox],
               }
             : chatS
         ),
       });
 
+      await updateDoc(interestRef, {
+        replies: arrayUnion(newChatBox),
+      });
+
       //   add notification to the author of the chat
-      const chatAuthorRef = doc(db, "users", chat.authorId);
-      if (chat.authorId !== loggedInUser.id) {
+      const chatAuthorRef = doc(db, "users", reply.authorId);
+      if (reply.authorId !== loggedInUser.id) {
         await updateDoc(chatAuthorRef, {
           notifications: arrayUnion(newNotification),
         });
       }
+
+      // We party all night 🎶💃
 
       setLoading(false);
       setIsOpen(false);
@@ -315,10 +317,7 @@ export const ReplyChatBoxModal = ({
     >
       <Fade in={isOpen}>
         <Box sx={style}>
-          <div
-            className="flex flex-col gap-6sm:h-full"
-            onClick={() => setOpenEmojiPicker(false)}
-          >
+          <div className="flex flex-col gap-6sm:h-full">
             <div className="border-b border-gray-200 pb-3 flex justify-between items-center">
               <h3 className="text-lg font-inter font-semibold text-black">
                 Reply
@@ -335,14 +334,14 @@ export const ReplyChatBoxModal = ({
                 <div className="flex flex-col gap-1.5">
                   {" "}
                   <img
-                    src={getProfileDetails(chat?.authorId, users)?.photoURL}
+                    src={getProfileDetails(reply?.authorId, users)?.photoURL}
                     className="w-[40px] h-[40px] min-h-[40px] min-w-[40px] max-h-[40px] max-w-[40px] rounded-sm object-cover border-2 border-red-50 shadow-md sm:w-[35px] sm:h-[35px] sm:min-h-[35px] sm:min-w-[35px] sm:max-h-[35px] sm:max-w-[35px]"
                   />
                   {/* long line to connect */}
                   <div className="w-1 h-full bg-gray-200 rounded-full mx-auto sm:w-1"></div>
                 </div>
 
-                <ReplyChatContent chat={chat} users={users} />
+                <ReplyChatContent chat={reply} users={users} />
               </div>
               <div className="flex gap-1">
                 <div className="flex">
@@ -363,7 +362,7 @@ export const ReplyChatBoxModal = ({
                   <div className="max-h-[400px] overflow-y-scroll scroll-bar-beauty w-full sm:max-h-[calc(100vh-300px)]">
                     <textarea
                       placeholder={`Reply to ${
-                        getProfileDetails(chat?.authorId, users)?.name
+                        getProfileDetails(reply?.authorId, users)?.name
                       }`}
                       className="w-full rounded-md font-inter text-base border bggray-200 border-white px-0.5 py-1 resize-none overflow-hidden text-black focus:outline-none focus:ring-0 focus:ring-none focus:border-white transition duration-300 ease-in-out md:px-0"
                       ref={textRef}
@@ -471,10 +470,7 @@ export const ReplyChatBoxModal = ({
                     />
                   </button>
                   <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setOpenEmojiPicker((prev) => !prev);
-                    }}
+                    onClick={() => setOpenEmojiPicker(!openEmojiPicker)}
                     ref={emojiPickerRef}
                     className="flex items-center gap-2"
                     title="add emoji"

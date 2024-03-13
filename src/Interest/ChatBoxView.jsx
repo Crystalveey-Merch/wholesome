@@ -65,7 +65,8 @@ export const ChatBoxView = ({ interests, users }) => {
           {" "}
           <button
             className="p-2 h-10 w-10 rounded-full flex items-center justify-center transition duration-300 ease-in-out hover:bg-gray-50"
-            onClick={() => navigate(`/i/${convertToLowercase(interest.name)}`)}
+            // go back to the previous page
+            onClick={() => navigate(-1)}
           >
             <FontAwesomeIcon icon={faArrowLeftLong} className="h-5 w-5" />
           </button>
