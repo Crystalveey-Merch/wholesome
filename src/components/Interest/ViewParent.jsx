@@ -13,10 +13,11 @@ import {
   getProfileDetails,
   handleLikeChatBox,
   handleUnlikeChatBox,
+  getReplyDetails,
 } from "../../Hooks";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../Features/userSlice";
-import { ReplyChatBoxModal } from "./ReplyChatBoxModal";
+import { ReplyChatBoxModal, ReplyUnderParent } from ".";
 
 export const ViewParent = ({ chat, interest, users }) => {
   const loggedInUser = useSelector(selectUser);
@@ -24,10 +25,12 @@ export const ViewParent = ({ chat, interest, users }) => {
 
   const [showReplyModal, setShowReplyModal] = useState(false);
 
+  //
+
   return (
-    <div className="flex flex-col gap-2">
-      <div className="flex flex-col gap-3">
-        <div className="w-full flex justify-between items-start">
+    <div className="flex flex-col gap-2 pb-10">
+      <div className="flex flex-col gap-0">
+        <div className="w-full flex justify-between items-start pb-1">
           <div className="flex gap-3 items-center">
             <img
               src={user?.photoURL}
@@ -58,7 +61,7 @@ export const ViewParent = ({ chat, interest, users }) => {
             />
           </button>
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-1 py-2">
           {" "}
           <div className="text-black font-inter font-medium text-[0.95rem]">
             <HighlightedText content={chat.text} users={users} />
@@ -296,6 +299,19 @@ export const ViewParent = ({ chat, interest, users }) => {
         </div>
 
         <hr className="border-gray-200" />
+        {chat.comments.length > 0 && (
+          <div className="flex flex-col gap-0">
+            {chat.comments.map((reply, index) => (
+              <ReplyUnderParent
+                key={index}
+                reply={getReplyDetails(reply.id, interest)}
+                // chat={chat}
+                interest={interest}
+                users={users}
+              />
+            ))}
+          </div>
+        )}
       </div>
       <ReplyChatBoxModal
         isOpen={showReplyModal}

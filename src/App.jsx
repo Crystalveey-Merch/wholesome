@@ -388,7 +388,7 @@ function App() {
               <DashboardLayout users={users} allChats={allChats}>
                 <InterestLayout interests={interests}>
                   <InterestFeed>
-                    <AllChatBox interests={interests} />
+                    <AllChatBox interests={interests} users={users} />
                   </InterestFeed>
                 </InterestLayout>
               </DashboardLayout>

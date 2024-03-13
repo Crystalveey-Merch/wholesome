@@ -26,7 +26,7 @@ export const ChatBoxBox = ({ chat, interest, user, users }) => {
 
   return (
     <div
-      className="p-4 border border-gray-100 rounded-xl bg-white flex gap-2.5 transition duration-300 ease-in-out sm:p-2 hover:bg-gray-50 hover:cursor-pointer"
+      className="p-4 border border-gray-100 rounded-xl bg-white flex gap-2.5 transition duration-300 ease-in-out sm:p-2 hover:bg-[#fefefe] hover:cursor-pointer"
       onClick={() =>
         navigate(`/i/${convertToLowercase(interest.name)}/chat/${chat.id}`)
       }
@@ -63,12 +63,12 @@ export const ChatBoxBox = ({ chat, interest, user, users }) => {
           </button>
         </div>
         <div className="text-black font-inter font-medium text-[0.95rem]">
-          <HighlightedText content={chat.text} users={users} />
+          <HighlightedText content={chat?.text} users={users} />
         </div>
         <div className="">
-          {chat.images.length + chat.videos.length === 1 ? (
+          {chat?.images?.length + chat?.videos?.length === 1 ? (
             <div className="">
-              {chat.images.map((image, index) => (
+              {chat?.images?.map((image, index) => (
                 <img
                   key={index}
                   src={image}
