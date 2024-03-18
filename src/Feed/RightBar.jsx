@@ -12,7 +12,7 @@ export const RightBar = ({ posts, loading, events, users, activities }) => {
   }
 
   return (
-    <div className="w-[340px] min-h-[calc(100vh-158px)] h-max flex flex-col gap-4 xl:w-[300px] lg:w-[340px] lg:pb-16 md:w-[300px] sm:w-full">
+    <div className="rightBar-width min-h-[calc(100vh-158px)] h-max flex flex-col gap-4 lg:pb-16 sm:w-full">
       <CommunitySpotLightCard users={users} />
       <TrendingArticlesCard posts={posts} users={users} />
       <EventsCard events={events} />

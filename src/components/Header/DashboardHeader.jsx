@@ -157,15 +157,15 @@ export const DashboardHeader = ({ users, allChats }) => {
       </div>
       <button
         onClick={openSearch}
-        className="hidden sm:flex items-center p-2 rounded-md hover:bg-gray-100"
+        className="hidden items-center p-2 rounded-md hover:bg-gray-100"
       >
         <FontAwesomeIcon
           icon={faSearch}
           className="text-[#3c4248] h-[18px] w-[18px]"
         />
       </button>
-      <div className="block relative sm:hidden">
-        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none sm:hidden">
+      <div className="block relative">
+        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
           <svg
             aria-hidden="true"
             className="w-5 h-5 text-gray-500 dark:text-gray-400"
@@ -184,12 +184,12 @@ export const DashboardHeader = ({ users, allChats }) => {
           type="text"
           onClick={openSearch}
           placeholder="Search Wholesquare"
-          className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-300 focus:border-gray-300 block w-[400px] pl-10 p-2.5 transition duration-500 ease-in-out focus:outline-none focus:ring-2 focus:ring-opacity-50 lg:w-[300px] sm:w-[185px] sm:py-1.5"
+          className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-300 focus:border-gray-300 block w-[400px] pl-10 p-2.5 transition duration-500 ease-in-out focus:outline-none focus:ring-2 focus:ring-opacity-50 lg:w-[300px] sm:w-[220px] sm:py-1.5"
         />
       </div>
       <div className="flex gap-3 items-center">
         {user && (
-          <div className="flex gap-3 items-center">
+          <div className="flex gap-3 items-center sm:hidden">
             <button
               onClick={setCreateModalOpen}
               className="flex gap-2 items-center p-2 rounded-md hover:bg-gray-100"
