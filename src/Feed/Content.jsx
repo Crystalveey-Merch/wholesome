@@ -35,6 +35,7 @@ import clappedImg from "./assets/clapping-clapped.png";
 import { faBookmark } from "@fortawesome/free-regular-svg-icons"; //for yet to be bookmarked
 import {
   faBookmark as faBookmarkSolid,
+  faArrowLeftLong,
   // faShareNodes,
 } from "@fortawesome/free-solid-svg-icons"; //for already bookmarked
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -287,11 +288,18 @@ export const Content = ({ posts, setPosts, users }) => {
   const url = `https://wholesquare.org/readmore/${postId}`;
 
   return (
-    <div className="pt-[126px] py-20 px-12 flex items-center font-inter justify-center xl:px-6 md:px-2 md:py-28">
+    <div className="pt-[126px] py-10 px-12 flex flex-col gap-4 items-center font-inter justify-center xl:px-6 md:px-2 md:py-24">
       <Helmet>
         <title>{postTitle}</title>
         <meta name="description" content={content.slice(0, 150) + "..."} />
       </Helmet>
+      <button
+        className="p-2 h-10 w-10 place-self-start rounded-full flex items-center justify-center transition duration-300 ease-in-out hover:bg-gray-50"
+        // go back to the previous page
+        onClick={() => navigate(-1)}
+      >
+        <FontAwesomeIcon icon={faArrowLeftLong} className="h-5 w-5" />
+      </button>
       {/* formerly 800px */}
       <div className="max-w-[850px] w-full px-12 flex flex-col gap-5 border border-gray-200 p-5 rounded-md 2xl:px-10 xl:px-6 xl:w[600px] lg:w[650px] lg:p-4 lg:px-6 md:w-full md:border-none md:shadow-none md:gap-3 sm:px-2">
         <div className="flex gap-3">
@@ -345,7 +353,9 @@ export const Content = ({ posts, setPosts, users }) => {
           <div className="flex gap-2 items-center">
             {likes?.length < 1 ? (
               <div
-                onClick={() => handleLikePost(post, loggedInUser)}
+                onClick={() =>
+                  handleLikePost(post, loggedInUser, posts, setPosts)
+                }
                 className="cursor-pointer focus:scale-120 transition duration-150 ease-in-out"
               >
                 <img src={notClapImg} alt="clap" className="h-6 w-6" />
@@ -354,7 +364,9 @@ export const Content = ({ posts, setPosts, users }) => {
               <>
                 {likes?.includes(loggedInUser?.id) ? (
                   <div
-                    onClick={() => handleUnlikePost(post, loggedInUser)}
+                    onClick={() =>
+                      handleUnlikePost(post, loggedInUser, posts, setPosts)
+                    }
                     className="cursor-pointer flex gap-1 items-center"
                   >
                     <div className="cursor-pointer hover:scale50 transition duration-150 ease-in-out">
@@ -367,7 +379,9 @@ export const Content = ({ posts, setPosts, users }) => {
                   </div>
                 ) : (
                   <div
-                    onClick={() => handleLikePost(post, loggedInUser)}
+                    onClick={() =>
+                      handleLikePost(post, loggedInUser, posts, setPosts)
+                    }
                     className="cursor-pointer flex gap-1 items-center"
                   >
                     <div className="cursor-pointer hover:scale50 transition duration-150 ease-in-out">

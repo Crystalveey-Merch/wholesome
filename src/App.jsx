@@ -814,7 +814,12 @@ function App() {
               <InterestLayout interests={interests}>
                 <Interest interests={interests}>
                   <BottomFeedTab users={users}>
-                    <InterestArticles interests={interests} posts={posts} />
+                    <InterestArticles
+                      interests={interests}
+                      posts={posts}
+                      setPosts={setPosts}
+                      users={users}
+                    />
                   </BottomFeedTab>
                 </Interest>
               </InterestLayout>
@@ -912,7 +917,14 @@ function App() {
             <DashboardLayout users={users} allChats={allChats}>
               <InterestLayout interests={interests}>
                 <InterestFeed>
-                  <AllArticles interests={interests} posts={posts} />
+                  <BottomFeedTab users={users}>
+                    <AllArticles
+                      interests={interests}
+                      posts={posts}
+                      setPosts={setPosts}
+                      users={users}
+                    />
+                  </BottomFeedTab>
                 </InterestFeed>
               </InterestLayout>
             </DashboardLayout>
@@ -924,10 +936,12 @@ function App() {
             <DashboardLayout users={users} allChats={allChats}>
               <InterestLayout interests={interests}>
                 <InterestFeed>
-                  <AllActivities
-                    interests={interests}
-                    activities={activities}
-                  />
+                  <BottomFeedTab users={users}>
+                    <AllActivities
+                      interests={interests}
+                      activities={activities}
+                    />
+                  </BottomFeedTab>
                 </InterestFeed>
               </InterestLayout>
             </DashboardLayout>
@@ -939,7 +953,9 @@ function App() {
             <DashboardLayout users={users} allChats={allChats}>
               <InterestLayout interests={interests}>
                 <InterestFeed>
-                  <AllPodcasts interests={interests} podcasts={podcasts} />
+                  <BottomFeedTab users={users}>
+                    <AllPodcasts interests={interests} podcasts={podcasts} />
+                  </BottomFeedTab>
                 </InterestFeed>
               </InterestLayout>
             </DashboardLayout>
@@ -951,7 +967,9 @@ function App() {
             <DashboardLayout users={users} allChats={allChats}>
               <InterestLayout interests={interests}>
                 <InterestFeed>
-                  <AllEvents interests={interests} events={events} />
+                  <BottomFeedTab users={users}>
+                    <AllEvents interests={interests} events={events} />
+                  </BottomFeedTab>
                 </InterestFeed>
               </InterestLayout>
             </DashboardLayout>

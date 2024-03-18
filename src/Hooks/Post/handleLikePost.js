@@ -1,7 +1,7 @@
 import { doc, updateDoc, arrayUnion } from "firebase/firestore";
 import { db } from "../../firebase/auth.js";
 
-export const handleLikePost = async (post, loggedInUser) => {
+export const handleLikePost = async (post, loggedInUser, posts, setPosts) => {
   //   const postId = post.id;
   const postRef = doc(db, "posts", post.id);
 
@@ -39,4 +39,12 @@ export const handleLikePost = async (post, loggedInUser) => {
   //         : post
   //     )
   //   );
+  // Update the posts state to reflect the change in likes
+  const updatedPosts = posts.map((p) => {
+    if (p.id === post.id) {
+      return { ...p, likes: [...(p.likes || []), loggedInUser?.id] };
+    }
+    return p;
+  });
+ await setPosts(updatedPosts);
 };

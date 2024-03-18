@@ -16,7 +16,7 @@ import clappedImg from "../../Feed/assets/clapping-clapped.png";
 import readSVG from "../../Feed/assets/read.svg";
 import devAvatar from "../../assets/avatar-default.png";
 
-export const HomePostCard = ({ post, users }) => {
+export const HomePostCard = ({ post, users, posts, setPosts }) => {
   const loggedInUser = useSelector(selectUser);
 
   // filter out other characters except letters and single space
@@ -103,7 +103,9 @@ export const HomePostCard = ({ post, users }) => {
           <div className="flex gap-2 items-center">
             {post?.likes?.length < 1 ? (
               <div
-                onClick={() => handleLikePost(post, loggedInUser)}
+                onClick={() =>
+                  handleLikePost(post, loggedInUser, posts, setPosts)
+                }
                 className="cursor-pointer focus:scale-120 transition duration-150 ease-in-out"
               >
                 <img src={notClapImg} alt="clap" className="h-6 w-6" />
@@ -112,7 +114,7 @@ export const HomePostCard = ({ post, users }) => {
               <>
                 {post?.likes?.includes(loggedInUser?.id) ? (
                   <div
-                    onClick={() => handleUnlikePost(post, loggedInUser)}
+                    onClick={() => handleUnlikePost(post, loggedInUser, posts, setPosts)}
                     className="cursor-pointer flex gap-1 items-center"
                   >
                     <div className="cursor-pointer hover:scale50 transition duration-150 ease-in-out">
@@ -125,7 +127,9 @@ export const HomePostCard = ({ post, users }) => {
                   </div>
                 ) : (
                   <div
-                    onClick={() => handleLikePost(post, loggedInUser)}
+                    onClick={() =>
+                      handleLikePost(post, loggedInUser, posts, setPosts)
+                    }
                     className="cursor-pointer flex gap-1 items-center"
                   >
                     <div className="cursor-pointer hover:scale50 transition duration-150 ease-in-out">
