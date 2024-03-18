@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../Features/userSlice";
 
 export const MiniHeader = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -31,6 +33,8 @@ export const MiniHeader = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [menuOpen]);
 
+  const user = useSelector(selectUser);
+
   return (
     <header className="fixed font-inter top-0 left-0 w-full z-30 px-36  flex justify-between py-5 items-center bg-white border-b border-gray-200 2xl:px-20 lg:px-10 md:px-6">
       <Link to="/">
@@ -47,21 +51,23 @@ export const MiniHeader = () => {
             About Us
           </Link>
         </li>
-        <li className="flex gap-6">
-          <Link
-            to="/login"
-            className="w-max px-8 py-3 text-[#000000] text-base font-inter font-semibold bg-white border border-gray-100 rounded-md focus:outline-none focus:ring-0 focus:border-red-300 focus:ring-transparent transition duration-300 ease-in-out lg:py-2.5 lg:px-6 lg:font-medium lg:text-sm"
-          >
-            Login
-          </Link>
+        {!user && (
+          <li className="flex gap-6">
+            <Link
+              to="/login"
+              className="w-max px-8 py-3 text-[#000000] text-base font-inter font-semibold bg-white border border-gray-100 rounded-md focus:outline-none focus:ring-0 focus:border-red-300 focus:ring-transparent transition duration-300 ease-in-out lg:py-2.5 lg:px-6 lg:font-medium lg:text-sm"
+            >
+              Login
+            </Link>
 
-          <Link
-            to="/signup"
-            className="w-max px-8 py-3 text-white text-base font-inter font-semibold bg-[#ff5841] rounded-md focus:outline-none focus:ring-0 focus:border-red-300 focus:ring-transparent transition duration-300 ease-in-out lg:py-2.5 lg:px-6 lg:font-medium lg:text-sm"
-          >
-            Sign Up
-          </Link>
-        </li>
+            <Link
+              to="/signup"
+              className="w-max px-8 py-3 text-white text-base font-inter font-semibold bg-[#ff5841] rounded-md focus:outline-none focus:ring-0 focus:border-red-300 focus:ring-transparent transition duration-300 ease-in-out lg:py-2.5 lg:px-6 lg:font-medium lg:text-sm"
+            >
+              Sign Up
+            </Link>
+          </li>
+        )}
       </ul>
       <button
         id="menu-btn"
@@ -97,20 +103,22 @@ export const MiniHeader = () => {
               </Link>
             </li> */}
           </ul>
-          <div className="flex flex-col gap-5">
-            <Link
-              to="/login"
-              className="w-max link-item px-8 py-3 text-white text-base font-inter font-semibold bg-[#ff5841] rounded-md focus:outline-none focus:ring-0 focus:border-red-300 focus:ring-transparent transition duration-300 ease-in-out lg:py-2.5 lg:px-6 lg:font-medium lg:text-sm"
-            >
-              Login
-            </Link>
-            <Link
-              to="/signup"
-              className="w-max link-item px-8 py-3 text-white text-base font-inter font-semibold bg-[#ff5841] rounded-md focus:outline-none focus:ring-0 focus:border-red-300 focus:ring-transparent transition duration-300 ease-in-out lg:py-2.5 lg:px-6 lg:font-medium lg:text-sm"
-            >
-              Sign Up
-            </Link>
-          </div>
+          {!user && (
+            <div className="flex flex-col gap-5">
+              <Link
+                to="/login"
+                className="w-max link-item px-8 py-3 text-white text-base font-inter font-semibold bg-[#ff5841] rounded-md focus:outline-none focus:ring-0 focus:border-red-300 focus:ring-transparent transition duration-300 ease-in-out lg:py-2.5 lg:px-6 lg:font-medium lg:text-sm"
+              >
+                Login
+              </Link>
+              <Link
+                to="/signup"
+                className="w-max link-item px-8 py-3 text-white text-base font-inter font-semibold bg-[#ff5841] rounded-md focus:outline-none focus:ring-0 focus:border-red-300 focus:ring-transparent transition duration-300 ease-in-out lg:py-2.5 lg:px-6 lg:font-medium lg:text-sm"
+              >
+                Sign Up
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </header>

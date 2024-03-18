@@ -9,6 +9,10 @@ import { Helmet } from "react-helmet-async";
 import { useSelector } from "react-redux";
 import { selectUser } from "../Features/userSlice";
 import { NewHome } from ".";
+import { DashboardLayout, DefaultLayout } from "../Layouts";
+import { Layout, Feed } from "../Interest";
+import { AllChatBox } from "../Interest/AllInterest";
+import { BottomFeedTab } from "../components/Feed";
 
 const Homepage = ({
   users,
@@ -18,6 +22,7 @@ const Homepage = ({
   events,
   activities,
   interests,
+  allChats,
 }) => {
   const user = useSelector(selectUser);
 
@@ -77,17 +82,27 @@ const Homepage = ({
         />
       </Helmet>
       {user ? (
-        <></>
+        <DashboardLayout users={users} allChats={allChats}>
+          <Layout interests={interests}>
+            <BottomFeedTab users={users}>
+              <Feed>
+                <AllChatBox interests={interests} users={users} />
+              </Feed>
+            </BottomFeedTab>
+          </Layout>
+        </DashboardLayout>
       ) : (
-        <NewHome
-          users={users}
-          posts={posts}
-          setPosts={setPosts}
-          loading={postLoading}
-          events={events}
-          activities={activities}
-          interests={interests}
-        />
+        <DefaultLayout>
+          <NewHome
+            users={users}
+            posts={posts}
+            setPosts={setPosts}
+            loading={postLoading}
+            events={events}
+            activities={activities}
+            interests={interests}
+          />
+        </DefaultLayout>
         // <div className="h-full  w-screen pt-20 sm:pt-14  bg-stone-100">
         //   <Section1 />
         //   <Section1plus />

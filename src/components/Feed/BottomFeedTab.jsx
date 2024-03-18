@@ -2,8 +2,15 @@
 import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { openRightBar } from "../../Features/openRightBarSlice";
+import { openCreateModal } from "../../Features/openCreateModalSlice";
 import { selectUser } from "../../Features/userSlice";
-import { CreateSVG, FeedSVG, MoreSVG, NotificationSVG } from "../../SVG";
+import {
+  CreateSVG,
+  HomeSVG,
+  MessageSVG,
+  MoreSVG,
+  NotificationSVG,
+} from "../../SVG";
 import { getProfileDetails } from "../../Hooks";
 
 export const BottomFeedTab = ({ children, users }) => {
@@ -20,6 +27,10 @@ export const BottomFeedTab = ({ children, users }) => {
     users
   )?.notifications.filter((notification) => !notification.hasSeen);
 
+  const setCreateModalOpen = () => {
+    dispatch(openCreateModal());
+  };
+
   return (
     <>
       {children}
@@ -30,13 +41,16 @@ export const BottomFeedTab = ({ children, users }) => {
             : "hidden fixed z-20 left-0 right-0 w-full bottom-0 cursor-pointer sm:block"
         }`}
       >
-        <div className="bg-white w-full px-7 py-3.5 flex justify-between items-center border-t border-gray-300">
-          <Link to="/feed">
-            <FeedSVG />
+        <div className="bg-white w-full px-5 py-3.5 flex justify-between items-center border-t border-gray-300">
+          <Link to="/">
+            <HomeSVG />
           </Link>
-          <Link to="/createpost">
+          <Link to="/messages">
+            <MessageSVG />
+          </Link>
+          <button onClick={setCreateModalOpen}>
             <CreateSVG />
-          </Link>
+          </button>
           <Link to="/notifications" className="relative">
             <NotificationSVG />
             {unseenNotifications?.length > 0 && (

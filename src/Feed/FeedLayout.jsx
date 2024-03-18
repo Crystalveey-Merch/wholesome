@@ -133,9 +133,9 @@ export const FeedLayout = ({ children }) => {
   //   console.log(rightBarSlideOpen);
 
   return (
-    <div className="flex justify-center min-h-[calc(100vh-0px)] w-screen gap-12 font-inter text-black overflowhidden px-4 xl:gap-6 sm:px-0">
+    <div className="flex justify-center min-h-[calc(100vh-0px)] w-screen gap-6 font-inter text-black overflowhidden px-4 xl:gap-2 sm:px-0">
       <div
-        className={`w-full pt-[56px] pb-9 max-w-3xl flex flex-col gap-4 overflowauto xl:max-w-[650px] lg:max-w-3xl md:max-w-[650px] lg:px-5 md:px-2 sm:px-0 ${location.pathname.includes(
+        className={`feed-layout-width px-0 pt-[20px] pb-9 flex flex-col gap-4 overflowauto lg:px-5 md:px-2 sm:px-0 ${location.pathname.includes(
           ""
         )}`}
       >
@@ -179,7 +179,7 @@ export const FeedLayout = ({ children }) => {
       >
         <div
           ref={rightBarRef}
-          className="px min- h-max pt-[126px] pb-9 lg:overflow-y-auto lg:bg-white lg:w-max lg:place-self-end lg:h-full lg:px-4 lg:flex lg:flex-col lg:gap-8 lg:pt-[106px] lg:items-end md:pt-[90px] sm:mb-10"
+          className="px-0 min- h-max pt-[16px] pb-9 lg:overflow-y-auto lg:bg-white lg:w-max lg:place-self-end lg:h-full lg:px-4 lg:flex lg:flex-col lg:gap-8 lg:pt-[106px] lg:items-end md:pt-[90px] sm:mb-10"
           onClick={(e) => e.stopPropagation()}
         >
           <div

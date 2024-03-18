@@ -11,13 +11,13 @@ export const NotificationSVG = () => {
     ${
       location.pathname === "/notifications"
         ? "text-[#FF5841]"
-        : "text-[#919EAB]"
+        : "text-[#000000]"
     }`}
     >
       <FontAwesomeIcon
         icon={location.pathname === "/notifications" ? solid : faBell}
         className={`h-6 w-6
-            ${location.pathname === "/notifications" ? "#FF5841" : "#919EAB"}`}
+            ${location.pathname === "/notifications" ? "#FF5841" : "#000000"}`}
       />
     </div>
   );

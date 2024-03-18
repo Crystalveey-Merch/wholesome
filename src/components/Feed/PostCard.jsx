@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { doc, updateDoc } from "firebase/firestore";
+// import { doc, updateDoc } from "firebase/firestore";
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -13,7 +13,7 @@ import {
 } from "../../Hooks";
 import { selectUser } from "../../Features/userSlice";
 // import { selectUsers } from "../../Features/usersSlice";
-import { db } from "../../firebase/auth";
+// import { db } from "../../firebase/auth";
 import { faChartSimple } from "@fortawesome/free-solid-svg-icons";
 import { faBookmark } from "@fortawesome/free-regular-svg-icons"; //for yet to be bookmarked
 import { faBookmark as faBookmarkSolid } from "@fortawesome/free-solid-svg-icons"; //for already bookmarked
@@ -28,75 +28,75 @@ export const PostCard = ({ post, posts, setPosts, users }) => {
 
   // const users = useSelector(selectUsers);
   const postRef = useRef(null);
-  const [hasViewedP, setHasViewedP] = useState(false);
+  // const [hasViewedP, setHasViewedP] = useState(false);
 
   const postId = post.id;
 
-  useEffect(() => {
-    const observerOptions = {
-      root: null,
-      rootMargin: "0px",
-      threshold: 0.5,
-    };
+  // useEffect(() => {
+  //   const observerOptions = {
+  //     root: null,
+  //     rootMargin: "0px",
+  //     threshold: 0.5,
+  //   };
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setHasViewedP(true);
-          observer.unobserve(entry.target);
-          updatePostViews(post.id);
-        }
-      });
-    }, observerOptions);
+  //   const observer = new IntersectionObserver((entries) => {
+  //     entries.forEach((entry) => {
+  //       if (entry.isIntersecting) {
+  //         setHasViewedP(true);
+  //         observer.unobserve(entry.target);
+  //         updatePostViews(post.id);
+  //       }
+  //     });
+  //   }, observerOptions);
 
-    if (postRef.current) {
-      observer.observe(postRef.current);
-    }
+  //   if (postRef.current) {
+  //     observer.observe(postRef.current);
+  //   }
 
-    return () => {
-      if (postRef.current) {
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        observer.unobserve(postRef.current);
-      }
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [post.id]);
+  //   return () => {
+  //     if (postRef.current) {
+  //       // eslint-disable-next-line react-hooks/exhaustive-deps
+  //       observer.unobserve(postRef.current);
+  //     }
+  //   };
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [post.id]);
 
-  const updatePostViews = async (postId) => {
-    try {
-      const postRef = doc(db, "posts", postId);
-      const hasViewed = post.analytics.viewers.includes(loggedInUser?.id);
-      const updatedAnalytics = {
-        views: hasViewedP ? post.analytics.views : post.analytics.views + 1,
-        viewers: loggedInUser?.id
-          ? hasViewed
-            ? [...post.analytics.viewers]
-            : [...post.analytics.viewers, loggedInUser?.id]
-          : [...post.analytics.viewers], // If no user is logged in, keep the viewers array unchanged
-        visits: post.analytics.visits,
-        visitors: post.analytics.visitors,
-      };
-      await updateDoc(postRef, {
-        analytics: updatedAnalytics,
-      });
+  // const updatePostViews = async (postId) => {
+  //   try {
+  //     const postRef = doc(db, "posts", postId);
+  //     const hasViewed = post.analytics.viewers.includes(loggedInUser?.id);
+  //     const updatedAnalytics = {
+  //       views: hasViewedP ? post.analytics.views : post.analytics.views + 1,
+  //       viewers: loggedInUser?.id
+  //         ? hasViewed
+  //           ? [...post.analytics.viewers]
+  //           : [...post.analytics.viewers, loggedInUser?.id]
+  //         : [...post.analytics.viewers], // If no user is logged in, keep the viewers array unchanged
+  //       visits: post.analytics.visits,
+  //       visitors: post.analytics.visitors,
+  //     };
+  //     await updateDoc(postRef, {
+  //       analytics: updatedAnalytics,
+  //     });
 
-      // setPosts(
-      //     posts.map((post) => {
-      //         if (post.id === postId) {
-      //             return {
-      //                 ...post,
-      //                 analytics: updatedAnalytics,
-      //             };
-      //         }
-      //         return post;
-      //     })
-      // );
-      // console.log('Post views updated' + post.analytics.views);
-    } catch (error) {
-      //console.log(loggedInUser?.id);
-      console.log("Error updating post views:", error);
-    }
-  };
+  // setPosts(
+  //     posts.map((post) => {
+  //         if (post.id === postId) {
+  //             return {
+  //                 ...post,
+  //                 analytics: updatedAnalytics,
+  //             };
+  //         }
+  //         return post;
+  //     })
+  // );
+  // console.log('Post views updated' + post.analytics.views);
+  //   } catch (error) {
+  //     //console.log(loggedInUser?.id);
+  //     console.log("Error updating post views:", error);
+  //   }
+  // };
 
   // filter out other characters except letters and single space
   const filterOutOtherCharacters = (string) => {

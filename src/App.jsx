@@ -110,6 +110,7 @@ import {
 } from "./Features/openCreateModalSlice.js";
 import moreImg from "./Feed/assets/aurora.png";
 import { CreateModal } from "./CreatePost/CreateModal.jsx";
+import { BottomFeedTab } from "./components/Feed/BottomFeedTab.jsx";
 // import { BottomFeedTab } from "./components/Feed/";
 // import { MiniHeader } from "./components/Header/MiniHeader.jsx";
 
@@ -129,6 +130,7 @@ function App() {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   // const loggedInUser = useSelector(selectUser);
   // const [chatId, setChatId] = useState(null);
+  console.log(posts);
 
   onAuthStateChanged(auth, async (userAuth) => {
     if (userAuth) {
@@ -380,7 +382,7 @@ function App() {
           }
         />
         <Route path="/whatwedo" element={<Whatwedo />} />
-        {isUserLoggedIn ? (
+        {/* {isUserLoggedIn ? (
           <Route
             path="/"
             element={
@@ -395,24 +397,25 @@ function App() {
               //  </BottomFeedTab>
             }
           />
-        ) : (
-          <Route
-            path="/"
-            element={
-              <DefaultLayout>
-                <Homepage
-                  users={users}
-                  posts={posts}
-                  setPosts={setPosts}
-                  events={events}
-                  eventLoading={eventLoading}
-                  activities={activities}
-                  interests={interests}
-                />
-              </DefaultLayout>
-            }
-          />
-        )}
+        ) : ( */}
+        <Route
+          path="/"
+          element={
+            // <DefaultLayout>
+            <Homepage
+              users={users}
+              posts={posts}
+              setPosts={setPosts}
+              events={events}
+              eventLoading={eventLoading}
+              activities={activities}
+              interests={interests}
+              allChats={allChats}
+            />
+            // </DefaultLayout>
+          }
+        />
+        {/* )} */}
 
         <Route path="/account" element={<Account users={users} />} />
         {/* <Route path="/signup" element={<Signip />} /> */}
@@ -540,15 +543,19 @@ function App() {
           path="/search"
           element={
             <DashboardLayout users={users} allChats={allChats}>
-              <FeedLayout>
-                <SearchUser
-                  users={users}
-                  posts={posts}
-                  setPosts={setPosts}
-                  activities={activities}
-                  events={events}
-                />
-              </FeedLayout>
+              <InterestLayout interests={interests}>
+                <FeedLayout>
+                  <BottomFeedTab users={users}>
+                    <SearchUser
+                      users={users}
+                      posts={posts}
+                      setPosts={setPosts}
+                      activities={activities}
+                      events={events}
+                    />
+                  </BottomFeedTab>
+                </FeedLayout>
+              </InterestLayout>
             </DashboardLayout>
           }
         />
@@ -556,15 +563,19 @@ function App() {
           path="/topic/:topicSTR"
           element={
             <DashboardLayout users={users} allChats={allChats}>
-              <FeedLayout>
-                <Topics
-                  users={users}
-                  setPosts={setPosts}
-                  posts={posts}
-                  activities={activities}
-                  events={events}
-                />
-              </FeedLayout>
+              <InterestLayout interests={interests}>
+                <FeedLayout>
+                  <BottomFeedTab users={users}>
+                    <Topics
+                      users={users}
+                      setPosts={setPosts}
+                      posts={posts}
+                      activities={activities}
+                      events={events}
+                    />
+                  </BottomFeedTab>
+                </FeedLayout>
+              </InterestLayout>
             </DashboardLayout>
           }
         />
@@ -572,14 +583,18 @@ function App() {
           path="/:username"
           element={
             <DashboardLayout users={users} allChats={allChats}>
-              <FeedLayout>
-                <Profile20
-                  users={users}
-                  posts={posts}
-                  setPosts={setPosts}
-                  events={events}
-                />
-              </FeedLayout>
+              <InterestLayout interests={interests}>
+                <FeedLayout>
+                  <BottomFeedTab users={users}>
+                    <Profile20
+                      users={users}
+                      posts={posts}
+                      setPosts={setPosts}
+                      events={events}
+                    />
+                  </BottomFeedTab>
+                </FeedLayout>
+              </InterestLayout>
             </DashboardLayout>
           }
         />
@@ -587,10 +602,15 @@ function App() {
           path="/:username/followers"
           element={
             <DashboardLayout users={users} allChats={allChats}>
-              <FeedLayout>
-                <FollowersAndFollowing users={users} />
-                <Followers users={users} />
-              </FeedLayout>
+              <InterestLayout interests={interests}>
+                <FeedLayout>
+                  <BottomFeedTab users={users}>
+                    <FollowersAndFollowing users={users}>
+                      <Followers users={users} />
+                    </FollowersAndFollowing>
+                  </BottomFeedTab>
+                </FeedLayout>
+              </InterestLayout>
             </DashboardLayout>
           }
         />
@@ -598,10 +618,15 @@ function App() {
           path="/:username/following"
           element={
             <DashboardLayout users={users} allChats={allChats}>
-              <FeedLayout>
-                <FollowersAndFollowing users={users} />
-                <FollowingUsers users={users} />
-              </FeedLayout>
+              <InterestLayout interests={interests}>
+                <FeedLayout>
+                  <BottomFeedTab users={users}>
+                    <FollowersAndFollowing users={users}>
+                      <FollowingUsers users={users} />
+                    </FollowersAndFollowing>
+                  </BottomFeedTab>
+                </FeedLayout>
+              </InterestLayout>
             </DashboardLayout>
           }
         />
@@ -611,9 +636,11 @@ function App() {
             <ProtectedRoute>
               <DashboardLayout users={users} allChats={allChats}>
                 <InterestLayout interests={interests}>
-                  <Messages users={users} allChats={allChats}>
-                    <SelectMessage users={users} />
-                  </Messages>
+                  <BottomFeedTab users={users}>
+                    <Messages users={users} allChats={allChats}>
+                      <SelectMessage users={users} />
+                    </Messages>
+                  </BottomFeedTab>
                 </InterestLayout>
               </DashboardLayout>
             </ProtectedRoute>
@@ -637,11 +664,11 @@ function App() {
             <ProtectedRoute>
               <DashboardLayout users={users} allChats={allChats}>
                 <InterestLayout interests={interests}>
-                  {/* <BottomFeedTab users={users}> */}
-                  <FeedLayout>
-                    <Notifications users={users} posts={posts} />
-                  </FeedLayout>
-                  {/* </BottomFeedTab>  */}
+                  <BottomFeedTab users={users}>
+                    <FeedLayout>
+                      <Notifications users={users} posts={posts} />
+                    </FeedLayout>
+                  </BottomFeedTab>
                 </InterestLayout>
               </DashboardLayout>
             </ProtectedRoute>
@@ -651,9 +678,13 @@ function App() {
           path="/feed"
           element={
             <DashboardLayout users={users} allChats={allChats}>
-              <FeedLayout>
-                <Feed posts={posts} setPosts={setPosts} users={users} />
-              </FeedLayout>
+              <InterestLayout interests={interests}>
+                <FeedLayout>
+                  <BottomFeedTab users={users}>
+                    <Feed posts={posts} setPosts={setPosts} users={users} />
+                  </BottomFeedTab>
+                </FeedLayout>
+              </InterestLayout>
             </DashboardLayout>
           }
         />
@@ -661,9 +692,17 @@ function App() {
           path="/feed/following"
           element={
             <DashboardLayout users={users} allChats={allChats}>
-              <FeedLayout>
-                <Following posts={posts} setPosts={setPosts} users={users} />
-              </FeedLayout>
+              <InterestLayout interests={interests}>
+                <FeedLayout>
+                  <BottomFeedTab users={users}>
+                    <Following
+                      posts={posts}
+                      setPosts={setPosts}
+                      users={users}
+                    />
+                  </BottomFeedTab>
+                </FeedLayout>
+              </InterestLayout>
             </DashboardLayout>
           }
         />
@@ -673,7 +712,9 @@ function App() {
           element={
             <DashboardLayout users={users} allChats={allChats}>
               <InterestLayout interests={interests}>
-                <Discover interests={interests} />
+                <BottomFeedTab users={users}>
+                  <Discover interests={interests} />
+                </BottomFeedTab>
               </InterestLayout>
             </DashboardLayout>
           }
@@ -683,7 +724,9 @@ function App() {
           element={
             <DashboardLayout users={users} allChats={allChats}>
               <InterestLayout interests={interests}>
-                <Create interests={interests} />
+                <BottomFeedTab users={users}>
+                  <Create interests={interests} />
+                </BottomFeedTab>
               </InterestLayout>
             </DashboardLayout>
           }
@@ -702,7 +745,9 @@ function App() {
               <InterestLayout interests={interests}>
                 <Interest interests={interests}>
                   {" "}
-                  <ChatBox interests={interests} users={users} />
+                  <BottomFeedTab users={users}>
+                    <ChatBox interests={interests} users={users} />
+                  </BottomFeedTab>
                 </Interest>
               </InterestLayout>
             </DashboardLayout>
@@ -713,7 +758,7 @@ function App() {
           element={
             <DashboardLayout users={users} allChats={allChats}>
               <InterestLayout interests={interests}>
-                  <ChatBoxView interests={interests} users={users} />
+                <ChatBoxView interests={interests} users={users} />
               </InterestLayout>
             </DashboardLayout>
           }
@@ -739,7 +784,9 @@ function App() {
             <DashboardLayout users={users} allChats={allChats}>
               <InterestLayout interests={interests}>
                 <Interest interests={interests}>
-                  <Activities interests={interests} />
+                  <BottomFeedTab users={users}>
+                    <Activities interests={interests} />
+                  </BottomFeedTab>
                 </Interest>
               </InterestLayout>
             </DashboardLayout>
@@ -752,7 +799,9 @@ function App() {
             <DashboardLayout users={users} allChats={allChats}>
               <InterestLayout interests={interests}>
                 <Interest interests={interests}>
-                  <Events interests={interests} />
+                  <BottomFeedTab users={users}>
+                    <Events interests={interests} />
+                  </BottomFeedTab>
                 </Interest>
               </InterestLayout>
             </DashboardLayout>
@@ -764,7 +813,9 @@ function App() {
             <DashboardLayout users={users} allChats={allChats}>
               <InterestLayout interests={interests}>
                 <Interest interests={interests}>
-                  <InterestArticles interests={interests} posts={posts} />
+                  <BottomFeedTab users={users}>
+                    <InterestArticles interests={interests} posts={posts} />
+                  </BottomFeedTab>
                 </Interest>
               </InterestLayout>
             </DashboardLayout>
@@ -776,7 +827,12 @@ function App() {
             <DashboardLayout users={users} allChats={allChats}>
               <InterestLayout interests={interests}>
                 <Interest interests={interests}>
-                  <InterestPodcasts interests={interests} podcasts={podcasts} />
+                  <BottomFeedTab users={users}>
+                    <InterestPodcasts
+                      interests={interests}
+                      podcasts={podcasts}
+                    />
+                  </BottomFeedTab>
                 </Interest>
               </InterestLayout>
             </DashboardLayout>

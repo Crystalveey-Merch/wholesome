@@ -9,13 +9,13 @@ export const CreateSVG = () => {
     <div
       className={`h-6 w-6
     ${
-      location.pathname === "/createpost" ? "text-[#FF5841]" : "text-[#919EAB]"
+      location.pathname === "/createpost" ? "text-[#FF5841]" : "text-[#000000]"
     }`}
     >
       <FontAwesomeIcon
         icon={location.pathname === "/createpost" ? solid : faPlusSquare}
         className={`h-6 w-6
-          ${location.pathname === "/createpost" ? "#FF5841" : "#919EAB"}`}
+          ${location.pathname === "/createpost" ? "#FF5841" : "#000000"}`}
       />
     </div>
   );

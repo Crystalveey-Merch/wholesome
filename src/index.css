@@ -28,6 +28,53 @@
   font-family: "Inter", sans-serif;
 }
 
+/*feed layout styling  */
+.feed-layout-width {
+  width: 100%;
+  max-width: 780px;
+}
+
+.rightBar-width {
+  width: 320px;
+}
+
+@media screen and (max-width: 1439px) {
+  .feed-layout-width {
+    max-width: 640px;
+  }
+
+  .rightBar-width {
+    width: 300px;
+  }
+}
+
+@media screen and (max-width: 1279px) {
+  .feed-layout-width {
+    max-width: 650px;
+  }
+  .rightBar-width {
+    width: 300px;
+  }
+}
+
+@media screen and (max-width: 1023px) {
+  .feed-layout-width {
+    max-width: 768px;
+  }
+  .rightBar-width {
+    width: 340px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .feed-layout-width {
+    max-width: 650px;
+  }
+  .rightBar-width {
+    width: 300px;
+  }
+}
+
 .one-line-text {
   display: -webkit-box;
   -webkit-box-orient: vertical;

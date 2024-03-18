@@ -31,10 +31,10 @@ export const ReplyUnderParent = ({ reply, interest, users }) => {
 
   const [showReplyModal, setShowReplyModal] = useState(false);
   const [showFirstReplyModal, setShowFirstReplyModal] = useState(false);
-  console.log(author.id, reply.replies);
+  // console.log(author.id, reply.replies);
 
   const parentPostDetails = interest.chatBox.find(
-    (chatBox) => chatBox.id === reply.replyingToId
+    (chatBox) => chatBox?.id === reply.replyingToId
   );
 
   useEffect(() => {
