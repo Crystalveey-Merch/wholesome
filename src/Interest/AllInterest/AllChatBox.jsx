@@ -37,7 +37,7 @@ export const AllChatBox = ({ interests, users }) => {
   // console.log(allChatBox);
 
   return (
-    <div className="py-20">
+    <div className="pt-10 pb-20">
       <div className="flex justify-center items-center w-full">
         {loggedInUser === null ? (
           <div className="flex justify-center flex-col items-center h-[400px] gap-5">

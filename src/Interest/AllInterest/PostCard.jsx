@@ -22,7 +22,7 @@ import notClapImg from "../../Feed/assets/clapping-not-clapped.png";
 import clappedImg from "../../Feed/assets/clapping-clapped.png";
 import readSVG from "../../Feed/assets/read.svg";
 
-export const PostCardHome = ({ post, posts, setPosts, users }) => {
+export const PostCard = ({ post, posts, setPosts, users }) => {
   const navigate = useNavigate();
   const loggedInUser = useSelector(selectUser);
 
@@ -80,18 +80,18 @@ export const PostCardHome = ({ post, posts, setPosts, users }) => {
   //       analytics: updatedAnalytics,
   //     });
 
-  //     // setPosts(
-  //     //     posts.map((post) => {
-  //     //         if (post.id === postId) {
-  //     //             return {
-  //     //                 ...post,
-  //     //                 analytics: updatedAnalytics,
-  //     //             };
-  //     //         }
-  //     //         return post;
-  //     //     })
-  //     // );
-  //     // console.log('Post views updated' + post.analytics.views);
+  // setPosts(
+  //     posts.map((post) => {
+  //         if (post.id === postId) {
+  //             return {
+  //                 ...post,
+  //                 analytics: updatedAnalytics,
+  //             };
+  //         }
+  //         return post;
+  //     })
+  // );
+  // console.log('Post views updated' + post.analytics.views);
   //   } catch (error) {
   //     //console.log(loggedInUser?.id);
   //     console.log("Error updating post views:", error);
@@ -156,7 +156,7 @@ export const PostCardHome = ({ post, posts, setPosts, users }) => {
         onClick={() => window.scrollTo(0, 0)}
         to={`/readmore/${post.id}`}
       >
-        <div className="w-full max-w-[450px] flex flex-grow flex-col gap-2 h[200px] xl:max-w-[332px] lg:max-w-[470px] md:max-w-[440px] sm:max-w-full">
+        <div className="w-full max-w-[480px] flex flex-grow flex-col gap-2 h[200px] xl:max-w[332px] lg:max-w-[470px] md:max-w-[440px] sm:max-w-full">
           <h2
             className="text-lg font-semibold text-black overflow-hidden md:text-base"
             id={`title-${post.id}`}
@@ -171,9 +171,9 @@ export const PostCardHome = ({ post, posts, setPosts, users }) => {
             </p>
           </div>
           <p
-            className="text-[#637381] wfit font-inter text-base font-normal title-content-container-home overflow-hidden md:text-sm"
+            className="text-[#637381] wfit font-inter text-base font-normal  title-content-container-home overflow-hidden md:text-sm"
             style={{
-              // WebkitLineClamp: titleLines === 1 ? 3 : 2,
+              //   WebkitLineClamp: titleLines === 1 ? 3 : 2,
               textOverflow: "ellipsis",
               overflowWrap: "break-word",
               wordWrap: "break-word",
@@ -185,7 +185,7 @@ export const PostCardHome = ({ post, posts, setPosts, users }) => {
         <img
           src={post.imgUrl}
           alt="post"
-          className="min-w-[200px] w-[200px] max-h-[100px] rounded-md object-cover block md:min-w-[150px] md:w-[150px] md:max-h-[100px] sm:w-full sm:max-h-[200px]"
+          className="min-w-[210px] w-[210px] max-h-[100px] rounded-md object-cover block md:min-w-[150px] md:w-[150px] md:max-h-[100px] sm:w-full sm:max-h-[200px]"
         />
       </Link>
       <div className="flex justify-between items-center">
@@ -193,7 +193,9 @@ export const PostCardHome = ({ post, posts, setPosts, users }) => {
           <div className="flex gap-2 items-center">
             {post?.likes?.length < 1 ? (
               <div
-                onClick={() => handleLikePost(post, loggedInUser, posts, setPosts)}
+                onClick={() =>
+                  handleLikePost(post, loggedInUser, posts, setPosts)
+                }
                 className="cursor-pointer focus:scale-120 transition duration-150 ease-in-out"
               >
                 <img src={notClapImg} alt="clap" className="h-6 w-6" />
@@ -202,7 +204,9 @@ export const PostCardHome = ({ post, posts, setPosts, users }) => {
               <>
                 {post?.likes?.includes(loggedInUser?.id) ? (
                   <div
-                    onClick={() => handleUnlikePost(post, loggedInUser, posts, setPosts)}
+                    onClick={() =>
+                      handleUnlikePost(post, loggedInUser, posts, setPosts)
+                    }
                     className="cursor-pointer flex gap-1 items-center"
                   >
                     <div className="cursor-pointer hover:scale50 transition duration-150 ease-in-out">
@@ -215,7 +219,9 @@ export const PostCardHome = ({ post, posts, setPosts, users }) => {
                   </div>
                 ) : (
                   <div
-                    onClick={() => handleLikePost(post, loggedInUser, posts, setPosts)}
+                    onClick={() =>
+                      handleLikePost(post, loggedInUser, posts, setPosts)
+                    }
                     className="cursor-pointer flex gap-1 items-center"
                   >
                     <div className="cursor-pointer hover:scale50 transition duration-150 ease-in-out">

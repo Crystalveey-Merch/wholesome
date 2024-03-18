@@ -193,7 +193,7 @@ export const PostCard = ({ post, posts, setPosts, users }) => {
           <div className="flex gap-2 items-center">
             {post?.likes?.length < 1 ? (
               <div
-                onClick={() => handleLikePost(post, loggedInUser)}
+                onClick={() => handleLikePost(post, loggedInUser, posts, setPosts)}
                 className="cursor-pointer focus:scale-120 transition duration-150 ease-in-out"
               >
                 <img src={notClapImg} alt="clap" className="h-6 w-6" />
@@ -202,7 +202,7 @@ export const PostCard = ({ post, posts, setPosts, users }) => {
               <>
                 {post?.likes?.includes(loggedInUser?.id) ? (
                   <div
-                    onClick={() => handleUnlikePost(post, loggedInUser)}
+                    onClick={() => handleUnlikePost(post, loggedInUser, posts, setPosts)}
                     className="cursor-pointer flex gap-1 items-center"
                   >
                     <div className="cursor-pointer hover:scale50 transition duration-150 ease-in-out">
@@ -215,7 +215,7 @@ export const PostCard = ({ post, posts, setPosts, users }) => {
                   </div>
                 ) : (
                   <div
-                    onClick={() => handleLikePost(post, loggedInUser)}
+                    onClick={() => handleLikePost(post, loggedInUser, posts, setPosts)}
                     className="cursor-pointer flex gap-1 items-center"
                   >
                     <div className="cursor-pointer hover:scale50 transition duration-150 ease-in-out">
