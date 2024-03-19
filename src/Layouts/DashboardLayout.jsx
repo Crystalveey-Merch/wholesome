@@ -39,7 +39,7 @@ export const DashboardLayout = ({
         {children}
       </div>
       <div
-        className={`rightbar-link z-20 ${
+        className={`rightbar-link lg:z-40 ${
           rightBarSlideOpen
             ? "rightbar-link-active lg:bg-[rgba(0,0,0,0.4)] lg:items-end"
             : ""
@@ -50,16 +50,13 @@ export const DashboardLayout = ({
         onClick={closeRightBarSlide}
       >
         <div
-          className="px-0 min- h-max pt-[16px] pb-9 hidden lg:overflow-y-auto lg:bg-white lg:w-max lg:place-self-end lg:h-full lg:px-4 lg:flex lg:flex-col lg:gap-8 lg:pt[106px] lg:items-end md:pt[90px] sm:mb-10 lg:z-40"
+          className="px-0 min- h-max pt-[16px] pb-9 hidden lg:overflow-y-auto lg:bg-white lg:w-max lg:place-self-end lg:h-full lg:px-4 lg:flex lg:flex-col lg:gap-8 lg:pt[106px] lg:items-end md:pt[90px] sm:mb-1"
           onClick={(e) => e.stopPropagation()}
         >
-          <div
-            className="hidden lg:block sm:pt-10"
-            onClick={closeRightBarSlide}
-          >
+          <div className="hidden pt-6 lg:block" onClick={closeRightBarSlide}>
             <FontAwesomeIcon
               icon={faXmark}
-              className="text-2xl text-gray-800 cursor-pointer md:text-xl"
+              className="text-gray-800 cursor-pointer h-6"
             />
           </div>
           <MobileRightBar

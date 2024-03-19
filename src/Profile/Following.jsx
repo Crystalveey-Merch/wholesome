@@ -42,36 +42,36 @@ export const FollowingUsers = ({ users }) => {
 
   return (
     <>
-      <div className="bg-white w-full p-4 shadow-md rounded-lg mx-auto">
+      <div className="bg-white w-full p-4 shadow-md rounded-lg mx-auto sm:p-3">
         {routeUser === undefined ? (
           <div>
             <h1>Loading...</h1>
           </div>
         ) : (
-          <div>
+          <div className="pb-10">
             {isGreaterThanOne ? (
               <ul className="flex flex-col gap-3">
                 {routeUserFollowing.map((user) => (
                   <li key={user.id} className="flex justify-between">
                     <NavLink
                       to={`/${user.username}`}
-                      className="flex items-center gap-4 transition duration-300 ease-in-out hover:bg-gray-100 p-2 rounded-md px-4"
+                      className="flex items-center gap-4 transition duration-300 ease-in-out hover:bg-gray-100 p-2 rounded-md px-4 sm:px-2 sm:gap-2"
                     >
                       <img
                         src={user.photoURL ? user.photoURL : defaultAvatar}
                         alt="avatar"
-                        className="w-12 h-12 rounded-full"
+                        className="w-12 h-12 rounded-full sm:w-10 sm:h-10"
                       />
                       <div className="flex flex-col">
-                        <h1 className="text-gray-900 font-semibold text-base font-inter">
+                        <h1 className="text-gray-900 font-semibold text-base font-inter one-line-text sm:text-[0.95rem]">
                           {user.name}
                         </h1>
-                        <p className="text-gray-600 text-sm font-inter">
+                        <p className="text-gray-600 text-sm font-inter one-line-text">
                           @{user.username}
                         </p>
                       </div>
                     </NavLink>
-                    <div>
+                    <div className="flex items-center">
                       {loggedInUser ? (
                         <>
                           {loggedInUser.id === user.id ? (

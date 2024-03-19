@@ -173,7 +173,7 @@ export const Account = ({ users, setUsers }) => {
         //   })
         // );
         toast.success("Profile updated successfully");
-        navigate("/settings/account");
+        // navigate("/settings/account");
       } catch (error) {
         console.error("Error updating profile:", error);
         toast.error(error.message);

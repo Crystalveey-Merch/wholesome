@@ -18,5 +18,5 @@ export default configureStore({
     openCreateModal: openCreateModalSlice,
   },
 
-  devTools: false,
+  // devTools: false,
 });

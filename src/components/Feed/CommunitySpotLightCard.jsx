@@ -1,11 +1,14 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { selectUser } from "../../Features/userSlice";
 import { handleFollow } from "../../Hooks";
+import { closeRightBar } from "../../Features/openRightBarSlice";
+
 
 export const CommunitySpotLightCard = ({ users }) => {
+  const dispatch = useDispatch();
   const loggedInUser = useSelector(selectUser);
   const navigate = useNavigate();
   const [topUsers, setTopUsers] = useState([]);
@@ -18,6 +21,10 @@ export const CommunitySpotLightCard = ({ users }) => {
       setTopUsers(topUsersData);
     }
   }, [users]);
+
+  const closeRightBarSlide = () => {
+    dispatch(closeRightBar());
+  };
 
   return (
     <div className="w-full h-max p-5 border border-gray-200 rounded-xl flex flex-col gap-7">
@@ -37,6 +44,7 @@ export const CommunitySpotLightCard = ({ users }) => {
             <div className="w-full flex justify-between">
               <NavLink
                 to={`/${user.username}`}
+                onClick={closeRightBarSlide}
                 className="flex w-full gap-2 items-center"
               >
                 <img

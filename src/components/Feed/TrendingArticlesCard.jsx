@@ -1,11 +1,18 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-// import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 // import { selectUsers } from "../../Features/usersSlice";
 import { getProfileDetails } from "../../Hooks";
+import { closeRightBar } from "../../Features/openRightBarSlice";
 
 export const TrendingArticlesCard = ({ posts, users }) => {
+  const dispatch = useDispatch();
+
+  const closeRightBarSlide = () => {
+    dispatch(closeRightBar());
+  };
+
   const [trendingPosts, setTrendingPosts] = useState([]);
   // const users = useSelector(selectUsers);
   //get the top 1 post with the most likes plus top 1 post with the most comments
@@ -91,6 +98,7 @@ export const TrendingArticlesCard = ({ posts, users }) => {
           <div key={index} className="flex flex-col gap-2">
             <Link
               to={`/${getProfileDetails(post?.userId, users)?.username}`}
+              onClick={closeRightBarSlide}
               className="flex gap-2 items-center"
             >
               <img
@@ -102,7 +110,9 @@ export const TrendingArticlesCard = ({ posts, users }) => {
                 {getProfileDetails(post?.userId, users)?.name}
               </p>
             </Link>
-            <Link to={`/readmore/${post?.id}`}>
+            <Link to={`/readmore/${post?.id}`}
+              onClick={closeRightBarSlide}
+            >
               <h5 className="text-[0.95rem] font-semibold text-slate-600 font-inter md:text-sm">
                 {post?.postTitle}
               </h5>

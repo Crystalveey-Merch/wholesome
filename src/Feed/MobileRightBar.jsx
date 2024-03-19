@@ -16,6 +16,8 @@ export const MobileRightBar = ({
   if (loading) {
     return <div>Loading...</div>;
   }
+
+  console.log("MobileRightBar: ", posts, events, users, activities);
   return (
     <div className="rightBar-width min-h-[calc(100vh-158px)] h-max flex flex-col gap-4 lg:pb-16 lg:h-screen sm:w-full">
       {users && <CommunitySpotLightCard users={users} />}
