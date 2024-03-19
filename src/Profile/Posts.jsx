@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { PostCard } from "../components/Feed";
 import { SuggestedUsers } from ".";
 
-
 export const Posts = ({ posts, setPosts, users, loggedInUser, routeUser }) => {
   const userPosts = posts.filter((post) => post.userId === routeUser.id);
 
@@ -17,7 +16,7 @@ export const Posts = ({ posts, setPosts, users, loggedInUser, routeUser }) => {
   return (
     <div>
       {userPosts.length > 0 ? (
-        <>
+        <div className="flex flex-col gap-6 w-full pb-10">
           {userPosts.length > 0 && (
             <div className="flex flex-col gap-6 w-full">
               {userPosts
@@ -49,7 +48,7 @@ export const Posts = ({ posts, setPosts, users, loggedInUser, routeUser }) => {
               ))}
             </div>
           )}
-        </>
+        </div>
       ) : (
         <SuggestedUsers users={users} loggedInUser={loggedInUser} />
       )}

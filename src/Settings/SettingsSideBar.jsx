@@ -34,6 +34,8 @@ export const SettingsSideBar = () => {
                 className={`flex gap-4 items-center px-4 py-2.5 rounded-md cursor-pointer transition duration-300 ease-in-out hover:bg-gray-100 ${
                   location.pathname === "/settings/account/profile"
                     ? "bg-gray-100"
+                    : location.pathname === "/settings"
+                    ? "bg-gray-100"
                     : ""
                 }`}
               >

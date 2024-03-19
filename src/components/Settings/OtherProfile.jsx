@@ -3,9 +3,10 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { selectUser, updateUser } from "../../Features/userSlice";
 import { toast } from "react-toastify";
-import { db, doc, updateDoc } from "../../firebase/auth";
+import { db, doc, updateDoc, auth } from "../../firebase/auth";
 
 export const OtherProfile = ({ users, setUsers }) => {
+  const currentUser = auth.currentUser;
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
@@ -36,7 +37,7 @@ export const OtherProfile = ({ users, setUsers }) => {
     if (user) {
       setLoading(true);
       try {
-        const userRef = doc(db, "users", user.id);
+        const userRef = doc(db, "users", currentUser.uid);
         if (shortBio && shortBio.trim().length > 160) {
           toast.error("Bio cannot be more than 160 characters");
           setLoading(false);
@@ -55,7 +56,7 @@ export const OtherProfile = ({ users, setUsers }) => {
         };
 
         await updateDoc(userRef, updateData);
-        await dispatch(updateUser({ id: user.id, updateData }));
+        await dispatch(updateUser({ id: currentUser.uid, updateData }));
         // await setUsers(
         //   users.map((u) => {
         //     if (u.id === user.id) {

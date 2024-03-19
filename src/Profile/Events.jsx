@@ -11,7 +11,7 @@ export const Events = ({ events, routeUser, loggedInUser }) => {
   //   console.log(userEvents);
 
   return (
-    <div>
+    <div className="flex flex-col gap-6 w-full pb-10">
       {userEvents?.length === 0 ? (
         <div className="flex flex-col gap-6">
           <p className="text-base text-gray-700 font-inter sm:text-[0.95rem]">

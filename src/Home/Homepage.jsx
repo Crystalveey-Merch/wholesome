@@ -82,7 +82,14 @@ const Homepage = ({
         />
       </Helmet>
       {user ? (
-        <DashboardLayout users={users} allChats={allChats}>
+        <DashboardLayout
+          users={users}
+          allChats={allChats}
+          posts={posts}
+          loading={postLoading}
+          events={events}
+          activities={activities}
+        >
           <Layout interests={interests}>
             <BottomFeedTab users={users}>
               <Feed>
