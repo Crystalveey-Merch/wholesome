@@ -177,7 +177,7 @@ export const Register = () => {
             <div className="w-full flex flex-col">
               <input
                 type="text"
-                placeholder="Enter the name of the interest group"
+                placeholder="Enter your name"
                 className={`w-full h[40px] text-gray-900 text-sm font-inter font-medium px-3 py-2.5 rounded-md focus:outline-none focus:ring-0 focus:border-gray-300 focus:ring-transparent transition duration-300 ease-in-out ${
                   name?.length > 0 && nameIsAccepted
                     ? "border-green500 border-green-300 bg-gray100"

@@ -1,13 +1,27 @@
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserPen } from "@fortawesome/free-solid-svg-icons";
+import { faUserPen, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import mailPen from "./assets/mail-pencil.svg";
-import { Link } from "react-router-dom";
 
 export const SettingsSideBar = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
   return (
-    <div className="border-r border-gray-200 w-96 flex flex-col h-full px-6 2xl:w-[350px] xl:w-80 lg:w-72 md:w-[calc(100vw-1rem)] sm:min-h-full md:overflow-auto">
+    <div
+      className={`border-r border-gray-200 w-96 flex flex-col h-full px-6 2xl:w-[350px] xl:w-80 lg:w-72 md:w-[calc(100vw)] sm:min-h-full md:overflow-auto ${
+        location.pathname === "/settings" ? "md:block" : "md:hidden"
+      }`}
+    >
       <div className="py-6 flex flex-col gap-8">
-        <h3 className="text-xl font-bold text-black">Settings</h3>
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => navigate(-1)}
+            className="hidden md:flex md:items-center"
+          >
+            <FontAwesomeIcon icon={faArrowLeft} className="text-black" />
+          </button>
+          <h3 className="text-xl font-bold text-black">Settings</h3>
+        </div>
         <div className="flex flex-col gap-4">
           {/* account settings */}
           <div className="flex flex-col gap-2.5">
