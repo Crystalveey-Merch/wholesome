@@ -38,7 +38,7 @@ export const Profile20 = ({ users, posts, setPosts, events }) => {
   };
 
   return (
-    <div className="relative -mt-20 min-h-screen">
+    <div className="relative -mt-20 min-h-screen h-full">
       <div className="bg-gradient-to-tr from-red-100 via-orange-200 to-red-400 w-full absolute top-0 z-10 h-60 sm:h-52"></div>
       {loading ? (
         <div className="pt-64 sm:pt-56">
@@ -49,8 +49,8 @@ export const Profile20 = ({ users, posts, setPosts, events }) => {
           <p className="text-center">User not found or invalid username</p>
         </div>
       ) : (
-        <div className="w-full relative pt-[195px] flex flex-col gap-6 border border-gray-200 h-full rounded-md pb-8 sm:pt-[160px]">
-          <div className="flex justify-between px-6 w-full sm:px-5">
+        <div className="w-full relative pt-[195px] flex flex-col gap6 border-x border-gray-200 h-full min-h-max pb-8 sm:pt-[160px]">
+          <div className="flex justify-between px-6 w-full h-full sm:px-5">
             <div
               className="flex flex-col gap-10 h-max z-20 w-full sm:gap-6"
               //style="position: sticky; top: 0"
@@ -102,7 +102,7 @@ export const Profile20 = ({ users, posts, setPosts, events }) => {
               </div>
             </div>
           </div>
-          <div className="px-6 flex flex-col gap-5 mt-4">
+          <div className="px-6 flex flex-col gap-5 py-5 mt-4 h-max border-x border-b border-gray-200 rounded-b-md">
             <div className="w-full justify-start flex gap-8">
               <button
                 onClick={() => handleTabChange("posts")}
@@ -134,7 +134,11 @@ export const Profile20 = ({ users, posts, setPosts, events }) => {
                 routeUser={routeUser}
               />
             ) : presentTab === "events" ? (
-              <Events events={events} routeUser={routeUser} loggedInUser={loggedInUser} />
+              <Events
+                events={events}
+                routeUser={routeUser}
+                loggedInUser={loggedInUser}
+              />
             ) : null}
           </div>
         </div>

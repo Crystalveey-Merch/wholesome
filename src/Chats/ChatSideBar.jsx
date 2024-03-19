@@ -79,7 +79,7 @@ export const ChatSideBar = ({ loggedInUser, users, allChats }) => {
 
   return (
     <div
-      className={`border-r border-gray-200 w-96 flex flex-col h-full 2xl:w-[350px] xl:w-80 lg:w-72 md:w-[calc(100vw-1rem)] ${
+      className={`border-r border-gray-200 w-96 flex flex-col h-full 2xl:w-[350px] xl:w-80 lg:w-72 md:w-[calc(100vw-1rem)] sm:min-h-full md:overflow-auto ${
         location.pathname === "/messages" ? "md:block" : "md:hidden"
       }`}
     >
@@ -93,7 +93,7 @@ export const ChatSideBar = ({ loggedInUser, users, allChats }) => {
       </div>
 
       {/* Chat list  */}
-      <div className="flex-grow overflow-y-auto">
+      <div className="flex-grow overflow-y-auto sm:min-h-full sm:mb-10">
         <div className="flex flex-col pt-3">
           <Link
             to={`/messages/${loggedInUser.id}-${loggedInUser.id}`}
@@ -184,7 +184,7 @@ export const ChatSideBar = ({ loggedInUser, users, allChats }) => {
                                   (id) => id !== loggedInUser.id
                                 )[0],
                                 users
-                              ).name
+                              )?.name
                             }
                           </h4>
                           <p className="text-gray-600 text-xs font-normal font-inter">

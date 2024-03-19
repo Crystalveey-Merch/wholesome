@@ -12,6 +12,7 @@ export * from "./Interest";
 export * from "./RightBar";
 export * from "./Main";
 export * from "./Discover";
+export * from "./Mine";
 export * from "./Settings";
 export * from "./InterestForNonUsers"
 export * from "./NonUsersChatBox"

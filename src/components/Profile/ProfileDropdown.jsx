@@ -55,7 +55,7 @@ export const ProfileDropdown = () => {
           leaveTo="transform opacity-0 scale-95"
         >
           <Menu.Items className="absolute right-0 mt-2 w-72 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-            <div className="px-1 py-1 ">
+            <div className="px-1 py-1">
               <Menu.Item>
                 <div className="w-full flex gap-3 pl-4 py-3 border-b-2 border-gray-50 cursor-pointer">
                   <div className="relative w-max h-max">
@@ -80,7 +80,7 @@ export const ProfileDropdown = () => {
                   <NavLink to={`/${user?.username}`}>
                     <button
                       className={`${
-                        active ? "bg-violet-500 text-white" : "text-gray-900"
+                        active ? "bg-red-500 text-white" : "text-gray-900"
                       } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                     >
                       {active ? (
@@ -106,7 +106,7 @@ export const ProfileDropdown = () => {
                   <NavLink to="/settings">
                     <button
                       className={`${
-                        active ? "bg-violet-500 text-white" : "text-gray-900"
+                        active ? "bg-red-500 text-white" : "text-gray-900"
                       } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                     >
                       {active ? (
@@ -131,18 +131,18 @@ export const ProfileDropdown = () => {
                 {({ active }) => (
                   <button
                     className={`${
-                      active ? "bg-violet-500 text-white" : "text-gray-900"
+                      active ? "bg-red-500 text-white" : "text-gray-900"
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                     onClick={SignOut}
                   >
                     {active ? (
                       <DeleteActiveIcon
-                        className="mr-2 h-5 w-5 text-violet-400"
+                        className="mr-2 h-5 w-5 text-red-400"
                         aria-hidden="true"
                       />
                     ) : (
                       <DeleteInactiveIcon
-                        className="mr-2 h-5 w-5 text-violet-400"
+                        className="mr-2 h-5 w-5 text-red-400"
                         aria-hidden="true"
                       />
                     )}

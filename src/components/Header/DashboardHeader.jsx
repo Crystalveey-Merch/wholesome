@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { logout, selectUser } from "../../Features/userSlice.js";
+import { selectUser } from "../../Features/userSlice.js";
 import { getProfileDetails } from "../../Hooks/index.js";
 import { openSearchModal } from "../../Features/searchModalSlice.js";
 import {
@@ -21,10 +21,11 @@ import {
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import { faCommentDots, faBell } from "@fortawesome/free-regular-svg-icons";
-import { signOut } from "firebase/auth";
-import { auth } from "../../firebase/auth.js";
-import { toast } from "react-toastify";
-import devAvatar from "../../assets/avatar-default.png";
+// import { signOut } from "firebase/auth";
+// import { auth } from "../../firebase/auth.js";
+// import { toast } from "react-toastify";
+// import devAvatar from "../../assets/avatar-default.png";
+import { ProfileDropdown } from "../Profile/ProfileDropdown.jsx";
 
 export const DashboardHeader = ({ users, allChats }) => {
   const user = useSelector(selectUser);
@@ -45,19 +46,19 @@ export const DashboardHeader = ({ users, allChats }) => {
     dispatch(toggleSideBar());
   };
 
-  const userSignout = async () => {
-    if (window.confirm("Are you sure you want to log out?")) {
-      try {
-        await signOut(auth);
-        dispatch(logout);
-        localStorage.removeItem("user");
-        window.location.href = "/login";
-        toast.success("Logout successful");
-      } catch (error) {
-        alert(error.message);
-      }
-    }
-  };
+  // const userSignout = async () => {
+  //   if (window.confirm("Are you sure you want to log out?")) {
+  //     try {
+  //       await signOut(auth);
+  //       dispatch(logout);
+  //       localStorage.removeItem("user");
+  //       window.location.href = "/login";
+  //       toast.success("Logout successful");
+  //     } catch (error) {
+  //       alert(error.message);
+  //     }
+  //   }
+  // };
 
   const openSearch = () => {
     dispatch(openSearchModal());
@@ -256,61 +257,64 @@ export const DashboardHeader = ({ users, allChats }) => {
         {user ? (
           <div className="flex">
             {user ? (
-              <div className="dropdown dropdown-end ">
-                <label tabIndex={0} className="btn-primary   flex-row ">
-                  <div className="h-12 w-12 rounded-full bg-gray-50 border-4 cursor-pointer transition duration-500 ease-in-out flex items-center justify-center border-purple-50 hover:border-purple-100  lg:h-10 lg:w-10">
-                    <img
-                      src={user?.photoURL}
-                      alt="Photo"
-                      className="h-10 w-10 rounded-full lg:h-8 lg:w-8"
-                    />
-                  </div>
-                </label>
+              // <div className="dropdown dropdown-end">
+              //   <label tabIndex={0} className="btn-primary   flex-row ">
+              //     <div className="h-12 w-12 rounded-full bg-gray-50 border-4 cursor-pointer transition duration-500 ease-in-out flex items-center justify-center border-purple-50 hover:border-purple-100  lg:h-10 lg:w-10">
+              //       <img
+              //         src={user?.photoURL}
+              //         alt="Photo"
+              //         className="h-10 w-10 rounded-full lg:h-8 lg:w-8"
+              //       />
+              //     </div>
+              //   </label>
 
-                <ul
-                  tabIndex={0}
-                  className="menu menu-compact dropdown-content mt-3 p-4 shadow bg-white rounded-box w-60"
-                >
-                  <li>
-                    <div className="w-full flex gap-3 px-1 py-3 border-b-2 border-gray-50 cursor-pointer">
-                      <div className="relative w-max h-max">
-                        <img
-                          alt="avatar"
-                          src={user?.photoURL || devAvatar}
-                          className="h-10 w-10 rounded-full"
-                        />
-                        <p className="h-3 w-3 absolute bg-green-500 rounded-full border-white border-2 bottom-0 right-0"></p>
-                      </div>
+              //   <ul
+              //     tabIndex={0}
+              //     className="menu menu-compact dropdown-content mt-3 w-72 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+              //   >
+              //     <li>
+              //       <div className="w-full flex gap-3 px-1 py-3 border-b-2 border-gray-50 cursor-pointer">
+              //         <div className="relative w-max h-max">
+              //           <img
+              //             alt="avatar"
+              //             src={user?.photoURL || devAvatar}
+              //             className="h-10 w-10 rounded-full"
+              //           />
+              //           <p className="h-3 w-3 absolute bg-green-500 rounded-full border-white border-2 bottom-0 right-0"></p>
+              //         </div>
 
-                      <div>
-                        <p className="font-semibold text-sm text-gray-700">
-                          {user?.name}
-                        </p>
-                        <p className="text-gray-600 text-xs">{user?.email}</p>
-                      </div>
-                    </div>
-                  </li>
-                  {/* <li className="">
-                    <Link to="/dashboard/profile" className="justify-between">
-                      Dashboard
-                    </Link>
-                  </li> */}
-                  <li>
-                    <Link to="/messages" className="justify-between">
-                      Messages
-                    </Link>
-                  </li>
-                  <li>
-                    <a>Settings</a>
-                  </li>
-                  <div
-                    onClick={userSignout}
-                    className="cursor-pointer bg-red-500 p-2 rounded-xl"
-                  >
-                    <a className="text-white ">Logout</a>
-                  </div>
-                </ul>
-              </div>
+              //         <div>
+              //           <p className="font-semibold text-sm text-gray-700">
+              //             {user?.name}
+              //           </p>
+              //           <p className="text-gray-600 font-inter text-xs">
+              //             {user?.email}
+              //           </p>
+              //         </div>
+              //       </div>
+              //     </li>
+              //     {/* <li className="">
+              //       <Link to="/settings/account" className="justify-between">
+              //         Dashboard
+              //       </Link>
+              //     </li> */}
+              //     <li>
+              //       <Link to="/messages" className="justify-between">
+              //         Messages
+              //       </Link>
+              //     </li>
+              //     <li>
+              //       <a>Settings</a>
+              //     </li>
+              //     <div
+              //       onClick={userSignout}
+              //       className="cursor-pointer bg-red-500 p-2 rounded-xl"
+              //     >
+              //       <a className="text-white ">Logout</a>
+              //     </div>
+              //   </ul>
+              // </div>
+              <ProfileDropdown />
             ) : (
               ""
             )}

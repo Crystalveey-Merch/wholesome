@@ -2,13 +2,13 @@
 // import { useEffect } from "react";
 // import {
 //   collection,
-  //   getDocs,
-  //   // onSnapshot,
-  //   orderBy,
-  //   query,
-  //   limit,
-  //   where,
-  //   onSnapshot,
+//   getDocs,
+//   // onSnapshot,
+//   orderBy,
+//   query,
+//   limit,
+//   where,
+//   onSnapshot,
 //   updateDoc,
 // } from "firebase/firestore";
 import { useSelector } from "react-redux";
@@ -257,7 +257,7 @@ export const Messages = ({ children, users, allChats }) => {
   // }, [chatIds]);
 
   return (
-    <div className="flex place-self-end justify-self-end align-bottom justify-items-end h-[calc(100vh)] pt-20 overflow-hidden flex-row w-screen md:pt-16">
+    <div className="flex place-self-end justify-self-end align-bottom justify-items-end h-[calc(100vh)] pt-20 overflow-hidden flex-row w-screen md:pt-[78px]">
       {/* SideBar */}
 
       <div className="">

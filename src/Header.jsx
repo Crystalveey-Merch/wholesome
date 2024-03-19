@@ -625,7 +625,7 @@ const Header = ({ users, allChats }) => {
 
                     <li className="">
                       <NavLink
-                        to="/dashboard/profile"
+                        to="/settings/account"
                         className="justify-between"
                       >
                         Dashboard

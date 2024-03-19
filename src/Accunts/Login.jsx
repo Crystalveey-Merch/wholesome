@@ -42,7 +42,7 @@ const Login = () => {
     //     toast.success(
     //       <div className="text-black text-sm ">Login Successful</div>
     //     );
-    //     navigate("/dashboard/profile");
+    //     navigate("/settings/account");
     //   })
     //   .catch((err) => {
     //     toast.error("Login error. Check email and password" );

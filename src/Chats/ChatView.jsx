@@ -332,7 +332,7 @@ export const ChatView = ({ users, allChats }) => {
         className="w-full relative bg-gray-50 min-h-[calc(100vh-140px)]"
         // style={{ height: "calc(100vh - 120px)" }}
       >
-        <div className="sticky top-0 md:fixed md:top-[70px] sm:top-16 md:w-full">
+        <div className="sticky top-0 md:fixed md:top-[70px] sm:top-[78px] md:w-full">
           <div className="py-4 px-6 flex row items-center justify-between border-b border-gray-200 bg-white shadow sm:px-3">
             <div className="flex items-center gap-4">
               <div
