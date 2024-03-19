@@ -113,6 +113,7 @@ import {
 import moreImg from "./Feed/assets/aurora.png";
 import { CreateModal } from "./CreatePost/CreateModal.jsx";
 import { BottomFeedTab } from "./components/Feed/BottomFeedTab.jsx";
+import { setUsers } from "./Features/usersSlice.js";
 // import { BottomFeedTab } from "./components/Feed/";
 // import { MiniHeader } from "./components/Header/MiniHeader.jsx";
 
@@ -995,13 +996,24 @@ function App() {
         {/* settings */}
         <Route
           path="/settings/"
-          //redirect to account settings
-          element={<Navigate to="/settings/account/profile" />}
+          element={
+            <ProtectedRoute>
+              <DashboardLayout users={users} allChats={allChats}>
+                <InterestLayout interests={interests}>
+                  <BottomFeedTab users={users}>
+                    <Settings>
+                      <Account users={users} setUsers={setUsers} />
+                    </Settings>
+                  </BottomFeedTab>
+                </InterestLayout>
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
         />
 
         <Route
-          path="/settings/account/"
-          //redirect to account settings
+          path="/settings/account"
+          //redirect to account prfile settings
           element={<Navigate to="/settings/account/profile" />}
         />
 
@@ -1011,9 +1023,11 @@ function App() {
             <ProtectedRoute>
               <DashboardLayout users={users} allChats={allChats}>
                 <InterestLayout interests={interests}>
-                  <Settings>
-                    <Account />
-                  </Settings>
+                  <BottomFeedTab users={users}>
+                    <Settings>
+                      <Account users={users} setUsers={setUsers} />
+                    </Settings>
+                  </BottomFeedTab>
                 </InterestLayout>
               </DashboardLayout>
             </ProtectedRoute>
@@ -1026,9 +1040,11 @@ function App() {
             <ProtectedRoute>
               <DashboardLayout users={users} allChats={allChats}>
                 <InterestLayout interests={interests}>
-                  <Settings>
-                    <EmailAndPassword />
-                  </Settings>
+                  <BottomFeedTab users={users}>
+                    <Settings>
+                      <EmailAndPassword />
+                    </Settings>
+                  </BottomFeedTab>
                 </InterestLayout>
               </DashboardLayout>
             </ProtectedRoute>

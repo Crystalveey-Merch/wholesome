@@ -31,6 +31,7 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
+import { unusableUsernames } from "../unusableUsername";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -87,8 +88,8 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
     //Generate username from email
     if (email) {
       const username = email.split("@")[0].replace(/[^a-z]/g, "");
-      // if (!username || unusableUsernames.includes(username)) return;
-      if (!username) return;
+      if (!username || unusableUsernames.includes(username)) return;
+      // if (!username) return;
       let usernameTaken = true;
       let usernameToSave = username;
       let i = 1;
@@ -132,7 +133,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
       }
     } else {
       const username = displayName?.replace(/\s+/g, "").toLowerCase();
-      // if (!username || unusableUsernames.includes(username)) return;
+      if (!username || unusableUsernames.includes(username)) return;
       let usernameTaken = true;
       let usernameToSave = username;
       let i = 1;
