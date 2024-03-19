@@ -110,7 +110,7 @@ const Profile = () => {
       console.log("Profile updated successfully!");
       toast.success("Profile updated successfully!");
 
-      // navigate("/dashboard/profile", {
+      // navigate("/settings/account", {
       //   replace: true,
       //   state: { key: Math.random() },
       // });
@@ -201,7 +201,7 @@ const Profile = () => {
       <Helmet>
         <title>{name}</title>
         <meta name="description" content={name} />
-        <link rel="canonical" href="/dashboard/profile" />
+        <link rel="canonical" href="/settings/account" />
       </Helmet>
       <div className="w-full">
         {user ? (

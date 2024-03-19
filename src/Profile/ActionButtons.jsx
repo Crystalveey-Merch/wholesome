@@ -70,7 +70,7 @@ export const ActionButtons = ({ users }) => {
         <div>
           {routeUser?.id === loggedInUser?.id ? (
             <div>
-              <Link to="/dashboard/profile">
+              <Link to="/settings/account">
                 <button className="z-0 self-end bg-[#FF5841] text-white px-4 h-11 rounded-lg text-base font-medium shadow hover:bg-[#ad3020] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-100 focus:ring-offset-violet-100   disabled:cursor-not-allowed transition duration-500 ease-in-out">
                   Edit Profile
                 </button>

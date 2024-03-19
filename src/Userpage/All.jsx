@@ -62,7 +62,7 @@ export const All = ({
                                 <button
                                   type="button"
                                   onClick={() => {
-                                    navigate("/dashboard/profile");
+                                    navigate("/settings/account");
                                     window.scrollTo(0, 0);
                                   }}
                                   className="w-max h-max min-w-[120px] block px-4 py-2 rounded-xl bg-[#FF5841] border border-[#FF5841] text-[#FFFFFF] font-inter text-sm"

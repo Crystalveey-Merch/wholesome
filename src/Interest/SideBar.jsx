@@ -143,9 +143,12 @@ export const SideBar = ({ interests }) => {
               <h5 className="text-black text-base font-medium font-inter">
                 Your Interests
               </h5>
-              <button className="text-[#FF5841] text-sm font-inter font-medium transition ease-in-out duration-300 hover:underline">
+              <Link
+                to="/i/mine"
+                className="text-[#FF5841] text-sm font-inter font-medium transition ease-in-out duration-300 hover:underline"
+              >
                 View All
-              </button>
+              </Link>
             </div>
             <div className="flex flex-col gap-1.5">
               <Link

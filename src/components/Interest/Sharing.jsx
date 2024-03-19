@@ -37,7 +37,7 @@ export const Sharing = ({ url }) => {
   };
 
   return (
-    <div className="w-full max-w-sm px2.5">
+    <div className="w-full z-20 max-w-sm px2.5">
       <Popover className="relative">
         {({ open }) => (
           <>
@@ -47,7 +47,9 @@ export const Sharing = ({ url }) => {
                 group inline-flex text-black bg-gray-200 px-4 py-2  gap-2.5 items-center rounded-lg transition duration-300 ease-in-out hover:bg-gray-300 md:py-2`}
             >
               {" "}
-              <p className="font-inter text-base font-medium sm:text-sm">Share</p>
+              <p className="font-inter text-base font-medium sm:text-sm">
+                Share
+              </p>
               <FontAwesomeIcon
                 icon={faShareNodes}
                 className="h-4 w-4 text-black"

@@ -71,6 +71,7 @@ export const Create = ({ interests }) => {
     "image",
     "images",
     "chatBox",
+    "mine",
   ];
 
   useEffect(() => {

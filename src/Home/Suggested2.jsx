@@ -125,7 +125,7 @@ export const Suggested2 = ({ users, loggedInUser }) => {
                       <button
                         type="button"
                         onClick={() => {
-                          navigate("/dashboard/profile");
+                          navigate("/settings/account");
                         }}
                         className="w-max h-max min-w-[120px] block px-4 py-2 rounded-xl bg-[#FF5841] border border-[#FF5841] text-[#FFFFFF] font-inter text-sm"
                       >
@@ -210,7 +210,7 @@ export const Suggested2 = ({ users, loggedInUser }) => {
                     <button
                       type="button"
                       onClick={() => {
-                        navigate("/dashboard/profile");
+                        navigate("/settings/account");
                       }}
                       className="w-max h-max min-w-[120px] block px-4 py-2 rounded-xl bg-[#FF5841] border border-[#FF5841] text-[#FFFFFF] font-inter text-sm"
                     >

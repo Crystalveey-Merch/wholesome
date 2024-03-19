@@ -11,7 +11,7 @@ import {
   createUserProfileDocument,
   auth,
 } from "./firebase/auth.js";
-import Account from "./Account";
+// import Account from "./Account";
 import Aboutus from "./Aboutus";
 import Whatwedo from "./Whatwedo";
 import EventList from "./Events/EventList";
@@ -42,7 +42,7 @@ import { FollowersFeed } from "./MyInterest/FollowersFeed";
 // import Admin from "./Admin/Admin";
 // import Allarticles from "./Admin/Allarticles";
 // import Users from "./Admin/Users";
-import Settings from "./Dashboard/Settings";
+// import {Settings  } from "./Dashboard/Settings";
 import ActivityInterest from "./MyInterest/ActivityInterest";
 // import Podcasts from "./Admin/Podcasts";
 // import AllActivity from "./Admin/AllActivity";
@@ -65,6 +65,7 @@ import {
 import {
   Feed as InterestFeed,
   Discover,
+  Mine,
   Layout as InterestLayout,
   Create,
   Interest,
@@ -97,6 +98,7 @@ import {
   VerifyEmail,
   ProtectSignUpProcess,
 } from "./Auth";
+import { Settings, Account, EmailAndPassword } from "./Settings";
 import { Bookmarks, Drafts, Notifications } from "./Dashboard";
 // import "@fortawesome/fontawesome-free"
 import { useDispatch, useSelector } from "react-redux";
@@ -417,7 +419,7 @@ function App() {
         />
         {/* )} */}
 
-        <Route path="/account" element={<Account users={users} />} />
+        {/* <Route path="/account" element={<Account users={users} />} /> */}
         {/* <Route path="/signup" element={<Signip />} /> */}
         <Route
           path="/upcomingevents"
@@ -503,14 +505,14 @@ function App() {
             </ProtectedRoute>
           }
         >
-          <Route path="/dashboard/profile" element={<Profile />} />
+          {/* <Route path="/settings/account" element={<Profile />} /> */}
           <Route path="/dashboard/myposts" element={<MyPosts />} />
           <Route path="/dashboard/statistics" element={<Statistics />} />
           <Route path="/dashboard/drafts" element={<Drafts />} />
 
           <Route path="/dashboard/bookmarks" element={<Bookmarks />} />
 
-          <Route path="/dashboard/settings" element={<Settings />} />
+          {/* <Route path="/dashboard/settings" element={<Settings />} /> */}
           <Route path="/dashboard/events" element={<MyEvents />} />
         </Route>
         <Route path="/profile/:profileId" element={<Profilepage />} />
@@ -651,9 +653,11 @@ function App() {
           element={
             <ProtectedRoute>
               <DashboardLayout users={users} allChats={allChats}>
-                <Messages users={users} allChats={allChats}>
-                  <ChatView users={users} allChats={allChats} />
-                </Messages>
+                <InterestLayout interests={interests}>
+                  <Messages users={users} allChats={allChats}>
+                    <ChatView users={users} allChats={allChats} />
+                  </Messages>
+                </InterestLayout>
               </DashboardLayout>
             </ProtectedRoute>
           }
@@ -714,6 +718,18 @@ function App() {
               <InterestLayout interests={interests}>
                 <BottomFeedTab users={users}>
                   <Discover interests={interests} />
+                </BottomFeedTab>
+              </InterestLayout>
+            </DashboardLayout>
+          }
+        />
+        <Route
+          path="/i/mine"
+          element={
+            <DashboardLayout users={users} allChats={allChats}>
+              <InterestLayout interests={interests}>
+                <BottomFeedTab users={users}>
+                  <Mine interests={interests} />
                 </BottomFeedTab>
               </InterestLayout>
             </DashboardLayout>
@@ -973,6 +989,49 @@ function App() {
                 </InterestFeed>
               </InterestLayout>
             </DashboardLayout>
+          }
+        />
+
+        {/* settings */}
+        <Route
+          path="/settings/"
+          //redirect to account settings
+          element={<Navigate to="/settings/account/profile" />}
+        />
+
+        <Route
+          path="/settings/account/"
+          //redirect to account settings
+          element={<Navigate to="/settings/account/profile" />}
+        />
+
+        <Route
+          path="/settings/account/profile"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout users={users} allChats={allChats}>
+                <InterestLayout interests={interests}>
+                  <Settings>
+                    <Account />
+                  </Settings>
+                </InterestLayout>
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/settings/account/email-and-password"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout users={users} allChats={allChats}>
+                <InterestLayout interests={interests}>
+                  <Settings>
+                    <EmailAndPassword />
+                  </Settings>
+                </InterestLayout>
+              </DashboardLayout>
+            </ProtectedRoute>
           }
         />
 
