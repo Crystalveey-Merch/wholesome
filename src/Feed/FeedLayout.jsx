@@ -9,8 +9,8 @@ import {
   selectOpenRightBar,
 } from "../Features/openRightBarSlice";
 import { db, onSnapshot, collection } from "../firebase/auth";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faXmark } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const FeedLayout = ({ children }) => {
   const dispatch = useDispatch();
@@ -169,7 +169,7 @@ export const FeedLayout = ({ children }) => {
       <div
         className={`rightbar-link z-20 ${
           rightBarSlideOpen
-            ? "rightbar-link-active lg:bg-[rgba(0,0,0,0.4)] lg:items-end"
+            ? "rightbar-link-active block lg:bg-[rgba(0,0,0,0.4)] lg:hidden"
             : ""
         }`}
         style={{
@@ -179,18 +179,15 @@ export const FeedLayout = ({ children }) => {
       >
         <div
           ref={rightBarRef}
-          className="px-0 min- h-max pt-[16px] pb-9 lg:overflow-y-auto lg:bg-white lg:w-max lg:place-self-end lg:h-full lg:px-4 lg:flex lg:flex-col lg:gap-8 lg:pt-[106px] lg:items-end md:pt-[90px] sm:mb-10"
+          className="px-0 min- block h-max pt-[16px] pb-9  lg:hidden"
           onClick={(e) => e.stopPropagation()}
         >
-          <div
-            className="hidden lg:block sm:pt-10"
-            onClick={closeRightBarSlide}
-          >
+          {/* <div className="" onClick={closeRightBarSlide}>
             <FontAwesomeIcon
               icon={faXmark}
               className="text-2xl text-gray-800 cursor-pointer md:text-xl"
             />
-          </div>
+          </div> */}
           <RightBar
             posts={posts}
             loading={loading}

@@ -164,14 +164,14 @@ export const Account = ({ users, setUsers }) => {
           displayName: name,
         });
         await dispatch(updateUser({ id: currentUser.uid, name, username }));
-        await setUsers(
-          users.map((user) => {
-            if (user.id === currentUser.uid) {
-              return { ...user, name, username };
-            }
-            return user;
-          })
-        );
+        // await setUsers(
+        //   users.map((user) => {
+        //     if (user.id === currentUser.uid) {
+        //       return { ...user, name, username };
+        //     }
+        //     return user;
+        //   })
+        // );
         toast.success("Profile updated successfully");
         navigate("/settings/account");
       } catch (error) {
@@ -185,7 +185,7 @@ export const Account = ({ users, setUsers }) => {
   };
 
   const cancelUpdate = () => {
-    setName(user?.name);
+    setName(currentUser?.name);
     setUsername(user?.username);
   };
 
@@ -209,7 +209,7 @@ export const Account = ({ users, setUsers }) => {
             <h5 className="text-lack font-medium text-sm font-inter">
               Personal info
             </h5>
-            <p className="text-gray-600 font-normal text-sm w-max">
+            <p className="text-gray-600 font-normal text-sm">
               Update your photo and personal details.
             </p>
           </div>
