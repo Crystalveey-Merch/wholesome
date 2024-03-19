@@ -13,6 +13,8 @@ import {
   updateProfile,
   updateEmail,
   updatePassword,
+  reauthenticateWithCredential,
+  verifyBeforeUpdateEmail,
 } from "firebase/auth";
 import {
   getFirestore,
@@ -222,9 +224,11 @@ export {
   sendPasswordResetEmail,
   sendEmailVerification,
   EmailAuthProvider,
+  verifyBeforeUpdateEmail,
   updateProfile,
   updateEmail,
   updatePassword,
+  reauthenticateWithCredential,
   db,
   collection,
   query,

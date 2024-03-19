@@ -56,14 +56,14 @@ export const OtherProfile = ({ users, setUsers }) => {
 
         await updateDoc(userRef, updateData);
         await dispatch(updateUser({ id: user.id, updateData }));
-        await setUsers(
-          users.map((u) => {
-            if (u.id === user.id) {
-              return { ...u, ...updateData };
-            }
-            return u;
-          })
-        );
+        // await setUsers(
+        //   users.map((u) => {
+        //     if (u.id === user.id) {
+        //       return { ...u, ...updateData };
+        //     }
+        //     return u;
+        //   })
+        // );
         toast.success("Profile updated successfully");
         setLoading(false);
       } catch (error) {
@@ -90,7 +90,7 @@ export const OtherProfile = ({ users, setUsers }) => {
         <h5 className="text-lack font-medium text-sm font-inter">
           Public profile
         </h5>
-        <p className="text-gray-600 font-normal text-sm w-max">
+        <p className="text-gray-600 font-normal text-sm">
           Update your public profile information.
         </p>
       </div>

@@ -53,7 +53,7 @@ import { SearchModal, SearchUser, Topics } from "./Userpage";
 import { selectSearchModal } from "./Features/searchModalSlice.js";
 import { Messages, SelectMessage, ChatView } from "./Chats";
 import { DashboardLayout, DefaultLayout } from "./Layouts/";
-import { getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 // import { doc, getDocs, updateDoc } from "./firebase/auth.js";
 import { Feed, FeedLayout, Content, Following } from "./Feed";
 import {
@@ -170,6 +170,36 @@ function App() {
       // setLoggedInUser(null);
     }
   });
+
+  useEffect(() => {
+    // Function to update the authentication email and Firestore document
+    const updateAuthEmailAndDoc = async (userAuth) => {
+      if (userAuth) {
+        try {
+          const userRef = doc(db, "users", userAuth.uid);
+          await updateDoc(userRef, {
+            email: userAuth.email,
+          });
+        } catch (error) {
+          console.error("Error updating email and Firestore document:", error);
+        }
+      }
+    };
+
+    // Call updateAuthEmailAndDoc immediately to handle the initial authentication state
+    onAuthStateChanged(auth, updateAuthEmailAndDoc);
+
+    // Call updateAuthEmailAndDoc every hour
+    const intervalId = setInterval(async () => {
+      const currentUser = auth.currentUser;
+      if (currentUser) {
+        await updateAuthEmailAndDoc(currentUser);
+      }
+    }, 900000); // 1 hour in milliseconds
+
+    // Clean up by clearing the interval when the component unmounts
+    return () => clearInterval(intervalId);
+  }, []);
 
   // check if user is logged in using local storage
   const user = JSON.parse(localStorage.getItem("user"));
@@ -390,7 +420,14 @@ function App() {
             path="/"
             element={
               // <BottomFeedTab users={users}>
-              <DashboardLayout users={users} allChats={allChats}>
+               <DashboardLayout
+                users={users}
+                allChats={allChats}
+                posts={posts}
+                loading={postLoading}
+                events={events}
+                activities={activities}
+              >
                 <InterestLayout interests={interests}>
                   <InterestFeed>
                     <AllChatBox interests={interests} users={users} />
@@ -460,7 +497,14 @@ function App() {
           path="/createpost"
           element={
             <ProtectedRoute>
-              <DashboardLayout users={users} allChats={allChats}>
+               <DashboardLayout
+                users={users}
+                allChats={allChats}
+                posts={posts}
+                loading={postLoading}
+                events={events}
+                activities={activities}
+              >
                 <InterestLayout interests={interests}>
                   <CreatePost />
                 </InterestLayout>
@@ -481,7 +525,14 @@ function App() {
         <Route
           path="/readmore/:id"
           element={
-            <DashboardLayout users={users} allChats={allChats}>
+             <DashboardLayout
+                users={users}
+                allChats={allChats}
+                posts={posts}
+                loading={postLoading}
+                events={events}
+                activities={activities}
+              >
               <Content posts={posts} setPosts={setPosts} users={users} />
             </DashboardLayout>
           }
@@ -545,7 +596,14 @@ function App() {
         <Route
           path="/search"
           element={
-            <DashboardLayout users={users} allChats={allChats}>
+             <DashboardLayout
+                users={users}
+                allChats={allChats}
+                posts={posts}
+                loading={postLoading}
+                events={events}
+                activities={activities}
+              >
               <InterestLayout interests={interests}>
                 <FeedLayout>
                   <BottomFeedTab users={users}>
@@ -565,7 +623,14 @@ function App() {
         <Route
           path="/topic/:topicSTR"
           element={
-            <DashboardLayout users={users} allChats={allChats}>
+             <DashboardLayout
+                users={users}
+                allChats={allChats}
+                posts={posts}
+                loading={postLoading}
+                events={events}
+                activities={activities}
+              >
               <InterestLayout interests={interests}>
                 <FeedLayout>
                   <BottomFeedTab users={users}>
@@ -585,7 +650,14 @@ function App() {
         <Route
           path="/:username"
           element={
-            <DashboardLayout users={users} allChats={allChats}>
+             <DashboardLayout
+                users={users}
+                allChats={allChats}
+                posts={posts}
+                loading={postLoading}
+                events={events}
+                activities={activities}
+              >
               <InterestLayout interests={interests}>
                 <FeedLayout>
                   <BottomFeedTab users={users}>
@@ -604,7 +676,14 @@ function App() {
         <Route
           path="/:username/followers"
           element={
-            <DashboardLayout users={users} allChats={allChats}>
+             <DashboardLayout
+                users={users}
+                allChats={allChats}
+                posts={posts}
+                loading={postLoading}
+                events={events}
+                activities={activities}
+              >
               <InterestLayout interests={interests}>
                 <FeedLayout>
                   <BottomFeedTab users={users}>
@@ -620,7 +699,14 @@ function App() {
         <Route
           path="/:username/following"
           element={
-            <DashboardLayout users={users} allChats={allChats}>
+             <DashboardLayout
+                users={users}
+                allChats={allChats}
+                posts={posts}
+                loading={postLoading}
+                events={events}
+                activities={activities}
+              >
               <InterestLayout interests={interests}>
                 <FeedLayout>
                   <BottomFeedTab users={users}>
@@ -637,7 +723,14 @@ function App() {
           path="/messages"
           element={
             <ProtectedRoute>
-              <DashboardLayout users={users} allChats={allChats}>
+              <DashboardLayout
+                users={users}
+                allChats={allChats}
+                posts={posts}
+                loading={postLoading}
+                events={events}
+                activities={activities}
+              >
                 <InterestLayout interests={interests}>
                   <BottomFeedTab users={users}>
                     <Messages users={users} allChats={allChats}>
@@ -653,7 +746,14 @@ function App() {
           path="/messages/:chatId"
           element={
             <ProtectedRoute>
-              <DashboardLayout users={users} allChats={allChats}>
+               <DashboardLayout
+                users={users}
+                allChats={allChats}
+                posts={posts}
+                loading={postLoading}
+                events={events}
+                activities={activities}
+              >
                 <InterestLayout interests={interests}>
                   <Messages users={users} allChats={allChats}>
                     <ChatView users={users} allChats={allChats} />
@@ -667,7 +767,14 @@ function App() {
           path="/notifications"
           element={
             <ProtectedRoute>
-              <DashboardLayout users={users} allChats={allChats}>
+               <DashboardLayout
+                users={users}
+                allChats={allChats}
+                posts={posts}
+                loading={postLoading}
+                events={events}
+                activities={activities}
+              >
                 <InterestLayout interests={interests}>
                   <BottomFeedTab users={users}>
                     <FeedLayout>
@@ -682,7 +789,14 @@ function App() {
         <Route
           path="/feed"
           element={
-            <DashboardLayout users={users} allChats={allChats}>
+             <DashboardLayout
+                users={users}
+                allChats={allChats}
+                posts={posts}
+                loading={postLoading}
+                events={events}
+                activities={activities}
+              >
               <InterestLayout interests={interests}>
                 <FeedLayout>
                   <BottomFeedTab users={users}>
@@ -696,7 +810,14 @@ function App() {
         <Route
           path="/feed/following"
           element={
-            <DashboardLayout users={users} allChats={allChats}>
+             <DashboardLayout
+                users={users}
+                allChats={allChats}
+                posts={posts}
+                loading={postLoading}
+                events={events}
+                activities={activities}
+              >
               <InterestLayout interests={interests}>
                 <FeedLayout>
                   <BottomFeedTab users={users}>
@@ -715,7 +836,14 @@ function App() {
         <Route
           path="/i/discover"
           element={
-            <DashboardLayout users={users} allChats={allChats}>
+             <DashboardLayout
+                users={users}
+                allChats={allChats}
+                posts={posts}
+                loading={postLoading}
+                events={events}
+                activities={activities}
+              >
               <InterestLayout interests={interests}>
                 <BottomFeedTab users={users}>
                   <Discover interests={interests} />
@@ -727,7 +855,14 @@ function App() {
         <Route
           path="/i/mine"
           element={
-            <DashboardLayout users={users} allChats={allChats}>
+             <DashboardLayout
+                users={users}
+                allChats={allChats}
+                posts={posts}
+                loading={postLoading}
+                events={events}
+                activities={activities}
+              >
               <InterestLayout interests={interests}>
                 <BottomFeedTab users={users}>
                   <Mine interests={interests} />
@@ -739,7 +874,14 @@ function App() {
         <Route
           path="/i/create"
           element={
-            <DashboardLayout users={users} allChats={allChats}>
+             <DashboardLayout
+                users={users}
+                allChats={allChats}
+                posts={posts}
+                loading={postLoading}
+                events={events}
+                activities={activities}
+              >
               <InterestLayout interests={interests}>
                 <BottomFeedTab users={users}>
                   <Create interests={interests} />
@@ -758,7 +900,14 @@ function App() {
         <Route
           path="/i/:name"
           element={
-            <DashboardLayout users={users} allChats={allChats}>
+             <DashboardLayout
+                users={users}
+                allChats={allChats}
+                posts={posts}
+                loading={postLoading}
+                events={events}
+                activities={activities}
+              >
               <InterestLayout interests={interests}>
                 <Interest interests={interests}>
                   {" "}
@@ -773,7 +922,14 @@ function App() {
         <Route
           path="/i/:name/chat/:chatBoxId"
           element={
-            <DashboardLayout users={users} allChats={allChats}>
+             <DashboardLayout
+                users={users}
+                allChats={allChats}
+                posts={posts}
+                loading={postLoading}
+                events={events}
+                activities={activities}
+              >
               <InterestLayout interests={interests}>
                 <ChatBoxView interests={interests} users={users} />
               </InterestLayout>
@@ -798,7 +954,14 @@ function App() {
         <Route
           path="/i/:name/activities"
           element={
-            <DashboardLayout users={users} allChats={allChats}>
+             <DashboardLayout
+                users={users}
+                allChats={allChats}
+                posts={posts}
+                loading={postLoading}
+                events={events}
+                activities={activities}
+              >
               <InterestLayout interests={interests}>
                 <Interest interests={interests}>
                   <BottomFeedTab users={users}>
@@ -813,7 +976,14 @@ function App() {
         <Route
           path="/i/:name/events"
           element={
-            <DashboardLayout users={users} allChats={allChats}>
+             <DashboardLayout
+                users={users}
+                allChats={allChats}
+                posts={posts}
+                loading={postLoading}
+                events={events}
+                activities={activities}
+              >
               <InterestLayout interests={interests}>
                 <Interest interests={interests}>
                   <BottomFeedTab users={users}>
@@ -827,7 +997,14 @@ function App() {
         <Route
           path="/i/:name/articles"
           element={
-            <DashboardLayout users={users} allChats={allChats}>
+             <DashboardLayout
+                users={users}
+                allChats={allChats}
+                posts={posts}
+                loading={postLoading}
+                events={events}
+                activities={activities}
+              >
               <InterestLayout interests={interests}>
                 <Interest interests={interests}>
                   <BottomFeedTab users={users}>
@@ -846,7 +1023,14 @@ function App() {
         <Route
           path="/i/:name/podcasts"
           element={
-            <DashboardLayout users={users} allChats={allChats}>
+             <DashboardLayout
+                users={users}
+                allChats={allChats}
+                posts={posts}
+                loading={postLoading}
+                events={events}
+                activities={activities}
+              >
               <InterestLayout interests={interests}>
                 <Interest interests={interests}>
                   <BottomFeedTab users={users}>
@@ -864,7 +1048,14 @@ function App() {
         <Route
           path="/i/:name/edit"
           element={
-            <DashboardLayout users={users} allChats={allChats}>
+             <DashboardLayout
+                users={users}
+                allChats={allChats}
+                posts={posts}
+                loading={postLoading}
+                events={events}
+                activities={activities}
+              >
               <InterestLayout interests={interests}>
                 <Interest interests={interests}>
                   <InterestSettings interests={interests} />
@@ -931,7 +1122,14 @@ function App() {
         <Route
           path="/interest/articles"
           element={
-            <DashboardLayout users={users} allChats={allChats}>
+             <DashboardLayout
+                users={users}
+                allChats={allChats}
+                posts={posts}
+                loading={postLoading}
+                events={events}
+                activities={activities}
+              >
               <InterestLayout interests={interests}>
                 <InterestFeed>
                   <BottomFeedTab users={users}>
@@ -950,7 +1148,14 @@ function App() {
         <Route
           path="/interest/activities"
           element={
-            <DashboardLayout users={users} allChats={allChats}>
+             <DashboardLayout
+                users={users}
+                allChats={allChats}
+                posts={posts}
+                loading={postLoading}
+                events={events}
+                activities={activities}
+              >
               <InterestLayout interests={interests}>
                 <InterestFeed>
                   <BottomFeedTab users={users}>
@@ -967,7 +1172,14 @@ function App() {
         <Route
           path="/interest/podcasts"
           element={
-            <DashboardLayout users={users} allChats={allChats}>
+             <DashboardLayout
+                users={users}
+                allChats={allChats}
+                posts={posts}
+                loading={postLoading}
+                events={events}
+                activities={activities}
+              >
               <InterestLayout interests={interests}>
                 <InterestFeed>
                   <BottomFeedTab users={users}>
@@ -981,7 +1193,14 @@ function App() {
         <Route
           path="/interest/events"
           element={
-            <DashboardLayout users={users} allChats={allChats}>
+             <DashboardLayout
+                users={users}
+                allChats={allChats}
+                posts={posts}
+                loading={postLoading}
+                events={events}
+                activities={activities}
+              >
               <InterestLayout interests={interests}>
                 <InterestFeed>
                   <BottomFeedTab users={users}>
@@ -998,7 +1217,14 @@ function App() {
           path="/settings/"
           element={
             <ProtectedRoute>
-              <DashboardLayout users={users} allChats={allChats}>
+               <DashboardLayout
+                users={users}
+                allChats={allChats}
+                posts={posts}
+                loading={postLoading}
+                events={events}
+                activities={activities}
+              >
                 <InterestLayout interests={interests}>
                   <BottomFeedTab users={users}>
                     <Settings>
@@ -1021,7 +1247,14 @@ function App() {
           path="/settings/account/profile"
           element={
             <ProtectedRoute>
-              <DashboardLayout users={users} allChats={allChats}>
+               <DashboardLayout
+                users={users}
+                allChats={allChats}
+                posts={posts}
+                loading={postLoading}
+                events={events}
+                activities={activities}
+              >
                 <InterestLayout interests={interests}>
                   <BottomFeedTab users={users}>
                     <Settings>
@@ -1038,7 +1271,14 @@ function App() {
           path="/settings/account/email-and-password"
           element={
             <ProtectedRoute>
-              <DashboardLayout users={users} allChats={allChats}>
+               <DashboardLayout
+                users={users}
+                allChats={allChats}
+                posts={posts}
+                loading={postLoading}
+                events={events}
+                activities={activities}
+              >
                 <InterestLayout interests={interests}>
                   <BottomFeedTab users={users}>
                     <Settings>
