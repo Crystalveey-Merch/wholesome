@@ -205,8 +205,8 @@ export const Comment = ({
                 ·
               </p>
               <p className="text-slate-500 font-inter text-sm md:text-xs">
-                {comment.createdAt
-                  ? formatTimeAgo(new Date(comment.createdAt.seconds * 1000))
+                {comment?.createdAt.seconds
+                  ? formatTimeAgo(new Date(comment?.createdAt?.seconds * 1000))
                   : "loading"}
               </p>
             </div>

@@ -41,7 +41,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Comment, Sharing } from "../components/Feed";
 
-export const Content = ({ posts, setPosts, users }) => {
+export const Content = ({ posts, setPosts, users, setUsers }) => {
   const { id } = useParams();
   const navigate = useNavigate();
   //   const postId = "9mBXAxwEFABpxW0jTfn3";
@@ -122,6 +122,12 @@ export const Content = ({ posts, setPosts, users }) => {
         await updateDoc(postRef, {
           analytics: updatedAnalytics,
         });
+        const updatedPost = {
+          ...post,
+          analytics: updatedAnalytics,
+        };
+        // setPost(updatedPost);
+        setPosts(posts.map((post) => (post.id === id ? updatedPost : post)));
       } catch (error) {
         console.log("Error updating analytics:", error);
       }
@@ -139,6 +145,8 @@ export const Content = ({ posts, setPosts, users }) => {
       </div>
     );
   }
+
+  console.log("post", post);
 
   const { userId, imgUrl, postTitle, content, likes, comments } = post;
   const postRef = doc(db, "posts", id);
@@ -184,12 +192,24 @@ export const Content = ({ posts, setPosts, users }) => {
       comments: arrayUnion(newComment),
     });
 
+    // const updatedPost = {
+    //   ...post,
+    //   comments: [...comments, newComment],
+    // };
+
+    // await setPosts(posts.map((post) => (post.id === id ? updatedPost : post)));
+
     // Add the new comment to the user's notifications array
     const userRef = doc(db, "users", userId);
     if (userId !== loggedInUser?.id) {
       await updateDoc(userRef, {
         notifications: arrayUnion(newNotification),
       });
+      const updatedUser = {
+        ...authorProfile,
+        notifications: [...authorProfile.notifications, newNotification],
+      };
+      setUsers(users.map((user) => (user.id === userId ? updatedUser : user)));
     }
 
     // check for mentions and notify the user
