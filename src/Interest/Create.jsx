@@ -314,6 +314,7 @@ export const Create = ({ interests }) => {
         rules: [],
         // requests is for private and secret groups
         requests: [],
+        invites: [],
         createdBy: loggedInUser.id,
         wallPaper: randomImage.imgUrl,
         createdAt: new Date(),

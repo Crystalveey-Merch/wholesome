@@ -2,18 +2,26 @@
 import { Link } from "react-router-dom";
 import { updateDoc, doc } from "firebase/firestore";
 import { db } from "../firebase/auth";
-import { getProfileDetails, getPostDetails, formatTimeAgo2 } from "../Hooks";
-import { selectUser } from "../Features/userSlice";
-import { useSelector } from "react-redux";
+import {
+  getProfileDetails,
+  getPostDetails,
+  formatTimeAgo2,
+  getInterestDetails,
+  getChatBoxDetails,
+  convertToLowercase,
+} from "../Hooks";
+import { selectUser, updateUser } from "../Features/userSlice";
+import { useSelector, useDispatch } from "react-redux";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 
-export const Notifications = ({ users, posts }) => {
+export const Notifications = ({ users, posts, interests }) => {
   const user = useSelector(selectUser);
+  const dispatch = useDispatch();
   const [notifications, setNotifications] = useState([]);
 
- useEffect(() => {
+  useEffect(() => {
     if (!user) return;
     const notifications = user.notifications;
     setNotifications(notifications);
@@ -32,17 +40,35 @@ export const Notifications = ({ users, posts }) => {
   };
   // console.log(user);
 
-  useEffect(() => {
-    if (!user) return;
-    // set the notifications to hasSeen = true
-    const docRef = doc(db, "users", user?.id);
-    if (!notifications) return;
-    updateDoc(docRef, {
-      notifications: notifications.map((notification) => {
-        return { ...notification, hasSeen: true };
-      }),
-    });
-  }, [user, notifications]);
+  // useEffect(() => {
+  //   if (!user || notifications.length === 0) return;
+  
+  //   const updateNotifications = async () => {
+  //     const docRef = doc(db, "users", user.id);
+  //     const updatedNotifications = notifications.map((notification) => ({
+  //       ...notification,
+  //       hasSeen: true,
+  //     }));
+  
+  //     try {
+  //       await updateDoc(docRef, { notifications: updatedNotifications });
+  //       dispatch(
+  //         updateUser((prevState) => ({
+  //           ...prevState,
+  //           notifications: updatedNotifications
+  //         }))
+  //       );
+  //     } catch (error) {
+  //       console.error("Error updating notifications:", error);
+  //     }
+  //   };
+  
+  //   updateNotifications();
+  // }, [ notifications.length, dispatch]);
+  
+
+  if (!user) return <div>Loading...</div>;
+  console.log(notifications);
 
   return (
     <div className="flex flex-col gap-6 sm:px-4">
@@ -72,7 +98,7 @@ export const Notifications = ({ users, posts }) => {
       ) : (
         <div className="min-w[100%] flex flex-col gap-0">
           {notifications
-            ?.sort((a, b) => b.createdAt - a.createdAt)
+            ?.sort((a, b) => b?.createdAt - a?.createdAt)
             ?.map((notification, index) => (
               <div key={notification.index}>
                 {notification.type === "comment" && (
@@ -129,54 +155,115 @@ export const Notifications = ({ users, posts }) => {
                   </div>
                 )}
                 {notification.type === "reply" && (
-                  <div
-                    className={`flex gap-4 justifybetween py-3 px-4 border-b hover:bg-grey-50 transition duration-500 ease-in-out ${
-                      index === notifications.length - 1 ? "" : ""
-                    } ${notification.hasRead ? "" : "bg-slate-50"}`}
-                    onClick={() => handleClick(notification.id)}
-                  >
-                    <Link
-                      to={`/readMore/${notification.postId}`}
-                      className="flex gap-3 w-full"
-                    >
-                      {" "}
-                      <img
-                        src={
-                          getProfileDetails(notification.fromUserId, users)
-                            .photoURL
-                        }
-                        alt=""
-                        className="w-10 h-10 rounded-full"
-                      />
-                      <div className="flex flex-col gap-2">
-                        <div className="text-gray-700 font-inter text-base">
-                          <span className="font-semibold">
-                            {
+                  <>
+                    {notification.replyType === "comment" ||
+                    notification.replyType === "reply" ? (
+                      <div
+                        className={`flex gap-4 justifybetween py-3 px-4 border-b hover:bg-grey-50 transition duration-500 ease-in-out ${
+                          index === notifications.length - 1 ? "" : ""
+                        } ${notification.hasRead ? "" : "bg-slate-50"}`}
+                        onClick={() => handleClick(notification.id)}
+                      >
+                        <Link
+                          to={`/readMore/${notification.postId}`}
+                          className="flex gap-3 w-full"
+                        >
+                          {" "}
+                          <img
+                            src={
                               getProfileDetails(notification.fromUserId, users)
-                                .name
+                                .photoURL
                             }
-                          </span>{" "}
-                          {notification.replyType === "comment"
-                            ? "replied to your comment."
-                            : "replied to your reply."}
+                            alt=""
+                            className="w-10 h-10 rounded-full"
+                          />
+                          <div className="flex flex-col gap-2">
+                            <div className="text-gray-700 font-inter text-base">
+                              <span className="font-semibold">
+                                {
+                                  getProfileDetails(
+                                    notification.fromUserId,
+                                    users
+                                  ).name
+                                }
+                              </span>{" "}
+                              {notification.replyType === "comment"
+                                ? "replied to your comment."
+                                : "replied to your reply."}
+                            </div>
+                            <p className="text-gray-500 font-inter text-sm">
+                              {notification.content}
+                            </p>
+                            <p className="text-gray-500 font-inter text-sm">
+                              {formatTimeAgo2(
+                                new Date(notification.createdAt.seconds * 1000)
+                              )}
+                            </p>
+                          </div>
+                        </Link>
+                        <div>
+                          <FontAwesomeIcon
+                            icon={faEllipsisV}
+                            className="text-gray-500 cursor-pointer"
+                          />
                         </div>
-                        <p className="text-gray-500 font-inter text-sm">
-                          {notification.content}
-                        </p>
-                        <p className="text-gray-500 font-inter text-sm">
-                          {formatTimeAgo2(
-                            new Date(notification.createdAt.seconds * 1000)
-                          )}
-                        </p>
                       </div>
-                    </Link>
-                    <div>
-                      <FontAwesomeIcon
-                        icon={faEllipsisV}
-                        className="text-gray-500 cursor-pointer"
-                      />
-                    </div>
-                  </div>
+                    ) : notification.replyType === "chat" ||
+                      notification.replyType === "chatReply" ? (
+                      <div
+                        className={`flex gap-4 justifybetween py-3 px-4 border-b hover:bg-grey-50 transition duration-500 ease-in-out ${
+                          index === notifications.length - 1 ? "" : ""
+                        } ${notification.hasRead ? "" : "bg-slate-50"}`}
+                        onClick={() => handleClick(notification.id)}
+                      >
+                        <Link
+                          to={notification.link}
+                          className="flex gap-3 w-full"
+                        >
+                          {" "}
+                          <img
+                            src={
+                              getProfileDetails(notification.fromUserId, users)
+                                .photoURL
+                            }
+                            alt=""
+                            className="w-10 h-10 rounded-full"
+                          />
+                          <div className="flex flex-col gap-2">
+                            <div className="text-gray-700 font-inter text-base">
+                              <span className="font-semibold">
+                                {
+                                  getProfileDetails(
+                                    notification.fromUserId,
+                                    users
+                                  ).name
+                                }
+                              </span>{" "}
+                              {notification.replyType === "chat"
+                                ? "replied to your post."
+                                : "replied to your reply."}
+                            </div>
+                            <p className="text-gray-500 font-inter text-sm">
+                              {notification.content}
+                            </p>
+                            <p className="text-gray-500 font-inter text-sm">
+                              {formatTimeAgo2(
+                                new Date(notification.createdAt.seconds * 1000)
+                              )}
+                            </p>
+                          </div>
+                        </Link>
+                        <div>
+                          <FontAwesomeIcon
+                            icon={faEllipsisV}
+                            className="text-gray-500 cursor-pointer"
+                          />
+                        </div>
+                      </div>
+                    ) : (
+                      <></>
+                    )}
+                  </>
                 )}
                 {notification.type === "like" && (
                   <>
@@ -222,6 +309,66 @@ export const Notifications = ({ users, posts }) => {
                                 {
                                   getPostDetails(notification.postId, posts)
                                     ?.postTitle
+                                }
+                              </span>
+                              &quot;
+                            </div>
+                            <p className="text-gray-500 font-inter text-sm">
+                              {formatTimeAgo2(
+                                new Date(notification.createdAt.seconds * 1000)
+                              )}
+                            </p>
+                          </div>
+                        </Link>
+                        <div>
+                          <FontAwesomeIcon
+                            icon={faEllipsisV}
+                            className="text-gray-500 cursor-pointer"
+                          />
+                        </div>
+                      </div>
+                    ) : notification.likeType === "chatBox" ||
+                      notification.likeType === "chatBoxReply" ? (
+                      <div
+                        className={`flex gap-4 justifybetween py-3 px-4 border-b hover:bg-grey-50 transition duration-500 ease-in-out ${
+                          index === notifications.length - 1 ? "" : ""
+                        } ${notification.hasRead ? "" : "bg-slate-50"}`}
+                        onClick={() => handleClick(notification.id)}
+                      >
+                        <Link
+                          to={notification.link}
+                          className="flex gap-3 w-full"
+                        >
+                          {" "}
+                          <img
+                            src={
+                              getProfileDetails(notification?.fromUserId, users)
+                                ?.photoURL
+                            }
+                            alt=""
+                            className="w-10 h-10 rounded-full"
+                          />
+                          <div className="flex flex-col gap-2">
+                            <div className="text-gray-700 font-inter text-base">
+                              <span className="font-semibold">
+                                {
+                                  getProfileDetails(
+                                    notification.fromUserId,
+                                    users
+                                  ).name
+                                }
+                              </span>{" "}
+                              {notification.likeType === "chatBox"
+                                ? "liked your chatBox."
+                                : "liked your reply in a chatBox."}{" "}
+                              &quot;
+                              <span className="text-black font-inter text-sm">
+                                {
+                                  getChatBoxDetails(
+                                    notification.chatBoxId,
+                                    notification.interestId,
+                                    interests
+                                  )?.text
                                 }
                               </span>
                               &quot;
@@ -302,6 +449,67 @@ export const Notifications = ({ users, posts }) => {
                             new Date(notification.createdAt.seconds * 1000)
                           )}
                         </p>
+                      </div>
+                    </Link>
+                    <div>
+                      <FontAwesomeIcon
+                        icon={faEllipsisV}
+                        className="text-gray-500 cursor-pointer"
+                      />
+                    </div>
+                  </div>
+                )}
+                {notification.type === "invite" && (
+                  <div
+                    className={`flex gap-4 justifybetween py-3 px-4 border-b hover:bg-grey-50 transition duration-500 ease-in-out ${
+                      index === notifications.length - 1 ? "" : ""
+                    } ${notification.hasRead ? "" : "bg-slate-50"}`}
+                    onClick={() => handleClick(notification.id)}
+                  >
+                    <Link
+                      to={`/interest/${convertToLowercase(
+                        getInterestDetails(notification.interestId, interests)
+                          ?.name
+                      )}`}
+                      className="flex gap-3 w-full justify-between"
+                    >
+                      <div className="flex gap-3 w-full">
+                        {" "}
+                        <img
+                          src={
+                            getProfileDetails(notification.fromUserId, users)
+                              ?.photoURL
+                          }
+                          alt=""
+                          className="w-10 h-10 rounded-full"
+                        />
+                        <div className="flex flex-col gap-2">
+                          <div className="text-gray-700 font-inter text-base">
+                            You invited you to join &quot;
+                            <span className="text-black font-inter text-sm">
+                              {
+                                getInterestDetails(
+                                  notification.interestId,
+                                  interests
+                                )?.name
+                              }
+                            </span>
+                            &quot; by &nbsp;
+                            <span className="font-semibold">
+                              {
+                                getProfileDetails(
+                                  notification.fromUserId,
+                                  users
+                                ).name
+                              }
+                            </span>{" "}
+                          </div>
+                          <p className="text-gray-500 font-inter text-sm">
+                            {formatTimeAgo2(
+                              new Date(notification.createdAt.seconds * 1000)
+                            )}
+                          </p>
+                        </div>
                       </div>
                     </Link>
                     <div>

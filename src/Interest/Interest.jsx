@@ -6,13 +6,24 @@ import { selectUser } from "../Features/userSlice";
 import { convertToLowercase } from "../Hooks";
 import { faPen, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { NavBar, Sharing, UploadWallpaperModal } from "../components/Interest";
+import {
+  NavBar,
+  Sharing,
+  UploadWallpaperModal,
+  InviteModal,
+} from "../components/Interest";
 import { toast } from "react-toastify";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { updateDoc, storage, doc, db } from "../firebase/auth";
 import { RightBar } from ".";
 
-export const Interest = ({ children, interests }) => {
+export const Interest = ({
+  children,
+  interests,
+  users,
+  setInterests,
+  setUsers,
+}) => {
   const { name } = useParams();
   const loggedInUser = useSelector(selectUser);
   const [interest, setInterest] = useState([]);
@@ -89,6 +100,18 @@ export const Interest = ({ children, interests }) => {
   const url = `https://www.wholesquare.org/i/${name}`;
 
   //   console.log(url)
+  const [inviteModalOpen, setInviteModalOpen] = useState(false);
+
+  const handleOpenInviteModal = () => {
+    // only open if user is a member of the interest
+    if (
+      interest?.members?.some((member) => member?.userId === loggedInUser?.id)
+    ) {
+      setInviteModalOpen(true);
+    } else {
+      toast.error("You must be a member of the interest to invite others");
+    }
+  };
 
   if (!interest) return null;
 
@@ -128,7 +151,10 @@ export const Interest = ({ children, interests }) => {
                 (member) => member?.userId === loggedInUser?.id
               ) ? (
                 <div className="flex gap-4 items-center">
-                  <button className="text-black bg-gray-200 px-4 py-2 flex gap-2.5 items-center rounded-lg transition duration-300 ease-in-out hover:bg-gray-300 md:py-2">
+                  <button
+                    onClick={handleOpenInviteModal}
+                    className="text-black bg-gray-200 px-4 py-2 flex gap-2.5 items-center rounded-lg transition duration-300 ease-in-out hover:bg-gray-300 md:py-2"
+                  >
                     <FontAwesomeIcon
                       icon={faPlus}
                       className="text-black h-4 w-4"
@@ -183,6 +209,16 @@ export const Interest = ({ children, interests }) => {
         handleImageClick={handleImageClick}
         photo={photo}
         imageLoading={imageUploading}
+      />
+      <InviteModal
+        open={inviteModalOpen}
+        setOpen={setInviteModalOpen}
+        interest={interest}
+        interests={interests}
+        users={users}
+        setInterest={setInterest}
+        setInterests={setInterests}
+        setUsers={setUsers}
       />
     </div>
   );
