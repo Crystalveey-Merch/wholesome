@@ -214,10 +214,10 @@ export const Interest = ({
         open={inviteModalOpen}
         setOpen={setInviteModalOpen}
         interest={interest}
-        interests={interests}
+        // interests={interests}
         users={users}
         setInterest={setInterest}
-        setInterests={setInterests}
+        // setInterests={setInterests}
         setUsers={setUsers}
       />
     </div>

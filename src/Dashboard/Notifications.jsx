@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { updateDoc, doc } from "firebase/firestore";
 import { db } from "../firebase/auth";
 import {
@@ -15,16 +15,20 @@ import { useSelector, useDispatch } from "react-redux";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
-export const Notifications = ({ users, posts, interests }) => {
+export const Notifications = ({ users, posts, interests, setInterests }) => {
+  const navigate = useNavigate();
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
   const [notifications, setNotifications] = useState([]);
+  const [acceptingInvite, setAcceptingInvite] = useState(false);
 
   useEffect(() => {
     if (!user) return;
-    const notifications = user.notifications;
-    setNotifications(notifications);
+    const sortedNotifications = [...user.notifications] // Create a new array
+      .sort((a, b) => b?.createdAt - a?.createdAt); // Compare timestamps directly
+    setNotifications(sortedNotifications);
   }, [user]);
 
   const handleClick = (id) => {
@@ -37,41 +41,82 @@ export const Notifications = ({ users, posts, interests }) => {
         return notification;
       }),
     });
+    console.log("Notification has been read");
   };
   // console.log(user);
 
-  // useEffect(() => {
-  //   if (!user || notifications.length === 0) return;
-  
-  //   const updateNotifications = async () => {
-  //     const docRef = doc(db, "users", user.id);
-  //     const updatedNotifications = notifications.map((notification) => ({
-  //       ...notification,
-  //       hasSeen: true,
-  //     }));
-  
-  //     try {
-  //       await updateDoc(docRef, { notifications: updatedNotifications });
-  //       dispatch(
-  //         updateUser((prevState) => ({
-  //           ...prevState,
-  //           notifications: updatedNotifications
-  //         }))
-  //       );
-  //     } catch (error) {
-  //       console.error("Error updating notifications:", error);
-  //     }
-  //   };
-  
-  //   updateNotifications();
-  // }, [ notifications.length, dispatch]);
-  
+  useEffect(() => {
+    if (!user || notifications.length === 0) return;
+
+    const updateNotifications = async () => {
+      const docRef = doc(db, "users", user.id);
+      const updatedNotifications = notifications.map((notification) => ({
+        ...notification,
+        hasSeen: true,
+      }));
+
+      try {
+        await updateDoc(docRef, { notifications: updatedNotifications });
+      } catch (error) {
+        console.error("Error updating notifications:", error);
+      }
+    };
+
+    updateNotifications();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user.notifications, notifications.length, dispatch, user.id]);
+
+  const handleAcceptInvite = async (interestId) => {
+    setAcceptingInvite(true);
+    //use the interestId to accept the invite
+    try {
+      const docRef = doc(db, "interests", interestId);
+      const interest = getInterestDetails(interestId, interests);
+      const newMember = {
+        userId: user.id,
+        joinedAt: new Date(),
+      };
+      await updateDoc(docRef, {
+        // set the interest inviteAccepted to accepted
+        invites: interest.invites.map((invite) => {
+          if (invite.invitedUserId === user.id) {
+            return { ...invite, inviteAccepted: true };
+          }
+          return invite;
+        }),
+        members: [...interest.members, newMember],
+      });
+      // update interest in local state
+      const updatedInterests = interests.map((i) => {
+        if (i.id === interestId) {
+          return {
+            ...i,
+            invites: i.invites.map((invite) => {
+              if (invite.invitedUserId === user.id) {
+                return { ...invite, inviteAccepted: true };
+              }
+              return invite;
+            }),
+            members: [...i.members, newMember],
+          };
+        }
+        return i;
+      });
+      setInterests(updatedInterests);
+      setAcceptingInvite(false);
+      toast.success("Invite accepted successfully");
+    } catch (error) {
+      console.error("Error accepting invite:", error);
+      setAcceptingInvite(false);
+      toast.error(error.message);
+    }
+  };
 
   if (!user) return <div>Loading...</div>;
   console.log(notifications);
 
   return (
-    <div className="flex flex-col gap-6 sm:px-4">
+    <div className="flex flex-col gap-6 sm:px-2">
       <h1 className="text-4xl font-inter font-semibold text-black md:text-3xl sm:text-2xl">
         Notifications
       </h1>
@@ -98,9 +143,9 @@ export const Notifications = ({ users, posts, interests }) => {
       ) : (
         <div className="min-w[100%] flex flex-col gap-0">
           {notifications
-            ?.sort((a, b) => b?.createdAt - a?.createdAt)
+            ?.sort((a, b) => b.createdAt - a.createdAt)
             ?.map((notification, index) => (
-              <div key={notification.index}>
+              <div key={notification.createdAt}>
                 {notification.type === "comment" && (
                   <div
                     className={`flex gap-4 justifybetween py-3 px-4 border-b hover:bg-grey-50 transition duration-500 ease-in-out ${
@@ -466,12 +511,12 @@ export const Notifications = ({ users, posts, interests }) => {
                     } ${notification.hasRead ? "" : "bg-slate-50"}`}
                     onClick={() => handleClick(notification.id)}
                   >
-                    <Link
-                      to={`/interest/${convertToLowercase(
-                        getInterestDetails(notification.interestId, interests)
-                          ?.name
-                      )}`}
-                      className="flex gap-3 w-full justify-between"
+                    <div
+                      // to={notification.link}
+                      className="flex gap-3 w-full justify-between items-center cursor-pointer"
+                      onClick={() => {
+                        navigate(`${notification.link}`);
+                      }}
                     >
                       <div className="flex gap-3 w-full">
                         {" "}
@@ -481,26 +526,26 @@ export const Notifications = ({ users, posts, interests }) => {
                               ?.photoURL
                           }
                           alt=""
-                          className="w-10 h-10 rounded-full"
+                          className="w-10 h-10 rounded-full min-w-[40px] min-h-[40px]"
                         />
                         <div className="flex flex-col gap-2">
                           <div className="text-gray-700 font-inter text-base">
-                            You invited you to join &quot;
-                            <span className="text-black font-inter text-sm">
+                            You are invited to join &quot;
+                            <span className="text-black font-inter text-sm font-medium">
                               {
                                 getInterestDetails(
                                   notification.interestId,
                                   interests
                                 )?.name
                               }
-                            </span>
-                            &quot; by &nbsp;
-                            <span className="font-semibold">
+                            </span>{" "}
+                            interest group &quot; by &nbsp;
+                            <span className="font-semibold text-black">
                               {
                                 getProfileDetails(
                                   notification.fromUserId,
                                   users
-                                ).name
+                                )?.name
                               }
                             </span>{" "}
                           </div>
@@ -511,7 +556,25 @@ export const Notifications = ({ users, posts, interests }) => {
                           </p>
                         </div>
                       </div>
-                    </Link>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleAcceptInvite(notification.interestId);
+                        }}
+                        className="bg-[#FF5841] text-white  px-4 py-2 rounded-lg text-base font-medium  md:py-2 transition duration-300 ease-in-out hover:bg-[#ec432d] sm:text-sm"
+                      >
+                        {acceptingInvite && notification.interestId === user.id
+                          ? "Accepting..."
+                          : getInterestDetails(
+                              notification.interestId,
+                              interests
+                            )?.members.find(
+                              (member) => member.userId === user.id
+                            )
+                          ? "Joined"
+                          : "Accept"}
+                      </button>
+                    </div>
                     <div>
                       <FontAwesomeIcon
                         icon={faEllipsisV}
