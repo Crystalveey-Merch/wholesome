@@ -921,7 +921,7 @@ function App() {
               activities={activities}
             >
               <InterestLayout interests={interests}>
-                 <Interest
+                <Interest
                   interests={interests}
                   users={users}
                   setInterests={setInterests}
@@ -985,14 +985,19 @@ function App() {
               activities={activities}
             >
               <InterestLayout interests={interests}>
-                 <Interest
+                <Interest
                   interests={interests}
                   users={users}
                   setInterests={setInterests}
                   setUsers={setUsers}
                 >
                   <BottomFeedTab users={users}>
-                    <Activities interests={interests} />
+                    <Activities
+                      interests={interests}
+                      activities={activities}
+                      setActivities={setActivities}
+                      users={users}
+                    />
                   </BottomFeedTab>
                 </Interest>
               </InterestLayout>
@@ -1012,14 +1017,19 @@ function App() {
               activities={activities}
             >
               <InterestLayout interests={interests}>
-                 <Interest
+                <Interest
                   interests={interests}
                   users={users}
                   setInterests={setInterests}
                   setUsers={setUsers}
                 >
                   <BottomFeedTab users={users}>
-                    <Events interests={interests} />
+                    <Events
+                      interests={interests}
+                      events={events}
+                      setEvents={setEvents}
+                      users={users}
+                    />
                   </BottomFeedTab>
                 </Interest>
               </InterestLayout>
@@ -1038,7 +1048,7 @@ function App() {
               activities={activities}
             >
               <InterestLayout interests={interests}>
-                 <Interest
+                <Interest
                   interests={interests}
                   users={users}
                   setInterests={setInterests}
@@ -1069,7 +1079,7 @@ function App() {
               activities={activities}
             >
               <InterestLayout interests={interests}>
-                 <Interest
+                <Interest
                   interests={interests}
                   users={users}
                   setInterests={setInterests}
@@ -1209,6 +1219,8 @@ function App() {
                     <AllActivities
                       interests={interests}
                       activities={activities}
+                      setActivities={setActivities}
+                      users={users}
                     />
                   </BottomFeedTab>
                 </InterestFeed>
@@ -1251,7 +1263,12 @@ function App() {
               <InterestLayout interests={interests}>
                 <InterestFeed>
                   <BottomFeedTab users={users}>
-                    <AllEvents interests={interests} events={events} />
+                    <AllEvents
+                      interests={interests}
+                      events={events}
+                      setEvents={setEvents}
+                      users={users}
+                    />
                   </BottomFeedTab>
                 </InterestFeed>
               </InterestLayout>

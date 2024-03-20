@@ -27,7 +27,7 @@ const handleLikeChatBoxReply = async (
       hasRead: false,
       hasSeen: false,
       hasDeleted: false,
-      link: `/interest/${convertToLowercase(interest.name)}`,
+      link: `/i/${convertToLowercase(interest.name)}/chat/${reply.chatBoxId}`,
     };
 
     await updateDoc(interestRef, {

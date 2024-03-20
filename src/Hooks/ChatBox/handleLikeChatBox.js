@@ -22,7 +22,7 @@ const handleLikeChatBox = async (loggedInUserId, interest, chat, chatBox) => {
       hasRead: false,
       hasSeen: false,
       hasDeleted: false,
-      link: `/interest/${convertToLowercase(interest.name)}`,
+      link: `/i/${convertToLowercase(interest.name)}/chat/${chat.id}`,
     };
 
     await updateDoc(interestRef, {

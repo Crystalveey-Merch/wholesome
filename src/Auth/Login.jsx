@@ -8,12 +8,16 @@ import {
   doc,
   db,
   updateDoc,
+  getDoc,
 } from "../firebase/auth";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { login } from "../Features/userSlice";
 // import { useSelector } from "react-redux";
 // import { selectUser } from "../Features/userSlice";
 
 export const Login = () => {
+  const dispatch = useDispatch();
   // const user = useSelector(selectUser);
   // const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -43,12 +47,18 @@ export const Login = () => {
       await updateDoc(userRef, {
         lastLogin: new Date(),
       });
+      const snapshot = await getDoc(userRef);
+      if (snapshot.exists()) {
+        const userData = { id: snapshot.id, ...snapshot.data() };
+        dispatch(login(userData));
+        localStorage.setItem("user", JSON.stringify(userData));
+      }
       navigate("/");
       toast.success("Login Successful");
       setLoading(false);
     } catch (error) {
       toast.error(error.message);
-      console.log(error);
+      console.error("Error logging in:", error);
       setIsError(true);
       setErrorMessage(error.message);
       setLoading(false);

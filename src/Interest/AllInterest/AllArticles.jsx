@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../Features/userSlice";
 import { Link } from "react-router-dom";
-import { getProfileDetails, convertToLowercase } from "../../Hooks";
+import { convertToLowercase } from "../../Hooks";
 import { PostCard } from ".";
 
 export const AllArticles = ({ interests, posts, setPosts, users }) => {
