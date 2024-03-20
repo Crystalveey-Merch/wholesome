@@ -6,20 +6,20 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { selectUser } from "../Features/userSlice";
 import { convertToLowercase } from "../Hooks";
 
-export const RightBar = ({ interest }) => {
+export const RightBar = ({ interest, defaultRules }) => {
   const loggedInUser = useSelector(selectUser);
   const navigate = useNavigate();
 
   return (
     <div className="w-80 h-min  max-h-[calc(100vh-110px)] flex justify-end">
-      <div className="w-full h-full flex flex-col gap-4 px-4 overflow-y-scroll scroll-bar-beauty border border-gray-200 rounded-xl">
-        <div className="py-4 flex flex-col gap-4 border-bborder-gray-200">
+      <div className="w-full h-full flex flex-col gap-4 py-6 px-4 overflow-y-scroll scroll-bar-beauty border border-gray-200 rounded-xl">
+        <div className="flex flex-col gap-4">
           {" "}
           {interest.description !== "" ? (
             <div className="w-full flex flex-col gap-2">
-              <h1 className="text-lg font-semibold text-black font-inter">
+              <h3 className="text-lg font-semibold text-black font-inter">
                 About
-              </h1>
+              </h3>
               <p className="text-black font-inter text-sm">
                 {interest.description}
               </p>
@@ -46,7 +46,11 @@ export const RightBar = ({ interest }) => {
                   </button>
                 </div>
               ) : (
-                <></>
+                <>
+                  <h3 className="text-lg font-semibold text-black font-inter">
+                    About
+                  </h3>
+                </>
               )}
             </>
           )}
@@ -59,7 +63,30 @@ export const RightBar = ({ interest }) => {
             </p>
           </div>
         </div>
-        <div></div>
+        <hr className="bg-gray-200" />
+        <div className="flex flex-col gap-3">
+          <h3 className="text-lg font-semibold text-black font-inter">Rules</h3>
+          {interest?.rules?.length > 0 ? (
+            <></>
+          ) : (
+            <ul className="flex flex-col gap-2">
+              {defaultRules.map((rule, index) => (
+                <li key={index} className="flex gap-2">
+                  <p>{index + 1}.</p>
+                  <div className="flex flex-col gap-1">
+                    {/* title and description */}
+                    <h4 className="text-black font-inter font-semibold">
+                      {rule.title}
+                    </h4>
+                    <p className="text-gray-700 font-inter text-sm">
+                      {rule.description}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
     </div>
   );
