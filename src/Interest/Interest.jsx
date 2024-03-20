@@ -185,6 +185,32 @@ export const Interest = ({
 
   if (!interest) return null;
 
+  const defaultRules = [
+    {
+      id: 1,
+      title: "Be respectful",
+      description:
+        "Treat others the way you would like to be treated. Do not insult, bully, or harass others.",
+    },
+    {
+      id: 2,
+      title: "No hate speech",
+      description:
+        "Do not promote or encourage hatred, violence, or discrimination against individuals or groups.",
+    },
+    {
+      id: 3,
+      title: "No spam",
+      description: "Do not post irrelevant or unsolicited messages or content.",
+    },
+    // {
+    //   id: 4,
+    //   title: "No self-promotion",
+    //   description:
+    //     "Do not use the interest group to promote your own content or business",
+    // },
+  ];
+
   return (
     <div className="w-full flex flex-col gap-6">
       <div className="flex flex-col gap-6">
@@ -274,7 +300,7 @@ export const Interest = ({
           <div className="w-full max-w-3xl xl:mx-auto">{children}</div>
         </div>
         <div className="z-10 sticky block top-0 h-max lg:hidden">
-          <RightBar interest={interest} />
+          <RightBar interest={interest} defaultRules={defaultRules} />
         </div>
       </div>
       <UploadWallpaperModal
