@@ -15,6 +15,7 @@ import {
   handleUnlikeActivity,
 } from "../../Hooks";
 import { useNavigate } from "react-router-dom";
+import moment from "moment";
 
 export const ActivityBox = ({ activity, activities, setActivities, users }) => {
   const loggedInUser = useSelector(selectUser);
@@ -36,21 +37,25 @@ export const ActivityBox = ({ activity, activities, setActivities, users }) => {
 
   const poster = getProfileDetails(userId, users);
 
-  const formatTime = (date) => {
-    if (date instanceof Date) {
-      return date.toLocaleTimeString("en-US", {
-        hour: "numeric",
-        minute: "2-digit",
-        hour12: true,
-      });
-    }
-    return ""; // Return an empty string if date is not a valid Date object
-  };
-  const formatDate = (date) => {
-    if (date instanceof Date) {
-      return date.toLocaleDateString("en-US");
-    }
-    return ""; // Return an empty string if date is not a valid Date object
+//   const formatTime = (date) => {
+//     if (date instanceof Date) {
+//       return date.toLocaleTimeString("en-US", {
+//         hour: "numeric",
+//         minute: "2-digit",
+//         hour12: true,
+//       });
+//     }
+//     return ""; // Return an empty string if date is not a valid Date object
+//   };
+//   const formatDate = (date) => {
+//     if (date instanceof Date) {
+//       return date.toLocaleDateString("en-US");
+//     }
+//     return ""; // Return an empty string if date is not a valid Date object
+//   };
+
+  const formattedDateTime = (date) => {
+    return moment(date).format("MMM DD, YYYY h:mm A");
   };
 
   return (
@@ -90,15 +95,7 @@ export const ActivityBox = ({ activity, activities, setActivities, users }) => {
             />
             <p className="text-gray-500 text-[0.85rem] font-medium font-inter">
               <span className="text-black font-semibold text-[0.85rem]">
-                {formatDate(
-                  DateTime instanceof Date ? DateTime : new Date(DateTime)
-                )}
-              </span>{" "}
-              at{" "}
-              <span className="text-black font-semibold text-[0.85rem]">
-                {formatTime(
-                  DateTime instanceof Date ? DateTime : new Date(DateTime)
-                )}
+                {formattedDateTime(DateTime)}
               </span>
             </p>
           </div>

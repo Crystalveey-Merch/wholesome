@@ -113,6 +113,76 @@ export const Interest = ({
     }
   };
 
+  const [joining, setJoining] = useState(false);
+  const handleJoinInterest = async () => {
+    setJoining(true);
+    try {
+      const interestRef = doc(db, `interests/${interest.id}`);
+      const newMember = {
+        userId: loggedInUser.id,
+        joinedAt: new Date(),
+      };
+      await updateDoc(interestRef, {
+        members: [...interest.members, newMember],
+        updatedAt: new Date(),
+      });
+      setInterest({ ...interest, members: [...interest.members, newMember] });
+      toast.success(`You have joined ${interest.name}`);
+    } catch (error) {
+      console.error("Error joining interest", error);
+      toast.error(error.message);
+    } finally {
+      setJoining(false);
+    }
+  };
+
+  const [leaving, setLeaving] = useState(false);
+  const handleLeaveInterest = async () => {
+    setLeaving(true);
+    if (window.confirm(`Are you sure you want to leave ${interest.name}?`)) {
+      if (interest.members.length === 1) {
+        toast.error("You cannot leave an interest group with only one member");
+        return;
+      }
+
+      // show toast error if user is the the only moderator
+      if (
+        interest.moderators.length === 1 &&
+        interest.moderators[0].userId === loggedInUser.id
+      ) {
+        toast.error(
+          "You cannot leave an interest as the only moderator, delete the interest instead"
+        );
+        return;
+      }
+
+      try {
+        const interestRef = doc(db, `interests/${interest.id}`);
+        const newMembers = interest.members.filter(
+          (member) => member.userId !== loggedInUser.id
+        );
+        // remove user from moderators if they are a moderator
+        const newModerators = interest.moderators.filter(
+          (moderator) => moderator.userId !== loggedInUser.id
+        );
+        await updateDoc(interestRef, {
+          members: newMembers,
+          moderators: newModerators,
+          updatedAt: new Date(),
+        });
+        setInterest({ ...interest, members: newMembers });
+        toast.success(`You have left ${interest.name}`);
+      } catch (error) {
+        console.error("Error leaving interest", error);
+        toast.error(error.message);
+      } finally {
+        setLeaving(false);
+      }
+    } else {
+      setLeaving(false);
+    }
+  };
+
   if (!interest) return null;
 
   return (
@@ -133,7 +203,7 @@ export const Interest = ({
             (moderator) => moderator?.userId === loggedInUser?.id
           ) && (
             <button
-              className="absolute top-10 right-10 bg-gray-200  h-10 w-10 rounded-md flex justify-center items-center shadow-md"
+              className="absolute top-10 right-10 bg-gray-200 h-10 w-10 rounded-md flex justify-center items-center shadow-md sm:top-5 sm:right-5"
               onClick={() => setIsImageOpen(true)}
             >
               <FontAwesomeIcon icon={faPen} className="text-black" />
@@ -163,14 +233,20 @@ export const Interest = ({
                       Invite
                     </p>
                   </button>
-                  <button className="self-end bg-[#FF5841] font-inter text-white px-4 py-2 rounded-lg text-base font-medium md:py-2 transition duration-300 ease-in-out hover:bg-[#ec432d] sm:text-sm">
-                    Joined
+                  <button
+                    onClick={handleLeaveInterest}
+                    className="self-end bg-[#FF5841] font-inter text-white px-4 py-2 rounded-lg text-base font-medium md:py-2 transition duration-300 ease-in-out hover:bg-[#ec432d] sm:text-sm"
+                  >
+                    {leaving ? "Leaving..." : "Joined"}
                   </button>
                   <Sharing url={url} />
                 </div>
               ) : (
-                <button className="self-end bg-[#FF5841] text-white  px-4 py-2 rounded-lg text-base font-medium  md:py-2 transition duration-300 ease-in-out hover:bg-[#ec432d] sm:text-sm">
-                  Join
+                <button
+                  onClick={handleJoinInterest}
+                  className="self-end bg-[#FF5841] text-white  px-4 py-2 rounded-lg text-base font-medium  md:py-2 transition duration-300 ease-in-out hover:bg-[#ec432d] sm:text-sm"
+                >
+                  {joining ? "Joining..." : "Join"}
                 </button>
               )}
             </div>
