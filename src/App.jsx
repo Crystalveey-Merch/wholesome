@@ -789,6 +789,7 @@ function App() {
                         users={users}
                         posts={posts}
                         interests={interests}
+                        setInterests={setInterests}
                       />
                     </FeedLayout>
                   </BottomFeedTab>
