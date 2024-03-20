@@ -1209,6 +1209,8 @@ function App() {
                     <AllActivities
                       interests={interests}
                       activities={activities}
+                      setActivities={setActivities}
+                      users={users}
                     />
                   </BottomFeedTab>
                 </InterestFeed>

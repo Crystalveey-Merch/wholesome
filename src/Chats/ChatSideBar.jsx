@@ -205,9 +205,9 @@ export const ChatSideBar = ({ loggedInUser, users, allChats }) => {
                           {/* get the messages with the lastest timestamp */}
                           {formatTimeAgo2(
                             new Date(
-                              chat.messages.sort(
-                                (a, b) => b.timestamp - a.timestamp
-                              )[0].timestamp.seconds * 1000
+                              chat.messages?.sort(
+                                (a, b) => b?.timestamp - a?.timestamp
+                              )[0].timestamp?.seconds * 1000
                             )
                           )}
                         </p>
