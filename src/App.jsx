@@ -76,6 +76,8 @@ import {
   Articles as InterestArticles,
   Podcasts as InterestPodcasts,
   Settings as InterestSettings,
+  AdminLayout,
+  BasicSettings,
   InterestForNonUsers,
   NonUsersChatBox,
   NonUsersActivities,
@@ -1098,7 +1100,7 @@ function App() {
         />
 
         <Route
-          path="/i/:name/edit"
+          path="/i/:name/settings"
           element={
             <DashboardLayout
               users={users}
@@ -1109,14 +1111,29 @@ function App() {
               activities={activities}
             >
               <InterestLayout interests={interests}>
-                <Interest
-                  interests={interests}
-                  users={users}
-                  setInterests={setInterests}
-                  setUsers={setUsers}
-                >
+                <AdminLayout interests={interests}>
                   <InterestSettings interests={interests} />
-                </Interest>
+                </AdminLayout>
+              </InterestLayout>
+            </DashboardLayout>
+          }
+        />
+
+        <Route
+          path="/i/:name/settings/edit"
+          element={
+            <DashboardLayout
+              users={users}
+              allChats={allChats}
+              posts={posts}
+              loading={postLoading}
+              events={events}
+              activities={activities}
+            >
+              <InterestLayout interests={interests}>
+                <AdminLayout interests={interests}>
+                  <InterestSettings interests={interests} />
+                </AdminLayout>
               </InterestLayout>
             </DashboardLayout>
           }

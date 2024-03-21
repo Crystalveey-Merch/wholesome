@@ -6,10 +6,35 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { selectUser } from "../Features/userSlice";
 import { convertToLowercase } from "../Hooks";
 
-export const RightBar = ({ interest, defaultRules }) => {
+export const RightBar = ({ interest }) => {
   const loggedInUser = useSelector(selectUser);
   const navigate = useNavigate();
 
+  const defaultRules = [
+    {
+      id: 1,
+      title: "Be respectful",
+      description:
+        "Treat others the way you would like to be treated. Do not insult, bully, or harass others.",
+    },
+    {
+      id: 2,
+      title: "No hate speech",
+      description:
+        "Do not promote or encourage hatred, violence, or discrimination against individuals or groups.",
+    },
+    {
+      id: 3,
+      title: "No spam",
+      description: "Do not post irrelevant or unsolicited messages or content.",
+    },
+    // {
+    //   id: 4,
+    //   title: "No self-promotion",
+    //   description:
+    //     "Do not use the interest group to promote your own content or business",
+    // },
+  ];
   return (
     <div className="w-80 h-min  max-h-[calc(100vh-110px)] flex justify-end">
       <div className="w-full h-full flex flex-col gap-4 py-6 px-4 overflow-y-scroll scroll-bar-beauty border border-gray-200 rounded-xl">
@@ -32,7 +57,9 @@ export const RightBar = ({ interest, defaultRules }) => {
                 <div>
                   <button
                     onClick={() => {
-                      navigate(`/i/${convertToLowercase(interest.name)}/edit`);
+                      navigate(
+                        `/i/${convertToLowercase(interest.name)}/settings/edit`
+                      );
                     }}
                     className="w-full flex gap-2 items-center"
                   >

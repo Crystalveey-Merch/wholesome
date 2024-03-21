@@ -1,20 +1,25 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectUser } from "../Features/userSlice";
 import { convertToLowercase } from "../Hooks";
-import { faPen, faPlus } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPlus,
+  faEllipsis,
+  faGear,
+  faThumbTack,
+  faFlag,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   NavBar,
   Sharing,
-  UploadWallpaperModal,
+  // UploadWallpaperModal,
   InviteModal,
 } from "../components/Interest";
 import { toast } from "react-toastify";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { updateDoc, storage, doc, db } from "../firebase/auth";
+import { updateDoc,  doc, db } from "../firebase/auth";
 import { RightBar } from ".";
 
 export const Interest = ({
@@ -25,6 +30,8 @@ export const Interest = ({
   setUsers,
 }) => {
   const { name } = useParams();
+  const navigate = useNavigate();
+  
   const loggedInUser = useSelector(selectUser);
   const [interest, setInterest] = useState([]);
 
@@ -36,66 +43,7 @@ export const Interest = ({
     setInterest(interest);
   }, [name, interests]);
 
-  const [isImageOpen, setIsImageOpen] = useState(false);
-  const [photo, setPhoto] = useState(null);
-  const [wallPaperURL, setWallPaperURL] = useState(interest?.wallPaper || "");
-  const [imageUploading, setImageUploading] = useState(false);
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      //   if (file.size > 1048487) {
-      //     alert("File size must be less than 1.5MB");
-      //     return;
-      //   }
-      setPhoto(file);
-      createImagePreview(file);
-    } else {
-      setPhoto(null);
-    }
-  };
-
-  const createImagePreview = (file) => {
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      // Ensure reader.result is a string or provide a default value (empty string)
-      const resultString = reader.result;
-      setWallPaperURL(resultString);
-    };
-    reader.readAsDataURL(file);
-  };
-
-  const handleImageClick = async () => {
-    try {
-      if (loggedInUser) {
-        setImageUploading(true);
-        const storageRef = ref(storage, `wallpapers/${photo.name}`);
-        const snapshot = await uploadBytes(storageRef, photo);
-        const downloadURL = await getDownloadURL(snapshot.ref);
-
-        const interestRef = doc(db, `interests/${interest.id}`);
-        await updateDoc(interestRef, {
-          wallPaper: downloadURL,
-          updatedAt: new Date(),
-        });
-
-        setIsImageOpen(false);
-        alert("Wallpaper updated successfully");
-        // console.log(currentUser.photoURL)
-      }
-    } catch (error) {
-      console.error("Error updating wallpaper", error);
-      toast.error(error.message);
-    } finally {
-      setImageUploading(false);
-    }
-  };
-
-  const handleClose = () => {
-    setIsImageOpen(false);
-    setPhoto(null);
-    setWallPaperURL(interest.wallPaper || "");
-  };
 
   const url = `https://www.wholesquare.org/i/${name}`;
 
@@ -183,33 +131,22 @@ export const Interest = ({
     }
   };
 
-  if (!interest) return null;
+  const [showECDropdown, setShowECDropdown] = useState(false);
+  const ecDropdownRef = useRef(null);
 
-  const defaultRules = [
-    {
-      id: 1,
-      title: "Be respectful",
-      description:
-        "Treat others the way you would like to be treated. Do not insult, bully, or harass others.",
-    },
-    {
-      id: 2,
-      title: "No hate speech",
-      description:
-        "Do not promote or encourage hatred, violence, or discrimination against individuals or groups.",
-    },
-    {
-      id: 3,
-      title: "No spam",
-      description: "Do not post irrelevant or unsolicited messages or content.",
-    },
-    // {
-    //   id: 4,
-    //   title: "No self-promotion",
-    //   description:
-    //     "Do not use the interest group to promote your own content or business",
-    // },
-  ];
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (ecDropdownRef.current && !ecDropdownRef.current.contains(e.target)) {
+        setShowECDropdown(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+
+  if (!interest) return null;
 
   return (
     <div className="w-full flex flex-col gap-6">
@@ -225,18 +162,60 @@ export const Interest = ({
           ) : (
             <div className="w-full h-full bg-gray-100"></div>
           )}
-          {interest?.moderators?.some(
-            (moderator) => moderator?.userId === loggedInUser?.id
-          ) && (
+          <div className="absolute top-7 right-7 flex gap-2 items-center sm:top-5 sm:right-5">
+            {interest?.moderators?.some(
+              (moderator) => moderator?.userId === loggedInUser?.id
+            ) && (
+              <button
+                className="group relative h-10 w-10 rounded-md flex justify-center items-center shadow-md"
+                onClick={() => navigate(`/i/${name}/settings`)}
+              >
+                <FontAwesomeIcon
+                  icon={faGear}
+                  className="text-white z-10 h-5 w-5"
+                />
+                <div className="absolute top-0 right-0 bg-black w-10 h-10 rounded-md opacity-30 hover:opacity-50 group-hover:opacity-50"></div>
+              </button>
+            )}
             <button
-              className="absolute top-10 right-10 bg-gray-200 h-10 w-10 rounded-md flex justify-center items-center shadow-md sm:top-5 sm:right-5"
-              onClick={() => setIsImageOpen(true)}
+              className="group relative h-10 w-10 rounded-md flex justify-center items-center shadow-md"
+              onClick={() => setShowECDropdown(!showECDropdown)}
             >
-              <FontAwesomeIcon icon={faPen} className="text-black" />
+              <FontAwesomeIcon
+                icon={faEllipsis}
+                className="text-white z-10 h-5 w-5"
+              />
+              <div className="absolute top-0 right-0 bg-black w-10 h-10 rounded-md opacity-30 hover:opacity-50 group-hover:opacity-50"></div>
+              {showECDropdown && (
+                <div
+                  ref={ecDropdownRef}
+                  onClick={(e) => e.stopPropagation()}
+                  className="absolute top-12 right-0 bg-white shadow-md rounded-md z-10 p-2 w-60 flex flex-col gap-1.5 sm:w-52"
+                >
+                  <button className="w-full flex items-center rounded-sm gap-2 p-2 hover:bg-gray-100">
+                    <FontAwesomeIcon
+                      icon={faThumbTack}
+                      className="text-black h-4 w-4"
+                    />
+                    <p className="text-black font-inter font-medium text-sm">
+                      Pin to side bar
+                    </p>
+                  </button>
+                  <button className="w-full flex items-center rounded-sm gap-2 p-2 hover:bg-gray-100">
+                    <FontAwesomeIcon
+                      icon={faFlag}
+                      className="text-black h-4 w-4"
+                    />
+                    <p className="text-black font-inter font-medium text-sm">
+                      Report interest group
+                    </p>
+                  </button>
+                </div>
+              )}
             </button>
-          )}
+          </div>
         </div>
-        <div className="px-10 flex justify-between items-center md:flex-col md:items-start md:gap-5 md:px-4">
+        <div className="sticky px-10 flex justify-between items-center md:flex-col md:items-start md:gap-5 md:px-4">
           {" "}
           <h2 className="text-3xl font-bold text-black font-inter lg:text-2xl">
             {interest.name}
@@ -300,18 +279,10 @@ export const Interest = ({
           <div className="w-full max-w-3xl xl:mx-auto">{children}</div>
         </div>
         <div className="z-10 sticky block top-0 h-max lg:hidden">
-          <RightBar interest={interest} defaultRules={defaultRules} />
+          <RightBar interest={interest} />
         </div>
       </div>
-      <UploadWallpaperModal
-        open={isImageOpen}
-        handleClose={handleClose}
-        photoURL={wallPaperURL}
-        handleImageChange={handleImageChange}
-        handleImageClick={handleImageClick}
-        photo={photo}
-        imageLoading={imageUploading}
-      />
+      
       <InviteModal
         open={inviteModalOpen}
         setOpen={setInviteModalOpen}
