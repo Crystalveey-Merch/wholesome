@@ -6,6 +6,14 @@ import Fade from "@mui/material/Fade";
 import { useSelector } from "react-redux";
 import { selectUser } from "../Features/userSlice";
 import { useNavigate } from "react-router-dom";
+import {
+  faCalendarPlus,
+  faNewspaper,
+  faListCheck,
+  faPodcast,
+  faXmarkCircle,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const CreateModal = ({ isOpen, setIsOpen }) => {
   const navigate = useNavigate();
@@ -17,12 +25,19 @@ export const CreateModal = ({ isOpen, setIsOpen }) => {
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: "calc(100% - 64px)",
-    maxWidth: "600px",
+    maxWidth: "580px",
     bgcolor: "background.paper",
     boxShadow: 24,
     borderRadius: "10px",
-    p: "24px",
+    p: "20px",
     zIndex: 100,
+    // responsive
+    "@media (max-width: 639px)": {
+      width: "calc(100% - 0px)",
+      height: "calc(100% - 0px)",
+      borderRadius: "0px",
+      p: "10px",
+    },
   };
 
   return (
@@ -39,7 +54,15 @@ export const CreateModal = ({ isOpen, setIsOpen }) => {
     >
       <Fade in={isOpen}>
         <Box sx={style}>
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-6 sm:p-2.5">
+            <div className="border-b border-gray-200 pb-3 flex justify-between items-center sm:py-3.5">
+              <h3 className="text-lg font-inter font-semibold text-black">
+                Create
+              </h3>
+              <button onClick={setIsOpen} className="text-gray-500">
+                <FontAwesomeIcon icon={faXmarkCircle} className="h-6 w-6" />
+              </button>
+            </div>
             <div className="flex gap-2">
               <img
                 src={loggedInUser?.photoURL}
@@ -56,41 +79,59 @@ export const CreateModal = ({ isOpen, setIsOpen }) => {
               </div>
             </div>
 
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-8">
               <h3 className="text-lg font-inter font-semibold text-black">
-                Create
+                What do you want to create?
               </h3>
               {/* article, event, activity and podcast */}
-              <div className="flex gap-3 items-center">
-                <button
+              <div className="flex gap-4 items-center">
+                {/* <button
                   className="flex flex-col gap-1 p-2 border rounded-md border-[#ff5841] transition-all hover:bg-[#ff5841] hover:text-white group"
                   onClick={() => (setIsOpen(false), navigate("/createpost"))}
                 >
                   <p className="text-sm font-semibold text-[#ff5841] font-inter transition-all group-hover:text-white">
                     Article
                   </p>
+                </button> */}
+                <button
+                  className="flex gap-2 items-center p-2 rounded-md transition duration-300 ease-in-out hover:bg-gray-50"
+                  onClick={() => (setIsOpen(false), navigate("/createpost"))}
+                >
+                  <FontAwesomeIcon
+                    icon={faNewspaper}
+                    className="text-[#e6d96d] h-6 w-6"
+                  />
+                  <p className="text-sm font-semibold text-[#000000] font-inter transition-all">
+                    Article
+                  </p>
                 </button>
                 <button
-                  className="flex flex-col gap-1 p-2 border rounded-md border-[#ff5841] transition-all hover:bg-[#ff5841] hover:text-white group opacity-50"
-                  disabled
+                  className="flex gap-2 items-center p-2 rounded-md transition duration-300 ease-in-out hover:bg-gray-50"
+                  onClick={() => (setIsOpen(false), navigate("/hostevent"))}
                 >
-                  <p className="text-sm font-semibold text-[#ff5841] font-inter transition-all group-hover:text-white">
+                  <FontAwesomeIcon
+                    icon={faCalendarPlus}
+                    className="text-[#007FFF] h-6 w-6"
+                  />
+                  <p className="text-sm font-semibold text-[#000000] font-inter transition-all">
                     Event
                   </p>
                 </button>
-                <button
-                  className="flex flex-col gap-1 p-2 border rounded-md border-[#ff5841] transition-all hover:bg-[#ff5841] hover:text-white group opacity-50"
-                  disabled
-                >
-                  <p className="text-sm font-semibold text-[#ff5841] font-inter transition-all group-hover:text-white">
+                <button className="flex gap-2 items-center p-2 rounded-md transition duration-300 ease-in-out hover:bg-gray-50">
+                  <FontAwesomeIcon
+                    icon={faListCheck}
+                    className="text-[#32de84] h-6 w-6"
+                  />
+                  <p className="text-sm font-semibold text-[#000000] font-inter transition-all">
                     Activity
                   </p>
                 </button>
-                <button
-                  className="flex flex-col gap-1 p-2 border rounded-md border-[#ff5841] transition-all hover:bg-[#ff5841] hover:text-white group opacity-50"
-                  disabled
-                >
-                  <p className="text-sm font-semibold text-[#ff5841] font-inter transition-all group-hover:text-white">
+                <button className="flex gap-2 items-center p-2 rounded-md transition duration-300 ease-in-out hover:bg-gray-50">
+                  <FontAwesomeIcon
+                    icon={faPodcast}
+                    className="text-[#EF0107] h-6 w-6"
+                  />
+                  <p className="text-sm font-semibold text-[#000000] font-inter transition-all">
                     Podcast
                   </p>
                 </button>

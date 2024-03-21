@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { selectUser } from "../Features/userSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { selectUser, updateUser } from "../Features/userSlice";
 import { convertToLowercase } from "../Hooks";
 import {
   faPlus,
@@ -31,6 +31,7 @@ export const Interest = ({
 }) => {
   const { name } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const loggedInUser = useSelector(selectUser);
   const [interest, setInterest] = useState([]);
@@ -143,6 +144,62 @@ export const Interest = ({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // add the interest id to user's sidebarPins
+  const handlePinToSidebar = async () => {
+    // if user is not logged in, redirect to login page
+    if (!loggedInUser) {
+      window.location.href = "/login";
+      return;
+    }
+    // if user is not a member of the interest, show toast error
+    if (!interest.members.some((member) => member.userId === loggedInUser.id)) {
+      toast.error("You must join the interest to pin it to your sidebar");
+      return;
+    }
+
+    try {
+      const userRef = doc(db, `users/${loggedInUser.id}`);
+      const newPin = {
+        interestId: interest.id,
+        pinnedAt: new Date(),
+        pinNum: loggedInUser.sidebarPins.length + 1,
+      };
+      // if sidebarPins is more than 5, replace the last pin with the new pin
+      let newSidebarPins = [];
+      if (loggedInUser.sidebarPins.length >= 5) {
+        newSidebarPins = [...loggedInUser.sidebarPins.slice(0, 4), newPin];
+      } else {
+        newSidebarPins = [...loggedInUser.sidebarPins, newPin];
+      }
+      await updateDoc(userRef, {
+        sidebarPins: newSidebarPins,
+      });
+      dispatch(updateUser({ ...loggedInUser, sidebarPins: newSidebarPins }));
+      toast.success(`${interest.name} has been pinned to your sidebar`);
+    } catch (error) {
+      console.error("Error pinning interest to sidebar", error);
+      toast.error(error.message);
+    }
+  };
+
+  const handleUnpinFromSidebar = async () => {
+    try {
+      const userRef = doc(db, `users/${loggedInUser.id}`);
+      const newSidebarPins = loggedInUser.sidebarPins
+        .filter((pin) => pin.interestId !== interest.id)
+        .map((pin, index) => ({ ...pin, pinNum: index + 1 }));
+
+      await updateDoc(userRef, {
+        sidebarPins: newSidebarPins,
+      });
+      dispatch(updateUser({ ...loggedInUser, sidebarPins: newSidebarPins }));
+      toast.info(`${interest.name} has been unpinned from your sidebar`);
+    } catch (error) {
+      console.error("Error unpinning interest from sidebar", error);
+      toast.error(error.message);
+    }
+  };
+
   if (!interest) return null;
 
   return (
@@ -189,16 +246,29 @@ export const Interest = ({
                   onClick={(e) => e.stopPropagation()}
                   className="absolute top-12 right-0 bg-white shadow-md rounded-md z-10 p-2 w-60 flex flex-col gap-1.5 sm:w-52"
                 >
-                  <button className="w-full flex items-center rounded-sm gap-2 p-2 hover:bg-gray-100">
+                  <button
+                    className="w-full flex items-center rounded-sm gap-2 p-2 hover:bg-gray-100"
+                    onClick={
+                      loggedInUser?.sidebarPins?.some(
+                        (pin) => pin.interestId === interest.id
+                      )
+                        ? handleUnpinFromSidebar
+                        : handlePinToSidebar
+                    }
+                  >
                     <FontAwesomeIcon
                       icon={faThumbTack}
                       className="text-black h-4 w-4"
                     />
                     <p className="text-black font-inter font-medium text-sm">
-                      Pin to side bar
+                      {loggedInUser?.sidebarPins?.some(
+                        (pin) => pin.interestId === interest.id
+                      )
+                        ? "Unpin from sidebar"
+                        : "Pin to sidebar"}
                     </p>
                   </button>
-                  <button className="w-full flex items-center rounded-sm gap-2 p-2 hover:bg-gray-100">
+                  <button className="w-full flex items-center rounded-sm gap-2 p-2 hover:bg-gray-100 cursor-default opacity-50">
                     <FontAwesomeIcon
                       icon={faFlag}
                       className="text-black h-4 w-4"
