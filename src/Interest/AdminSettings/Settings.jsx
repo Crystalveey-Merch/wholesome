@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { convertToLowercase } from "../Hooks";
-import { db, updateDoc, doc } from "../firebase/auth";
+import { convertToLowercase } from "../../Hooks";
+import { db, updateDoc, doc } from "../../firebase/auth";
 import { toast } from "react-toastify";
 
 export const Settings = ({ interests }) => {
@@ -84,6 +84,7 @@ export const Settings = ({ interests }) => {
         description,
         updatedAt: new Date(),
       });
+      setInterest({ ...interest, name: interestName, description });
       toast.success("Interest group updated successfully");
       navigate(`/i/${name}`);
     } catch (error) {
@@ -100,7 +101,7 @@ export const Settings = ({ interests }) => {
         <div className="flex gap-4 flex-col">
           <button
             onClick={() => navigate(-1)}
-            className="flex gap-1 items-center text-black font-inter font-semibold text-sm"
+            className="flex gap-1 items-center text-black font-inter font-semibold text-sm w-max"
           >
             <FontAwesomeIcon icon={faChevronLeft} className="h-3.5 w-3.5" />
             <p className="font-inter text-black text-base">Back</p>

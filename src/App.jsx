@@ -53,7 +53,13 @@ import { SearchModal, SearchUser, Topics } from "./Userpage";
 import { selectSearchModal } from "./Features/searchModalSlice.js";
 import { Messages, SelectMessage, ChatView } from "./Chats";
 import { DashboardLayout, DefaultLayout } from "./Layouts/";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  // getDocs,
+  updateDoc,
+  // writeBatch,
+} from "firebase/firestore";
 // import { doc, getDocs, updateDoc } from "./firebase/auth.js";
 import { Feed, FeedLayout, Content, Following } from "./Feed";
 import {
@@ -69,6 +75,7 @@ import {
   Layout as InterestLayout,
   Create,
   Interest,
+  About,
   ChatBox,
   ChatBoxView,
   Activities,
@@ -77,7 +84,7 @@ import {
   Podcasts as InterestPodcasts,
   Settings as InterestSettings,
   AdminLayout,
-  BasicSettings,
+  Rules,
   InterestForNonUsers,
   NonUsersChatBox,
   NonUsersActivities,
@@ -370,33 +377,34 @@ function App() {
   // console.log(allChats);
 
   // useEffect(() => {
-  //   const fetchUsersAndUpdateInvites = async () => {
+  //   const fetchUsersAndUpdateSidebarPins = async () => {
   //     try {
-  //       const interestRef = collection(db, "interests");
+  //       const interestRef = collection(db, "users");
   //       const usersSnapshot = await getDocs(interestRef);
-
-  //       const batch = writeBatch(db); // Initialize batched write
+  //       const batch = writeBatch(db);
 
   //       usersSnapshot.forEach((userDoc) => {
+  //         const userRef = doc(interestRef, userDoc.id);
   //         const userData = userDoc.data();
 
-  //         // Check if the user already has invites
-  //         if (!userData.invites) {
-  //           const userRef = doc(interestRef, userDoc.id);
-
-  //           // Add update operation to batch
-  //           batch.update(userRef, { invites: [] });
-  //         }
+  //         // Add update operation to batch
+  //         batch.set(
+  //           userRef,
+  //           {
+  //             sidebarPins: [], // Initialize sidebarPins as an empty array
+  //           },
+  //           { merge: true }
+  //         );
   //       });
 
   //       // Commit batched write
   //       await batch.commit();
   //     } catch (error) {
-  //       console.error("Error updating invites:", error);
+  //       console.error("Error updating sidebarPins:", error);
   //     }
   //   };
 
-  //   fetchUsersAndUpdateInvites();
+  //   fetchUsersAndUpdateSidebarPins();
   // }, []); // Run once on component mount
 
   const showSearchModal = useSelector(selectSearchModal);
@@ -939,6 +947,32 @@ function App() {
           }
         />
         <Route
+          path="/i/:name/about"
+          element={
+            <DashboardLayout
+              users={users}
+              allChats={allChats}
+              posts={posts}
+              loading={postLoading}
+              events={events}
+              activities={activities}
+            >
+              <InterestLayout interests={interests}>
+                <Interest
+                  interests={interests}
+                  users={users}
+                  setInterests={setInterests}
+                  setUsers={setUsers}
+                >
+                  <BottomFeedTab users={users}>
+                    <About interests={interests} users={users} />
+                  </BottomFeedTab>
+                </Interest>
+              </InterestLayout>
+            </DashboardLayout>
+          }
+        />
+        <Route
           path="/i/:name/chat/:chatBoxId"
           element={
             <DashboardLayout
@@ -1133,6 +1167,25 @@ function App() {
               <InterestLayout interests={interests}>
                 <AdminLayout interests={interests}>
                   <InterestSettings interests={interests} />
+                </AdminLayout>
+              </InterestLayout>
+            </DashboardLayout>
+          }
+        />
+        <Route
+          path="/i/:name/settings/rules"
+          element={
+            <DashboardLayout
+              users={users}
+              allChats={allChats}
+              posts={posts}
+              loading={postLoading}
+              events={events}
+              activities={activities}
+            >
+              <InterestLayout interests={interests}>
+                <AdminLayout interests={interests}>
+                  <Rules interests={interests} />
                 </AdminLayout>
               </InterestLayout>
             </DashboardLayout>

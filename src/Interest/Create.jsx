@@ -311,7 +311,37 @@ export const Create = ({ interests }) => {
         chatBox: [],
         replies: [],
         description: "",
-        rules: [],
+        rules: [
+          {
+            title: "Be respectful",
+            description:
+              "Treat others the way you would like to be treated. Do not insult, bully, or harass others.",
+              createdAt: new Date(),
+              updatedAt: new Date(),
+              sortNumber: 1,
+          },
+          {
+            title: "No hate speech",
+            description:
+              "Do not promote or encourage hatred, violence, or discrimination against individuals or groups.",
+              createdAt: new Date(),
+              updatedAt: new Date(),
+              sortNumber: 2, 
+          },
+          {
+            title: "No spam",
+            description: "Do not post irrelevant or unsolicited messages or content.",
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            sortNumber: 3,
+          },
+              // {
+    //   id: 4,
+    //   title: "No self-promotion",
+    //   description:
+    //     "Do not use the interest group to promote your own content or business",
+    // },
+        ],
         // requests is for private and secret groups
         requests: [],
         invites: [],

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export const NavBar = ({ name }) => {
   return (
-    <div className="w-full h-10 flex gap-8 sm:overflow-y-scroll">
+    <div className="sticky top-0 py-4 pb-2 bg-white w-full h12 flex gap-8 sm:overflow-y-scroll">
       {/* chatBox */}
       <Link
         className={`text-base font-semibold pb-3 border-b-2 cursor-pointer transition duration-500 ease-in-out whitespace-nowrap ${
@@ -58,6 +58,17 @@ export const NavBar = ({ name }) => {
         to={`/i/${name}/podcasts`}
       >
         Podcasts
+      </Link>
+      {/* about */}
+      <Link
+        className={`text-base font-semibold pb-3 border-b-2 cursor-pointer transition duration-500 ease-in-out hidden lg:block ${
+          location.pathname === `/i/${name}/about`
+            ? "text-black border-[#FF5841]"
+            : "text-gray-500 border-b-transparent hover:text-black hover:border-[#FF5841]"
+        } `}
+        to={`/i/${name}/about`}
+      >
+        About
       </Link>
     </div>
   );

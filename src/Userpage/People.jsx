@@ -79,7 +79,7 @@ export const People = ({ searchResults }) => {
                   <button
                     type="button"
                     onClick={() => {
-                      navigate(`/profile/${user.id}`);
+                      navigate(`/${user.username}`);
                     }}
                     className="w-max min-w-[120px] h-max block px-4 py-2 rounded-xl border border-gray-300 text-[#FF5841] font-inter text-sm"
                   >
