@@ -34,7 +34,7 @@ export const AdminSideBar = ({ interests }) => {
 
   const [isImageOpen, setIsImageOpen] = useState(false);
   const [photo, setPhoto] = useState(null);
-  const [wallPaperURL, setWallPaperURL] = useState(interest?.wallPaper || "");
+  const [wallPaperURL, setWallPaperURL] = useState(interest?.wallPaper);
   const [imageUploading, setImageUploading] = useState(false);
 
   const handleImageChange = (e) => {
@@ -74,6 +74,7 @@ export const AdminSideBar = ({ interests }) => {
           wallPaper: downloadURL,
           updatedAt: new Date(),
         });
+        setInterest({ ...interest, wallPaper: downloadURL });
 
         setIsImageOpen(false);
         alert("Wallpaper updated successfully");
@@ -146,14 +147,14 @@ export const AdminSideBar = ({ interests }) => {
                   Edit WallPaper
                 </p>
               </button>
-              <button
-                // to="/settings/account/profile"
+              <Link
+                to={`/i/${name}/settings/rules`}
                 className={`flex gap-4 items-center px-4 py-2.5 rounded-md cursor-pointer transition duration-300 ease-in-out hover:bg-gray-100 ${
-                  location.pathname === "/settings/account/profile"
+                  location.pathname === `/i/${name}/settings/rules`
                     ? "bg-gray-100"
-                    : location.pathname === "/settings"
-                    ? "bg-gray-100"
-                    : ""
+                    : // : location.pathname === "/settings"
+                      // ? "bg-gray-100"
+                      ""
                 }`}
               >
                 <FontAwesomeIcon
@@ -163,7 +164,7 @@ export const AdminSideBar = ({ interests }) => {
                 <p className="text-gray-900 font-inter text-sm font-medium">
                   Interest Group Rules
                 </p>
-              </button>
+              </Link>
             </div>
           </div>
         </div>

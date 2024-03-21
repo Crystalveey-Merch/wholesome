@@ -19,7 +19,7 @@ import {
   InviteModal,
 } from "../components/Interest";
 import { toast } from "react-toastify";
-import { updateDoc,  doc, db } from "../firebase/auth";
+import { updateDoc, doc, db } from "../firebase/auth";
 import { RightBar } from ".";
 
 export const Interest = ({
@@ -31,7 +31,7 @@ export const Interest = ({
 }) => {
   const { name } = useParams();
   const navigate = useNavigate();
-  
+
   const loggedInUser = useSelector(selectUser);
   const [interest, setInterest] = useState([]);
 
@@ -42,8 +42,6 @@ export const Interest = ({
     );
     setInterest(interest);
   }, [name, interests]);
-
-
 
   const url = `https://www.wholesquare.org/i/${name}`;
 
@@ -145,7 +143,6 @@ export const Interest = ({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-
   if (!interest) return null;
 
   return (
@@ -215,7 +212,7 @@ export const Interest = ({
             </button>
           </div>
         </div>
-        <div className="sticky px-10 flex justify-between items-center md:flex-col md:items-start md:gap-5 md:px-4">
+        <div className="px-10 flex justify-between items-center md:flex-col md:items-start md:gap-5 md:px-4">
           {" "}
           <h2 className="text-3xl font-bold text-black font-inter lg:text-2xl">
             {interest.name}
@@ -273,16 +270,17 @@ export const Interest = ({
           location.pathname === `/i/${name}/events` ||
           location.pathname === `/i/${name}/activities` ||
           location.pathname === `/i/${name}/articles` ||
-          location.pathname === `/i/${name}/podcasts` ? (
+          location.pathname === `/i/${name}/podcasts` ||
+          location.pathname === `/i/${name}/about` ? (
             <NavBar name={name} />
           ) : null}
           <div className="w-full max-w-3xl xl:mx-auto">{children}</div>
         </div>
-        <div className="z-10 sticky block top-0 h-max lg:hidden">
+        <div className="z-10 sticky block top-6 h-max lg:hidden">
           <RightBar interest={interest} />
         </div>
       </div>
-      
+
       <InviteModal
         open={inviteModalOpen}
         setOpen={setInviteModalOpen}

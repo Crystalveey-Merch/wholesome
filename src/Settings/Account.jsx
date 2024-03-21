@@ -194,7 +194,7 @@ export const Account = ({ users, setUsers }) => {
       <div className="w-full max-w-2xl flex flex-col gap-10">
         <div className="flex items-center gap-4">
           <button
-            onClick={() => navigate(-1)}
+            onClick={() => navigate("/settings")}
             className="hidden md:flex md:items-center"
           >
             <FontAwesomeIcon icon={faArrowLeft} className="text-black" />

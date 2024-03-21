@@ -36,7 +36,7 @@ export const RightBar = ({ interest }) => {
     // },
   ];
   return (
-    <div className="w-80 h-min  max-h-[calc(100vh-110px)] flex justify-end">
+    <div className="w-80 hmin  h-[calc(100vh-150px)] flex justify-end">
       <div className="w-full h-full flex flex-col gap-4 py-6 px-4 overflow-y-scroll scroll-bar-beauty border border-gray-200 rounded-xl">
         <div className="flex flex-col gap-4">
           {" "}
@@ -89,12 +89,35 @@ export const RightBar = ({ interest }) => {
               </span>
             </p>
           </div>
+          <button
+            onClick={() => {
+              navigate(`/i/${convertToLowercase(interest.name)}/about`);
+            }}
+            className="w-full bg-gray-400 text-white font-inter font-semibold text-sm py-2 rounded-md transition duration-200 hover:bg-gray-500"
+          >
+            Learn More
+          </button>
         </div>
         <hr className="bg-gray-200" />
         <div className="flex flex-col gap-3">
           <h3 className="text-lg font-semibold text-black font-inter">Rules</h3>
           {interest?.rules?.length > 0 ? (
-            <></>
+            <ul className="flex flex-col gap-2">
+              {interest.rules.map((rule, index) => (
+                <li key={index} className="flex gap-2">
+                  <p>{index + 1}.</p>
+                  <div className="flex flex-col gap-1">
+                    {/* title and description */}
+                    <h4 className="text-black font-inter font-semibold">
+                      {rule.title}
+                    </h4>
+                    <p className="text-gray-700 font-inter text-sm">
+                      {rule.description}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ul>
           ) : (
             <ul className="flex flex-col gap-2">
               {defaultRules.map((rule, index) => (
