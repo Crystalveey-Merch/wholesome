@@ -21,7 +21,7 @@ import {
   // closeSideBar,
 } from "../Features/openSideBarSlice";
 import { wholesquareEmployees } from "../Employees";
-import { convertToLowercase } from "../Hooks";
+import { convertToLowercase, getInterestDetails } from "../Hooks";
 
 export const SideBar = ({ interests }) => {
   const loggedInUser = useSelector(selectUser);
@@ -52,6 +52,11 @@ export const SideBar = ({ interests }) => {
       });
     });
     dispatch(toggleSideBar());
+  };
+
+  const getInterestNameAndConvertToLowercase = (interestId) => {
+    const interest = getInterestDetails(interestId, interests);
+    return interest.name.toLowerCase().split(" ").join("-");
   };
 
   return (
@@ -138,6 +143,57 @@ export const SideBar = ({ interests }) => {
               </Link>
             </div>
           </div>
+          {loggedInUser &&
+            loggedInUser.sidebarPins.length > 0 &&
+            interests.length > 0 && (
+              <div className="px-1 flex flex-col gap-4 pb-4 border-b border-gray-200">
+                <h5 className="text-black text-base font-medium font-inter">
+                  Your Pinned Interests
+                </h5>
+                <div className="flex flex-col gap-1.5">
+                  {loggedInUser?.sidebarPins?.map((sidebarPin) => (
+                    <Link
+                      key={sidebarPin.pinNum}
+                      className={`flex gap-4 items-center px-4 py-2.5 rounded-md cursor-pointer transition duration-300 ease-in-out hover:bg-gray-100 ${
+                        location.pathname ===
+                        `/i/${getInterestNameAndConvertToLowercase(
+                          sidebarPin?.interestId
+                        )}`
+                          ? "bg-gray-100"
+                          : ""
+                      }`}
+                      to={`/i/${getInterestNameAndConvertToLowercase(
+                        sidebarPin?.interestId
+                      )}`}
+                    >
+                      {getInterestDetails(sidebarPin.interestId, interests)
+                        ?.wallPaper ? (
+                        <img
+                          src={
+                            getInterestDetails(sidebarPin.interestId, interests)
+                              ?.wallPaper
+                          }
+                          alt="interest"
+                          className="h-10 w-10 rounded-md"
+                        />
+                      ) : (
+                        <FontAwesomeIcon
+                          icon={faImage}
+                          className="text-gray-500 h-8 w-8"
+                        />
+                      )}
+
+                      <p className="text-gray-900 font-inter text-sm font-medium">
+                        {
+                          getInterestDetails(sidebarPin.interestId, interests)
+                            ?.name
+                        }
+                      </p>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
           <div className="px-1 flex flex-col gap-4 pb-4 border-b border-gray-200">
             <div className="flex justify-between items-center">
               <h5 className="text-black text-base font-medium font-inter">
