@@ -95,79 +95,81 @@ export const Settings = ({ interests }) => {
   };
 
   return (
-    <div className="flex flex-col gap-12 pb-8">
-      <div className="flex gap-4 flex-col">
-        <button
-          onClick={() => navigate(`/i/${name}`)}
-          className="flex gap-1 items-center text-black font-inter font-semibold text-sm"
-        >
-          <FontAwesomeIcon icon={faChevronLeft} className="h-3.5 w-3.5" />
-          <p className="font-inter text-black text-base">Back</p>
-        </button>
-        {/* <h3 className="text-black font-inter font-semibold text-lg">
+    <div className="flex flex-col gap-12 py-8 px-8 justify-center items-center sm:px-6">
+      <div className="w-full max-w-2xl flex flex-col gap-12">
+        <div className="flex gap-4 flex-col">
+          <button
+            onClick={() => navigate(-1)}
+            className="flex gap-1 items-center text-black font-inter font-semibold text-sm"
+          >
+            <FontAwesomeIcon icon={faChevronLeft} className="h-3.5 w-3.5" />
+            <p className="font-inter text-black text-base">Back</p>
+          </button>
+          {/* <h3 className="text-black font-inter font-semibold text-lg">
           Settings
         </h3> */}
-      </div>
+        </div>
 
-      <div className="flex flex-col gap-6">
-        <h4 className="text-black font-inter font-semibold text-lg">
-          Basic Settings
-        </h4>
-        <form onSubmit={handleUpdate} className="flex flex-col gap-4">
-          <label className="flex flex-col gap-2">
-            <p className="text-black font-inter text-base font-semibold">
-              Interest Group Name
-            </p>
-            <div className="flex flex-col">
-              <input
-                type="text"
-                placeholder="Enter the name of the interest group"
-                className={`w-full h[40px] text-gray-900 text-sm font-inter font-medium px-3 py-2.5 rounded-md focus:outline-none focus:ring-0 focus:border-gray-300 focus:ring-transparent transition duration-300 ease-in-out ${
-                  interestName?.length > 0 && isAccepted
-                    ? "border-green500 border-green-300 bg-gray100"
-                    : interestName?.length > 0 && !isAccepted
-                    ? "border-red-300 bg-white"
-                    : isInputFocused
-                    ? "border-gray-200"
-                    : "border-gray-200"
-                }`}
-                value={interestName}
-                onChange={(e) => setInterestName(e.target.value)}
-                onFocus={() => setIsInputFocused(true)}
-                onBlur={() => setIsInputFocused(false)}
-              />
-              {interestName?.length > 0 && (
-                <p
-                  className={`text-xs font-inter ${
-                    isAccepted ? "text-green-500" : "text-red-600"
+        <div className="flex flex-col gap-6">
+          <h4 className="text-black font-inter font-semibold text-lg">
+            Basic Settings
+          </h4>
+          <form onSubmit={handleUpdate} className="flex flex-col gap-4">
+            <label className="flex flex-col gap-2">
+              <p className="text-black font-inter text-base font-semibold">
+                Interest Group Name
+              </p>
+              <div className="flex flex-col">
+                <input
+                  type="text"
+                  placeholder="Enter the name of the interest group"
+                  className={`w-full h[40px] text-gray-900 text-sm font-inter font-medium px-3 py-2.5 rounded-md focus:outline-none focus:ring-0 focus:border-gray-300 focus:ring-transparent transition duration-300 ease-in-out ${
+                    interestName?.length > 0 && isAccepted
+                      ? "border-green500 border-green-300 bg-gray100"
+                      : interestName?.length > 0 && !isAccepted
+                      ? "border-red-300 bg-white"
+                      : isInputFocused
+                      ? "border-gray-200"
+                      : "border-gray-200"
                   }`}
-                >
-                  {message}
-                </p>
-              )}
-            </div>
-          </label>
-          <label className="flex flex-col gap-2">
-            <p className="text-black font-inter text-base font-semibold">
-              Description
-            </p>
-            <textarea
-              placeholder="Enter a brief description of the interest group"
-              className="w-full h-[140px] text-gray-900 text-sm font-inter font-medium px-3 py-2.5 rounded-md border-gray-200 resize-none focus:outline-none focus:ring-0 focus:border-green-300 focus:ring-transparent transition duration-300 ease-in-out"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </label>
-          <button
-            type="submit"
-            className={`h-11 w-max justify-self-end place-self-end px-3 py-2 bg-red-500 text-white font-inter font-semibold text-sm rounded-md focus:outline-none focus:ring-0 transition duration-300 ease-in-out ${
-              loading ? "opacity-50 cursor-not-allowed" : "hover:bg-red-600"
-            }`}
-            disabled={loading}
-          >
-            {loading ? "Updating..." : "Update"}
-          </button>
-        </form>
+                  value={interestName}
+                  onChange={(e) => setInterestName(e.target.value)}
+                  onFocus={() => setIsInputFocused(true)}
+                  onBlur={() => setIsInputFocused(false)}
+                />
+                {interestName?.length > 0 && (
+                  <p
+                    className={`text-xs font-inter ${
+                      isAccepted ? "text-green-500" : "text-red-600"
+                    }`}
+                  >
+                    {message}
+                  </p>
+                )}
+              </div>
+            </label>
+            <label className="flex flex-col gap-2">
+              <p className="text-black font-inter text-base font-semibold">
+                Description
+              </p>
+              <textarea
+                placeholder="Enter a brief description of the interest group"
+                className="w-full h-[140px] text-gray-900 text-sm font-inter font-medium px-3 py-2.5 rounded-md border-gray-200 resize-none focus:outline-none focus:ring-0 focus:border-green-300 focus:ring-transparent transition duration-300 ease-in-out"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </label>
+            <button
+              type="submit"
+              className={`h-11 w-max justify-self-end place-self-end px-3 py-2 bg-red-500 text-white font-inter font-semibold text-sm rounded-md focus:outline-none focus:ring-0 transition duration-300 ease-in-out ${
+                loading ? "opacity-50 cursor-not-allowed" : "hover:bg-red-600"
+              }`}
+              disabled={loading}
+            >
+              {loading ? "Updating..." : "Update"}
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

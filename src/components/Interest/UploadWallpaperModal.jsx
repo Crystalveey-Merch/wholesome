@@ -21,11 +21,19 @@ export const UploadWallpaperModal = ({
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: "calc(100% - 64px)",
-    maxWidth: "600px",
+    maxWidth: "580px",
     bgcolor: "background.paper",
     boxShadow: 24,
     borderRadius: "10px",
-    p: "24px",
+    p: "20px",
+    zIndex: 100,
+    // responsive
+    "@media (max-width: 639px)": {
+      width: "calc(100% - 0px)",
+      height: "calc(100% - 0px)",
+      borderRadius: "0px",
+      p: "10px",
+    },
   };
 
   return (
