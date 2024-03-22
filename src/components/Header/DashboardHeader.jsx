@@ -11,7 +11,9 @@ import {
 } from "../../Features/openCreateModalSlice.js";
 import {
   selectOpenSideBar,
-  toggleSideBar,
+  // toggleSideBar,
+  openSideBar,
+  closeSideBar,
 } from "../../Features/openSideBarSlice.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -34,18 +36,39 @@ export const DashboardHeader = ({ users, allChats, posts, activities }) => {
   const dispatch = useDispatch();
   const sideBarState = useSelector(selectOpenSideBar);
 
+  // const handleMenu = () => {
+  //   const barLinks = document.querySelector(".bar-links");
+  //   barLinks?.classList.toggle("open");
+
+  //   const barItems = document.querySelectorAll(".bar-item");
+  //   barItems.forEach((item) => {
+  //     item.addEventListener("click", () => {
+  //       barLinks?.classList.remove("open");
+  //       dispatch(toggleSideBar());
+  //     });
+  //   });
+  //   dispatch(toggleSideBar());
+  // };
+
   const handleMenu = () => {
     const barLinks = document.querySelector(".bar-links");
-    barLinks?.classList.toggle("open");
-
     const barItems = document.querySelectorAll(".bar-item");
+
+    if (sideBarState) {
+      barLinks?.classList.remove("open");
+      dispatch(closeSideBar()); // Close the sidebar
+    } else {
+      barLinks?.classList.add("open");
+      dispatch(openSideBar()); // Open the sidebar
+    }
+
+    // Add event listeners to each .bar-item
     barItems.forEach((item) => {
       item.addEventListener("click", () => {
         barLinks?.classList.remove("open");
-        dispatch(toggleSideBar());
+        dispatch(closeSideBar()); // Close the sidebar
       });
     });
-    dispatch(toggleSideBar());
   };
 
   // const userSignout = async () => {

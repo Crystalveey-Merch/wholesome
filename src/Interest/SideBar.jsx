@@ -16,9 +16,10 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import { selectUser } from "../Features/userSlice";
 import {
-  toggleSideBar,
-  // openSideBar,
-  // closeSideBar,
+  selectOpenSideBar,
+  // toggleSideBar,
+  openSideBar,
+  closeSideBar,
 } from "../Features/openSideBarSlice";
 import { wholesquareEmployees } from "../Employees";
 import { convertToLowercase, getInterestDetails } from "../Hooks";
@@ -26,6 +27,7 @@ import { convertToLowercase, getInterestDetails } from "../Hooks";
 export const SideBar = ({ interests }) => {
   const loggedInUser = useSelector(selectUser);
   const dispatch = useDispatch();
+  const sideBarState = useSelector(selectOpenSideBar);
   const location = useLocation();
   const [userInterest, setUserInterest] = useState([]);
 
@@ -41,17 +43,24 @@ export const SideBar = ({ interests }) => {
   }, [interests, loggedInUser]);
 
   const handleMenu = () => {
-    const barLinks = document.querySelector(".bar-links");
-    barLinks?.classList.toggle("open");
+    const barLinks = document.querySelector('.bar-links');
+    const barItems = document.querySelectorAll('.bar-item');
 
-    const barItems = document.querySelectorAll(".bar-item");
+    if (sideBarState) {
+      barLinks?.classList.remove('open');
+      dispatch(closeSideBar()); // Close the sidebar
+    } else {
+      barLinks?.classList.add('open');
+      dispatch(openSideBar()); // Open the sidebar
+    }
+
+    // Add event listeners to each .bar-item
     barItems.forEach((item) => {
-      item.addEventListener("click", () => {
-        barLinks?.classList.remove("open");
-        dispatch(toggleSideBar());
+      item.addEventListener('click', () => {
+        barLinks?.classList.remove('open');
+        dispatch(closeSideBar()); // Close the sidebar
       });
     });
-    dispatch(toggleSideBar());
   };
 
   const getInterestNameAndConvertToLowercase = (interestId) => {
@@ -67,7 +76,7 @@ export const SideBar = ({ interests }) => {
       >
         <div className="h-full overflow-y-scroll scroll-bar-beauty flex flex-col gap-6 py-10 pb-28 px-4">
           <div className="px-1 flex flex-col gap-4 pb-4 border-b border-gray-200">
-            <div className="relative min-h-12 w-full border bg-white border-gray-200 mx-auto rounded-3xl flex gap-3.5 items-center px-4 py-1.5">
+            <div className="relative hidden min-h-12 w-full border bg-white border-gray-200 mx-auto rounded-3xl flx gap-3.5 items-center px-4 py-1.5">
               <FontAwesomeIcon icon={faSearch} className="text-gray-500" />
               <input
                 type="text"
@@ -78,7 +87,7 @@ export const SideBar = ({ interests }) => {
             <div className="flex flex-col gap-2">
               <Link
                 to="/"
-                className={`flex gap-4 items-center px-4 py-2.5 rounded-md cursor-pointer transition duration-300 ease-in-out hover:bg-gray-100 ${
+                className={`flex bar-item gap-4 items-center px-4 py-2.5 rounded-md cursor-pointer transition duration-300 ease-in-out hover:bg-gray-100 ${
                   location.pathname === "/" ? "bg-gray-100" : ""
                 }`}
               >
@@ -92,7 +101,7 @@ export const SideBar = ({ interests }) => {
               </Link>
               <Link
                 to="/i/discover"
-                className={`flex gap-4 items-center px-4 py-2.5 rounded-md cursor-pointer transition duration-300 ease-in-out hover:bg-gray-100 ${
+                className={`flex bar-item gap-4 items-center px-4 py-2.5 rounded-md cursor-pointer transition duration-300 ease-in-out hover:bg-gray-100 ${
                   location.pathname === "/i/discover" ? "bg-gray-100" : ""
                 }`}
               >
@@ -108,7 +117,7 @@ export const SideBar = ({ interests }) => {
               </Link>
               <Link
                 to="/feed"
-                className={`flex gap-4 items-center px-4 py-2.5 rounded-md cursor-pointer transition duration-300 ease-in-out hover:bg-gray-100 ${
+                className={`flex bar-item gap-4 items-center px-4 py-2.5 rounded-md cursor-pointer transition duration-300 ease-in-out hover:bg-gray-100 ${
                   location.pathname === "/feed"
                     ? "bg-gray-100"
                     : location.pathname === "/feed/following"
@@ -154,7 +163,7 @@ export const SideBar = ({ interests }) => {
                   {loggedInUser?.sidebarPins?.map((sidebarPin) => (
                     <Link
                       key={sidebarPin.pinNum}
-                      className={`flex gap-4 items-center px-4 py-2.5 rounded-md cursor-pointer transition duration-300 ease-in-out hover:bg-gray-100 ${
+                      className={`flex bar-item gap-4 items-center px-4 py-2.5 rounded-md cursor-pointer transition duration-300 ease-in-out hover:bg-gray-100 ${
                         location.pathname ===
                         `/i/${getInterestNameAndConvertToLowercase(
                           sidebarPin?.interestId
@@ -201,7 +210,7 @@ export const SideBar = ({ interests }) => {
               </h5>
               <Link
                 to="/i/mine"
-                className="text-[#FF5841] text-sm font-inter font-medium transition ease-in-out duration-300 hover:underline"
+                className="text-[#FF5841] bar-item text-sm font-inter font-medium transition ease-in-out duration-300 hover:underline"
               >
                 View All
               </Link>
@@ -215,7 +224,7 @@ export const SideBar = ({ interests }) => {
                     ? "/i/create"
                     : "/i/interest"
                 }`}
-                className={`flex gap-4 items-center px-4 py-2.5 rounded-md cursor-pointer transition duration-300 ease-in-out hover:bg-gray-100 ${
+                className={`flex bar-item gap-4 items-center px-4 py-2.5 rounded-md cursor-pointer transition duration-300 ease-in-out hover:bg-gray-100 ${
                   !loggedInUser
                     ? "pointer-events-none opacity-50 hidden"
                     : wholesquareEmployees.includes(loggedInUser.email)
@@ -237,7 +246,7 @@ export const SideBar = ({ interests }) => {
                   <Link
                     to={`/i/${convertToLowercase(interest.name)}`}
                     key={index}
-                    className={`flex gap-4 items-center px-4 py-2.5 rounded-md cursor-pointer transition duration-300 ease-in-out hover:bg-gray-100 ${
+                    className={`flex bar-item gap-4 items-center px-4 py-2.5 rounded-md cursor-pointer transition duration-300 ease-in-out hover:bg-gray-100 ${
                       location.pathname ===
                       `/i/${convertToLowercase(interest.name)}`
                         ? "bg-gray-100"
@@ -268,7 +277,7 @@ export const SideBar = ({ interests }) => {
           <div className="px-1 flex flex-col gap-4 pb-4 border-b border-gray-200">
             <Link
               to="/aboutus"
-              className={`flex gap-4 items-center px-4 py1.5 rounded-md cursor-pointer transition duration-300 ease-in-out hover:bg-gray-100 ${
+              className={`flex bar-item gap-4 items-center px-4 py1.5 rounded-md cursor-pointer transition duration-300 ease-in-out hover:bg-gray-100 ${
                 location.pathname === "/aboutus" ? "bg-gray-100" : ""
               }`}
             >
