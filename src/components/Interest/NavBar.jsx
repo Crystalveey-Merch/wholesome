@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export const NavBar = ({ name }) => {
   return (
-    <div className="sticky top-0 py-4 pb-2 bg-white w-full h12 flex gap-8 sm:overflow-y-scroll">
+    <div className="sticky top-0 pt-4 bg-white w-full min-h-10 flex gap-8 sm:overflow-y-scroll">
       {/* chatBox */}
       <Link
         className={`text-base font-semibold pb-3 border-b-2 cursor-pointer transition duration-500 ease-in-out whitespace-nowrap ${
