@@ -484,7 +484,18 @@ function App() {
           path="/hostevent"
           element={
             <ProtectedRoute>
-              <HostEvent />
+              <DashboardLayout
+                users={users}
+                allChats={allChats}
+                posts={posts}
+                loading={postLoading}
+                events={events}
+                activities={activities}
+              >
+                <InterestLayout interests={interests}>
+                  <HostEvent />
+                </InterestLayout>
+              </DashboardLayout>
             </ProtectedRoute>
           }
         />

@@ -1,5 +1,7 @@
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { TagsInput } from "react-tag-input-component";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db, storage } from "../firebase/auth";
@@ -12,6 +14,8 @@ import { Helmet } from "react-helmet-async";
 
 const HostEvent = () => {
   const [authUser, setAuthUser] = useState(null);
+
+  const navigate = useNavigate();
   useEffect(() => {
     const listen = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -254,7 +258,13 @@ const HostEvent = () => {
           })}
         />
       </Helmet>
-      <div className="w-screen">
+      <div className="w-screen reletive">
+        <button
+          onClick={() => navigate(-1)}
+          className="hidden md:flex md:items-center absolute top-24 left-4 p-3 bg-white rounded-full shadow-xl z-10"
+        >
+          <FontAwesomeIcon icon={faArrowLeft} className="text-black" />
+        </button>
         <div className=" ">
           <div className="h-full bg-red-800 sm:py-5 relative w-full">
             <img
