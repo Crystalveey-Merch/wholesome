@@ -33,7 +33,6 @@ export const SelectInterest = ({ interests }) => {
     }
   };
 
-
   const numberOfInterestsJoined = interests?.filter((interest) =>
     interest?.members?.some((member) => member?.userId === user?.id)
   ).length;
@@ -42,7 +41,9 @@ export const SelectInterest = ({ interests }) => {
     <div className="w-screen min-h-screen px-20 flex justify-center items-center sm:px-4">
       <div className="w-full max-w-2xl py-10 flex flex-col gap-16 justify-center items-center">
         <div className="flex flex-col gap-2 justify-center text-center">
-          <h1 className="text-3xl font-semibold text-black font-inter">
+          <h1 
+          onClick={() => navigate("/")}
+          className="text-3xl font-semibold text-black font-inter">
             Select your interests
           </h1>
           <p className="text-base font-normal text-gray-600 font-inter text-center">
@@ -55,13 +56,20 @@ export const SelectInterest = ({ interests }) => {
               <button
                 key={interest.id}
                 className={`rounded-full px-4 py-2 flex gap-2 items-center font-inter text-sm transition durstion-300 ease-in-out ${
-                  interest?.members?.some((member) => member?.userId === user?.id)
+                  interest?.members?.some(
+                    (member) => member?.userId === user?.id
+                  )
                     ? "bg-[#000000] text-white hover:bg-gray-700"
                     : "bg-gray-100 text-black hover:bg-gray-200"
                 }`}
                 onClick={() => handleInterestClick(interest)}
               >
-                <FontAwesomeIcon icon={faPlus} />
+                {/* <FontAwesomeIcon icon={faPlus} /> */}
+                <img
+                  src={interest.wallPaper}
+                  alt={interest.name}
+                  className="h-10 w-10 rounded-full object-cover"
+                />
                 {interest.name}
               </button>
             ))}

@@ -17,6 +17,7 @@ import {
   handleRemoveKeywordFromRecentSearches,
 } from "../Hooks";
 import { All, Articles, People, Tags } from ".";
+import { SearchNavBar } from "./SearchNavBar";
 // import { db } from "../firebase/auth";
 // import { collection, getDocs, query, orderBy, limit } from "firebase/firestore";
 
@@ -265,8 +266,8 @@ export const SearchUser = ({ users, posts, setPosts, activities, events }) => {
   }
 
   return (
-    <div className="py-10 min-h-full w-full px10 bggray-50 text-black flex flex-col gap-16 sm:px-4">
-      <div className="min-h-12 w-full max-w-[400px] border bg-white border-gray-200 mx-auto rounded-xl flex gap-2 items-center px-4 py-2.5">
+    <div className="py-6 min-h-full w-full px10 bggray-50 text-black flex flex-col gap-16 sm:px-4 sm:py-3">
+      {/* <div className="min-h-12 w-full max-w-[400px] border bg-white border-gray-200 mx-auto rounded-xl flex gap-2 items-center px-4 py-2.5">
         <FontAwesomeIcon icon={faSearch} className="text-gray-400" />
         <input
           type="text"
@@ -284,82 +285,13 @@ export const SearchUser = ({ users, posts, setPosts, activities, events }) => {
             }
           }}
         />
-      </div>
+      </div> */}
       {searchedWord.length > 0 ? (
-        <div className="flex flex-col gap-7 sm:w-[calc(100vw-2rem)]">
-          <div className="w-full justify-center h-10 flex gap-8 sm:overflow-y-hidden sm:gap-4">
-            <button className="w-40 px-4 hidden sm:block"></button>
-            <button
-              onClick={() => handleTabChange("all")}
-              className={`text-base font-semibold pb-3 border-b-2 cursor-pointer transition duration-500 ease-in-out ${
-                currenTab === "all"
-                  ? "text-black border-[#FF5841]"
-                  : "text-gray-500 border-b-transparent hover:text-black hover:border-[#FF5841]"
-              } `}
-            >
-              All
-            </button>
-            {/* <button
-              onClick={() => handleTabChange("latest")}
-              className={`text-base font-semibold pb-3 border-b-2 cursor-pointer transition duration-500 ease-in-out ${
-                currenTab === "latest"
-                  ? "text-black border-[#FF5841]"
-                  : "text-gray-500 border-b-transparent hover:text-black hover:border-[#FF5841]"
-              } `}
-            >
-              Latest
-            </button> */}
-            <button
-              onClick={() => handleTabChange("tags")}
-              className={`text-base font-semibold pb-3 border-b-2 cursor-pointer transition duration-500 ease-in-out ${
-                currenTab === "tags"
-                  ? "text-black border-[#FF5841]"
-                  : "text-gray-500 border-b-transparent hover:text-black hover:border-[#FF5841]"
-              } `}
-            >
-              Tags
-            </button>
-            <button
-              onClick={() => handleTabChange("people")}
-              className={`text-base font-semibold pb-3 border-b-2 cursor-pointer transition duration-500 ease-in-out ${
-                currenTab === "people"
-                  ? "text-black border-[#FF5841]"
-                  : "text-gray-500 border-b-transparent hover:text-black hover:border-[#FF5841]"
-              } `}
-            >
-              People
-            </button>
-            <button
-              onClick={() => handleTabChange("articles")}
-              className={`text-base font-semibold pb-3 border-b-2 cursor-pointer transition duration-500 ease-in-out ${
-                currenTab === "articles"
-                  ? "text-black border-[#FF5841]"
-                  : "text-gray-500 border-b-transparent hover:text-black hover:border-[#FF5841]"
-              } `}
-            >
-              Articles
-            </button>
-            <button
-              onClick={() => handleTabChange("events")}
-              className={`text-base font-semibold pb-3 border-b-2 cursor-pointer transition duration-500 ease-in-out ${
-                currenTab === "events"
-                  ? "text-black border-[#FF5841]"
-                  : "text-gray-500 border-b-transparent hover:text-black hover:border-[#FF5841]"
-              } `}
-            >
-              Events
-            </button>
-            <button
-              onClick={() => handleTabChange("activities")}
-              className={`text-base font-semibold pb-3 border-b-2 cursor-pointer transition duration-500 ease-in-out ${
-                currenTab === "activities"
-                  ? "text-black border-[#FF5841]"
-                  : "text-gray-500 border-b-transparent hover:text-black hover:border-[#FF5841]"
-              } `}
-            >
-              Activities
-            </button>
-          </div>
+        <div className="flex flex-col gap-7 sm:w-[calc(100vw-2rem)] sm:pb-16">
+          <SearchNavBar
+            currenTab={currenTab}
+            handleTabChange={handleTabChange}
+          />
           {currenTab === "all" ? (
             <All
               searchResults={searchResults}
@@ -384,7 +316,7 @@ export const SearchUser = ({ users, posts, setPosts, activities, events }) => {
           )}
         </div>
       ) : (
-        <div className="w-full flex flex-col justify-center items-center gap-8">
+        <div className="w-full flex flex-col justify-center items-center gap-8 sm:pb-16">
           {loggedInUser.recentSearches?.length > 0 ? (
             <div className="w-full max-w-[550px] flex flex-col gap-5">
               <div className="w-full flex justify-between">

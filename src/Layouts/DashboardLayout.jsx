@@ -32,7 +32,7 @@ export const DashboardLayout = ({
     <div className="flex">
       <div className="w-full">
         {loggedInUser ? (
-          <DashboardHeader users={users} allChats={allChats} />
+          <DashboardHeader users={users} allChats={allChats} posts={posts} activities={activities} />
         ) : (
           <MiniHeader />
         )}

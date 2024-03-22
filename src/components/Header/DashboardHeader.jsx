@@ -1,9 +1,10 @@
 /* eslint-disable react/prop-types */
+// import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../../Features/userSlice.js";
 import { getProfileDetails } from "../../Hooks/index.js";
-import { openSearchModal } from "../../Features/searchModalSlice.js";
+// import { openSearchModal } from "../../Features/searchModalSlice.js";
 import {
   openCreateModal,
   // selectOpenCreateModal,
@@ -18,7 +19,7 @@ import {
   faBell as solidBell,
   faUser,
   faPlus,
-  faSearch,
+  // faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import { faCommentDots, faBell } from "@fortawesome/free-regular-svg-icons";
 // import { signOut } from "firebase/auth";
@@ -26,8 +27,9 @@ import { faCommentDots, faBell } from "@fortawesome/free-regular-svg-icons";
 // import { toast } from "react-toastify";
 // import devAvatar from "../../assets/avatar-default.png";
 import { ProfileDropdown } from "../Profile/ProfileDropdown.jsx";
+import { SearchModal } from "../../Userpage/SearchModal.jsx";
 
-export const DashboardHeader = ({ users, allChats }) => {
+export const DashboardHeader = ({ users, allChats, posts, activities }) => {
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
   const sideBarState = useSelector(selectOpenSideBar);
@@ -59,10 +61,6 @@ export const DashboardHeader = ({ users, allChats }) => {
   //     }
   //   }
   // };
-
-  const openSearch = () => {
-    dispatch(openSearchModal());
-  };
 
   const unseenNotifications = getProfileDetails(
     user?.id,
@@ -156,7 +154,7 @@ export const DashboardHeader = ({ users, allChats }) => {
           </h2>
         </Link>
       </div>
-      <button
+      {/* <button
         onClick={openSearch}
         className="hidden items-center p-2 rounded-md hover:bg-gray-100"
       >
@@ -164,30 +162,9 @@ export const DashboardHeader = ({ users, allChats }) => {
           icon={faSearch}
           className="text-[#3c4248] h-[18px] w-[18px]"
         />
-      </button>
-      <div className="block relative">
-        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-          <svg
-            aria-hidden="true"
-            className="w-5 h-5 text-gray-500 dark:text-gray-400"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fillRule="evenodd"
-              d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-              clipRule="evenodd"
-            ></path>
-          </svg>
-        </div>
-        <input
-          type="text"
-          onClick={openSearch}
-          placeholder="Search Wholesquare"
-          className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-300 focus:border-gray-300 block w-[400px] pl-10 p-2.5 transition duration-500 ease-in-out focus:outline-none focus:ring-2 focus:ring-opacity-50 lg:w-[300px] sm:w-[220px] sm:py-1.5"
-        />
-      </div>
+      </button> */}
+      <SearchModal users={users} posts={posts} activities={activities} />
+
       <div className="flex gap-3 items-center">
         {user && (
           <div className="flex gap-3 items-center sm:hidden">

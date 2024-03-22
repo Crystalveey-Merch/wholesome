@@ -10,10 +10,12 @@ import {
   faCalendarPlus,
   faNewspaper,
   faListCheck,
-  faPodcast,
+  // faPodcast,
   faXmarkCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { toast } from "react-toastify";
+import { wholesquareEmployees } from "../Employees";
 
 export const CreateModal = ({ isOpen, setIsOpen }) => {
   const navigate = useNavigate();
@@ -38,6 +40,16 @@ export const CreateModal = ({ isOpen, setIsOpen }) => {
       borderRadius: "0px",
       p: "10px",
     },
+  };
+
+  const handleClick = () => {
+    //  if loggedInUser email is not in the wholesquareEmployees array
+    if (!wholesquareEmployees.includes(loggedInUser?.email)) {
+      toast.error("You are not authorized to create an activity");
+      return;
+    }
+    // setIsOpen(false);
+    // navigate("/createactivity");
   };
 
   return (
@@ -84,7 +96,7 @@ export const CreateModal = ({ isOpen, setIsOpen }) => {
                 What do you want to create?
               </h3>
               {/* article, event, activity and podcast */}
-              <div className="flex gap-4 items-center">
+              <div className="flex gap-4 items-center flew-wrap">
                 {/* <button
                   className="flex flex-col gap-1 p-2 border rounded-md border-[#ff5841] transition-all hover:bg-[#ff5841] hover:text-white group"
                   onClick={() => (setIsOpen(false), navigate("/createpost"))}
@@ -117,7 +129,10 @@ export const CreateModal = ({ isOpen, setIsOpen }) => {
                     Event
                   </p>
                 </button>
-                <button className="flex gap-2 items-center p-2 rounded-md transition duration-300 ease-in-out hover:bg-gray-50">
+                <button
+                  className="flex gap-2 items-center p-2 rounded-md transition duration-300 ease-in-out hover:bg-gray-50"
+                  onClick={handleClick}
+                >
                   <FontAwesomeIcon
                     icon={faListCheck}
                     className="text-[#32de84] h-6 w-6"
@@ -126,7 +141,7 @@ export const CreateModal = ({ isOpen, setIsOpen }) => {
                     Activity
                   </p>
                 </button>
-                <button className="flex gap-2 items-center p-2 rounded-md transition duration-300 ease-in-out hover:bg-gray-50">
+                {/* <button className="flex gap-2 items-center p-2 rounded-md transition duration-300 ease-in-out hover:bg-gray-50">
                   <FontAwesomeIcon
                     icon={faPodcast}
                     className="text-[#EF0107] h-6 w-6"
@@ -134,7 +149,7 @@ export const CreateModal = ({ isOpen, setIsOpen }) => {
                   <p className="text-sm font-semibold text-[#000000] font-inter transition-all">
                     Podcast
                   </p>
-                </button>
+                </button> */}
               </div>
             </div>
           </div>
