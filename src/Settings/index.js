@@ -1,4 +1,5 @@
 export * from "./Account"
 export * from "./EmailAndPassword"
+export * from "./Interest"
 export * from "./SettingsSideBar"
 export * from "./Settings"

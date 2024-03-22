@@ -107,7 +107,12 @@ import {
   VerifyEmail,
   ProtectSignUpProcess,
 } from "./Auth";
-import { Settings, Account, EmailAndPassword } from "./Settings";
+import {
+  Settings,
+  Account,
+  EmailAndPassword,
+  Interest as SettingsInterest,
+} from "./Settings";
 import { Bookmarks, Drafts, Notifications } from "./Dashboard";
 // import "@fortawesome/fontawesome-free"
 import { useDispatch, useSelector } from "react-redux";
@@ -1424,16 +1429,40 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/settings/preferences/interests"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout
+                users={users}
+                allChats={allChats}
+                posts={posts}
+                loading={postLoading}
+                events={events}
+                activities={activities}
+              >
+                <InterestLayout interests={interests}>
+                  <BottomFeedTab users={users}>
+                    <Settings>
+                      <SettingsInterest interests={interests} />
+                    </Settings>
+                  </BottomFeedTab>
+                </InterestLayout>
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/select-interests"
+          element={<SelectInterest interests={interests} />}
+        />
 
         <Route path="/register" element={<Navigate to="/signup" />} />
         <Route path="/signup" element={<Register />} />
         <Route path="/login" element={<NewLogin />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         {/* </Route> */}
-        <Route
-          path="/select-interests"
-          element={<SelectInterest interests={interests} />}
-        />
+
         <Route path="/verify-email" element={<VerifyEmail />} />
         {/* <Route path="/content/123" element={<Content />} /> */}
       </Routes>
@@ -1451,9 +1480,9 @@ function App() {
       </div>
 
       {/* <BottomFeedTab /> */}
-      {showSearchModal && (
+      {/* {showSearchModal && (
         <SearchModal users={users} posts={posts} activities={activities} />
-      )}
+      )} */}
 
       <CreateModal isOpen={showCreateModal} setIsOpen={setCreateModalClose} />
       <ToastContainer />

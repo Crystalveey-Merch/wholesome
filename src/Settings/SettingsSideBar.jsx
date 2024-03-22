@@ -1,6 +1,10 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserPen, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import {
+  faUserPen,
+  faArrowLeft,
+  faLaptop,
+} from "@fortawesome/free-solid-svg-icons";
 import mailPen from "./assets/mail-pencil.svg";
 
 export const SettingsSideBar = () => {
@@ -59,6 +63,30 @@ export const SettingsSideBar = () => {
 
                 <p className="text-gray-900 font-inter text-sm font-medium">
                   Email and Password
+                </p>
+              </Link>
+            </div>
+          </div>
+          {/* Preferences */}
+          <div className="flex flex-col gap-2.5">
+            <p className="text-xs font-medium uppercase text-black">
+              Preferences
+            </p>
+            <div className="flex flex-col gap-2">
+              <Link
+                to="/settings/preferences/interests"
+                className={`flex gap-4 items-center px-4 py-2.5 rounded-md cursor-pointer transition duration-300 ease-in-out hover:bg-gray-100 ${
+                  location.pathname === "/settings/preferences/interests"
+                    ? "bg-gray-100"
+                    : ""
+                }`}
+              >
+                <FontAwesomeIcon
+                  icon={faLaptop}
+                  className="text-gray-900 h-5 w-5"
+                />
+                <p className="text-gray-900 font-inter text-sm font-medium">
+                  Interests
                 </p>
               </Link>
             </div>
