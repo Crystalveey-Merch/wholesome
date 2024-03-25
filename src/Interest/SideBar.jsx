@@ -43,21 +43,21 @@ export const SideBar = ({ interests }) => {
   }, [interests, loggedInUser]);
 
   const handleMenu = () => {
-    const barLinks = document.querySelector('.bar-links');
-    const barItems = document.querySelectorAll('.bar-item');
+    const barLinks = document.querySelector(".bar-links");
+    const barItems = document.querySelectorAll(".bar-item");
 
     if (sideBarState) {
-      barLinks?.classList.remove('open');
+      barLinks?.classList.remove("open");
       dispatch(closeSideBar()); // Close the sidebar
     } else {
-      barLinks?.classList.add('open');
+      barLinks?.classList.add("open");
       dispatch(openSideBar()); // Open the sidebar
     }
 
     // Add event listeners to each .bar-item
     barItems.forEach((item) => {
-      item.addEventListener('click', () => {
-        barLinks?.classList.remove('open');
+      item.addEventListener("click", () => {
+        barLinks?.classList.remove("open");
         dispatch(closeSideBar()); // Close the sidebar
       });
     });
@@ -117,7 +117,7 @@ export const SideBar = ({ interests }) => {
               </Link>
               <Link
                 to="/feed"
-                className={`flex bar-item gap-4 items-center px-4 py-2.5 rounded-md cursor-pointer transition duration-300 ease-in-out hover:bg-gray-100 ${
+                className={`fex hidden bar-item gap-4 items-center px-4 py-2.5 rounded-md cursor-pointer transition duration-300 ease-in-out hover:bg-gray-100 ${
                   location.pathname === "/feed"
                     ? "bg-gray-100"
                     : location.pathname === "/feed/following"
