@@ -17,7 +17,7 @@ export const Tags = ({ searchResults }) => {
     <div className="flex flex-col gap-2">
       {filteredTags && (
         <div className="flex flex-wrap gap-2">
-          {filteredTags[0].value.map((tag, index) => {
+          {filteredTags[0]?.value.map((tag, index) => {
             return (
               <button
                 key={index}

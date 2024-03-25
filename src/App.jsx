@@ -140,6 +140,7 @@ function App() {
   const [eventLoading, setEventLoading] = useState(true);
   const [activities, setActivities] = useState([]);
   const [podcasts, setPodcasts] = useState([]);
+  const [realPocasts, setRealPodcasts] = useState([]);
   const [podcastLoading, setPodcastLoading] = useState(true);
   const [users, setAllUsers] = useState([]);
   const [allChats, setAllChats] = useState([]);
@@ -298,6 +299,17 @@ function App() {
       }
     );
 
+    const unsuscribRealPodcasts = onSnapshot(
+      collection(db, "podcasts"),
+      (snapshot) => {
+        const postData = [];
+        snapshot.forEach((doc) => {
+          postData.push({ ...doc.data(), id: doc.id });
+        });
+        setRealPodcasts(postData);
+      }
+    );
+
     const unsuscribInterests = onSnapshot(
       collection(db, "interests"),
       (snapshot) => {
@@ -315,6 +327,7 @@ function App() {
       unsuscribActivities();
       unsuscribUsers();
       unsuscribPodcasts();
+      unsuscribRealPodcasts();
       unsuscribInterests();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
