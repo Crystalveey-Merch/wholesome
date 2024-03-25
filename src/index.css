@@ -522,3 +522,48 @@ body.is-side-menu-open {
   background-color: #f6bdb6;
   border-radius: 10px;
 }
+
+/* Audio Styling */
+.rhap_main-controls-button {
+  color: skyblue;
+  height: 30px;
+  width: 30px;
+}
+
+.rhap_progress-filled {
+  background-color: orange;
+}
+
+.rhap_progress-indicator {
+  background-color: #fdf5e8;
+}
+
+.rhap_download-progress {
+  background-color: rgb(246, 219, 108);
+}
+
+.rhap_additional-controls {
+  display: none;
+}
+
+.rhap_container {
+  padding: 8px 10px;
+  border: none;
+  border-radius: 30px;
+}
+
+.rhap_play-pause-button,
+.rhap_container svg {
+  height: 30px;
+  width: 30px;
+}
+
+.rhap_volume-button > svg {
+  height: 24px;
+  width: 24px;
+}
+
+.rhap_time {
+  font-size: 0.8em;
+  font-weight: 500;
+}

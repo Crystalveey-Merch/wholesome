@@ -1341,7 +1341,7 @@ function App() {
               <InterestLayout interests={interests}>
                 <InterestFeed>
                   <BottomFeedTab users={users}>
-                    <AllPodcasts interests={interests} podcasts={podcasts} />
+                    <AllPodcasts interests={interests} podcasts={realPocasts} />
                   </BottomFeedTab>
                 </InterestFeed>
               </InterestLayout>

@@ -6,6 +6,7 @@ export * from "./AllInterestNavBar";
 export * from "./ChatBoxBox";
 export * from "./ActivityBox";
 export * from "./EventBox";
+export * from "./PodcastBox";
 export * from "./ViewParent";
 export * from "./ViewChildren";
 export * from "./ReplyUnderParent";

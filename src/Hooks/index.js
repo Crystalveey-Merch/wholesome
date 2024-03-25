@@ -10,3 +10,4 @@ export * from "./HashTagAndMentionHighLights";
 export * from "./RecentSearch";
 export * from "./ChatBox";
 export * from "./Activity";
+export * from "./Podcast";
