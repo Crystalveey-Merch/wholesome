@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { PostCard } from "../components/Feed";
-import { handleFollowTag } from "../Hooks";
+import { handleFollowTag, convertToLowercase } from "../Hooks";
 import { selectUser } from "../Features/userSlice";
 import { faHashtag } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -14,9 +14,9 @@ export const Topics = ({ users, posts, setPosts, activities, events }) => {
 
   const [filteredPosts, setFilteredPosts] = useState([]);
 
-  const convertedTitle = (title) => {
-    return title.toLowerCase().split(" ").join("-");
-  };
+  // const convertedTitle = (title) => {
+  //   return title.toLowerCase().split(" ").join("-");
+  // };
 
   const reverseTitle = (title) => {
     if (!title) {
@@ -36,7 +36,7 @@ export const Topics = ({ users, posts, setPosts, activities, events }) => {
     );
 
     const categoryPosts = posts.filter(
-      (post) => convertedTitle(post.category) === topicSTR
+      (post) => convertToLowercase(post.category) === topicSTR
     );
 
     // Combine filteredTags and categoryPosts into a single array
@@ -53,6 +53,8 @@ export const Topics = ({ users, posts, setPosts, activities, events }) => {
   //   reverseTitle(loggedInUser?.selectedOptions[2].key),
   //   reverseTitle(topicSTR)
   // );
+
+
 
   return (
     <div className="w-full flex flex-col gap-16 sm:px-4 sm:mb-6 sm:gap-8">
@@ -75,7 +77,7 @@ export const Topics = ({ users, posts, setPosts, activities, events }) => {
           <>
             {loggedInUser?.selectedOptions?.some(
               (option) =>
-                convertedTitle(option.key) === convertedTitle(topicSTR)
+              convertToLowercase(option.key) === convertToLowercase(topicSTR)
             ) ? (
               <button
                 type="button"

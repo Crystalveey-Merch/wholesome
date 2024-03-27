@@ -2,6 +2,14 @@ const convertToLowercase = (title) => {
   return title.toLowerCase().split(" ").join("-");
 };
 
+const convertForURL = (title) => {
+  return title
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, "")
+    .split(" ")
+    .join("-");
+};
+
 const revertToTitleCase = (title) => {
   // CAPITALIZE FIRST LETTER OF EACH WORD
   return title
@@ -10,4 +18,4 @@ const revertToTitleCase = (title) => {
     .join(" ");
 };
 
-export { convertToLowercase, revertToTitleCase };
+export { convertToLowercase, revertToTitleCase, convertForURL };

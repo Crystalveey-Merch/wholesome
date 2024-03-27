@@ -113,6 +113,7 @@ import {
   EmailAndPassword,
   Interest as SettingsInterest,
 } from "./Settings";
+import { Podcast as PodcastPage, Episode } from "./Podcasts";
 import { Bookmarks, Drafts, Notifications } from "./Dashboard";
 // import "@fortawesome/fontawesome-free"
 import { useDispatch, useSelector } from "react-redux";
@@ -638,6 +639,46 @@ function App() {
             </ProtectedRoute>
           }
         /> */}
+
+        <Route
+          path="/pod/:podcastTitle"
+          element={
+            <DashboardLayout
+              users={users}
+              allChats={allChats}
+              posts={posts}
+              loading={postLoading}
+              events={events}
+              activities={activities}
+            >
+              <InterestLayout interests={interests}>
+                <BottomFeedTab users={users}>
+                  <PodcastPage podcasts={realPocasts} users={users} />
+                </BottomFeedTab>
+              </InterestLayout>
+            </DashboardLayout>
+          }
+        />
+
+        <Route
+          path="/pod/:podcastTitle/episodes/:episodeTitle"
+          element={
+            <DashboardLayout
+              users={users}
+              allChats={allChats}
+              posts={posts}
+              loading={postLoading}
+              events={events}
+              activities={activities}
+            >
+              <InterestLayout interests={interests}>
+                <BottomFeedTab users={users}>
+                  <Episode podcasts={realPocasts} users={users} />
+                </BottomFeedTab>
+              </InterestLayout>
+            </DashboardLayout>
+          }
+        />
 
         <Route
           path="/search"
@@ -1341,7 +1382,11 @@ function App() {
               <InterestLayout interests={interests}>
                 <InterestFeed>
                   <BottomFeedTab users={users}>
-                    <AllPodcasts interests={interests} podcasts={realPocasts} />
+                    <AllPodcasts
+                      interests={interests}
+                      podcasts={realPocasts}
+                      users={users}
+                    />
                   </BottomFeedTab>
                 </InterestFeed>
               </InterestLayout>
