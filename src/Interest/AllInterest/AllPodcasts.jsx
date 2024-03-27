@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { convertToLowercase } from "../../Hooks";
 import { PodcastBox } from "../../components/Interest";
 
-export const AllPodcasts = ({ interests, podcasts }) => {
+export const AllPodcasts = ({ interests, podcasts, users }) => {
   const loggedInUser = useSelector(selectUser);
   const [allPodcasts, setAllPodcasts] = useState([]);
   const [allEpisodes, setAllEpisodes] = useState([]);
@@ -78,6 +78,7 @@ export const AllPodcasts = ({ interests, podcasts }) => {
                   key={index}
                   episode={episode}
                   podcasts={podcasts}
+                  users={users}
                 />
               ))}
           </div>

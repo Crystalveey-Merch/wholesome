@@ -65,7 +65,7 @@ export const SideBar = ({ interests }) => {
 
   const getInterestNameAndConvertToLowercase = (interestId) => {
     const interest = getInterestDetails(interestId, interests);
-    return interest.name.toLowerCase().split(" ").join("-");
+    return interest?.name.toLowerCase().split(" ").join("-");
   };
 
   return (
